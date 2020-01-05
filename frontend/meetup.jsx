@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import configureStore from './store/store'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Root from './components/root';
-import {createNewUser, login, logout} from './actions/session_actions'
+import configureStore from './store/store';
+import {fetchAllEvents, fetchEvent, createEvent, updateEvent, deleteEvent} from './actions/event_actions'
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   let store;
   if (window.currentUser) {
     const preloadedState = {
@@ -14,10 +14,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
     store = configureStore(preloadedState);
+
     delete window.currentUser;
   } else {
     store = configureStore();
   }
-  const root = document.getElementById("root");
-  ReactDOM.render(<Root store={store}/>, root);
+
+  window.store = store;
+  window.dispatch = store.dispatch;
+  window.getState = store.getState;
+  window.fetchAllEvents = fetchAllEvents;
+  window.fetchEvent = fetchEvent;
+  window.createEvent = createEvent;
+  window.deleteEvent = deleteEvent;
+  window.updateEvent = updateEvent;
+
+  const root = document.getElementById('root');
+  ReactDOM.render(<Root store={store} />, root);
 });

@@ -3,22 +3,32 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ currentUser, logout }) => {
   const sessionLinks = () => (
-    <nav className="login-signup">
+    <nav className="navbar-right">
       {/* Add "to" here later for new group */}
-      <Link to='/'>Start a New Group</Link> 
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Sign up!</Link>
+      <Link className="navbar-startgroup-link" to='/'>Start a New Group</Link> 
+      <Link className="navbar-login-signup-link" to="/login">Log in</Link>
+      <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
     </nav>
   );
 
   const signedIn = () => (
-    <hgroup className="header-group">
-      <h2 className="header-name">Hi, {currentUser.email}!</h2>
-      <button className="header-button" onClick={logout}>Log Out</button>
-    </hgroup>
+    <nav className="navbar-right">
+      <a href="" className="navbar-group-link">Start a New Group</a>
+      <a href="" className="navbar-explore-link">Explore</a>
+      <a onClick={logout} className="navbar-dropdown">Logout</a>
+    </nav>
   );
 
-  return currentUser ? signedIn() : sessionLinks();
+  return (
+    <div className="navbar-header">
+      <nav className="navbar-left">
+        <img src="/images/meetup-logo.svg" alt="meetup-logo"/>  
+      </nav>
+      {currentUser ? signedIn() : sessionLinks()}
+    </div>
+  )
+  
+ 
 };
 
 

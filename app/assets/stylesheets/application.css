@@ -13,3 +13,186 @@
  *= require_tree .
  *= require_self
  */
+.main-body{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+ .navbar-header{
+     position: relative;
+     display: flex;
+     height: 40px;
+     padding: 10px 5px 0px;
+     justify-content: space-between;
+     font-size: 14px;
+     font-family: Arial, Helvetica, sans-serif;
+     border-bottom: 1px lightgray solid;
+ }
+
+
+ .navbar-right{
+     display: flex;
+     justify-content: space-around;
+     text-align: center;
+ }
+
+ .navbar-group-link{
+    text-decoration: none;
+    color: #ed1c40;
+    padding-left:8px ;
+    padding-right: 8px ;
+    font-weight: bold;
+    cursor: pointer;
+
+ }
+
+ .navbar-explore-link{
+    text-decoration: none;
+    color: #585858;
+    padding-left:5px ;
+    padding-right: 5px ;
+    
+ }
+
+ .navbar-startgroup-link{
+    text-decoration: none;
+    color: #ed1c40;
+    padding-left:5px ;
+    padding-right: 5px ;
+    font-weight: bold;
+ }
+
+.navbar-login-signup-link{
+    text-decoration: none;
+    color: #585858;
+    padding-left:5px ;
+    padding-right: 5px ;
+}
+
+ .navbar-dropdown{
+    padding-left:5px ;
+    padding-right: 5px ;
+    cursor: pointer;
+ }
+
+
+ .login-form-container{
+    margin-top: 70px;
+    display: block;
+    padding-bottom: 40px;
+    border: 1px solid lightgrey;
+    width: 400px;
+    font-family: Arial, Helvetica, sans-serif;
+ }
+
+ .login{
+    border-bottom: 1px solid lightgrey;
+    font-size: 30px;
+    padding-left: 10px;
+ }
+
+ .login-not-reg{
+   font-size: 14px;
+ }
+
+ .login-signup-link{
+   font-size: 14px;
+   padding-left: 6px;
+   text-decoration: none;
+ }
+
+ .login-form{
+   font-size: 14px;
+   padding-left: 10px;
+ }
+
+ .login-form label{
+   padding: 5px;
+   font-size: 13px;
+   font-weight: 500;
+ }
+
+ .login-input{
+   padding: 5px;
+   width: 90%;
+   display: block;
+   border: 1px solid lightgrey;
+   border-radius: 3px;
+   line-height: 1.5;
+   margin-bottom: 8px; 
+ }
+
+
+ .login-submit{
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    background-color: #ed1c40;
+    color: white;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    height: 40px;
+    width: 90px;
+ }
+
+ .login-demo-submit{
+   cursor: pointer;
+   user-select: none;
+   text-decoration: none;
+   background-color: #ed1c40;
+   color: white;
+   border-radius: 4px;
+   font-size: 18px;
+   font-weight: bold;
+   height: 40px;
+   width: 140px;
+}
+
+
+.signup-form-container{
+   margin-top: 20px;
+   display: block;
+   padding-bottom: 40px;
+   width: 400px;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.signup-form-container h3{
+   font-size: 28px;
+   text-align: center;;
+}
+
+.signup-box{
+   font-size: 13px;
+   font-weight: 600;
+}
+
+.signup-terms{
+   font-size: 13px;
+   line-height: 1.6;
+   color: grey;
+   font-weight: 300;
+}
+
+.signup-submit{
+   cursor: pointer;
+   user-select: none;
+   text-decoration: none;
+   background-color: #ed1c40;
+   color: white;
+   border-radius: 4px;
+   font-size: 16px;
+   font-weight: 600;
+   height: 40px;
+   width: 400px;
+}
+
+.signup-already-member{
+   text-align: center;
+   font-size: 13px;
+   line-height: 1.6;
+   color: darkgray;
+   font-weight: 300;
+}

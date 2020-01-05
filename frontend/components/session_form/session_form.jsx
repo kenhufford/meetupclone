@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 class SessionForm extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class SessionForm extends React.Component {
       location: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDemoLogin = this.handleDemoLogin.bind(this);
   }
 
   update(field) {
@@ -18,11 +20,19 @@ class SessionForm extends React.Component {
     });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.processForm(this.state)
-      .then(this.props.history.push('/')) //change this to splash
+  handleDemoLogin(){
+    this.setState({
+      name: '',
+      email: 'demo@gmail.com',
+      password: '123456',
+      location: ''
+    }, () => this.props.processForm(this.state).then(() => this.props.history.push('/'), () => this.props.history.push(this.props.selfLink)))
+  }
 
+  handleSubmit(e) {
+    this.props.processForm(this.state)
+      .then(() => this.props.history.push('/'), () => this.props.history.push(this.props.selfLink))
+       //change this to splash
   }
 
   renderErrors() {
@@ -39,78 +49,89 @@ class SessionForm extends React.Component {
 
   render() {
     const display = this.props.formType==="Log in" ? (
-      <div className="login-form-container">
-        <form onSubmit={this.handleSubmit} className="login-form-box">
-          Log in
-          <br/>
-          {this.props.navLink}
-          {this.renderErrors()}
-          <div className="login-form">
-            <br/>
-            <label>Email Address:
-              <input type="text"
-                value={this.state.email}
-                onChange={this.update('email')}
-                className="login-input"
-              />
-            </label>
-            <br/>
-            <label>Password:
-              <input type="password"
-                value={this.state.password}
-                onChange={this.update('password')}
-                className="login-input"
-              />
-            </label>
-            <br/>
-            <input className="session-submit" type="submit" value={this.props.formType} />
+        <div className="login-form-container">
+          <form onSubmit={this.handleSubmit} className="login-form-box">
+            <h3 className="login">Log in
+              <p className="login-not-reg">Not Registered with us yet?    
+                <Link to="/signup" className="login-signup-link">   Sign Up</Link>
+              </p>
+              {this.renderErrors()}
+            </h3>
+            <div className="login-form">
+              <label>Email Address:
+                <br/>
+                <input type="text"
+                  value={this.state.email}
+                  onChange={this.update('email')}
+                  className="login-input"
+                />
+              </label>
+               <br/>
+              <label>Password:
+               <br/>
+                <input type="password"
+                  value={this.state.password}
+                  onChange={this.update('password')}
+                  className="login-input"
+                />
+              </label>
+              <br/>
+              <div className="login-buttons-div">
+                <input className="login-submit" type="submit" value={this.props.formType} />
+                OR
+                <input onClick={this.handleDemoLogin}  className="login-demo-submit" type="submit" value="Demo Sign In"/>
+              </div>
+            </div>
+          </form>
+            
+        </div>
+      ) : (
+        <div className="signup-form-container">
+          <h3>Sign Up</h3>
+          <form onSubmit={this.handleSubmit} className="signup-box">
+            {this.renderErrors()}
+            <div className="signup">
+              <label>Your name
+                <input type="text"
+                  value={this.state.name}
+                  onChange={this.update('name')}
+                  className="login-input"
+                />
+              </label>
+              <br/>
+              <label>Email address
+                <input type="text"
+                  value={this.state.email}
+                  onChange={this.update('email')}
+                  className="login-input"
+                />
+              </label>
+              <br/>
+              <label>Password
+                <input type="password"
+                  value={this.state.password}
+                  onChange={this.update('password')}
+                  className="login-input"
+                />
+              </label>
+              <br/>
+              <label>Location
+                <input type="text"
+                  value={this.state.location}
+                  onChange={this.update('location')}
+                  className="login-input"
+                />
+              </label>
+              <p className="signup-terms">Your name is public. We'll use your email address to send you updates, and your location to find Meetups near you. When you "Continue", you agree to Meetup's Terms of Service. We will manage information about you as described in our Privacy Policy, and Cookie Policy.</p>
+              <input className="signup-submit" type="submit" value="Continue" />
+            </div>
+          </form>
+          <div className="signup-already-member">
+            <p>Already a member?  
+              <Link to="/login" className="login-signup-link">   Log in.</Link>
+            </p>
           </div>
-        </form>
-      </div>
-    ) : (
-      <div className="login-form-container">
-        <form onSubmit={this.handleSubmit} className="login-form-box">
-          Log in
-          <br/>
-          {this.props.navLink}
-          {this.renderErrors()}
-          <div className="login-form">
-            <br/>
-            <label>Name:
-              <input type="text"
-                value={this.state.name}
-                onChange={this.update('name')}
-                className="login-input"
-              />
-            </label>
-            <br/>
-            <label>Email Address:
-              <input type="text"
-                value={this.state.email}
-                onChange={this.update('email')}
-                className="login-input"
-              />
-            </label>
-            <br/>
-            <label>Password:
-              <input type="password"
-                value={this.state.password}
-                onChange={this.update('password')}
-                className="login-input"
-              />
-            </label>
-            <label>Location:
-              <input type="text"
-                value={this.state.location}
-                onChange={this.update('location')}
-                className="login-input"
-              />
-            </label>
-            <br/>
-            <input className="session-submit" type="submit" value={this.props.formType} />
-          </div>
-        </form>
-      </div>
+        </div>
     );   
 
     return (
