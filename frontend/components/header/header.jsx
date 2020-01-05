@@ -15,14 +15,14 @@ const Header = ({ currentUser, logout }) => {
     <nav className="navbar-right">
       <a href="" className="navbar-group-link">Start a New Group</a>
       <a href="" className="navbar-explore-link">Explore</a>
-      <a onClick={logout} className="navbar-dropdown">Logout</a>
+      <Link onClick={logout} className="navbar-dropdown" to="/login">Logout</Link>
     </nav>
   );
 
   return (
     <div className="navbar-header">
       <nav className="navbar-left">
-        <img src="/images/meetup-logo.svg" alt="meetup-logo"/>  
+        <img src="" alt="meetup-logo"/>  
       </nav>
       {currentUser ? signedIn() : sessionLinks()}
     </div>

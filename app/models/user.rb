@@ -8,7 +8,9 @@ class User < ApplicationRecord
   
     after_initialize :ensure_session_token
     
-    has_many :memberships
+    has_many :memberships,
+    class_name: "Membership",
+    foreign_key: :user_id
 
     has_many :groups, 
     through: :memberships,

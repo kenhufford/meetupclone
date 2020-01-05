@@ -1,6 +1,6 @@
 @groups.each do |group|
   json.set! group.id do
     json.extract! group, :id, :name, :description, :lat, :long, :image_url
-    json.members group.memberships, partial: 'memberships/membership', as: :memberships
+    json.memberships group.memberships, partial: '/api/groups/membership', as: :membership
   end
 end

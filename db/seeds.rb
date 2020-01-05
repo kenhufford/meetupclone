@@ -1,10 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
 require "faker"
 User.destroy_all
 Event.destroy_all
@@ -24,7 +18,7 @@ total_users.times do
         password: '123456',
         lat: (Faker::Number.within(range: 37698217..37789758) / 1000000),
         long: (Faker::Number.within(range: -122508186..-122397017) / 1000000),
-        location: ["San Francisco", "Oakland", "Los Angeles"].sample
+        location: ["San Francisco", "Oakland", "Los Angeles", "San Jose"].sample
     )
 end
 
@@ -46,11 +40,19 @@ end
 
 member_types = ["Admin", "Organizer", "Member"]
 
-100.times do |i|
+50.times do |i|
     Membership.create!(
         group_id: (Faker::Number.within(range: 1..total_groups)),
         user_id: (Faker::Number.within(range: 1..total_users)),
         member_type: member_types.sample
+    )
+end
+
+5.times do |i|
+    Membership.create!(
+        group_id: i+1,
+        user_id: 1,
+        member_type: "Admin"
     )
 end
 

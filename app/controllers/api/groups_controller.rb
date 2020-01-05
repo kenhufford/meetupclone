@@ -2,10 +2,9 @@ class Api::GroupsController < ApplicationController
     before_action :require_logged_in, only: [:create]
     
     def index
-        # events = bounds ? Event.in_bounds(bounds) : Event.all
+        groups = bounds ? Group.in_bounds(bounds) : Group.all
 
-        # @benches = benches.includes(:categories, :group) 
-        @groups = Group.all
+        @groups = groups.includes(:memberships, :members) 
         render "api/groups/index"
     end
 
@@ -51,7 +50,7 @@ class Api::GroupsController < ApplicationController
     end
 
     def bounds
-    params[:bounds]
+      params[:bounds]
     end
 
     

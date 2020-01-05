@@ -15,7 +15,9 @@
  */
 .main-body{
    display: flex;
-   flex-direction: column;
+   min-width: 900px;
+   max-width: 1000px;
+   justify-content: center;
    align-items: center;
 }
 
@@ -195,4 +197,22 @@
    line-height: 1.6;
    color: darkgray;
    font-weight: 300;
+}
+
+.groups-div{
+   display: flex;
+   width: 98%;
+   margin: 0 auto;
+   justify-content: space-around;
+   flex-wrap: wrap;
+   margin-top: 30px;
+}
+
+.groups-index-item{
+   border: 1px solid grey;
+   width:  250px;
+   height: 150px;
+   overflow: hidden;
+   margin-bottom: 15px;
+   border-radius: 3px;
 }

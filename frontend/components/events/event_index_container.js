@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import React from 'react';
 import EventIndex from './event_index';
 import {fetchAllEvents} from '../../actions/event_actions'
 

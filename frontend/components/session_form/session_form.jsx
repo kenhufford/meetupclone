@@ -26,12 +26,12 @@ class SessionForm extends React.Component {
       email: 'demo@gmail.com',
       password: '123456',
       location: ''
-    }, () => this.props.processForm(this.state).then(() => this.props.history.push('/'), () => this.props.history.push(this.props.selfLink)))
+    }, () => this.props.processForm(this.state).then(() => this.props.history.push('/groups')))
   }
 
   handleSubmit(e) {
     this.props.processForm(this.state)
-      .then(() => this.props.history.push('/'), () => this.props.history.push(this.props.selfLink))
+      .then(() => this.props.history.push('/groups'))
        //change this to splash
   }
 
