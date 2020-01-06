@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/root';
 import configureStore from './store/store';
-import {fetchAllGroups, fetchGroup, createGroup, updateGroup, deleteGroup} from './actions/group_actions'
+import {fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup} from './actions/group_actions'
 import {fetchAllEvents, fetchEvent, createEvent, updateEvent, deleteEvent} from './actions/event_actions'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.store = store;
   window.dispatch = store.dispatch;
   window.getState = store.getState;
-  window.fetchAllGroups = fetchAllGroups;
+  window.fetchGroups = fetchGroups;
   window.fetchAllEvents = fetchAllEvents;
   window.fetchGroup = fetchGroup;
   window.fetchEvent = fetchEvent;

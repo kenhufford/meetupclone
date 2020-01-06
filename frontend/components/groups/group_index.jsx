@@ -5,17 +5,25 @@ import {Link} from 'react-router-dom'
 class GroupIndex extends React.Component{
     constructor(props){
         super(props)
-        this.state = {
-            currentItemIndex: 0
-        };
+
     }
 
     componentDidMount(){
-        if (this.props.currentUserId){
-            this.props.fetchUser(this.props.currentUserId);
-        }
-        this.props.fetchAllGroups();
+        // if (this.props.currentUserId){
+        //     this.props.fetchUser(this.props.currentUserId);
+        //     let {currentUserLat, currentUserLong} = this.props
+        //     let bounds = { bounds: {
+        //                         northEast: { lat: currentUserLat + (0.072*20), long: currentUserLong - (0.072 * 20) },
+        //                         southWest: { lat: currentUserLat - (0.072*20), long: currentUserLong + (0.072 * 20) },
+        //     }}
+        //     console.log(bounds)
+        //     this.props.fetchGroups(bounds);
+        // } else{
+        //     this.props.fetchGroups();
+        // }
+        this.props.fetchGroups();
     }
+
 
     render(){
         let yourGroups = this.props.userGroupIds ? (
@@ -38,7 +46,7 @@ class GroupIndex extends React.Component{
             <div className="group-index-div">
                 <p>YOUR GROUPS</p>
                 {yourGroups}
-                <p>SUGGESTED GROUPS</p>
+                <p>NEARBY GROUPS</p>
                 {suggestedGroups}
             </div>
 

@@ -43,12 +43,12 @@ member_types = ["Admin", "Organizer", "Member"]
 50.times do |i|
     Membership.create!(
         group_id: (Faker::Number.within(range: 1..total_groups)),
-        user_id: (Faker::Number.within(range: 1..total_users)),
+        user_id: (Faker::Number.within(range: 2..total_users)),
         member_type: member_types.sample
     )
 end
 
-5.times do |i|
+4.times do |i|
     Membership.create!(
         group_id: i+1,
         user_id: 1,

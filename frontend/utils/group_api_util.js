@@ -1,8 +1,8 @@
-export const fetchGroups = (filters) => (
+export const fetchGroups = (data) => (
     $.ajax({
         url: '/api/groups/',
         method: "GET",
-        filters
+        data
     })
 )
 
