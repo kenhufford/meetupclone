@@ -15,7 +15,7 @@ export const fetchGroup = (groupId) => (
 
 export const createGroup = (group) => (
     $.ajax({
-        url: `/api/groups/${group.id}`,
+        url: `/api/groups/`,
         method: "POST",
         data: {group}
     })
@@ -35,11 +35,20 @@ export const deleteGroup = (groupId) => (
         method: "DELETE"
     })
 )
+
 export const createMembership = (groupId) => (
     $.ajax({
         url: `/api/groups/${groupId}/memberships`,
         method: "POST",
         data: {groupId}
+    })
+)
+
+export const updateMembership = (membership) => (
+    $.ajax({
+        url: `/api/groups/${membership.groupId}/memberships`,
+        method: "PATCH",
+        data: {membership}
     })
 )
 

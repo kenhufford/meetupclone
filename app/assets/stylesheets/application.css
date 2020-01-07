@@ -19,7 +19,15 @@
    max-width: 1000px;
    justify-content: center;
    align-items: center;
+   height: 100vh;
 }
+
+.main-body > div{
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+}
+
 
  .navbar-header{
      position: relative;
@@ -387,6 +395,9 @@
    max-width: 700px;
    flex-direction: column;
    letter-spacing: 0.01em;
+   flex: 1 0 auto;
+   height: 100%;
+   min-height: auto;
 }
 
 .create-group-card-title{
@@ -398,6 +409,17 @@
    font-size: 18px;
    font-weight: 400;
    line-height: 1.5;
+   letter-spacing: 0.01em;
+}
+
+.create-group-card-ol li{
+   letter-spacing: 0.01em;
+   padding-top: 4px;
+}
+
+.create-group-card-ul li{
+   letter-spacing: 0.01em;
+   padding-top: 4px;
 }
 
 .create-group-card-options{
@@ -441,18 +463,19 @@
 }
 
 .create-group-footer{
+   margin: auto auto 0 auto;
    display: flex;
    justify-content: space-between;
    flex-direction: row;
    align-items: center;
    width: 100%;
-   position: absolute;
-   bottom: 0;
+   /* position: absolute;
+   bottom: 0; */
    height: 80px;
    border-top: 1px lightgray solid;
-   margin: 0 auto;
    padding: 0px;
    left: 0px;
+   flex-shrink: 0;
 }
 
 .create-group-footer-prev{
@@ -513,4 +536,25 @@
    height: 40px;
    font-size: 14px;
    cursor: pointer;
+}
+
+.create-group-card-name-field{
+   padding: 5px;
+   border: 1px grey solid;
+   border-radius: 4px;
+   width: 100%;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 16px;
+   height: 30px;
+}
+
+.create-group-card-name-field-big{
+   padding: 5px;
+   border: 1px grey solid;
+   border-radius: 4px;
+   width: 100%;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 16px;
+   height: 200px;
+   vertical-align: top;
 }

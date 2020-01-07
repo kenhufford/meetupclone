@@ -52,3 +52,8 @@ export const deleteMembership = groupId => dispatch => (
     APIUtils.deleteMembership(groupId)
         .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
 )
+
+export const updateMembership = memberType => dispatch => (
+    APIUtils.updateMembership(memberType)
+        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
+)

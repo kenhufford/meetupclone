@@ -203,7 +203,7 @@ var updateFilter = function updateFilter(filter, value) {
 /*!*******************************************!*\
   !*** ./frontend/actions/group_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership */
+/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership, updateMembership */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -218,6 +218,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteGroup", function() { return deleteGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
 /* harmony import */ var _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/group_api_util */ "./frontend/utils/group_api_util.js");
 
 var RECEIVE_GROUPS = "RECEIVE_GROUPS";
@@ -290,6 +291,13 @@ var createMembership = function createMembership(groupId) {
 var deleteMembership = function deleteMembership(groupId) {
   return function (dispatch) {
     return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteMembership"](groupId).then(function (updatedGroup) {
+      return dispatch(receiveGroup(updatedGroup));
+    });
+  };
+};
+var updateMembership = function updateMembership(memberType) {
+  return function (dispatch) {
+    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["updateMembership"](memberType).then(function (updatedGroup) {
       return dispatch(receiveGroup(updatedGroup));
     });
   };
@@ -686,6 +694,7 @@ function (_React$Component) {
       imageUrl: '',
       currentSlide: 0,
       selectedLocation: "Select Location",
+      errorMessage: "",
       location: [{
         id: 0,
         location: 'San Francisco',
@@ -761,6 +770,7 @@ function (_React$Component) {
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
+    console.log(_this.state);
     return _this;
   }
 
@@ -770,17 +780,56 @@ function (_React$Component) {
       var _this2 = this;
 
       return function () {
-        var slide = type === "prev" ? _this2.state.currentSlide - 1 : _this2.state.currentSlide + 1;
+        var slide = _this2.state.currentSlide;
+        console.log("handling step");
+        console.log(_this2.state);
 
-        if (slide < 0) {
-          slide = 0;
-        } else if (slide > 1) {
-          slide = 1;
+        if (slide === 4 && _this2.state.description.length >= 50 && type === "next") {
+          _this2.props.createGroup({
+            name: _this2.state.name,
+            description: _this2.state.description,
+            lat: _this2.state.lat,
+            "long": _this2.state["long"],
+            imageUrl: ''
+          }).then(function (payload) {
+            _this2.props.createMembership(payload.group.id);
+
+            _this2.props.history.push("/groups/".concat(payload.group.id));
+          });
+        } else if (slide === 0 && _this2.state.selectedLocation === "Select Location" && type === "next") {
+          _this2.setState({
+            errorMessage: "Please select a location"
+          });
+        } else if (slide === 2 && _this2.state.name.length <= 8 && type === "next") {
+          _this2.setState({
+            errorMessage: "Please enter more than 8 characters"
+          });
+        } else if (slide === 3 && _this2.state.description.length <= 50 && type === "next") {
+          _this2.setState({
+            errorMessage: "Please enter more than 50 characters"
+          });
+        } else {
+          console.log("im moving slides");
+          slide = type === "prev" ? slide - 1 : slide + 1;
+
+          if (slide < 0) {
+            slide = 0;
+          }
+
+          _this2.setState({
+            currentSlide: slide,
+            errorMessage: ""
+          });
         }
+      };
+    }
+  }, {
+    key: "update",
+    value: function update(key) {
+      var _this3 = this;
 
-        _this2.setState({
-          currentSlide: slide
-        });
+      return function (e) {
+        return _this3.setState(_defineProperty({}, key, e.currentTarget.value));
       };
     }
   }, {
@@ -789,7 +838,30 @@ function (_React$Component) {
       var _this$setState;
 
       var temp = this.state[key];
-      this.setState((_this$setState = {}, _defineProperty(_this$setState, key, temp), _defineProperty(_this$setState, "selectedLocation", temp[id].location), _this$setState));
+      var locationCoords = {
+        "San Francisco": {
+          lat: 37.7749,
+          "long": 122.4194
+        },
+        "Oakland": {
+          lat: 37.8044,
+          "long": 122.2712
+        },
+        "San Jose": {
+          lat: 37.3382,
+          "long": 121.8863
+        },
+        "Los Angeles": {
+          lat: 34.0522,
+          "long": 118.2437
+        },
+        "Orange County": {
+          lat: 33.7175,
+          "long": 117.8311
+        }
+      };
+      this.setState((_this$setState = {}, _defineProperty(_this$setState, key, temp), _defineProperty(_this$setState, "selectedLocation", temp[id].location), _defineProperty(_this$setState, "lat", locationCoords[temp[id].location].lat), _defineProperty(_this$setState, "long", locationCoords[temp[id].location]["long"]), _this$setState));
+      console.log(this.state);
     }
   }, {
     key: "handleClick",
@@ -803,15 +875,17 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
-      var slide1 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var slide0 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "create-group-card-title"
       }, "First, set your group\u2019s location."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "create-group-card-description"
-      }, "Meetup groups meet locally and in person. We\u2019ll connect you with people who live in and around your area."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Meetup groups meet locally and in person. We\u2019ll connect you with people who live in and around your area."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-errors"
+      }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-options"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "create-group-card-selected"
@@ -820,7 +894,7 @@ function (_React$Component) {
         list: this.state.location,
         toggleItem: this.toggleSelected
       })));
-      var slide2 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var slide1 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "create-group-card-title"
@@ -835,12 +909,59 @@ function (_React$Component) {
           key: category.id
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           onClick: function onClick() {
-            return _this3.handleClick(category.id);
+            return _this4.handleClick(category.id);
           },
           className: category.selected ? "create-group-card-options-categories-button-selected" : "create-group-card-options-categories-button"
         }, category.name));
       }))));
-      var slides = [slide1, slide2];
+      var slide2 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "create-group-card-title"
+      }, "What will your group\u2019s name be?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-description"
+      }, "Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-errors"
+      }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-options"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "create-group-card-name-field",
+        type: "text",
+        value: this.state.name,
+        placeholder: this.state.selectedLocation + "'s Big Beatdown Bullies",
+        onChange: this.update('name')
+      })));
+      var slide3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "create-group-card-title"
+      }, "Now describe what your group will be about"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-description"
+      }, "People will see this when we promote your group, but you\u2019ll be able to add to it later, too."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+        className: "create-group-card-ol"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "What's the purpose of the group?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Who should join?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "What will you do at your events?")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-errors"
+      }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-options"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "create-group-card-name-field-big",
+        type: "text",
+        value: this.state.description,
+        placeholder: "Please enter at least 50 characters",
+        onChange: this.update('description')
+      })));
+      var slide4 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "create-group-card-title"
+      }, "Almost done! Just take a minute to review our guidelines"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-description"
+      }, "Meetup is all about helping people live fuller, happier lives\u2014with the help of strong communities. This means that all groups should:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "create-group-card-ul"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Provide growth opportunities for members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Encourage real human interactions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Meet in real life"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Have a host present at all events"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Be transparent about the group\u2019s intentions")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-description"
+      }, "Once you submit your group, a human at Meetup will review it based on these guidelines and make sure it gets promoted to the right people."));
+      var slides = [slide0, slide1, slide2, slide3, slide4];
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-div"
       }, slides[this.state.currentSlide]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -874,6 +995,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -883,11 +1007,16 @@ var mstp = function mstp(state) {
 };
 
 var mdtp = function mdtp(dispatch) {
-  return {
+  return _defineProperty({
     createGroup: function createGroup(group) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createGroup"])(group));
+    },
+    createMembership: function createMembership(groupId) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createMembership"])(groupId));
     }
-  };
+  }, "createMembership", function createMembership(membership) {
+    return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["updateMembership"])(membership));
+  });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_create_group_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
@@ -2304,7 +2433,7 @@ var deleteEvent = function deleteEvent(eventId) {
 /*!******************************************!*\
   !*** ./frontend/utils/group_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership */
+/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, updateMembership, deleteMembership */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2315,6 +2444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateGroup", function() { return updateGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteGroup", function() { return deleteGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
 var fetchGroups = function fetchGroups(data) {
   return $.ajax({
@@ -2331,7 +2461,7 @@ var fetchGroup = function fetchGroup(groupId) {
 };
 var createGroup = function createGroup(group) {
   return $.ajax({
-    url: "/api/groups/".concat(group.id),
+    url: "/api/groups/",
     method: "POST",
     data: {
       group: group
@@ -2359,6 +2489,15 @@ var createMembership = function createMembership(groupId) {
     method: "POST",
     data: {
       groupId: groupId
+    }
+  });
+};
+var updateMembership = function updateMembership(membership) {
+  return $.ajax({
+    url: "/api/groups/".concat(membership.groupId, "/memberships"),
+    method: "PATCH",
+    data: {
+      membership: membership
     }
   });
 };
