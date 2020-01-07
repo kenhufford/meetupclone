@@ -2,6 +2,7 @@ import {RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP} from '../actions/group_acti
 
 const groupsReducer = (state={}, action) => {
     Object.freeze(state);
+    let nextState = Object.assign({}, state)
     switch (action.type) {
         case RECEIVE_GROUPS:
             return action.groups

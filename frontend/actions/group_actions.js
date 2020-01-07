@@ -42,3 +42,13 @@ export const deleteGroup = (groupId) => dispatch => (
     APIUtils.deleteGroup(groupId)
         .then( () => dispatch(removeGroup(groupId)))
 )
+
+export const createMembership = groupId => dispatch => (
+    APIUtils.createMembership(groupId)
+        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
+)
+
+export const deleteMembership = groupId => dispatch => (
+    APIUtils.deleteMembership(groupId)
+        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
+)

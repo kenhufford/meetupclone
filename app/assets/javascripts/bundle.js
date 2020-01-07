@@ -203,7 +203,7 @@ var updateFilter = function updateFilter(filter, value) {
 /*!*******************************************!*\
   !*** ./frontend/actions/group_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup */
+/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -216,6 +216,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createGroup", function() { return createGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateGroup", function() { return updateGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteGroup", function() { return deleteGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
 /* harmony import */ var _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/group_api_util */ "./frontend/utils/group_api_util.js");
 
 var RECEIVE_GROUPS = "RECEIVE_GROUPS";
@@ -275,6 +277,20 @@ var deleteGroup = function deleteGroup(groupId) {
   return function (dispatch) {
     return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteGroup"](groupId).then(function () {
       return dispatch(removeGroup(groupId));
+    });
+  };
+};
+var createMembership = function createMembership(groupId) {
+  return function (dispatch) {
+    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["createMembership"](groupId).then(function (updatedGroup) {
+      return dispatch(receiveGroup(updatedGroup));
+    });
+  };
+};
+var deleteMembership = function deleteMembership(groupId) {
+  return function (dispatch) {
+    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteMembership"](groupId).then(function (updatedGroup) {
+      return dispatch(receiveGroup(updatedGroup));
     });
   };
 };
@@ -852,9 +868,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -868,12 +884,35 @@ function (_React$Component) {
   _inherits(GroupShow, _React$Component);
 
   function GroupShow(props) {
+    var _this;
+
     _classCallCheck(this, GroupShow);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(GroupShow).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupShow).call(this, props));
+    _this.handleJoin = _this.handleJoin.bind(_assertThisInitialized(_this));
+    _this.handleRemove = _this.handleRemove.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(GroupShow, [{
+    key: "handleJoin",
+    value: function handleJoin() {
+      if (!this.props.session.id) {
+        document.location.href = '#/login';
+      } else {
+        this.props.createMembership(this.props.group.id);
+      }
+    }
+  }, {
+    key: "handleRemove",
+    value: function handleRemove() {
+      if (!this.props.session.id) {
+        document.location.href = '#/login';
+      } else {
+        this.props.deleteMembership(this.props.group.id);
+      }
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchGroup(this.props.match.params.groupId);
@@ -881,65 +920,85 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.group.members) return null;
-      var members = this.props.group.members ? this.props.group.members : [];
-      console.log(this.props);
-      var _this$props$group = this.props.group,
-          name = _this$props$group.name,
-          description = _this$props$group.description,
-          image_url = _this$props$group.image_url,
-          memberships = _this$props$group.memberships;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-div"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-header-left"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "",
-        alt: "group-image"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-header-right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-stripe"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-stripe-left"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "group-show-inline-list-item"
-      }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "group-show-inline-list-item"
-      }, "Events"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "group-show-inline-list-item"
-      }, "Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "group-show-inline-list-item"
-      }, "Photos")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-stripe-right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "group-show-join-button"
-      }, "Join this Group"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-main"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-main-left"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "group-show-stripe-left-header"
-      }, "What We're About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "group-show-stripe-left-description"
-      }, description)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-main-right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-main-right-organizers"
-      }, "Organizer"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-main-right-members"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Members (", memberships.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "See All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-main-right-members-list"
-      }, this.props.group.members.map(function (member, i) {
-        if (i < 12) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-            key: i,
-            className: "group-show-main-right-members-list-item"
-          }, member.name);
-        }
-      })))));
+      if (!this.props.group || !this.props.group.members || !this.props.session) {
+        return null;
+      } else {
+        var memberships = !this.props.group.memberships ? [] : this.props.group.memberships;
+        var membersObj = this.props.group.members;
+        var organizers = [];
+        memberships.forEach(function (member) {
+          if (member.memberType === "Organizer") {
+            organizers.push(membersObj[member.userId].name);
+          }
+        });
+        var _this$props$group = this.props.group,
+            name = _this$props$group.name,
+            description = _this$props$group.description,
+            imageUrl = _this$props$group.imageUrl;
+        var join = !this.props.group.currentUserMember ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "group-show-join-button",
+          onClick: this.handleJoin
+        }, "Join this Group") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "group-show-join-button",
+          onClick: this.handleRemove
+        }, "Remove from Group");
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-div"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-header"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-header-left"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "",
+          alt: "group-image"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-header-right"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organized by ", organizers[0], " and ", organizers.length, " others"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-stripe"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-stripe-left"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "group-show-inline-list-item"
+        }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "group-show-inline-list-item"
+        }, "Events"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "group-show-inline-list-item"
+        }, "Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "group-show-inline-list-item"
+        }, "Photos")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-stripe-right"
+        }, join)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main-left"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "group-show-stripe-left-header"
+        }, "What We're About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "group-show-stripe-left-description"
+        }, description)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main-right"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main-right-organizers"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organizers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main-right-organizers-info"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          alt: "organizer-pic",
+          className: "group-show-organizer-picture"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "group-show-organizer-info-text"
+        }, organizers[0], " and ", organizers.length, " others"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main-right-members"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Members (", memberships.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "See All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-main-right-members-list"
+        }, memberships.map(function (member, i) {
+          if (i < 12) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              key: i,
+              className: "group-show-main-right-members-list-item"
+            }, membersObj[member.userId].name);
+          }
+        })))));
+      }
     }
   }]);
 
@@ -960,11 +1019,9 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _group_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index */ "./frontend/components/groups/group_index.jsx");
-/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
-/* harmony import */ var _components_groups_group_show__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/groups/group_show */ "./frontend/components/groups/group_show.jsx");
-
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _components_groups_group_show__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/groups/group_show */ "./frontend/components/groups/group_show.jsx");
 
 
 
@@ -972,22 +1029,29 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    group: state.entities.groups[ownProps.match.params.groupId]
+    group: state.entities.groups[ownProps.match.params.groupId],
+    session: state.session
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchGroup: function fetchGroup(groupId) {
-      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroup"])(groupId));
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_1__["fetchGroup"])(groupId));
     },
     fetchUser: function fetchUser(userId) {
-      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchUser"])(userId));
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["fetchUser"])(userId));
+    },
+    createMembership: function createMembership(groupId) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_1__["createMembership"])(groupId));
+    },
+    deleteMembership: function deleteMembership(groupId) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_1__["deleteMembership"])(groupId));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_groups_group_show__WEBPACK_IMPORTED_MODULE_4__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_groups_group_show__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -1032,7 +1096,7 @@ var Header = function Header(_ref) {
       href: "",
       className: "navbar-group-link"
     }, "Start a New Group"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "",
+      href: "#/groups",
       className: "navbar-explore-link"
     }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       onClick: logout,
@@ -1280,12 +1344,16 @@ function (_React$Component) {
         className: "login-signup-link"
       }, "   Sign Up")), this.renderErrors()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "login-form"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Email Address:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-form-label"
+      }, "Email Address:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.email,
         onChange: this.update('email'),
         className: "login-input"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Password:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-form-label"
+      }, "Password:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         value: this.state.password,
         onChange: this.update('password'),
@@ -1296,7 +1364,7 @@ function (_React$Component) {
         className: "login-submit",
         type: "submit",
         value: this.props.formType
-      }), "OR", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "OR "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         onClick: this.handleDemoLogin,
         className: "login-demo-submit",
         type: "submit",
@@ -1308,22 +1376,30 @@ function (_React$Component) {
         className: "signup-box"
       }, this.renderErrors(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "signup"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Your name", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-form-label"
+      }, "Your name", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.name,
         onChange: this.update('name'),
         className: "login-input"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Email address", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-form-label"
+      }, "Email address", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.email,
         onChange: this.update('email'),
         className: "login-input"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-form-label"
+      }, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         value: this.state.password,
         onChange: this.update('password'),
         className: "login-input"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Location", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-form-label"
+      }, "Location", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.location,
         onChange: this.update('location'),
@@ -1596,6 +1672,7 @@ var groupsReducer = function groupsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
+  var nextState = Object.assign({}, state);
 
   switch (action.type) {
     case _actions_group_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_GROUPS"]:
@@ -1724,11 +1801,11 @@ var sessionReducer = function sessionReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _filters_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filters_reducer */ "./frontend/reducers/filters_reducer.js");
+/* harmony import */ var _filters_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./filters_reducer */ "./frontend/reducers/filters_reducer.js");
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  filters: _filters_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  filters: _filters_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 }));
 
 /***/ }),
@@ -1856,7 +1933,7 @@ var deleteEvent = function deleteEvent(eventId) {
 /*!******************************************!*\
   !*** ./frontend/utils/group_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup */
+/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1866,6 +1943,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createGroup", function() { return createGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateGroup", function() { return updateGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteGroup", function() { return deleteGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
 var fetchGroups = function fetchGroups(data) {
   return $.ajax({
     url: '/api/groups/',
@@ -1901,6 +1980,24 @@ var deleteGroup = function deleteGroup(groupId) {
   return $.ajax({
     url: "/api/groups/".concat(groupId),
     method: "DELETE"
+  });
+};
+var createMembership = function createMembership(groupId) {
+  return $.ajax({
+    url: "/api/groups/".concat(groupId, "/memberships"),
+    method: "POST",
+    data: {
+      groupId: groupId
+    }
+  });
+};
+var deleteMembership = function deleteMembership(groupId) {
+  return $.ajax({
+    url: "/api/groups/".concat(groupId, "/memberships/1"),
+    method: "DELETE",
+    data: {
+      groupId: groupId
+    }
   });
 };
 

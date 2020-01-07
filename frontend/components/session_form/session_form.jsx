@@ -58,7 +58,7 @@ class SessionForm extends React.Component {
               {this.renderErrors()}
             </h3>
             <div className="login-form">
-              <label>Email Address:
+              <label className="login-form-label">Email Address:
                 <br/>
                 <input type="text"
                   value={this.state.email}
@@ -67,7 +67,7 @@ class SessionForm extends React.Component {
                 />
               </label>
                <br/>
-              <label>Password:
+              <label className="login-form-label">Password:
                <br/>
                 <input type="password"
                   value={this.state.password}
@@ -78,7 +78,7 @@ class SessionForm extends React.Component {
               <br/>
               <div className="login-buttons-div">
                 <input className="login-submit" type="submit" value={this.props.formType} />
-                OR
+                <p>OR </p>
                 <input onClick={this.handleDemoLogin}  className="login-demo-submit" type="submit" value="Demo Sign In"/>
               </div>
             </div>
@@ -91,7 +91,7 @@ class SessionForm extends React.Component {
           <form onSubmit={this.handleSubmit} className="signup-box">
             {this.renderErrors()}
             <div className="signup">
-              <label>Your name
+              <label className="login-form-label">Your name
                 <input type="text"
                   value={this.state.name}
                   onChange={this.update('name')}
@@ -99,7 +99,7 @@ class SessionForm extends React.Component {
                 />
               </label>
               <br/>
-              <label>Email address
+              <label className="login-form-label">Email address
                 <input type="text"
                   value={this.state.email}
                   onChange={this.update('email')}
@@ -107,7 +107,7 @@ class SessionForm extends React.Component {
                 />
               </label>
               <br/>
-              <label>Password
+              <label className="login-form-label">Password
                 <input type="password"
                   value={this.state.password}
                   onChange={this.update('password')}
@@ -115,7 +115,7 @@ class SessionForm extends React.Component {
                 />
               </label>
               <br/>
-              <label>Location
+              <label className="login-form-label">Location
                 <input type="text"
                   value={this.state.location}
                   onChange={this.update('location')}

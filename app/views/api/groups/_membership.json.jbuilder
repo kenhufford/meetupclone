@@ -1,2 +1,2 @@
-json.(membership, :user_id, :member_type)
+json.(membership, :id, :user_id, :group_id, :member_type)
 
