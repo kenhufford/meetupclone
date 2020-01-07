@@ -415,8 +415,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events_event_index_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./events/event_index_container */ "./frontend/components/events/event_index_container.js");
 /* harmony import */ var _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./groups/group_index_container */ "./frontend/components/groups/group_index_container.js");
 /* harmony import */ var _groups_group_show_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./groups/group_show_container */ "./frontend/components/groups/group_show_container.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+/* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+
 
 
 
@@ -430,25 +432,29 @@ __webpack_require__.r(__webpack_exports__);
 var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_header_header_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_8__["AuthRoute"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_9__["AuthRoute"], {
     exact: true,
     path: "/login",
     component: _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_8__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_9__["AuthRoute"], {
     exact: true,
     path: "/signup",
     component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
     path: "/events",
     component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
     exact: true,
     path: "/groups/:groupId",
     component: _groups_group_show_container__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
     exact: true,
     path: "/groups",
     component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_9__["ProtectedRoute"], {
+    exact: true,
+    path: "/groups/newform",
+    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_7__["default"]
   })));
 };
 
@@ -623,6 +629,373 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (EventIndexItem);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/create_group_form.jsx":
+/*!**********************************************************!*\
+  !*** ./frontend/components/groups/create_group_form.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var CreateGroupForm =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(CreateGroupForm, _React$Component);
+
+  function CreateGroupForm(props) {
+    var _this;
+
+    _classCallCheck(this, CreateGroupForm);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateGroupForm).call(this, props));
+    _this.state = {
+      name: '',
+      description: '',
+      lat: '',
+      "long": '',
+      imageUrl: '',
+      currentSlide: 0,
+      selectedLocation: "Select Location",
+      location: [{
+        id: 0,
+        location: 'San Francisco',
+        selected: false,
+        key: 'location'
+      }, {
+        id: 1,
+        location: 'Oakland',
+        selected: false,
+        key: 'location'
+      }, {
+        id: 2,
+        location: 'San Jose',
+        selected: false,
+        key: 'location'
+      }, {
+        id: 3,
+        location: 'Orange County',
+        selected: false,
+        key: 'location'
+      }, {
+        id: 4,
+        location: 'Los Angeles',
+        selected: false,
+        key: 'location'
+      }, {
+        id: 5,
+        location: 'San Diego',
+        selected: false,
+        key: 'location'
+      }],
+      categories: [{
+        id: 0,
+        name: 'Krav maga',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 1,
+        name: 'Abunch of spinning stuff',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 2,
+        name: 'Drunken master',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 3,
+        name: 'Only eye gouging',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 4,
+        name: 'Pillow fighting',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 5,
+        name: 'WWE Style Wraslin',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 6,
+        name: 'Bare knuckles boxing',
+        selected: false,
+        key: 'categories'
+      }, {
+        id: 7,
+        name: 'Anchorman brawl',
+        selected: false,
+        key: 'categories'
+      }]
+    };
+    _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
+    _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(CreateGroupForm, [{
+    key: "handleStep",
+    value: function handleStep(type) {
+      var _this2 = this;
+
+      return function () {
+        var slide = type === "prev" ? _this2.state.currentSlide - 1 : _this2.state.currentSlide + 1;
+
+        if (slide < 0) {
+          slide = 0;
+        } else if (slide > 1) {
+          slide = 1;
+        }
+
+        _this2.setState({
+          currentSlide: slide
+        });
+      };
+    }
+  }, {
+    key: "toggleSelected",
+    value: function toggleSelected(id, key) {
+      var _this$setState;
+
+      var temp = this.state[key];
+      this.setState((_this$setState = {}, _defineProperty(_this$setState, key, temp), _defineProperty(_this$setState, "selectedLocation", temp[id].location), _this$setState));
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(categoryId) {
+      var temp = this.state.categories;
+      temp[categoryId].selected = !temp[categoryId].selected;
+      this.setState({
+        categories: temp
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var slide1 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "create-group-card-title"
+      }, "First, set your group\u2019s location."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-description"
+      }, "Meetup groups meet locally and in person. We\u2019ll connect you with people who live in and around your area."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-options"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-selected"
+      }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        location: this.state.selectedLocation,
+        list: this.state.location,
+        toggleItem: this.toggleSelected
+      })));
+      var slide2 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "create-group-card-title"
+      }, "Choose a few topics that describe your group's interests"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "create-group-card-description"
+      }, "Be specific! This will help us promote your group to the right people. You can choose up to 15 topics."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-options"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "create-group-card-options-categories"
+      }, this.state.categories.map(function (category) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: category.id
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: function onClick() {
+            return _this3.handleClick(category.id);
+          },
+          className: category.selected ? "create-group-card-options-categories-button-selected" : "create-group-card-options-categories-button"
+        }, category.name));
+      }))));
+      var slides = [slide1, slide2];
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-div"
+      }, slides[this.state.currentSlide]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-footer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleStep('prev'),
+        className: "create-group-footer-prev"
+      }, "Prev")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleStep('next'),
+        className: "create-group-footer-next"
+      }, "Next"))));
+    }
+  }]);
+
+  return CreateGroupForm;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (CreateGroupForm);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/create_group_form_container.js":
+/*!*******************************************************************!*\
+  !*** ./frontend/components/groups/create_group_form_container.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+
+
+
+
+var mstp = function mstp(state) {
+  return {};
+};
+
+var mdtp = function mdtp(dispatch) {
+  return {
+    createGroup: function createGroup(group) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createGroup"])(group));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_create_group_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/groups/create_group_form_dropdown.jsx":
+/*!*******************************************************************!*\
+  !*** ./frontend/components/groups/create_group_form_dropdown.jsx ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var CreateGroupFormDropdown =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(CreateGroupFormDropdown, _React$Component);
+
+  function CreateGroupFormDropdown(props) {
+    var _this;
+
+    _classCallCheck(this, CreateGroupFormDropdown);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateGroupFormDropdown).call(this, props));
+    _this.state = {
+      listOpen: false
+    };
+    return _this;
+  }
+
+  _createClass(CreateGroupFormDropdown, [{
+    key: "handleClickOutside",
+    value: function handleClickOutside() {
+      this.setState({
+        listOpen: false
+      });
+    }
+  }, {
+    key: "toggleList",
+    value: function toggleList() {
+      this.setState(function (prevState) {
+        return {
+          listOpen: !prevState.listOpen
+        };
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var list = this.props.list;
+      var listOpen = this.state.listOpen;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-dropdown"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-dropdown-header",
+        onClick: function onClick() {
+          return _this2.toggleList();
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-group-card-dropdown-header-title"
+      }, "Change Location"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-caret-down"
+      })), listOpen && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "create-group-card-dropdown-header-list"
+      }, list.map(function (item) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "create-group-card-dropdown-header-list-item",
+          key: item.location,
+          onClick: function onClick() {
+            _this2.props.toggleItem(item.id, item.key);
+
+            _this2.handleClickOutside();
+          }
+        }, item.location);
+      })));
+    }
+  }]);
+
+  return CreateGroupFormDropdown;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (CreateGroupFormDropdown);
 
 /***/ }),
 
@@ -1078,9 +1451,6 @@ var Header = function Header(_ref) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
       className: "navbar-right"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-      className: "navbar-startgroup-link",
-      to: "/"
-    }, "Start a New Group"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       className: "navbar-login-signup-link",
       to: "/login"
     }, "Log in"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1093,7 +1463,7 @@ var Header = function Header(_ref) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
       className: "navbar-right"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "",
+      href: "#/groups/newform",
       className: "navbar-group-link"
     }, "Start a New Group"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: "#/groups",
@@ -1323,7 +1693,8 @@ function (_React$Component) {
     value: function renderErrors() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: "error-".concat(i)
+          key: "error-".concat(i),
+          className: "login-form-errors"
         }, error);
       }));
     }

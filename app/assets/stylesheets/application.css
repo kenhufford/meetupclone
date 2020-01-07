@@ -79,6 +79,10 @@
  }
 
 
+.login-form-errors{
+   font-size: 14px;
+}
+
  .login-form-container{
     display: block;
     padding-bottom: 40px;
@@ -371,4 +375,142 @@
 
 .group-show-main-right-members-list-item{
    width: 25%;
+}
+
+
+
+
+.create-group-div{
+   display: flex;
+   font-family: Arial, Helvetica, sans-serif;
+   margin: 0 auto;
+   max-width: 700px;
+   flex-direction: column;
+   letter-spacing: 0.01em;
+}
+
+.create-group-card-title{
+   font-size: 40px;
+   font-weight: 700;
+}
+
+.create-group-card-description{
+   font-size: 18px;
+   font-weight: 400;
+   line-height: 1.5;
+}
+
+.create-group-card-options{
+   display: flex;
+   align-items: baseline;
+   justify-content: flex-start;
+}
+
+.create-group-card-selected{
+   font-size: 24px;
+   padding-right: 15px;
+}
+
+.create-group-card-dropdown-header{
+   color: rgb(0, 152, 171);
+   display: flex;
+   justify-content: space-around;
+   flex-direction: row;
+   align-items: flex-start;
+   width: 160px;
+   cursor: pointer;
+}
+
+.create-group-card-dropdown-header-list{
+   list-style: none;
+   border: 1px lightgray solid;
+   display: flex;
+   justify-content: flex-start;
+   flex-direction: column;
+   align-items: flex-start;
+   padding-left: 0px;
+   cursor: pointer;
+}
+
+.create-group-card-dropdown-header-list-item{
+   padding-top: 5px;
+   padding-left: 5px;
+   font-size: 14px;
+   cursor: pointer;
+   width: 100%
+}
+
+.create-group-footer{
+   display: flex;
+   justify-content: space-between;
+   flex-direction: row;
+   align-items: center;
+   width: 100%;
+   position: absolute;
+   bottom: 0;
+   height: 80px;
+   border-top: 1px lightgray solid;
+   margin: 0 auto;
+   padding: 0px;
+   left: 0px;
+}
+
+.create-group-footer-prev{
+   cursor: pointer;
+   user-select: none;
+   text-decoration: none;
+   background-color:white;
+   color: rgb(70, 70, 70);
+   border-radius: 6px;
+   border: 1px rgb(197, 197, 197) solid;
+   font-size: 14px;
+   font-weight: bold;
+   height: 50px;
+   width: 180px;
+   margin-left: 20px;
+}
+
+.create-group-footer-next{
+   cursor: pointer;
+   user-select: none;
+   text-decoration: none;
+   background-color: rgb(246, 88, 88);
+   color: white;
+   border-radius: 6px;
+   font-size: 14px;
+   font-weight: bold;
+   height: 50px;
+   width: 180px;
+   text-align: center;
+   margin-right: 20px;
+}
+
+.create-group-card-options-categories{
+   list-style: none;
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.create-group-card-options-categories-button{
+   margin: 10px 10px;
+   background-color: white;
+   border-radius: 20px;
+   border: #0098ab 1px solid;
+   color: #0098ab;
+   font-weight: 500;
+   height: 40px;
+   font-size: 14px;
+   cursor: pointer;
+}
+
+.create-group-card-options-categories-button-selected{
+   margin: 10px 10px;
+   background-color: #0098ab;
+   border-radius: 20px;
+   border: #0098ab 1px solid;
+   color: white;
+   font-weight: 500;
+   height: 40px;
+   font-size: 14px;
+   cursor: pointer;
 }

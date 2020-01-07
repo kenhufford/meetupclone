@@ -5,7 +5,7 @@ const Header = ({ currentUser, logout }) => {
   const sessionLinks = () => (
     <nav className="navbar-right">
       {/* Add "to" here later for new group */}
-      <Link className="navbar-startgroup-link" to='/'>Start a New Group</Link> 
+      {/* <Link className="navbar-startgroup-link" to='/'>Start a New Group</Link>  */}
       <Link className="navbar-login-signup-link" to="/login">Log in</Link>
       <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
     </nav>
@@ -13,7 +13,7 @@ const Header = ({ currentUser, logout }) => {
 
   const signedIn = () => (
     <nav className="navbar-right">
-      <a href="" className="navbar-group-link">Start a New Group</a>
+      <a href="#/groups/newform" className="navbar-group-link">Start a New Group</a>
       <a href="#/groups" className="navbar-explore-link">Explore</a>
       <Link onClick={logout} className="navbar-dropdown" to="/login">Logout</Link>
     </nav>

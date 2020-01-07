@@ -5,6 +5,7 @@ import LogInFormContainer from './session_form/login_form_container';
 import EventIndexContainer from './events/event_index_container';
 import GroupIndexContainer from './groups/group_index_container';
 import GroupShowContainer from './groups/group_show_container';
+import CreateGroupFormContainer from './groups/create_group_form_container';
 import {Route, Redirect, Switch, Link, HashRouter} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
@@ -19,7 +20,7 @@ const App = () => (
       <Route path="/events" component={EventIndexContainer} />
       <Route exact path="/groups/:groupId" component={GroupShowContainer} />
       <Route exact path="/groups" component={GroupIndexContainer} />
-
+      <ProtectedRoute exact path="/groups/newform" component={CreateGroupFormContainer} />
     </div>
   </div>
 );
