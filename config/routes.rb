@@ -4,8 +4,10 @@ Rails.application.routes.draw do
     resources :locations, only:[:index]
     resource :session, only: [:create, :destroy]
     resources :events, only: [:create, :destroy, :show, :update, :index]
+    resources :categories, only: [:index]
     resources :groups, only: [:create, :destroy, :show, :update, :index] do
       resources :memberships, only: [:create, :update, :destroy]
+      resources :types, only: [:create, :destroy]
     end
     
   end

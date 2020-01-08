@@ -5,7 +5,28 @@ Event.destroy_all
 Group.destroy_all
 Membership.destroy_all
 Location.destroy_all
+Type.destroy_all
 
+
+def pair_generator(range1, range2)
+    results = []
+
+    (1..range1).to_a.each do |i|
+        (2...range2).to_a.each do |j|
+            results << [i,j]
+        end
+    end
+    results
+end
+
+category_names = ["Krav maga", "Dirty boxing", "Backyard Brawlin'", "Mystical Kungfu", "Pillow Fighting",
+"UFC style fighting", "Sweep the leg", "Only crab style", "Bareknuckle boxing"]
+
+category_names.each do |category|
+    Category.create!(
+        name: category
+    )
+end
 
 total_users = 20;
 total_groups = 5;
@@ -21,12 +42,12 @@ location_names.length.times do |i|
     )
 end
 
-demo = User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1)
+User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1)
 
 total_users.times do 
     User.create!(
         name: Faker::Name.first_name,
-        email: Faker::Internet.email,
+        email: Faker::Internet.unique.email,
         password: '123456',
         lat: (Faker::Number.within(range: 37698217..37789758) / 1000000),
         long: (Faker::Number.within(range: -122508186..-122397017) / 1000000),
@@ -51,19 +72,23 @@ end
 
 member_types = ["Admin", "Organizer", "Member"]
 
-50.times do |i|
+membership_pairs = pair_generator(total_groups, total_users)
+
+membership_pairs.each do |pair|
+    
     Membership.create!(
-        group_id: (Faker::Number.within(range: 1..total_groups)),
-        user_id: (Faker::Number.within(range: 2..total_users)),
+        group_id: pair[0],
+        user_id: pair[1],
         member_type: member_types.sample
     )
 end
 
-4.times do |i|
-    Membership.create!(
-        group_id: i+1,
-        user_id: 1,
-        member_type: "Member"
+type_pairs = pair_generator(total_groups, category_names.length)
+
+type_pairs.each do |pair|
+    Type.create!(
+        group_id: pair[0],
+        category_id: pair[1]
     )
 end
 
@@ -74,8 +99,8 @@ max_attendance = [100, 20, 5]
 
 group_ids.length.times do |i|
     Membership.create!(
-        group_id: i,
-        user_id: i+1,
+        group_id: i+1,
+        user_id: 1,
         member_type: "Organizer"
     )
 end

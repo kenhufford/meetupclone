@@ -10,6 +10,14 @@ class Group < ApplicationRecord
     through: :memberships,
     source: :user
 
+    has_many :types,
+    class_name: "Type",
+    foreign_key: :group_id
+
+    has_many :categories,
+    through: :types,
+    source: :category
+
     def self.in_bounds(bounds)
         self.where("lat < ?", bounds[:northEast][:lat])
           .where("lat > ?", bounds[:southWest][:lat])
