@@ -4,16 +4,21 @@ import {fetchGroups} from '../../actions/group_actions'
 import {fetchUser} from '../../actions/user_actions'
 
 const mapStateToProps = (state) => {
-    if (state.session.id){
+    let userId = state.session.id
+    if (userId && state.entities.users[userId]){
         return {groups: state.entities.groups,
-                currentUserId: state.session.id,
-                currentUserLat: state.entities.users[state.session.id].lat,
-                currentUserLong: state.entities.users[state.session.id].long,
-                userGroupIds: state.entities.users[state.session.id].memberships}
+            currentUserId: userId,
+            currentUserLat: state.entities.users[userId].lat,
+            currentUserLong: state.entities.users[userId].long,
+            currentUsersGroups: state.entities.users[userId].groups
+            }
     } else {
         return {groups: state.entities.groups,
-                currentUserId: undefined,
-                userGroupIds: []}
+                currentUserId: "",
+                currentUserLat: "",
+                currentUserLong: "",
+                currentUsersGroups: {},
+            }
     }
 }
 

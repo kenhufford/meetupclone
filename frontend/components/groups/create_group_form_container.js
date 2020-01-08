@@ -9,7 +9,7 @@ const mstp = (state) => ({
 const mdtp = dispatch => ({
     createGroup: (group) => dispatch(createGroup(group)),
     createMembership: (groupId) => dispatch(createMembership(groupId)),
-    createMembership: (membership) => dispatch(updateMembership(membership))
+    updateMembership: (membership) => dispatch(updateMembership(membership))
 
 })
 

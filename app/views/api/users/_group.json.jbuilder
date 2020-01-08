@@ -1,0 +1,2 @@
+json.extract! group, :id
+

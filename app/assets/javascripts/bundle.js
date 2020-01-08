@@ -770,7 +770,6 @@ function (_React$Component) {
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
-    console.log(_this.state);
     return _this;
   }
 
@@ -781,8 +780,6 @@ function (_React$Component) {
 
       return function () {
         var slide = _this2.state.currentSlide;
-        console.log("handling step");
-        console.log(_this2.state);
 
         if (slide === 4 && _this2.state.description.length >= 50 && type === "next") {
           _this2.props.createGroup({
@@ -792,9 +789,19 @@ function (_React$Component) {
             "long": _this2.state["long"],
             imageUrl: ''
           }).then(function (payload) {
-            _this2.props.createMembership(payload.group.id);
-
             _this2.props.history.push("/groups/".concat(payload.group.id));
+
+            console.log(payload);
+
+            _this2.props.createMembership(payload.group.id).then(function (payload2) {
+              console.log(payload2);
+
+              _this2.props.updateMembership({
+                member_type: "Organizer",
+                groupId: payload2.group.id,
+                id: payload2.group.memberships[0].id
+              });
+            });
           });
         } else if (slide === 0 && _this2.state.selectedLocation === "Select Location" && type === "next") {
           _this2.setState({
@@ -995,8 +1002,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -1007,16 +1012,17 @@ var mstp = function mstp(state) {
 };
 
 var mdtp = function mdtp(dispatch) {
-  return _defineProperty({
+  return {
     createGroup: function createGroup(group) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createGroup"])(group));
     },
     createMembership: function createMembership(groupId) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createMembership"])(groupId));
+    },
+    updateMembership: function updateMembership(membership) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["updateMembership"])(membership));
     }
-  }, "createMembership", function createMembership(membership) {
-    return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["updateMembership"])(membership));
-  });
+  };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_create_group_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
@@ -1190,26 +1196,38 @@ function (_React$Component) {
       //     this.props.fetchGroups();
       // }
       this.props.fetchGroups();
+      this.props.fetchUser(this.props.currentUserId);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
-
-      var yourGroups = this.props.userGroupIds ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "groups-div"
-      }, this.props.userGroupIds.map(function (membership) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          group: _this.props.groups[membership.group_id]
-        });
-      })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Join a group!");
+      console.log(this.props);
+      if (!this.props.groups) return null;
       var suggestedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "groups-div"
       }, Object.values(this.props.groups).map(function (group) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: group.id,
           group: group
         });
       }));
+      var userGroups;
+      var yourGroups;
+      console.log(this.props.currentUsersGroups); // if (this.props.currentUsersGroups){
+      //     userGroups = []
+      //     this.props.currentUsersGroups.map(groupIdObj => {
+      //         userGroups.push(groupIdObj["id"])
+      //     })
+      //     yourGroups = userGroups.length ? (
+      //         <div className="groups-div">
+      //             {this.props.userGroups.map( (groupId) => (
+      //                 <GroupIndexItem key={groupId} group={this.props.groups[groupId]}/>
+      //             ))}
+      //         </div>
+      //     ) :  (<div>Join a group!</div>)
+      //     console.log(yourGroups)
+      // }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-index-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "YOUR GROUPS"), yourGroups, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "NEARBY GROUPS"), suggestedGroups);
@@ -1242,19 +1260,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state) {
-  if (state.session.id) {
+  var userId = state.session.id;
+
+  if (userId && state.entities.users[userId]) {
     return {
       groups: state.entities.groups,
-      currentUserId: state.session.id,
-      currentUserLat: state.entities.users[state.session.id].lat,
-      currentUserLong: state.entities.users[state.session.id]["long"],
-      userGroupIds: state.entities.users[state.session.id].memberships
+      currentUserId: userId,
+      currentUserLat: state.entities.users[userId].lat,
+      currentUserLong: state.entities.users[userId]["long"],
+      currentUsersGroups: state.entities.users[userId].groups
     };
   } else {
     return {
       groups: state.entities.groups,
-      currentUserId: undefined,
-      userGroupIds: []
+      currentUserId: "",
+      currentUserLat: "",
+      currentUserLong: "",
+      currentUsersGroups: {}
     };
   }
 };
@@ -1455,7 +1477,7 @@ function (_React$Component) {
           alt: "group-image"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-header-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organized by ", organizers[0], " and ", organizers.length, " others"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organized by ", organizers[0], " and ", organizers.length - 1, " others"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe-left"
@@ -2494,7 +2516,7 @@ var createMembership = function createMembership(groupId) {
 };
 var updateMembership = function updateMembership(membership) {
   return $.ajax({
-    url: "/api/groups/".concat(membership.groupId, "/memberships"),
+    url: "/api/groups/".concat(membership.groupId, "/memberships/").concat(membership.id),
     method: "PATCH",
     data: {
       membership: membership

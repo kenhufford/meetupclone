@@ -104,14 +104,11 @@ class CreateGroupForm extends React.Component{
         }
         this.handleStep = this.handleStep.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
-        console.log(this.state)
     }
 
     handleStep(type){
         return () => {
         let slide = this.state.currentSlide;
-        console.log("handling step")
-        console.log(this.state)
         if (slide === 4 && this.state.description.length >= 50 && type==="next") {
             this.props.createGroup({
                 name: this.state.name,
@@ -120,8 +117,17 @@ class CreateGroupForm extends React.Component{
                 long: this.state.long,
                 imageUrl: '',
             }).then( (payload) => {
-                    this.props.createMembership(payload.group.id)
-                    this.props.history.push(`/groups/${payload.group.id}`)
+                this.props.history.push(`/groups/${payload.group.id}`)
+                console.log(payload)
+                this.props.createMembership(payload.group.id)
+                    .then( (payload2) => {
+                        console.log(payload2)
+                        this.props.updateMembership({
+                            member_type: "Organizer",
+                            groupId: payload2.group.id,
+                            id: payload2.group.memberships[0].id
+                        })
+                    })
                 }
             )
         } else if (slide === 0 && this.state.selectedLocation === "Select Location" && type==="next"){

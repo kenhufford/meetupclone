@@ -46,7 +46,7 @@ export const createMembership = (groupId) => (
 
 export const updateMembership = (membership) => (
     $.ajax({
-        url: `/api/groups/${membership.groupId}/memberships`,
+        url: `/api/groups/${membership.groupId}/memberships/${membership.id}`,
         method: "PATCH",
         data: {membership}
     })

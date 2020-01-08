@@ -57,7 +57,7 @@ class GroupShow extends React.Component{
                         <div className="group-show-header-right">
                             <h4>{name}</h4>
                             <p>{memberships.length} members</p>
-                            <p>Organized by {organizers[0]} and {organizers.length} others</p>
+                            <p>Organized by {organizers[0]} and {organizers.length-1} others</p>
                         </div>
                     </div>
                     <div className="group-show-stripe">

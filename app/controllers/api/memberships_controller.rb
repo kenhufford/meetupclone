@@ -16,7 +16,7 @@ class Api::MembershipsController < ApplicationController
       def update
         @membership = Membership.find_by(user_id: current_user.id, group_id: params[:group_id])
         
-        if @membership.update_attribute(:member_type, membership_params)
+        if @membership.update_attribute(:member_type, membership_params[:member_type])
           @group = @membership.group
           render 'api/groups/show'
         else
