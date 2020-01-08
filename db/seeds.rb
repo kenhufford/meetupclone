@@ -4,12 +4,24 @@ User.destroy_all
 Event.destroy_all
 Group.destroy_all
 Membership.destroy_all
+Location.destroy_all
 
 
 total_users = 20;
 total_groups = 5;
 
-demo = User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location: "San Francisco")
+location_names = ["San Francisco", "Oakland", "San Jose", "Orange County", "Los Angeles", "San Diego"]
+location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311], [32.7157, 117.1611] ]
+
+location_names.length.times do |i|
+    Location.create!(
+        name: location_names[i],
+        lat: location_lat_long[i][0],
+        long: location_lat_long[i][1]
+    )
+end
+
+demo = User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1)
 
 total_users.times do 
     User.create!(
@@ -18,7 +30,7 @@ total_users.times do
         password: '123456',
         lat: (Faker::Number.within(range: 37698217..37789758) / 1000000),
         long: (Faker::Number.within(range: -122508186..-122397017) / 1000000),
-        location: ["San Francisco", "Oakland", "Los Angeles", "San Jose"].sample
+        location_id: (Faker::Number.within(range: 1..location_names.length))
     )
 end
 
@@ -33,8 +45,7 @@ total_groups.times do |i|
     Group.create!(
         name: group_names[i-1],
         description: description[i-1],
-        lat: (Faker::Number.within(range: 37698217..37789758) / 1000000),
-        long: (Faker::Number.within(range: -122508186..-122397017) / 1000000)
+        location_id: (Faker::Number.within(range: 1..location_names.length))
     )
 end
 
@@ -52,7 +63,7 @@ end
     Membership.create!(
         group_id: i+1,
         user_id: 1,
-        member_type: "Admin"
+        member_type: "Member"
     )
 end
 
@@ -60,6 +71,14 @@ event_titles = ["Yoga in the Park", "Football in the Streets", "Magic in a Dunge
 group_ids = [1, 2, 3, 4, 5]
 descriptions = ["We stretch a bunch and lounge around in stretchy pants", "We play out in the streets until someone yells at us or a major injury happens", "We play in my basement until my mom yells at us to stop coming to her house"]
 max_attendance = [100, 20, 5]
+
+group_ids.length.times do |i|
+    Membership.create!(
+        group_id: i,
+        user_id: i+1,
+        member_type: "Organizer"
+    )
+end
 
 event_titles.each_with_index do |event, i|
     Event.create!(title: event, 

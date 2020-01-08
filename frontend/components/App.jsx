@@ -6,6 +6,7 @@ import EventIndexContainer from './events/event_index_container';
 import GroupIndexContainer from './groups/group_index_container';
 import GroupShowContainer from './groups/group_show_container';
 import CreateGroupFormContainer from './groups/create_group_form_container';
+import EditGroupFormContainer from './groups/edit_group_form_container';
 import {Route, Redirect, Switch, Link, HashRouter} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
@@ -15,12 +16,16 @@ const App = () => (
       <HeaderContainer />
     </header>
     <div className="main-body">
-      <AuthRoute exact path="/login" component={LogInFormContainer} />
-      <AuthRoute exact path="/signup" component={SignUpFormContainer} />
-      <Route path="/events" component={EventIndexContainer} />
-      <Route exact path="/groups/:groupId" component={GroupShowContainer} />
-      <Route exact path="/groups" component={GroupIndexContainer} />
-      <ProtectedRoute exact path="/groups/newform" component={CreateGroupFormContainer} />
+      <Switch>
+        <ProtectedRoute exact path="/groups/newform" component={CreateGroupFormContainer} />
+        <ProtectedRoute exact path="/groups/:groupId/edit" component={EditGroupFormContainer} />
+        <AuthRoute exact path="/login" component={LogInFormContainer} />
+        <AuthRoute exact path="/signup" component={SignUpFormContainer} />
+        <Route path="/events" component={EventIndexContainer} />
+        <Route exact path="/groups/:groupId" component={GroupShowContainer} />
+        <Route exact path="/groups" component={GroupIndexContainer} />
+        <Route exact path="/" component={GroupIndexContainer} />
+      </Switch>
     </div>
   </div>
 );

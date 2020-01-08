@@ -32,12 +32,19 @@
  .navbar-header{
      position: relative;
      display: flex;
-     height: 40px;
-     padding: 10px 5px 0px;
+     height: 50px;
+     padding: 0px 5px 0px;
      justify-content: space-between;
      font-size: 14px;
      font-family: Arial, Helvetica, sans-serif;
      border-bottom: 1px lightgray solid;
+     align-items: center;
+ }
+
+ .navbar-logo{
+    width: auto;
+    height: 50px;
+    cursor: pointer;
  }
 
 
@@ -282,9 +289,10 @@
 
 .group-show-stripe-right{
    display: flex;
-   justify-content: center;
+   justify-content: space-evenly;
    width: 45%;
    list-style-type: none;
+   
 }
 
 .group-show-join-button{
@@ -298,6 +306,21 @@
    font-weight: bold;
    height: 50px;
    width: 140px;
+}
+.group-show-edit-button{
+   cursor: pointer;
+   user-select: none;
+   text-decoration: none;
+   background-color: rgb(246, 88, 88);
+   color: white;
+   border-radius: 6px;
+   font-size: 14px;
+   font-weight: bold;
+   height: 50px;
+   width: 140px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .group-show-main{

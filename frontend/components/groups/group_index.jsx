@@ -27,7 +27,6 @@ class GroupIndex extends React.Component{
 
 
     render(){
-        console.log(this.props)
         if (!this.props.groups) return null
 
         let suggestedGroups = (
@@ -40,22 +39,20 @@ class GroupIndex extends React.Component{
 
         let userGroups;
         let yourGroups;
-        console.log(this.props.currentUsersGroups)
-        // if (this.props.currentUsersGroups){
-        //     userGroups = []
-        //     this.props.currentUsersGroups.map(groupIdObj => {
-        //         userGroups.push(groupIdObj["id"])
-        //     })
+        if (this.props.currentUsersGroups){
+            userGroups = []
+            this.props.currentUsersGroups.map(groupIdObj => {
+                userGroups.push(groupIdObj["id"])
+            })
 
-        //     yourGroups = userGroups.length ? (
-        //         <div className="groups-div">
-        //             {this.props.userGroups.map( (groupId) => (
-        //                 <GroupIndexItem key={groupId} group={this.props.groups[groupId]}/>
-        //             ))}
-        //         </div>
-        //     ) :  (<div>Join a group!</div>)
-        //     console.log(yourGroups)
-        // }
+            yourGroups = userGroups.length ? (
+                <div className="groups-div">
+                    {userGroups.map( (groupId) => (
+                        <GroupIndexItem key={groupId} group={this.props.groups[groupId]}/>
+                    ))}
+                </div>
+            ) :  (<div>Join a group!</div>)
+        }
 
         return(
             <div className="group-index-div">

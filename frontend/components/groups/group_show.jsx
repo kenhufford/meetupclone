@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 class GroupShow extends React.Component{
     constructor(props){
@@ -25,29 +26,39 @@ class GroupShow extends React.Component{
     }
 
     componentDidMount(){
-        this.props.fetchGroup(this.props.match.params.groupId)
+        this.props.fetchGroup(this.props.match.params.groupId);
+        this.props.fetchLocations();
     }
 
     render(){
-        if (!this.props.group || !this.props.group.members || !this.props.session) {
+        console.log(this.props)
+        if (!this.props.group || !this.props.group.members || !this.props.session || !this.props.locations) {
             return null
         } else {
             let memberships = (!this.props.group.memberships) ? [] : this.props.group.memberships 
             let membersObj = (this.props.group.members)
             let organizers = [];
+            let organizerIds = [];
             memberships.forEach ( (member)=> {
                 if (member.memberType==="Organizer"){
                     organizers.push(membersObj[member.userId].name)
+                    organizerIds.push(member.userId)
                 }
             })
-
+            let organizersNum = organizers.length===1 ? ` ` : ` and ${organizers.length-1} others` 
             let {name, description, imageUrl} = this.props.group
-            
-            let join = (!this.props.group.currentUserMember) ? 
+            let joinGroupButton = (!this.props.group.currentUserMember) ? 
                 (<button className="group-show-join-button" onClick={this.handleJoin}>Join this Group</button>)
                 : 
                 (<button className="group-show-join-button" onClick={this.handleRemove}>Remove from Group</button>)
+            let editGroupButton = (organizerIds.includes(this.props.session.id)) ? 
+            (<Link className="group-show-edit-button" to={`/groups/${this.props.group.id}/edit`}>Edit Group</Link>)
+            : 
+            ( <div></div>)
 
+            // console.log(this.props)
+            console.log(this.props.group.locationId)
+            console.log(this.props.locations)
             return(
                 <div className="group-show-div">
                     <div className="group-show-header">
@@ -57,7 +68,8 @@ class GroupShow extends React.Component{
                         <div className="group-show-header-right">
                             <h4>{name}</h4>
                             <p>{memberships.length} members</p>
-                            <p>Organized by {organizers[0]} and {organizers.length-1} others</p>
+                            <p>Organized by {organizers[0]} {organizersNum}</p>
+                            <p>{this.props.locations[this.props.group.locationId].name}</p>
                         </div>
                     </div>
                     <div className="group-show-stripe">
@@ -68,7 +80,8 @@ class GroupShow extends React.Component{
                             <li className="group-show-inline-list-item">Photos</li>
                         </div>
                         <div className="group-show-stripe-right">
-                            {join}
+                            {joinGroupButton}
+                            {editGroupButton}
                         </div>
                     </div>
                     <div className="group-show-main">

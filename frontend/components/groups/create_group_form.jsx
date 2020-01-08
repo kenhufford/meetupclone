@@ -4,12 +4,13 @@ import CreateGroupFormDropdown from './create_group_form_dropdown'
 class CreateGroupForm extends React.Component{
     constructor(props){
         super(props)
+        let {name, description, lat, long, imageUrl} = this.props.group
         this.state = {
-            name: '',
-            description: '',
-            lat: '',
-            long: '',
-            imageUrl: '',
+            name: name,
+            description: description,
+            lat: lat,
+            long: long,
+            imageUrl: imageUrl,
             currentSlide: 0,
             selectedLocation: "Select Location",
             errorMessage: "",
@@ -110,7 +111,7 @@ class CreateGroupForm extends React.Component{
         return () => {
         let slide = this.state.currentSlide;
         if (slide === 4 && this.state.description.length >= 50 && type==="next") {
-            this.props.createGroup({
+            this.props.action({
                 name: this.state.name,
                 description: this.state.description,
                 lat: this.state.lat,
@@ -118,10 +119,8 @@ class CreateGroupForm extends React.Component{
                 imageUrl: '',
             }).then( (payload) => {
                 this.props.history.push(`/groups/${payload.group.id}`)
-                console.log(payload)
                 this.props.createMembership(payload.group.id)
                     .then( (payload2) => {
-                        console.log(payload2)
                         this.props.updateMembership({
                             member_type: "Organizer",
                             groupId: payload2.group.id,
@@ -182,6 +181,10 @@ class CreateGroupForm extends React.Component{
                 lat: 33.7175,
                 long: 117.8311
             },
+            "San Diego": {
+                lat: 32.7157,
+                long: 117.1611
+            },
         }
         this.setState({
           [key]: temp,
@@ -189,7 +192,6 @@ class CreateGroupForm extends React.Component{
           lat: locationCoords[temp[id].location].lat,
           long: locationCoords[temp[id].location].long
         })
-        console.log(this.state)
     }
 
     handleClick(categoryId){
