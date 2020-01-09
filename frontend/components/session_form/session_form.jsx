@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import CreateGroupFormDropdown from '../groups/create_group_form_dropdown'
 
 class SessionForm extends React.Component {
   constructor(props) {
@@ -8,10 +9,16 @@ class SessionForm extends React.Component {
       name: '',
       email: '',
       password: '',
-      location: ''
+      selectedLocation: "Select Location",
+      selectedLocationId: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDemoLogin = this.handleDemoLogin.bind(this);
+    this.toggleSelected = this.toggleSelected.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.fetchLocations()
   }
 
   update(field) {
@@ -20,17 +27,34 @@ class SessionForm extends React.Component {
     });
   }
 
+  toggleSelected(index){
+    console.log(this.state)
+    console.log(this.props.locations)
+    console.log(index)
+    let loc = this.props.locations[index]
+    this.setState({
+      selectedLocation: loc.name,
+      selectedLocationId: loc.id
+    })
+    console.log(this.state)
+  }
+
   handleDemoLogin(){
     this.setState({
       name: '',
       email: 'demo@gmail.com',
       password: '123456',
-      location: ''
+      selectedLocationId: 1
     }, () => this.props.processForm(this.state).then(() => this.props.history.push('/')))
   }
 
   handleSubmit(e) {
-    this.props.processForm(this.state)
+    this.props.processForm({
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      location_id: this.state.selectedLocationId
+    })
       .then(() => this.props.history.push('/groups'))
        //change this to splash
   }
@@ -115,13 +139,10 @@ class SessionForm extends React.Component {
                 />
               </label>
               <br/>
-              <label className="login-form-label">Location
-                <input type="text"
-                  value={this.state.location}
-                  onChange={this.update('location')}
-                  className="login-input"
-                />
-              </label>
+              <div className="signup-location-dropdown-div">
+                <p className="signup-selected-location">{this.state.selectedLocation}</p>                  
+                <CreateGroupFormDropdown  location={this.state.selectedLocation} list={this.props.locations} toggleLocation={this.toggleSelected} />
+              </div>
               <p className="signup-terms">Your name is public. We'll use your email address to send you updates, and your location to find Meetups near you. When you "Continue", you agree to Meetup's Terms of Service. We will manage information about you as described in our Privacy Policy, and Cookie Policy.</p>
               <input className="signup-submit" type="submit" value="Continue" />
             </div>

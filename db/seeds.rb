@@ -56,6 +56,7 @@ total_users.times do
 end
 
 group_names = ["Street Fighters", "Kombatants", "Guilty Gearheads", "Smash Sisters", "Tekkies"]
+group_images = ["window.streetfighterURL","window.mortalkombatURL","window.guiltygearURL","window.smashbrothersURL","window.tekkenURL"]
 description = ["If you can only live your life when the Guile theme is playing, this group is for you.  We roam the mean streets of SF looking for fights",
 "Only join if you kan handle extreme kombat with brutal, photorealistic karacters such as ourselves.  Don't bothering kalling us if you are a part of the Street Fighters",
 "We really don't like fighting and only want to build custom cars.  We then ram our cars into each others cars over and over again until we have to fix them",
@@ -66,6 +67,7 @@ total_groups.times do |i|
     Group.create!(
         name: group_names[i-1],
         description: description[i-1],
+        image_url: group_images[i-1],
         location_id: (Faker::Number.within(range: 1..location_names.length))
     )
 end

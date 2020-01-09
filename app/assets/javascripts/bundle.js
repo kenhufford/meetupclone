@@ -503,10 +503,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events_event_index_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./events/event_index_container */ "./frontend/components/events/event_index_container.js");
 /* harmony import */ var _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./groups/group_index_container */ "./frontend/components/groups/group_index_container.js");
 /* harmony import */ var _groups_group_show_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./groups/group_show_container */ "./frontend/components/groups/group_show_container.js");
-/* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
-/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+/* harmony import */ var _groups_group_landing_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./groups/group_landing_container */ "./frontend/components/groups/group_landing_container.js");
+/* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
+/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+
 
 
 
@@ -522,37 +524,37 @@ __webpack_require__.r(__webpack_exports__);
 var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_header_header_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_10__["ProtectedRoute"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["ProtectedRoute"], {
     exact: true,
     path: "/groups/newform",
-    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_7__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_10__["ProtectedRoute"], {
+    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["ProtectedRoute"], {
     exact: true,
     path: "/groups/:groupId/edit",
-    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_10__["AuthRoute"], {
+    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["AuthRoute"], {
     exact: true,
     path: "/login",
     component: _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_10__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["AuthRoute"], {
     exact: true,
     path: "/signup",
     component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
     path: "/events",
     component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
     exact: true,
     path: "/groups/:groupId",
     component: _groups_group_show_container__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
     exact: true,
     path: "/groups",
     component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
     exact: true,
     path: "/",
-    component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__["default"]
+    component: _groups_group_landing_container__WEBPACK_IMPORTED_MODULE_7__["default"]
   }))));
 };
 
@@ -1172,12 +1174,12 @@ function (_React$Component) {
         className: "fas fa-caret-down"
       })), listOpen && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "create-group-card-dropdown-header-list"
-      }, list.map(function (location) {
+      }, list.map(function (location, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "create-group-card-dropdown-header-list-item",
-          key: location.id,
+          key: index,
           onClick: function onClick() {
-            _this2.props.toggleItem(location.id, location.key);
+            _this2.props.toggleLocation(index);
 
             _this2.handleClickOutside();
           }
@@ -1498,7 +1500,10 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: id,
           className: "groups-index-item"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: image_url,
+          alt: ""
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/groups/".concat(id)
         }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"));
       }
@@ -1509,6 +1514,125 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupIndexItem);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_landing.jsx":
+/*!******************************************************!*\
+  !*** ./frontend/components/groups/group_landing.jsx ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _group_index_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_container */ "./frontend/components/groups/group_index_container.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var GroupLanding =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(GroupLanding, _React$Component);
+
+  function GroupLanding(props) {
+    _classCallCheck(this, GroupLanding);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(GroupLanding).call(this, props));
+  }
+
+  _createClass(GroupLanding, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchGroups();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-landing-banner"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-landing-banner-left"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "group-landing-banner-left-title"
+      }, "The real world is calling"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "group-landing-banner-left-subtitle"
+      }, "Attend local events to meet people, try something new, or do more of what you love."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-landing-banner-left-search"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "group-landing-banner-left-search-bar"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "group-landing-banner-left-search-button"
+      }, "Search"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-landing-banner-right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "group-landing-banner-right-image",
+        src: window.mainImageURL
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-landing-groups"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Groups near San Francisco, CA")));
+    }
+  }]);
+
+  return GroupLanding;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupLanding);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_landing_container.js":
+/*!***************************************************************!*\
+  !*** ./frontend/components/groups/group_landing_container.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _group_landing__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_landing */ "./frontend/components/groups/group_landing.jsx");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    groups: state.entities.groups
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchGroups: function fetchGroups(filter) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroups"])(filter));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_group_landing__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -1779,7 +1903,7 @@ var Header = function Header(_ref) {
       href: "#/groups/newform",
       className: "navbar-group-link"
     }, "Start a New Group"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "#/",
+      href: "#/groups",
       className: "navbar-explore-link"
     }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       onClick: logout,
@@ -1882,6 +2006,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session_form/session_form.jsx");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+
 
 
 
@@ -1903,6 +2029,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["login"])(user));
+    },
+    fetchLocations: function fetchLocations() {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_5__["fetchLocations"])());
     }
   };
 };
@@ -1923,6 +2052,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../groups/create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1946,6 +2076,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var SessionForm =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1961,14 +2092,21 @@ function (_React$Component) {
       name: '',
       email: '',
       password: '',
-      location: ''
+      selectedLocation: "Select Location",
+      selectedLocationId: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDemoLogin = _this.handleDemoLogin.bind(_assertThisInitialized(_this));
+    _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(SessionForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchLocations();
+    }
+  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -1976,6 +2114,19 @@ function (_React$Component) {
       return function (e) {
         return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
       };
+    }
+  }, {
+    key: "toggleSelected",
+    value: function toggleSelected(index) {
+      console.log(this.state);
+      console.log(this.props.locations);
+      console.log(index);
+      var loc = this.props.locations[index];
+      this.setState({
+        selectedLocation: loc.name,
+        selectedLocationId: loc.id
+      });
+      console.log(this.state);
     }
   }, {
     key: "handleDemoLogin",
@@ -1986,7 +2137,7 @@ function (_React$Component) {
         name: '',
         email: 'demo@gmail.com',
         password: '123456',
-        location: ''
+        selectedLocationId: 1
       }, function () {
         return _this3.props.processForm(_this3.state).then(function () {
           return _this3.props.history.push('/');
@@ -1998,7 +2149,12 @@ function (_React$Component) {
     value: function handleSubmit(e) {
       var _this4 = this;
 
-      this.props.processForm(this.state).then(function () {
+      this.props.processForm({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        location_id: this.state.selectedLocationId
+      }).then(function () {
         return _this4.props.history.push('/groups');
       }); //change this to splash
     }
@@ -2082,13 +2238,14 @@ function (_React$Component) {
         value: this.state.password,
         onChange: this.update('password'),
         className: "login-input"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        className: "login-form-label"
-      }, "Location", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        value: this.state.location,
-        onChange: this.update('location'),
-        className: "login-input"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "signup-location-dropdown-div"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "signup-selected-location"
+      }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        location: this.state.selectedLocation,
+        list: this.props.locations,
+        toggleLocation: this.toggleSelected
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "signup-terms"
       }, "Your name is public. We'll use your email address to send you updates, and your location to find Meetups near you. When you \"Continue\", you agree to Meetup's Terms of Service. We will manage information about you as described in our Privacy Policy, and Cookie Policy."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2127,6 +2284,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session_form/session_form.jsx");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+
 
 
 
@@ -2135,13 +2294,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state) {
+  var locations = Object.values(state.entities.locations);
+
+  for (var i = 0; i < locations.length; i++) {
+    locations[i].key = 'location';
+    locations[i].selected = false;
+  }
+
   return {
     errors: state.errors.session,
     formType: 'Sign Up',
     navLink: react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
       to: "/login"
     }, "Already a member? Log in."),
-    selfLink: '/signup'
+    selfLink: '/signup',
+    locations: locations
   };
 };
 
@@ -2149,6 +2316,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["createNewUser"])(user));
+    },
+    fetchLocations: function fetchLocations() {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_5__["fetchLocations"])());
     }
   };
 };

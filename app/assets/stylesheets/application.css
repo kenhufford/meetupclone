@@ -94,6 +94,86 @@
  }
 
 
+.group-landing-banner{
+   display: flex;
+   width: 98%;
+   margin: 0 auto;
+   justify-content: center;
+   margin-top: 30px;
+   flex-direction: row;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.group-landing-banner-left{
+   display: block;
+   padding: 10px
+}
+
+.group-landing-banner-left-title{
+   color: rgb(46, 62, 72);
+   font-weight: 700;
+   font-size: 42px;
+   width:  90%;
+}
+
+.group-landing-banner-left-subtitle{
+   color: rgb(46, 62, 72);
+   font-weight: 400;
+   font-size: 20px;
+   width:  90%;
+   text-justify: inter-word;
+}
+
+.group-landing-banner-left{
+   display: block;
+   padding: 10px
+}
+
+.group-landing-banner-left-search-bar{
+   display: inline;
+}
+
+
+.group-landing-banner-left-search-bar{
+   border-radius: 8px;
+   height: 14px;
+   font-weight: 500;
+   padding-top: 16px;
+   padding-bottom: 16px;
+   width: 60%
+}
+
+.group-landing-banner-left-search-button{
+   font-size: 16px;
+   font-weight: 500;
+   height: 48px;
+   line-height: 1.45;
+   border-radius: 8px;
+   background-color: #f65858;
+   margin-left: 20px;
+   color: white;
+   width: 120px;
+}
+
+.group-landing-banner-right-image{
+   background-size: cover;
+   background-position: center 40%;
+   max-width: 600px;
+   border-radius: 8px;
+   width: 100%;
+}
+
+.group-landing-groups{
+   display: flex;
+   width: 98%;
+   margin: 0 auto;
+   justify-content: center;
+   margin-top: 30px;
+   flex-direction: row;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+
 .login-form-errors{
    font-size: 14px;
 }
@@ -191,6 +271,19 @@
 .signup-box{
    font-size: 13px;
    font-weight: 600;
+}
+
+.signup-location-dropdown-div{
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+}
+
+.signup-selected-location{
+   font-size: 16px;
+   font-weight: 800;
+   padding-right: 10px
 }
 
 .signup-terms{

@@ -83,7 +83,9 @@ class CreateGroupForm extends React.Component{
     }
 
     update(key){
-        return e => this.setState({[key]: e.currentTarget.value})
+        return e => this.setState({
+            [key]: e.currentTarget.value
+        })
     }
 
     toggleSelected(id, key){
