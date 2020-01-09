@@ -10,13 +10,16 @@ class GroupIndexItem extends React.Component{
         if (!this.props.group){
             return null
         } else {
-        const {id, name, description, lat, long, image_url, memberships} = this.props.group
+        const {id, name, description, lat, long, imageUrl, memberships} = this.props.group
         return(
-            <div  key={id} className="groups-index-item"> 
-                <img src={image_url} alt=""/>
-                <Link to={`/groups/${id}`}>{name}</Link>
-                <p>{memberships.length} members</p>
-            </div>
+                <a key={id} href={`#/groups/${id}`} className="groups-index-item"> 
+                    <img className="groups-index-item-image" src={window[imageUrl]} alt=""/>
+                    <div className="groups-index-item-image-text">
+                        <p className="groups-index-item-image-text-big">{name}</p>
+                        <p className="groups-index-item-image-text-small" >{memberships.length} members</p>
+                    </div>
+                </a>
+
         )
         }
     }

@@ -56,10 +56,10 @@ class GroupIndex extends React.Component{
         }
 
         return(
-            <div className="group-index-div">
-                <p>YOUR GROUPS</p>
+            <div className="groups-index-div">
+                <p className="groups-index-div-titles">YOUR GROUPS</p>
                 {yourGroups}
-                <p>NEARBY GROUPS</p>
+                <p className="groups-index-div-titles">NEARBY GROUPS</p>
                 {suggestedGroups}
             </div>
 

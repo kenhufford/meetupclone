@@ -28,7 +28,7 @@ category_names.each do |category|
     )
 end
 
-total_users = 20;
+total_users = 18;
 total_groups = 5;
 
 location_names = ["San Francisco", "Oakland", "San Jose", "Orange County", "Los Angeles", "San Diego"]
@@ -43,20 +43,21 @@ location_names.length.times do |i|
 end
 
 User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1)
+user_names = ["Ken", "Guile", "Blanka", "M. Bison", "Sub-Zero", "Shang Tsung", "Scorpion", "Liu Kang", "Nightmare", "Astaroth", "Voldo", "Villager", "Wii Fit Trainer", "Fox", "Eddy", "King", "Heihachi", "Jin"]
+user_image_url = ["kenURL", "guileURL", "blankaURL", "mbisonURL", "subzeroURL", "shangtsungURL", "scorpionURL", "liukangURL", "nightmareURL", "astarothURL", "voldoURL", "villagerURL", "wiifitURL", "foxURL", "eddyURL","kingURL","heihachiURL", "jinURL"]
 
-total_users.times do 
+user_names.length.times do |i|
     User.create!(
-        name: Faker::Name.first_name,
+        name: user_names[i],
         email: Faker::Internet.unique.email,
         password: '123456',
-        lat: (Faker::Number.within(range: 37698217..37789758) / 1000000),
-        long: (Faker::Number.within(range: -122508186..-122397017) / 1000000),
-        location_id: (Faker::Number.within(range: 1..location_names.length))
+        location_id: (Faker::Number.within(range: 1..location_names.length)),
+        image_url: user_image_url[i]
     )
 end
 
-group_names = ["Street Fighters", "Kombatants", "Guilty Gearheads", "Smash Sisters", "Tekkies"]
-group_images = ["window.streetfighterURL","window.mortalkombatURL","window.guiltygearURL","window.smashbrothersURL","window.tekkenURL"]
+group_names = ["Street Fighters", "Kombatants", "Soul Calibur Online", "Smash Sisters", "Tekkies"]
+group_images = ["streetfighterURL","mortalkombatURL","guiltygearURL","smashbrothersURL","tekkenURL"]
 description = ["If you can only live your life when the Guile theme is playing, this group is for you.  We roam the mean streets of SF looking for fights",
 "Only join if you kan handle extreme kombat with brutal, photorealistic karacters such as ourselves.  Don't bothering kalling us if you are a part of the Street Fighters",
 "We really don't like fighting and only want to build custom cars.  We then ram our cars into each others cars over and over again until we have to fix them",

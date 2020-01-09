@@ -5,7 +5,7 @@
     json.members do
         @group.members.each do |member|
             json.set! member.id do
-                json.extract! member, :name
+                json.extract! member, :name, :created_at, :image_url
             end
         end
     end

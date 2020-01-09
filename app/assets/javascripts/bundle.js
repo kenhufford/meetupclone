@@ -1365,8 +1365,12 @@ function (_React$Component) {
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-index-div"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "YOUR GROUPS"), yourGroups, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "NEARBY GROUPS"), suggestedGroups);
+        className: "groups-index-div"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "groups-index-div-titles"
+      }, "YOUR GROUPS"), yourGroups, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "groups-index-div-titles"
+      }, "NEARBY GROUPS"), suggestedGroups);
     }
   }]);
 
@@ -1495,17 +1499,23 @@ function (_React$Component) {
             description = _this$props$group.description,
             lat = _this$props$group.lat,
             _long = _this$props$group["long"],
-            image_url = _this$props$group.image_url,
+            imageUrl = _this$props$group.imageUrl,
             memberships = _this$props$group.memberships;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           key: id,
+          href: "#/groups/".concat(id),
           className: "groups-index-item"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: image_url,
+          className: "groups-index-item-image",
+          src: window[imageUrl],
           alt: ""
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          to: "/groups/".concat(id)
-        }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"));
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "groups-index-item-image-text"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "groups-index-item-image-text-big"
+        }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "groups-index-item-image-text-small"
+        }, memberships.length, " members")));
       }
     }
   }]);
@@ -1680,8 +1690,12 @@ function (_React$Component) {
     _classCallCheck(this, GroupShow);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupShow).call(this, props));
+    _this.state = {
+      currentPage: "main"
+    };
     _this.handleJoin = _this.handleJoin.bind(_assertThisInitialized(_this));
     _this.handleRemove = _this.handleRemove.bind(_assertThisInitialized(_this));
+    _this.switchPage = _this.switchPage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1708,6 +1722,13 @@ function (_React$Component) {
     value: function componentDidMount() {
       this.props.fetchGroup(this.props.match.params.groupId);
       this.props.fetchLocations();
+    }
+  }, {
+    key: "switchPage",
+    value: function switchPage(page) {
+      return function () {
+        document.location.href = "#/".concat(page);
+      };
     }
   }, {
     key: "render",
@@ -1749,11 +1770,30 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-header-left"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "",
-          alt: "group-image"
+          src: window[this.props.group.imageUrl],
+          alt: "group-image",
+          className: "group-show-header-left-image"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-header-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organized by ", organizers[0], " ", organizersNum))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+          className: "group-show-header-right-groupname"
+        }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-header-right-location"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-map-marker-alt"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.locations[this.props.group.locationId].name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-header-right-totalmembers"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-user-friends"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "group-show-header-right-totalmembers-text"
+        }, memberships.length, " members")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-header-right-organized"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-user"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "group-show-header-right-organized-text"
+        }, "Organized by ", organizers[0], " ", organizersNum)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe-left"
@@ -1762,7 +1802,8 @@ function (_React$Component) {
         }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "group-show-inline-list-item"
         }, "Events"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "group-show-inline-list-item"
+          className: "group-show-inline-list-item",
+          onClick: this.switchPage('members')
         }, "Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "group-show-inline-list-item"
         }, "Photos")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1779,11 +1820,14 @@ function (_React$Component) {
           className: "group-show-main-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-main-right-organizers"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organizers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "group-show-main-right-organizers-title"
+        }, "Organizers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-main-right-organizers-info"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window[this.props.group.members[organizerIds[0]].imageUrl],
           alt: "organizer-pic",
-          className: "group-show-organizer-picture"
+          className: "group-show-member-picture"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "group-show-organizer-info-text"
         }, organizers[0], " ", organizersNum))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1792,10 +1836,13 @@ function (_React$Component) {
           className: "group-show-main-right-members-list"
         }, memberships.map(function (member, i) {
           if (i < 12) {
-            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            var icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
               key: i,
-              className: "group-show-main-right-members-list-item"
-            }, membersObj[member.userId].name);
+              src: window[membersObj[member.userId].imageUrl],
+              alt: "member-pic",
+              className: "group-show-member-picture"
+            });
+            return icon;
           }
         })))));
       }

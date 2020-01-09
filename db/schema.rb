@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_08_205510) do
+ActiveRecord::Schema.define(version: 2020_01_09_185557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_01_08_205510) do
     t.float "long"
     t.string "name", null: false
     t.integer "location_id", null: false
+    t.string "image_url"
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
   end
 
