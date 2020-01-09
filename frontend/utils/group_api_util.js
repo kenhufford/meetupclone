@@ -59,3 +59,19 @@ export const deleteMembership = (groupId) => (
         data: {groupId}
     })
 )
+
+export const createType = (type) => (
+    $.ajax({
+        url: `/api/groups/${type.group_id}/types`,
+        method: "POST",
+        data: {type}
+    })
+)
+
+export const deleteType = (type) => (
+    $.ajax({
+        url: `/api/groups/${type.group_id}/types/1`,
+        method: "DELETE",
+        data: {type}
+    })
+)

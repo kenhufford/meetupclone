@@ -57,3 +57,13 @@ export const updateMembership = memberType => dispatch => (
     APIUtils.updateMembership(memberType)
         .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
 )
+
+export const createType = type => dispatch => (
+    APIUtils.createType(type)
+        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
+)
+
+export const deleteType = type => dispatch => (
+    APIUtils.deleteType(type)
+        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
+)

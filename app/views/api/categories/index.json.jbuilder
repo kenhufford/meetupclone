@@ -1,6 +1,6 @@
 @categories.each do |category|
   json.set! category.id do
-    json.partial! 'category', category: category
-    json.groups category.groups, partial: '/api/categories', as: :groups
+    json.partial! '/api/categories/category', category: category
+    json.groups category.groups, partial: '/api/categories/groups', as: :group
   end
 end

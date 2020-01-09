@@ -16,6 +16,8 @@ class Api::GroupsController < ApplicationController
     def create
         @group = Group.new(group_params)
         if @group.save
+            @membership = Membership.new(group_id: @group.id, user_id: current_user.id, member_type: "Organizer")
+            @membership.save
             render "api/groups/show"
         else
             render json: [@group.errors.full_messages], status: 401
@@ -24,7 +26,7 @@ class Api::GroupsController < ApplicationController
 
     def update
         @group = Group.find(params[:id])
-        if @group.updateAttributes(group_params)
+        if @group.update_attributes(group_params)
             render "api/groups/show"
         else
             render json: [@group.errors.full_messages], status: 401
@@ -46,7 +48,9 @@ class Api::GroupsController < ApplicationController
     :description, 
     :lat, 
     :long, 
-    :image_url)
+    :image_url,
+    :location_id,
+    :id)
     end
 
     def bounds

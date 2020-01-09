@@ -86,6 +86,38 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/category_actions.js":
+/*!**********************************************!*\
+  !*** ./frontend/actions/category_actions.js ***!
+  \**********************************************/
+/*! exports provided: RECEIVE_CATEGORIES, fetchCategories */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CATEGORIES", function() { return RECEIVE_CATEGORIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCategories", function() { return fetchCategories; });
+/* harmony import */ var _utils_category_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/category_api_util */ "./frontend/utils/category_api_util.js");
+
+var RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES";
+
+var receiveCategories = function receiveCategories(categories) {
+  return {
+    type: RECEIVE_CATEGORIES,
+    categories: categories
+  };
+};
+
+var fetchCategories = function fetchCategories() {
+  return function (dispatch) {
+    return _utils_category_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchCategories"]().then(function (categories) {
+      return dispatch(receiveCategories(categories));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/event_actions.js":
 /*!*******************************************!*\
   !*** ./frontend/actions/event_actions.js ***!
@@ -203,7 +235,7 @@ var updateFilter = function updateFilter(filter, value) {
 /*!*******************************************!*\
   !*** ./frontend/actions/group_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership, updateMembership */
+/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, deleteMembership, updateMembership, createType, deleteType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -219,6 +251,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createType", function() { return createType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteType", function() { return deleteType; });
 /* harmony import */ var _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/group_api_util */ "./frontend/utils/group_api_util.js");
 
 var RECEIVE_GROUPS = "RECEIVE_GROUPS";
@@ -298,6 +332,20 @@ var deleteMembership = function deleteMembership(groupId) {
 var updateMembership = function updateMembership(memberType) {
   return function (dispatch) {
     return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["updateMembership"](memberType).then(function (updatedGroup) {
+      return dispatch(receiveGroup(updatedGroup));
+    });
+  };
+};
+var createType = function createType(type) {
+  return function (dispatch) {
+    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["createType"](type).then(function (updatedGroup) {
+      return dispatch(receiveGroup(updatedGroup));
+    });
+  };
+};
+var deleteType = function deleteType(type) {
+  return function (dispatch) {
+    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteType"](type).then(function (updatedGroup) {
       return dispatch(receiveGroup(updatedGroup));
     });
   };
@@ -733,7 +781,9 @@ function (_React$Component) {
         description = _this$props$group.description,
         lat = _this$props$group.lat,
         _long = _this$props$group["long"],
-        imageUrl = _this$props$group.imageUrl;
+        imageUrl = _this$props$group.imageUrl,
+        selectedLocationId = _this$props$group.selectedLocationId,
+        selectedLocation = _this$props$group.selectedLocation;
     _this.state = {
       name: name,
       description: description,
@@ -741,80 +791,11 @@ function (_React$Component) {
       "long": _long,
       imageUrl: imageUrl,
       currentSlide: 0,
-      selectedLocation: "Select Location",
+      selectedLocation: selectedLocation,
+      selectedLocationId: selectedLocationId,
       errorMessage: "",
-      location: [{
-        id: 0,
-        location: 'San Francisco',
-        selected: false,
-        key: 'location'
-      }, {
-        id: 1,
-        location: 'Oakland',
-        selected: false,
-        key: 'location'
-      }, {
-        id: 2,
-        location: 'San Jose',
-        selected: false,
-        key: 'location'
-      }, {
-        id: 3,
-        location: 'Orange County',
-        selected: false,
-        key: 'location'
-      }, {
-        id: 4,
-        location: 'Los Angeles',
-        selected: false,
-        key: 'location'
-      }, {
-        id: 5,
-        location: 'San Diego',
-        selected: false,
-        key: 'location'
-      }],
-      categories: [{
-        id: 0,
-        name: 'Krav maga',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 1,
-        name: 'Abunch of spinning stuff',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 2,
-        name: 'Drunken master',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 3,
-        name: 'Only eye gouging',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 4,
-        name: 'Pillow fighting',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 5,
-        name: 'WWE Style Wraslin',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 6,
-        name: 'Bare knuckles boxing',
-        selected: false,
-        key: 'categories'
-      }, {
-        id: 7,
-        name: 'Anchorman brawl',
-        selected: false,
-        key: 'categories'
-      }]
+      location: _this.props.locations,
+      categories: _this.props.categories
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
@@ -822,30 +803,46 @@ function (_React$Component) {
   }
 
   _createClass(CreateGroupForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchCategories();
+      this.props.fetchLocations();
+    }
+  }, {
     key: "handleStep",
     value: function handleStep(type) {
       var _this2 = this;
 
       return function () {
+        console.log(_this2.props);
         var slide = _this2.state.currentSlide;
+        var groupId = _this2.props.match.params.groupId;
+        console.log(groupId);
 
         if (slide === 4 && _this2.state.description.length >= 50 && type === "next") {
           _this2.props.action({
+            id: groupId,
             name: _this2.state.name,
             description: _this2.state.description,
             lat: _this2.state.lat,
             "long": _this2.state["long"],
-            imageUrl: ''
+            image_url: '',
+            location_id: _this2.state.selectedLocationId
           }).then(function (payload) {
-            _this2.props.history.push("/groups/".concat(payload.group.id));
+            groupId = payload.group.id;
 
-            _this2.props.createMembership(payload.group.id).then(function (payload2) {
-              _this2.props.updateMembership({
-                member_type: "Organizer",
-                groupId: payload2.group.id,
-                id: payload2.group.memberships[0].id
-              });
-            });
+            _this2.props.history.push("/groups/".concat(groupId));
+
+            var categories = _this2.state.categories;
+
+            for (var i = 0; i < categories.length; i++) {
+              if (categories[i].selected) {
+                _this2.props.createType({
+                  category_id: categories[i].id,
+                  group_id: groupId
+                });
+              }
+            }
           });
         } else if (slide === 0 && _this2.state.selectedLocation === "Select Location" && type === "next") {
           _this2.setState({
@@ -860,7 +857,6 @@ function (_React$Component) {
             errorMessage: "Please enter more than 50 characters"
           });
         } else {
-          console.log("im moving slides");
           slide = type === "prev" ? slide - 1 : slide + 1;
 
           if (slide < 0) {
@@ -886,42 +882,17 @@ function (_React$Component) {
   }, {
     key: "toggleSelected",
     value: function toggleSelected(id, key) {
-      var _this$setState;
-
-      var temp = this.state[key];
-      var locationCoords = {
-        "San Francisco": {
-          lat: 37.7749,
-          "long": 122.4194
-        },
-        "Oakland": {
-          lat: 37.8044,
-          "long": 122.2712
-        },
-        "San Jose": {
-          lat: 37.3382,
-          "long": 121.8863
-        },
-        "Los Angeles": {
-          lat: 34.0522,
-          "long": 118.2437
-        },
-        "Orange County": {
-          lat: 33.7175,
-          "long": 117.8311
-        },
-        "San Diego": {
-          lat: 32.7157,
-          "long": 117.1611
-        }
-      };
-      this.setState((_this$setState = {}, _defineProperty(_this$setState, key, temp), _defineProperty(_this$setState, "selectedLocation", temp[id].location), _defineProperty(_this$setState, "lat", locationCoords[temp[id].location].lat), _defineProperty(_this$setState, "long", locationCoords[temp[id].location]["long"]), _this$setState));
+      var loc = this.state[key];
+      this.setState({
+        selectedLocation: loc[id - 1].name,
+        selectedLocationId: id - 1
+      });
     }
   }, {
     key: "handleClick",
     value: function handleClick(categoryId) {
       var temp = this.state.categories;
-      temp[categoryId].selected = !temp[categoryId].selected;
+      temp[categoryId - 1].selected = !temp[categoryId - 1].selected;
       this.setState({
         categories: temp
       });
@@ -931,6 +902,8 @@ function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
+      console.log(this.props);
+      if (!this.state.location || !this.state.categories) return null;
       var slide0 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -1049,20 +1022,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/category_actions */ "./frontend/actions/category_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+
+
 
 
 
 
 
 var mstp = function mstp(state) {
+  var locations = Object.values(state.entities.locations);
+  var categories = Object.values(state.entities.categories);
+
+  for (var i = 0; i < locations.length; i++) {
+    locations[i].key = 'location';
+    locations[i].selected = false;
+  }
+
+  for (var _i = 0; _i < categories.length; _i++) {
+    categories[_i].key = 'category';
+    categories[_i].selected = false;
+  }
+
   return {
     group: {
       name: '',
       description: '',
       lat: '',
       "long": '',
-      imageUrl: ''
-    }
+      imageUrl: '',
+      selectedLocationId: '',
+      selectedLocation: "Select Location"
+    },
+    locations: locations,
+    categories: categories
   };
 };
 
@@ -1076,6 +1070,15 @@ var mdtp = function mdtp(dispatch) {
     },
     updateMembership: function updateMembership(membership) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["updateMembership"])(membership));
+    },
+    createType: function createType(type) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createType"])(type));
+    },
+    fetchCategories: function fetchCategories() {
+      return dispatch(Object(_actions_category_actions__WEBPACK_IMPORTED_MODULE_3__["fetchCategories"])());
+    },
+    fetchLocations: function fetchLocations() {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_4__["fetchLocations"])());
     }
   };
 };
@@ -1155,6 +1158,7 @@ function (_React$Component) {
 
       var list = this.props.list;
       var listOpen = this.state.listOpen;
+      if (list.length === 0) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-dropdown"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1168,16 +1172,16 @@ function (_React$Component) {
         className: "fas fa-caret-down"
       })), listOpen && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "create-group-card-dropdown-header-list"
-      }, list.map(function (item) {
+      }, list.map(function (location) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "create-group-card-dropdown-header-list-item",
-          key: item.location,
+          key: location.id,
           onClick: function onClick() {
-            _this2.props.toggleItem(item.id, item.key);
+            _this2.props.toggleItem(location.id, location.key);
 
             _this2.handleClickOutside();
           }
-        }, item.location);
+        }, location.name);
       })));
     }
   }]);
@@ -1186,230 +1190,6 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (CreateGroupFormDropdown);
-
-/***/ }),
-
-/***/ "./frontend/components/groups/edit_group_form.jsx":
-/*!********************************************************!*\
-  !*** ./frontend/components/groups/edit_group_form.jsx ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-
-var EditGroupForm =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(EditGroupForm, _React$Component);
-
-  function EditGroupForm(props) {
-    var _this$state;
-
-    var _this;
-
-    _classCallCheck(this, EditGroupForm);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditGroupForm).call(this, props));
-    _this.state = (_this$state = {
-      group: _this.props.group,
-      location: "",
-      errorMessage: "",
-      imageUrl: "",
-      selectedLocation: "Select Location"
-    }, _defineProperty(_this$state, "location", [{
-      id: 0,
-      location: 'San Francisco',
-      selected: false,
-      key: 'location'
-    }, {
-      id: 1,
-      location: 'Oakland',
-      selected: false,
-      key: 'location'
-    }, {
-      id: 2,
-      location: 'San Jose',
-      selected: false,
-      key: 'location'
-    }, {
-      id: 3,
-      location: 'Orange County',
-      selected: false,
-      key: 'location'
-    }, {
-      id: 4,
-      location: 'Los Angeles',
-      selected: false,
-      key: 'location'
-    }, {
-      id: 5,
-      location: 'San Diego',
-      selected: false,
-      key: 'location'
-    }]), _defineProperty(_this$state, "categories", [{
-      id: 0,
-      name: 'Krav maga',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 1,
-      name: 'Abunch of spinning stuff',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 2,
-      name: 'Drunken master',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 3,
-      name: 'Only eye gouging',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 4,
-      name: 'Pillow fighting',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 5,
-      name: 'WWE Style Wraslin',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 6,
-      name: 'Bare knuckles boxing',
-      selected: false,
-      key: 'categories'
-    }, {
-      id: 7,
-      name: 'Anchorman brawl',
-      selected: false,
-      key: 'categories'
-    }]), _this$state);
-    _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(EditGroupForm, [{
-    key: "update",
-    value: function update(key) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, key, e.currentTarget.value));
-      };
-    }
-  }, {
-    key: "handleClick",
-    value: function handleClick(categoryId) {
-      var temp = this.state.categories;
-      temp[categoryId].selected = !temp[categoryId].selected;
-      this.setState({
-        categories: temp
-      });
-    }
-  }, {
-    key: "toggleSelected",
-    value: function toggleSelected(id, key) {
-      var _this$setState;
-
-      var temp = this.state[key];
-      var locationCoords = {
-        "San Francisco": {
-          lat: 37.7749,
-          "long": 122.4194
-        },
-        "Oakland": {
-          lat: 37.8044,
-          "long": 122.2712
-        },
-        "San Jose": {
-          lat: 37.3382,
-          "long": 121.8863
-        },
-        "Los Angeles": {
-          lat: 34.0522,
-          "long": 118.2437
-        },
-        "Orange County": {
-          lat: 33.7175,
-          "long": 117.8311
-        },
-        "San Diego": {
-          lat: 32.7157,
-          "long": 117.1611
-        }
-      };
-      this.setState((_this$setState = {}, _defineProperty(_this$setState, key, temp), _defineProperty(_this$setState, "selectedLocation", temp[id].location), _defineProperty(_this$setState, "lat", locationCoords[temp[id].location].lat), _defineProperty(_this$setState, "long", locationCoords[temp[id].location]["long"]), _this$setState));
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchGroup(this.props.match.params.groupId);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$state$group = this.state.group,
-          name = _this$state$group.name,
-          description = _this$state$group.description;
-
-      if (this.props.group) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "edit-group"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-          className: "edit-group-form"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Group Name", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "text",
-          value: name
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "text",
-          value: description
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Location", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          location: this.state.selectedLocation,
-          list: this.state.location,
-          toggleItem: this.toggleSelected
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Categories", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          location: this.state.selectedLocation,
-          list: this.state.location,
-          toggleItem: this.toggleSelected
-        }))));
-      }
-    }
-  }]);
-
-  return EditGroupForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (EditGroupForm);
 
 /***/ }),
 
@@ -1423,65 +1203,65 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _edit_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit_group_form */ "./frontend/components/groups/edit_group_form.jsx");
+/* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/category_actions */ "./frontend/actions/category_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+
+
+
 
 
 
 
 var mstp = function mstp(state, ownProps) {
-  if (state.entities.groups[ownProps.match.params.groupId]) {
-    return {
-      group: state.entities.groups[ownProps.match.params.groupId]
-    };
-  } else {
-    return {
-      group: {
-        name: '',
-        description: '',
-        lat: '',
-        "long": '',
-        imageUrl: ''
-      }
-    };
+  var locations = Object.values(state.entities.locations);
+  var categories = Object.values(state.entities.categories);
+  var group = state.entities.groups[ownProps.match.params.groupId];
+  var groupCat = group.categories;
+
+  for (var i = 0; i < locations.length; i++) {
+    locations[i].key = 'location';
+    locations[i].selected = locations.id === group.locationId;
   }
+
+  for (var _i = 0; _i < categories.length; _i++) {
+    categories[_i].key = 'category';
+    categories[_i].selected = !groupCat[categories[_i].id] ? false : true;
+  }
+
+  console.log("edit form container!");
+  return {
+    group: group,
+    locations: locations,
+    categories: categories
+  };
 };
 
 var mdtp = function mdtp(dispatch) {
   return {
-    updateGroup: function updateGroup(group) {
+    action: function action(group) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["updateGroup"])(group));
     },
-    createMembership: function (_createMembership) {
-      function createMembership(_x) {
-        return _createMembership.apply(this, arguments);
-      }
-
-      createMembership.toString = function () {
-        return _createMembership.toString();
-      };
-
-      return createMembership;
-    }(function (groupId) {
-      return dispatch(createMembership(groupId));
-    }),
-    fetchGroup: function (_fetchGroup) {
-      function fetchGroup(_x2) {
-        return _fetchGroup.apply(this, arguments);
-      }
-
-      fetchGroup.toString = function () {
-        return _fetchGroup.toString();
-      };
-
-      return fetchGroup;
-    }(function (groupId) {
-      return dispatch(fetchGroup(groupId));
-    })
+    createType: function createType(type) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["createType"])(type));
+    },
+    deleteType: function deleteType(type) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["deleteType"])(type));
+    },
+    fetchCategories: function fetchCategories() {
+      return dispatch(Object(_actions_category_actions__WEBPACK_IMPORTED_MODULE_3__["fetchCategories"])());
+    },
+    fetchLocations: function fetchLocations() {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_4__["fetchLocations"])());
+    },
+    fetchGroup: function fetchGroup() {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroup"])());
+    }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_edit_group_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_create_group_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -1547,6 +1327,7 @@ function (_React$Component) {
       //     this.props.fetchGroups();
       // }
       this.props.fetchGroups();
+      this.props.fetchCategories();
       this.props.fetchUser(this.props.currentUserId);
     }
   }, {
@@ -1607,6 +1388,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _group_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index */ "./frontend/components/groups/group_index.jsx");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/category_actions */ "./frontend/actions/category_actions.js");
+
 
 
 
@@ -1621,7 +1404,8 @@ var mapStateToProps = function mapStateToProps(state) {
       currentUserId: userId,
       currentUserLat: state.entities.users[userId].lat,
       currentUserLong: state.entities.users[userId]["long"],
-      currentUsersGroups: state.entities.users[userId].groups
+      currentUsersGroups: state.entities.users[userId].groups,
+      categories: state.entities.categories
     };
   } else {
     return {
@@ -1629,7 +1413,8 @@ var mapStateToProps = function mapStateToProps(state) {
       currentUserId: "",
       currentUserLat: "",
       currentUserLong: "",
-      currentUsersGroups: {}
+      currentUsersGroups: {},
+      categories: {}
     };
   }
 };
@@ -1641,6 +1426,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchUser: function fetchUser(userId) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchUser"])(userId));
+    },
+    fetchCategories: function fetchCategories() {
+      return dispatch(Object(_actions_category_actions__WEBPACK_IMPORTED_MODULE_4__["fetchCategories"])());
     }
   };
 };
@@ -1800,8 +1588,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.props);
-
       if (!this.props.group || !this.props.group.members || !this.props.session || !this.props.locations) {
         return null;
       } else {
@@ -1819,7 +1605,7 @@ function (_React$Component) {
         var _this$props$group = this.props.group,
             name = _this$props$group.name,
             description = _this$props$group.description,
-            imageUrl = _this$props$group.imageUrl;
+            image_url = _this$props$group.image_url;
         var joinGroupButton = !this.props.group.currentUserMember ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "group-show-join-button",
           onClick: this.handleJoin
@@ -1830,10 +1616,8 @@ function (_React$Component) {
         var editGroupButton = organizerIds.includes(this.props.session.id) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           className: "group-show-edit-button",
           to: "/groups/".concat(this.props.group.id, "/edit")
-        }, "Edit Group") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null); // console.log(this.props)
-
-        console.log(this.props.group.locationId);
-        console.log(this.props.locations);
+        }, "Edit Group") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+        console.log(this.props);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1845,7 +1629,7 @@ function (_React$Component) {
           alt: "group-image"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-header-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organized by ", organizers[0], " ", organizersNum), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.locations[this.props.group.locationId].name))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, memberships.length, " members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organized by ", organizers[0], " ", organizersNum))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe-left"
@@ -1878,7 +1662,7 @@ function (_React$Component) {
           className: "group-show-organizer-picture"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "group-show-organizer-info-text"
-        }, organizers[0], " and ", organizers.length, " others"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, organizers[0], " ", organizersNum))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-main-right-members"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Members (", memberships.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "See All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-main-right-members-list"
@@ -2434,6 +2218,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./frontend/reducers/categories_reducer.js":
+/*!*************************************************!*\
+  !*** ./frontend/reducers/categories_reducer.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/category_actions */ "./frontend/actions/category_actions.js");
+
+
+var CategoriesReducer = function CategoriesReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_category_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CATEGORIES"]:
+      return action.categories;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (CategoriesReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/entities_reducer.js":
 /*!***********************************************!*\
   !*** ./frontend/reducers/entities_reducer.js ***!
@@ -2448,6 +2262,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./events_reducer */ "./frontend/reducers/events_reducer.js");
 /* harmony import */ var _groups_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./groups_reducer */ "./frontend/reducers/groups_reducer.js");
 /* harmony import */ var _locations_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./locations_reducer */ "./frontend/reducers/locations_reducer.js");
+/* harmony import */ var _categories_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./categories_reducer */ "./frontend/reducers/categories_reducer.js");
+
 
 
 
@@ -2457,7 +2273,8 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   events: _events_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
   groups: _groups_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
-  locations: _locations_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
+  locations: _locations_reducer__WEBPACK_IMPORTED_MODULE_4__["default"],
+  categories: _categories_reducer__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -2810,6 +2627,25 @@ var configureStore = function configureStore() {
 
 /***/ }),
 
+/***/ "./frontend/utils/category_api_util.js":
+/*!*********************************************!*\
+  !*** ./frontend/utils/category_api_util.js ***!
+  \*********************************************/
+/*! exports provided: fetchCategories */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCategories", function() { return fetchCategories; });
+var fetchCategories = function fetchCategories() {
+  return $.ajax({
+    url: "/api/categories/",
+    method: "GET"
+  });
+};
+
+/***/ }),
+
 /***/ "./frontend/utils/event_api_util.js":
 /*!******************************************!*\
   !*** ./frontend/utils/event_api_util.js ***!
@@ -2867,7 +2703,7 @@ var deleteEvent = function deleteEvent(eventId) {
 /*!******************************************!*\
   !*** ./frontend/utils/group_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, updateMembership, deleteMembership */
+/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, updateMembership, deleteMembership, createType, deleteType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2880,6 +2716,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createType", function() { return createType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteType", function() { return deleteType; });
 var fetchGroups = function fetchGroups(data) {
   return $.ajax({
     url: '/api/groups/',
@@ -2941,6 +2779,24 @@ var deleteMembership = function deleteMembership(groupId) {
     method: "DELETE",
     data: {
       groupId: groupId
+    }
+  });
+};
+var createType = function createType(type) {
+  return $.ajax({
+    url: "/api/groups/".concat(type.group_id, "/types"),
+    method: "POST",
+    data: {
+      type: type
+    }
+  });
+};
+var deleteType = function deleteType(type) {
+  return $.ajax({
+    url: "/api/groups/".concat(type.group_id, "/types/1"),
+    method: "DELETE",
+    data: {
+      type: type
     }
   });
 };

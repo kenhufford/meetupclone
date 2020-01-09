@@ -19,7 +19,7 @@ class Api::TypesController < ApplicationController
 
       private
       def type_params
-        params.require(:type).permit(:group_id, :cateogory_id)
+        params.require(:type).permit(:group_id, :category_id)
       end
 
 end

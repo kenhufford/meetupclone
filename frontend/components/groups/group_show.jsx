@@ -31,7 +31,6 @@ class GroupShow extends React.Component{
     }
 
     render(){
-        console.log(this.props)
         if (!this.props.group || !this.props.group.members || !this.props.session || !this.props.locations) {
             return null
         } else {
@@ -46,7 +45,7 @@ class GroupShow extends React.Component{
                 }
             })
             let organizersNum = organizers.length===1 ? ` ` : ` and ${organizers.length-1} others` 
-            let {name, description, imageUrl} = this.props.group
+            let {name, description, image_url} = this.props.group
             let joinGroupButton = (!this.props.group.currentUserMember) ? 
                 (<button className="group-show-join-button" onClick={this.handleJoin}>Join this Group</button>)
                 : 
@@ -55,10 +54,7 @@ class GroupShow extends React.Component{
             (<Link className="group-show-edit-button" to={`/groups/${this.props.group.id}/edit`}>Edit Group</Link>)
             : 
             ( <div></div>)
-
-            // console.log(this.props)
-            console.log(this.props.group.locationId)
-            console.log(this.props.locations)
+            console.log(this.props)
             return(
                 <div className="group-show-div">
                     <div className="group-show-header">
@@ -69,7 +65,7 @@ class GroupShow extends React.Component{
                             <h4>{name}</h4>
                             <p>{memberships.length} members</p>
                             <p>Organized by {organizers[0]} {organizersNum}</p>
-                            <p>{this.props.locations[this.props.group.locationId].name}</p>
+                            {/* <p>{this.props.locations[this.props.group.locationId].name}</p> */}
                         </div>
                     </div>
                     <div className="group-show-stripe">
@@ -94,7 +90,7 @@ class GroupShow extends React.Component{
                                 <p>Organizers</p>
                                 <div className="group-show-main-right-organizers-info">
                                     <img alt="organizer-pic" className="group-show-organizer-picture"/>
-                                    <p className="group-show-organizer-info-text">{organizers[0]} and {organizers.length} others</p>
+                                    <p className="group-show-organizer-info-text">{organizers[0]} {organizersNum}</p>
                                 </div>
 
                             </div>
