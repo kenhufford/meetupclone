@@ -42,7 +42,7 @@ location_names.length.times do |i|
     )
 end
 
-User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1)
+User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1, image_url: "saitamaURL")
 user_names = ["Ken", "Guile", "Blanka", "M. Bison", "Sub-Zero", "Shang Tsung", "Scorpion", "Liu Kang", "Nightmare", "Astaroth", "Voldo", "Villager", "Wii Fit Trainer", "Fox", "Eddy", "King", "Heihachi", "Jin"]
 user_image_url = ["kenURL", "guileURL", "blankaURL", "mbisonURL", "subzeroURL", "shangtsungURL", "scorpionURL", "liukangURL", "nightmareURL", "astarothURL", "voldoURL", "villagerURL", "wiifitURL", "foxURL", "eddyURL","kingURL","heihachiURL", "jinURL"]
 

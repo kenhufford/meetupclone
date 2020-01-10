@@ -5,25 +5,22 @@ import {Link} from 'react-router-dom'
 class GroupIndex extends React.Component{
     constructor(props){
         super(props)
-
+        this.state={
+            something: ""
     }
+}
+
 
     componentDidMount(){
-        // if (this.props.currentUserId){
-        //     this.props.fetchUser(this.props.currentUserId);
-        //     let {currentUserLat, currentUserLong} = this.props
-        //     let bounds = { bounds: {
-        //                         northEast: { lat: currentUserLat + (0.072*20), long: currentUserLong - (0.072 * 20) },
-        //                         southWest: { lat: currentUserLat - (0.072*20), long: currentUserLong + (0.072 * 20) },
-        //     }}
-        //     console.log(bounds)
-        //     this.props.fetchGroups(bounds);
-        // } else{
-        //     this.props.fetchGroups();
-        // }
-        this.props.fetchGroups();
-        this.props.fetchCategories();
-        this.props.fetchUser(this.props.currentUserId);
+        const fetchGroups = this.props.fetchGroups();
+        const fetchCategories = this.props.fetchCategories();
+        const fetchUser = this.props.fetchUser(this.props.currentUserId);
+      
+        Promise.all([ fetchGroups, fetchCategories, fetchUser ]).then(() => {
+            this.setState({
+                something: ""
+            });
+        });
     }
 
 
@@ -40,6 +37,7 @@ class GroupIndex extends React.Component{
 
         let userGroups;
         let yourGroups;
+        console.log(this.props)
         if (this.props.currentUsersGroups){
             userGroups = []
             this.props.currentUsersGroups.map(groupIdObj => {
@@ -52,7 +50,8 @@ class GroupIndex extends React.Component{
                         <GroupIndexItem key={groupId} group={this.props.groups[groupId]}/>
                     ))}
                 </div>
-            ) :  (<div>Join a group!</div>)
+            ) :  
+            (<div  className="groups-signup">Join a group!</div>)
         }
 
         return(

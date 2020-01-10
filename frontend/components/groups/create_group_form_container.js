@@ -8,21 +8,13 @@ import {fetchLocations} from '../../actions/location_actions'
 const mstp = (state) => {
     let locations = Object.values(state.entities.locations)
     let categories = Object.values(state.entities.categories)
-    for (let i = 0; i < locations.length; i++){
-        locations[i].key = 'location';
-        locations[i].selected = false;
-    }
-    for (let i = 0; i < categories.length; i++){
-        categories[i].key = 'category';
-        categories[i].selected = false;
-    }
     return {
         group: {
             name: '',
             description: '',
             lat: '',
             long: '',
-            imageUrl: '',
+            imageUrl: 'ginyuforceURL',
             selectedLocationId: '',
             selectedLocation: "Select Location"
         },

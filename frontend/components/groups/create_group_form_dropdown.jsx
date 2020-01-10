@@ -1,4 +1,5 @@
 import React from 'react'
+import onClickOutside from "react-onclickoutside";
 
 class CreateGroupFormDropdown extends React.Component{
     constructor(props){
@@ -34,6 +35,8 @@ class CreateGroupFormDropdown extends React.Component{
                 {list.map((location, index) => (
                     <li className="create-group-card-dropdown-header-list-item" key={index} 
                     onClick={() => {
+                        console.log(index)
+                        console.log(location)
                         this.props.toggleLocation(index)
                         this.handleClickOutside();
                     }}
@@ -45,4 +48,4 @@ class CreateGroupFormDropdown extends React.Component{
   }
 }
 
-export default CreateGroupFormDropdown
+export default onClickOutside(CreateGroupFormDropdown)

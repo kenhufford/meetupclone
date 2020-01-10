@@ -323,6 +323,15 @@
    margin-top: 30px;
 }
 
+.groups-signup{
+   cursor: pointer;
+   text-decoration: none;
+   color: rgb(246, 88, 88);
+   font-size: 20px;
+   font-weight: 800;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
 .groups-index-div-titles{
    stroke: transparent;
    fill: rgba(0, 0, 0, 0.87);
@@ -433,6 +442,7 @@
    justify-content: flex-start;
    height: 40px;
    padding-top: 10px;
+   z-index: 5;
 }
 
 .group-show-stripe-left{
@@ -466,7 +476,7 @@
    justify-content: space-evenly;
    width: 45%;
    list-style-type: none;
-   
+   align-items: top;
 }
 
 .group-show-join-button{
@@ -499,7 +509,6 @@
 
 .group-show-main{
    margin-top: 20px;
-   background-color: rgb(241, 241, 241);
    min-height: 500px;
    display: flex;
    justify-content: flex-start;
@@ -575,6 +584,50 @@
    margin-right: 10px;
 }
 
+.group-show-main-right-members {
+   cursor: pointer
+}
+
+.group-show-members-right-list{
+   width: 100%
+}
+
+.group-show-members-right-member{
+   display: flex;
+   flex-direction: row;
+   width: 90%
+}
+
+.group-show-members-right-member-li{
+   list-style: none;
+}
+
+.group-show-members-right-member{
+   border-bottom: 1px solid lightgray;
+}
+
+.group-show-members-right-member-img{
+   margin:10px;
+   background-repeat: no-repeat;
+   background-position: 50%;
+   background-size: cover;
+   width: 60px;
+   height: 60px;
+   border-radius: 999px;
+   box-sizing: border-box;
+   vertical-align: middle;
+}
+
+.group-show-members-right-member-info{
+   display: flex;
+   flex-direction: column;
+}
+
+.group-show-members-right-member-info p{
+   font-size: 14px;
+   font-weight: 500;
+}
+
 .group-show-main-right-members{
    font-size: 20px;
    font-weight: 800;
@@ -595,8 +648,69 @@
    width: 25%;
 }
 
+.group-show-members{
+   margin-top: 20px;
+   display: flex
+}
 
+.group-show-members-left{
+   flex-grow: 1;
+   margin: 20px;
+   padding: 20px;
+   background-color: rgb(205, 234, 252);
+   border-radius: 10px;
+   height: fit-content;
+}
 
+.group-show-members-left-tab{
+   display: flex;
+   flex-direction: row;
+   align-items: baseline;
+   justify-content: space-between;
+}
+
+.group-show-members-left-tab p{
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 24px;
+   cursor: pointer;
+}
+
+.group-show-members-right{
+   margin: 20px;
+   background-color: rgb(205, 234, 252);
+   border-radius: 10px;
+   height: fit-content;
+   padding: 20px;
+   flex-grow: 2;
+   display: flex;
+   flex-direction: column;
+   align-items: baseline;
+}
+
+.group-show-members-right{
+   padding: 0px;
+}
+
+.group-show-members-right-header p {
+   margin-left: 40px; 
+   color: rgb(33, 33, 33);
+   font-size: 20px;
+   font-weight: 600;
+}
+
+.group-show-members-right-search{
+   width: 100%;
+}
+
+.group-show-members-right-search-bar{
+   width: 90%;
+   margin-left: 40px; 
+   line-height: 28px;
+   border: 1px lightgrey solid;
+   border-radius: 8px;
+
+}
 
 .create-group-div{
    display: flex;
@@ -644,6 +758,7 @@
 }
 
 .create-group-card-dropdown-header{
+   margin-top: 10px;
    color: rgb(0, 152, 171);
    display: flex;
    justify-content: space-around;
@@ -651,6 +766,17 @@
    align-items: flex-start;
    width: 160px;
    cursor: pointer;
+}
+
+.create-group-card-dropdown-header-delete{
+   color: red;
+   cursor: pointer;
+}
+
+.create-group-card-dropdown-option{
+   cursor:pointer;
+   padding: 5px;
+   
 }
 
 .create-group-card-dropdown-header-list{
@@ -662,6 +788,7 @@
    align-items: flex-start;
    padding-left: 0px;
    cursor: pointer;
+   z-index:1
 }
 
 .create-group-card-dropdown-header-list-item{

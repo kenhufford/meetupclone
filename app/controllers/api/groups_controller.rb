@@ -10,6 +10,11 @@ class Api::GroupsController < ApplicationController
 
     def show
         @group = Group.find(params[:id])
+        if current_user
+            @current_user_member = !!@group.members.find_by(id: current_user.id)
+        else
+            @current_user_member = false
+        end
         render "api/groups/show"
     end
 

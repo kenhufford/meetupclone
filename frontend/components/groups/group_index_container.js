@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
                 currentUserId: "",
                 currentUserLat: "",
                 currentUserLong: "",
-                currentUsersGroups: {},
+                currentUsersGroups: [],
                 categories: {}
             }
     }

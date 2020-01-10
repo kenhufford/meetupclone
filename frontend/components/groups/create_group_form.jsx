@@ -24,16 +24,34 @@ class CreateGroupForm extends React.Component{
     }
 
     componentDidMount(){
-        this.props.fetchCategories();
-        this.props.fetchLocations();
-    }
+        this.props.fetchCategories()
+            .then( (payload) => {
+                let categories = Object.values(payload.categories)
+                for (let i = 0; i < categories.length; i++){
+                    categories[i].key = 'category';
+                    categories[i].selected = false;
+                }
+                this.setState({
+                    categories: categories
+                })
+            })
+        this.props.fetchLocations()
+            .then( (payload) => {
+                let locations = Object.values(payload.locations)
+                for (let i = 0; i < locations.length; i++){
+                    locations[i].key = 'location';
+                    locations[i].selected = false;
+                }
+                this.setState({
+                    location: locations
+                })
+            })
+        }
 
     handleStep(type){
         return () => {
-        console.log(this.props)
         let slide = this.state.currentSlide;
         let groupId = this.props.match.params.groupId;
-        console.log(groupId)
         if (slide === 4 && this.state.description.length >= 50 && type==="next") {
             this.props.action({
                 id: groupId,
@@ -41,12 +59,11 @@ class CreateGroupForm extends React.Component{
                 description: this.state.description,
                 lat: this.state.lat,
                 long: this.state.long,
-                image_url: '',
+                image_url: this.state.imageUrl,
                 location_id: this.state.selectedLocationId
             })
             .then( (payload) => {
                 groupId = payload.group.id
-                this.props.history.push(`/groups/${groupId}`)
                 let {categories} = this.state
                 for(let i = 0; i < categories.length; i++){
                     if (categories[i].selected) {
@@ -56,6 +73,9 @@ class CreateGroupForm extends React.Component{
                         })
                     }
                 }
+            })
+            .then( () => {
+                this.props.history.push(`/groups/${groupId}`)
             })
             }
         else if (slide === 0 && this.state.selectedLocation === "Select Location" && type==="next"){
@@ -88,11 +108,11 @@ class CreateGroupForm extends React.Component{
         })
     }
 
-    toggleSelected(id, key){
-        let loc = this.state[key]
+    toggleSelected(index){
+        let loc = this.state.location[index]
         this.setState({
-          selectedLocation: loc[id-1].name,
-          selectedLocationId: id-1
+          selectedLocation: loc.name,
+          selectedLocationId: loc.id
         })
     }
 
@@ -106,7 +126,7 @@ class CreateGroupForm extends React.Component{
 
     render(){
         console.log(this.props)
-        if (!this.state.location || !this.state.categories) return null
+        if (!this.state.location[0] || !this.state.categories[0]) return null
         let slide0 = (
             <div className="create-group-card-body">
                 <h3 className="create-group-card-title">First, set your group’s location.</h3>
@@ -114,7 +134,7 @@ class CreateGroupForm extends React.Component{
                 <p className="create-group-card-errors">{this.state.errorMessage}</p>
                 <div className="create-group-card-options">
                     <p className="create-group-card-selected">{this.state.selectedLocation}</p>
-                    <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.location} toggleItem={this.toggleSelected} />
+                    <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.location} toggleLocation={this.toggleSelected} />
                 </div>
             </div>
         )

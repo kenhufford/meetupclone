@@ -45,7 +45,7 @@ class SessionForm extends React.Component {
       email: 'demo@gmail.com',
       password: '123456',
       selectedLocationId: 1
-    }, () => this.props.processForm(this.state).then(() => this.props.history.push('/')))
+    }, () => this.props.processForm(this.state))
   }
 
   handleSubmit(e) {
@@ -53,11 +53,9 @@ class SessionForm extends React.Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      location_id: this.state.selectedLocationId
-    })
-      .then(() => this.props.history.push('/groups'))
-       //change this to splash
-  }
+      location_id: this.state.selectedLocationId,
+      image_url: "gokuURL"
+    })}
 
   renderErrors() {
     return(
