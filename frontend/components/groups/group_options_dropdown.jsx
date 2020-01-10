@@ -14,8 +14,16 @@ class GroupOptionsDropdown extends React.Component{
         this.handleDeleteGroup = this.handleDeleteGroup.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.toggleList = this.toggleList.bind(this);
-        
     }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps.currentUserMember !== prevState.currentUserMember){
+            return ({
+                currentUserMember: nextProps.currentUserMember
+            })
+        }
+    }
+
 
     handleClickOutside(){
         this.setState({
@@ -43,7 +51,6 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleRemove(){
-        console.log("im removing membership")
         if (!this.props.currentUserId){
             document.location.href = '#/login'
         } else if (this.props.totalMemberships === 1){
@@ -59,7 +66,6 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleDeleteGroup(){
-        console.log("im deleting")
         if (!this.props.currentUserId){
             document.location.href = '#/login'
         } else {
@@ -81,7 +87,7 @@ class GroupOptionsDropdown extends React.Component{
             </div>)
         let dropdownOption1 = !currentUserOrganizer ?
             ( <li className="create-group-card-dropdown-option"></li>) :
-            ( <Link to={`/groups/${groupId}/edit`} className="create-group-card-dropdown-option">Edit Group</Link>)
+            ( <Link to={`/groups/form/${groupId}/edit`} className="create-group-card-dropdown-option">Edit Group</Link>)
         let dropdownOption2 = !currentUserOrganizer ?
             ( <li className="create-group-card-dropdown-option"></li>) :
             ( <li onClick={()=>this.handleDeleteGroup()} className="create-group-card-dropdown-option">Delete Group</li>)

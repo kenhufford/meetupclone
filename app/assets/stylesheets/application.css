@@ -15,25 +15,25 @@
  */
 .main-body{
    margin: 0 auto;
-   min-width: 900px;
-   max-width: 1000px;
    justify-content: center;
    align-items: center;
-   height: 100vh;
+   height: 90vh;
 }
 
 .main-body > div{
    display: flex;
    flex-direction: column;
-   min-height: 100vh;
+   min-height: 90vh;
 }
 
 
  .navbar-header{
      position: relative;
      display: flex;
-     height: 50px;
+     height: 10vh;
      padding: 0px 5px 0px;
+     margin-left: 10px;
+     margin-right: 10px;
      justify-content: space-between;
      font-size: 14px;
      font-family: Arial, Helvetica, sans-serif;
@@ -66,7 +66,7 @@
 
  .navbar-explore-link{
     text-decoration: none;
-    color: #585858;
+    color: #858585;
     padding-left:8px ;
     padding-right: 8px ;
     
@@ -82,7 +82,7 @@
 
 .navbar-login-signup-link{
     text-decoration: none;
-    color: #585858;
+    color: #858585;
     padding-left:8px ;
     padding-right: 8px ;
 }
@@ -91,8 +91,21 @@
     padding-left:5px ;
     padding-right: 5px ;
     cursor: pointer;
+    text-decoration: none;
+    color: #858585;
  }
 
+ .group-landing{
+   display: flex;
+   font-family: Arial, Helvetica, sans-serif;
+   margin: 0 auto;
+   max-width: 1100px;
+   flex-direction: column;
+   letter-spacing: 0.01em;
+   flex: 1 0 auto;
+   height: 100%;
+   min-height: auto;
+ }
 
 .group-landing-banner{
    display: flex;
@@ -129,18 +142,28 @@
    padding: 10px
 }
 
-.group-landing-banner-left-search-bar{
-   display: inline;
+.group-landing-banner-left-search{
+   width: 90%;
+   display: flex;
+   flex-direction: row;
+}
+
+.group-landing-banner-left-search-bar-container{
+   position: relative;
+   border: 1px solid lightgray;
+   flex-grow: 4;
 }
 
 
 .group-landing-banner-left-search-bar{
+   flex-grow: 1;
+   display: inline;
    border-radius: 8px;
    height: 14px;
    font-weight: 500;
    padding-top: 16px;
    padding-bottom: 16px;
-   width: 60%
+   font-size: 18px;
 }
 
 .group-landing-banner-left-search-button{
@@ -164,18 +187,23 @@
 }
 
 .group-landing-groups{
-   display: flex;
-   width: 98%;
-   margin: 0 auto;
-   justify-content: center;
    margin-top: 30px;
-   flex-direction: row;
+   display: flex;
    font-family: Arial, Helvetica, sans-serif;
+   margin: 0 auto;
+   max-width: 1100px;
+   flex-direction: column;
+   letter-spacing: 0.01em;
+   flex: 1 0 auto;
+   height: 100%;
+   min-height: auto;
+   
 }
 
 
 .login-form-errors{
    font-size: 14px;
+
 }
 
  .login-form-container{
@@ -324,6 +352,7 @@
 }
 
 .groups-signup{
+   padding: 10px;
    cursor: pointer;
    text-decoration: none;
    color: rgb(246, 88, 88);
@@ -331,6 +360,19 @@
    font-weight: 800;
    font-family: Arial, Helvetica, sans-serif;
 }
+
+.groups-index-div{
+   display: flex;
+   font-family: Arial, Helvetica, sans-serif;
+   margin: 0 auto;
+   max-width: 1100px;
+   flex-direction: column;
+   letter-spacing: 0.01em;
+   flex: 1 0 auto;
+   height: 100%;
+   min-height: auto;
+}
+
 
 .groups-index-div-titles{
    stroke: transparent;
@@ -341,6 +383,7 @@
    line-height: 1.6;
    letter-spacing: -0.02em;
    word-spacing: 0.1em;
+   padding: 10px;
    font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -382,7 +425,15 @@
 }
 
 .group-show-div{
+   display: flex;
    font-family: Arial, Helvetica, sans-serif;
+   margin: 0 auto;
+   max-width: 1000px;
+   flex-direction: column;
+   letter-spacing: 0.01em;
+   flex: 1 0 auto;
+   height: 100%;
+   min-height: auto;
 }
 
 .group-show-header{
@@ -710,11 +761,77 @@
 
 }
 
+.create-group-main-div{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.create-group-completion{
+   position: relative;
+   top: 0px;
+   width: 100%;
+   background-color: rgb(155, 155, 155);
+   border-radius: 1px solid rgb(155, 155, 155);;
+   height: 10px;
+   z-index:-1;
+}
+
+.create-group-completion-text{
+   font-family: Arial, Helvetica, sans-serif;
+   color: rgb(155, 155, 155);
+   font-size: 16px;
+   font-weight: 400;
+   padding: 10px
+}
+
+.create-group-completion-0{
+   position:absolute;
+   width: 20%;
+   background-color: rgb(0, 152, 171);
+   height: 10px;
+   z-index: 1;
+   left: 0px;
+}
+.create-group-completion-1{
+   position:absolute;
+   width: 40%;
+   background-color: rgb(0, 152, 171);
+   height: 10px;
+   z-index: 1;
+   left: 0px;
+}
+
+.create-group-completion-2{
+   position:absolute;
+   width: 60%;
+   background-color: rgb(0, 152, 171);
+   height: 10px;
+   z-index: 1;
+   left: 0px;
+}
+.create-group-completion-3{
+   position:absolute;
+   width: 80%;
+   background-color: rgb(0, 152, 171);
+   height: 10px;
+   z-index: 1;
+   left: 0px;
+}
+.create-group-completion-4{
+   position:absolute;
+   width: 100%;
+   background-color: rgb(0, 152, 171);
+   height: 10px;
+   z-index: 1;
+   left: 0px;
+}
+
 .create-group-div{
    display: flex;
    font-family: Arial, Helvetica, sans-serif;
    margin: 0 auto;
-   max-width: 700px;
+   max-width: 1100px;
    flex-direction: column;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
@@ -724,7 +841,7 @@
 
 .create-group-card-title{
    font-size: 40px;
-   font-weight: 700;
+   font-weight: 1400;
 }
 
 .create-group-card-description{
@@ -732,7 +849,18 @@
    font-weight: 400;
    line-height: 1.5;
    letter-spacing: 0.01em;
+   padding-bottom: 15px;
 }
+
+.create-group-card-errors{
+   font-size: 18px;
+   font-weight: 400;
+   line-height: 1.5;
+   letter-spacing: 0.01em;
+   padding-top: 10px;
+   padding-bottom: 10px;
+}
+
 
 .create-group-card-ol li{
    letter-spacing: 0.01em;
@@ -751,7 +879,7 @@
 }
 
 .create-group-card-selected{
-   font-size: 24px;
+   font-size: 36px;
    padding-right: 15px;
 }
 
@@ -804,11 +932,9 @@
    flex-direction: row;
    align-items: center;
    width: 100%;
-   /* position: absolute;
-   bottom: 0; */
    height: 80px;
-   border-top: 1px lightgray solid;
    padding: 0px;
+   border-top: 1px lightgray solid;
    left: 0px;
    flex-shrink: 0;
 }
@@ -851,6 +977,7 @@
 
 .create-group-card-options-categories-button{
    margin: 10px 10px;
+   padding: 10px;
    background-color: white;
    border-radius: 20px;
    border: #0098ab 1px solid;
@@ -864,6 +991,7 @@
 .create-group-card-options-categories-button-selected{
    margin: 10px 10px;
    background-color: #0098ab;
+   padding: 10px;
    border-radius: 20px;
    border: #0098ab 1px solid;
    color: white;

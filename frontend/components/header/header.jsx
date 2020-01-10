@@ -16,9 +16,9 @@ const Header = ({ currentUser, logout }) => {
 
   const signedIn = () => (
     <nav className="navbar-right">
-      <a href="#/groups/newform" className="navbar-group-link">Start a New Group</a>
+      <a href="#/groups/form/new" className="navbar-group-link">Start a New Group</a>
       <a href="#/groups" className="navbar-explore-link">Explore</a>
-      <Link onClick={logout} className="navbar-dropdown" to="/login">Logout</Link>
+      <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a>
     </nav>
   );
 

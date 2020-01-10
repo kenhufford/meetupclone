@@ -10,6 +10,7 @@ class User < ApplicationRecord
     
     has_many :memberships,
     class_name: "Membership",
+    dependent: :destroy,
     foreign_key: :user_id
 
     has_many :groups, 

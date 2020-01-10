@@ -18,8 +18,8 @@ const App = () => (
     </header>
     <div className="main-body">
       <Switch>
-        <ProtectedRoute exact path="/groups/newform" component={CreateGroupFormContainer} />
-        <ProtectedRoute exact path="/groups/:groupId/edit" component={EditGroupFormContainer} />
+        <ProtectedRoute exact path="/groups/form/new" component={CreateGroupFormContainer} />
+        <ProtectedRoute exact path="/groups/form/:groupId/edit" component={EditGroupFormContainer} />
         <AuthRoute exact path="/login" component={LogInFormContainer} />
         <AuthRoute exact path="/signup" component={SignUpFormContainer} />
         <Route path="/events" component={EventIndexContainer} />
@@ -28,6 +28,7 @@ const App = () => (
         <Route exact path="/" component={GroupLandingContainer} />
       </Switch>
     </div>
+   
   </div>
 );
 

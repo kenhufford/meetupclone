@@ -3,12 +3,10 @@ class Membership < ApplicationRecord
     validates_uniqueness_of :user_id, :scope => :group_id
 
     belongs_to :user,
-    dependent: :destroy,
     class_name: "User",
     foreign_key: :user_id
 
     belongs_to :group,
     class_name: "Group",
-    foreign_key: :group_id,
-    dependent: :destroy
+    foreign_key: :group_id
 end

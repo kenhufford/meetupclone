@@ -10,7 +10,6 @@ class GroupShowAbout extends React.Component{
             return null
         }
         let {group} = this.props.props
-        console.log(this.props)
         return (
             <div className="group-show-main">
                         <div className="group-show-main-left">

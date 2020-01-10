@@ -4,6 +4,7 @@ class Group < ApplicationRecord
 
     has_many :memberships,
     class_name: "Membership",
+    dependent: :destroy,
     foreign_key: :group_id
 
     has_many :members, 

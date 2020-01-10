@@ -57,7 +57,7 @@ user_names.length.times do |i|
 end
 
 group_names = ["Street Fighters", "Kombatants", "Soul Calibur Online", "Smash Sisters", "Tekkies"]
-group_images = ["streetfighterURL","mortalkombatURL","guiltygearURL","smashbrothersURL","tekkenURL"]
+group_images = ["streetfighterURL","mortalkombatURL","soulcaliburURL","smashbrothersURL","tekkenURL"]
 description = ["If you can only live your life when the Guile theme is playing, this group is for you.  We roam the mean streets of SF looking for fights",
 "Only join if you kan handle extreme kombat with brutal, photorealistic karacters such as ourselves.  Don't bothering kalling us if you are a part of the Street Fighters",
 "We really don't like fighting and only want to build custom cars.  We then ram our cars into each others cars over and over again until we have to fix them",

@@ -49,9 +49,6 @@ class GroupShow extends React.Component{
             let currentUserOrganizer = organizerIds.includes(this.props.session.id)
             let currentUserMember = this.props.group.currentUserMember
             let currentTab;
-            // console.log(currentUserOrganizer)
-            console.log(currentUserMember)
-            
             switch (this.state.currentPage) {
                 case "about":
                     currentTab = (<GroupShowAbout switchPage={this.switchPage} memberships={memberships} membersObj={membersObj} organizers={organizers} organizerIds={organizerIds} props={this.props} />)
@@ -63,7 +60,19 @@ class GroupShow extends React.Component{
                         currentTab = (<GroupShowAbout organizersNum={organizersNum} membership={memberships} membersObj={membersObj} organizers={organizers} organizerIds={organizerIds} props={this.props} />)
                         break;
             }
-            
+            let groupDropdown = (!this.props.group.members) ? (<div className="group-show-stripe-right"></div>) : 
+            (  <div className="group-show-stripe-right">
+                <GroupOptionsDropdown 
+                createMembership={this.props.createMembership} 
+                deleteMembership={this.props.deleteMembership} 
+                deleteGroup={this.props.deleteGroup}
+                currentUserMember={currentUserMember} 
+                currentUserOrganizer={currentUserOrganizer}
+                groupId={this.props.group.id}
+                currentUserId= {this.props.session.id}
+                totalMembers={this.props.group.memberships.length}/>
+            </div>)
+
             return(
 
                 <div className="group-show-div">
@@ -95,17 +104,7 @@ class GroupShow extends React.Component{
                             <li className="group-show-inline-list-item" onClick={this.switchPage('members')}>Members</li>
                             <li className="group-show-inline-list-item">Photos</li>
                         </div>
-                        <div className="group-show-stripe-right">
-                            <GroupOptionsDropdown 
-                            createMembership={this.props.createMembership} 
-                            deleteMembership={this.props.deleteMembership} 
-                            deleteGroup={this.props.deleteGroup}
-                            currentUserMember={currentUserMember} 
-                            currentUserOrganizer={currentUserOrganizer}
-                            groupId={this.props.group.id}
-                            currentUserId= {this.props.session.id}
-                            totalMembers={this.props.group.memberships.length}/>
-                        </div>
+                        {groupDropdown}
                     </div>
                     {currentTab}
 
