@@ -67,24 +67,24 @@
  .navbar-explore-link{
     text-decoration: none;
     color: #585858;
-    padding-left:5px ;
-    padding-right: 5px ;
+    padding-left:8px ;
+    padding-right: 8px ;
     
  }
 
  .navbar-startgroup-link{
     text-decoration: none;
     color: #ed1c40;
-    padding-left:5px ;
-    padding-right: 5px ;
+    padding-left:8px ;
+    padding-right: 8px ;
     font-weight: bold;
  }
 
 .navbar-login-signup-link{
     text-decoration: none;
     color: #585858;
-    padding-left:5px ;
-    padding-right: 5px ;
+    padding-left:8px ;
+    padding-right: 8px ;
 }
 
  .navbar-dropdown{
@@ -582,10 +582,8 @@
    display: flex;
    justify-content: space-between;
    margin-right: 10px;
-}
-
-.group-show-main-right-members {
-   cursor: pointer
+   cursor: pointer;
+   align-items: center;
 }
 
 .group-show-members-right-list{

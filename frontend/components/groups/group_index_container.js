@@ -7,7 +7,8 @@ import {fetchCategories} from '../../actions/category_actions'
 const mapStateToProps = (state) => {
     let userId = state.session.id
     if (userId && state.entities.users[userId]){
-        return {groups: state.entities.groups,
+        return {
+            groups: state.entities.groups,
             currentUserId: userId,
             currentUserLat: state.entities.users[userId].lat,
             currentUserLong: state.entities.users[userId].long,

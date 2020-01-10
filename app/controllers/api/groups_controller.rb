@@ -23,7 +23,13 @@ class Api::GroupsController < ApplicationController
         if @group.save
             @membership = Membership.new(group_id: @group.id, user_id: current_user.id, member_type: "Organizer")
             @membership.save
-            render "api/groups/show"
+            cat_params.each do |id|
+                @type = Type.new
+                @type.category_id = id
+                @type.group_id = @group.id
+                @type.save
+            end
+        render "api/groups/show"
         else
             render json: [@group.errors.full_messages], status: 401
         end
@@ -48,14 +54,18 @@ class Api::GroupsController < ApplicationController
     private
 
     def group_params
-    params.require(:group).permit(
-    :name, 
-    :description, 
-    :lat, 
-    :long, 
-    :image_url,
-    :location_id,
-    :id)
+        params.require(:group).permit(
+        :name, 
+        :description, 
+        :lat, 
+        :long, 
+        :image_url,
+        :location_id,
+        :id)
+    end
+
+    def cat_params
+       params[:group][:category_ids]
     end
 
     def bounds

@@ -47,7 +47,7 @@ class GroupShowMembers extends React.Component{
                             <img src={window[imageUrl]} className="group-show-members-right-member-img"/>
                             <div  className="group-show-members-right-member-info">
                                 <p>{name}</p>
-                                <p>{createdAt}</p>
+                                <p>Joined on {formatDate(createdAt)}</p>
                             </div>
                         </div>
 

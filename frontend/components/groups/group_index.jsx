@@ -5,11 +5,19 @@ import {Link} from 'react-router-dom'
 class GroupIndex extends React.Component{
     constructor(props){
         super(props)
-        this.state={
-            something: ""
-    }
+    this.handleSignup = this.handleSignup.bind(this)
+    this.componentDidMount = this.componentDidMount.bind(this)
 }
 
+    handleSignup(){
+        console.log(this.props)
+        if (this.props.currentUserId === ""){
+            document.location.href = '#/signup'
+        } else {
+            return null
+        }
+        
+    }
 
     componentDidMount(){
         const fetchGroups = this.props.fetchGroups();
@@ -17,9 +25,7 @@ class GroupIndex extends React.Component{
         const fetchUser = this.props.fetchUser(this.props.currentUserId);
       
         Promise.all([ fetchGroups, fetchCategories, fetchUser ]).then(() => {
-            this.setState({
-                something: ""
-            });
+            this.forceUpdate()
         });
     }
 
@@ -51,7 +57,7 @@ class GroupIndex extends React.Component{
                     ))}
                 </div>
             ) :  
-            (<div  className="groups-signup">Join a group!</div>)
+            (<div onClick={this.handleSignup} className="groups-signup">Join a group!</div>)
         }
 
         return(

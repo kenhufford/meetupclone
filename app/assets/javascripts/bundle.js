@@ -844,28 +844,29 @@ function (_React$Component) {
         var groupId = _this3.props.match.params.groupId;
 
         if (slide === 4 && _this3.state.description.length >= 50 && type === "next") {
-          _this3.props.action({
+          var categories = _this3.state.categories;
+          var catArray = [];
+
+          for (var i = 0; i < categories.length; i++) {
+            if (categories[i].selected) {
+              catArray.push(categories[i].id);
+            }
+          }
+
+          var groupInfo = {
             id: groupId,
             name: _this3.state.name,
             description: _this3.state.description,
             lat: _this3.state.lat,
             "long": _this3.state["long"],
             image_url: _this3.state.imageUrl,
-            location_id: _this3.state.selectedLocationId
-          }).then(function (payload) {
-            groupId = payload.group.id;
-            var categories = _this3.state.categories;
+            location_id: _this3.state.selectedLocationId,
+            category_ids: catArray
+          };
+          console.log(groupInfo);
 
-            for (var i = 0; i < categories.length; i++) {
-              if (categories[i].selected) {
-                _this3.props.createType({
-                  category_id: categories[i].id,
-                  group_id: groupId
-                });
-              }
-            }
-          }).then(function () {
-            _this3.props.history.push("/groups/".concat(groupId));
+          _this3.props.action(groupInfo).then(function (payload) {
+            _this3.props.history.push("/groups/".concat(payload.group.id));
           });
         } else if (slide === 0 && _this3.state.selectedLocation === "Select Location" && type === "next") {
           _this3.setState({
@@ -1305,9 +1306,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -1328,13 +1329,23 @@ function (_React$Component) {
     _classCallCheck(this, GroupIndex);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupIndex).call(this, props));
-    _this.state = {
-      something: ""
-    };
+    _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
+    _this.componentDidMount = _this.componentDidMount.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(GroupIndex, [{
+    key: "handleSignup",
+    value: function handleSignup() {
+      console.log(this.props);
+
+      if (this.props.currentUserId === "") {
+        document.location.href = '#/signup';
+      } else {
+        return null;
+      }
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -1343,9 +1354,7 @@ function (_React$Component) {
       var fetchCategories = this.props.fetchCategories();
       var fetchUser = this.props.fetchUser(this.props.currentUserId);
       Promise.all([fetchGroups, fetchCategories, fetchUser]).then(function () {
-        _this2.setState({
-          something: ""
-        });
+        _this2.forceUpdate();
       });
     }
   }, {
@@ -1379,6 +1388,7 @@ function (_React$Component) {
             group: _this3.props.groups[groupId]
           });
         })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: this.handleSignup,
           className: "groups-signup"
         }, "Join a group!");
       }
@@ -1894,8 +1904,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupShow).call(this, props));
     _this.state = {
-      currentPage: "about",
-      something: "something"
+      currentPage: "about"
     };
     _this.switchPage = _this.switchPage.bind(_assertThisInitialized(_this));
     return _this;
@@ -1909,9 +1918,7 @@ function (_React$Component) {
       var fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
       var fetchLocations = this.props.fetchLocations();
       Promise.all([fetchGroup, fetchLocations]).then(function () {
-        _this2.setState({
-          something: "something"
-        });
+        _this2.forceUpdate();
       });
     }
   }, {
@@ -2124,7 +2131,9 @@ function (_React$Component) {
         className: "group-show-organizer-info-text"
       }, this.props.organizers[0], " ", this.props.organizersNum))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-main-right-members"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Members (", this.props.memberships.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.props.switchPage("members")
+      }, "Members (", this.props.memberships.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         onClick: this.props.switchPage("members")
       }, "See All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-main-right-members-list"
@@ -2318,7 +2327,7 @@ function (_React$Component) {
           className: "group-show-members-right-member-img"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-members-right-member-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, createdAt))));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt)))));
       }));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members"
@@ -2376,7 +2385,10 @@ var Header = function Header(_ref) {
   var sessionLinks = function sessionLinks() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
       className: "navbar-right"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "#/groups",
+      className: "navbar-explore-link"
+    }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       className: "navbar-login-signup-link",
       to: "/login"
     }, "Log in"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {

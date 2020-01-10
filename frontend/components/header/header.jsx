@@ -8,6 +8,7 @@ const Header = ({ currentUser, logout }) => {
 
   const sessionLinks = () => (
     <nav className="navbar-right">
+      <a href="#/groups" className="navbar-explore-link">Explore</a>
       <Link className="navbar-login-signup-link" to="/login">Log in</Link>
       <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
     </nav>

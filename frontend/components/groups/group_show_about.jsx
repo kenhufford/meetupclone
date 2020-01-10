@@ -27,7 +27,9 @@ class GroupShowAbout extends React.Component{
 
                             </div>
                             <div className="group-show-main-right-members">
-                                <div>Members ({this.props.memberships.length})</div>
+                                <div onClick={this.props.switchPage("members")}>
+                                    Members ({this.props.memberships.length})
+                                </div>
                                 <p onClick={this.props.switchPage("members")}>See All</p>
                             </div>
                             <div className="group-show-main-right-members-list">

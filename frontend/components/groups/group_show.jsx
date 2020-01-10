@@ -8,8 +8,7 @@ class GroupShow extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            currentPage: "about",
-            something: "something"
+            currentPage: "about"
         }
         this.switchPage = this.switchPage.bind(this);
     }
@@ -19,9 +18,7 @@ class GroupShow extends React.Component{
         const fetchLocations = this.props.fetchLocations();
       
         Promise.all([ fetchGroup, fetchLocations ]).then(() => {
-            this.setState({
-                something: "something"
-            });
+            this.forceUpdate()
         });
     
     }

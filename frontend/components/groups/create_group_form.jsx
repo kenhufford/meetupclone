@@ -53,30 +53,29 @@ class CreateGroupForm extends React.Component{
         let slide = this.state.currentSlide;
         let groupId = this.props.match.params.groupId;
         if (slide === 4 && this.state.description.length >= 50 && type==="next") {
-            this.props.action({
+            let {categories} = this.state;
+            let catArray = [];
+                for(let i = 0; i < categories.length; i++){
+                    if (categories[i].selected) {
+                        catArray.push(categories[i].id)
+                    }
+                }
+           
+            let groupInfo = {
                 id: groupId,
                 name: this.state.name,
                 description: this.state.description,
                 lat: this.state.lat,
                 long: this.state.long,
                 image_url: this.state.imageUrl,
-                location_id: this.state.selectedLocationId
-            })
-            .then( (payload) => {
-                groupId = payload.group.id
-                let {categories} = this.state
-                for(let i = 0; i < categories.length; i++){
-                    if (categories[i].selected) {
-                        this.props.createType({
-                            category_id: categories[i].id,
-                            group_id: groupId
-                        })
-                    }
-                }
-            })
-            .then( () => {
-                this.props.history.push(`/groups/${groupId}`)
-            })
+                location_id: this.state.selectedLocationId,
+                category_ids: catArray
+            }
+            console.log(groupInfo)
+            this.props.action(groupInfo)
+                .then( (payload) => {
+                    this.props.history.push(`/groups/${payload.group.id}`)
+                })
             }
         else if (slide === 0 && this.state.selectedLocation === "Select Location" && type==="next"){
             this.setState({
