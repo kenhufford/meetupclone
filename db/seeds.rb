@@ -12,7 +12,7 @@ def pair_generator(range1, range2)
     results = []
 
     (1..range1).to_a.each do |i|
-        (2...range2).to_a.each do |j|
+        (1..range2).to_a.each do |j|
             results << [i,j]
         end
     end
@@ -99,14 +99,6 @@ event_titles = ["Yoga in the Park", "Football in the Streets", "Magic in a Dunge
 group_ids = [1, 2, 3, 4, 5]
 descriptions = ["We stretch a bunch and lounge around in stretchy pants", "We play out in the streets until someone yells at us or a major injury happens", "We play in my basement until my mom yells at us to stop coming to her house"]
 max_attendance = [100, 20, 5]
-
-group_ids.length.times do |i|
-    Membership.create!(
-        group_id: i+1,
-        user_id: 1,
-        member_type: "Organizer"
-    )
-end
 
 event_titles.each_with_index do |event, i|
     Event.create!(title: event, 
