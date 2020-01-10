@@ -103,7 +103,8 @@ class GroupShow extends React.Component{
                             currentUserMember={currentUserMember} 
                             currentUserOrganizer={currentUserOrganizer}
                             groupId={this.props.group.id}
-                            currentUserId= {this.props.session.id}/>
+                            currentUserId= {this.props.session.id}
+                            totalMembers={this.props.group.memberships.length}/>
                         </div>
                     </div>
                     {currentTab}

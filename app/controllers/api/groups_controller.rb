@@ -61,7 +61,8 @@ class Api::GroupsController < ApplicationController
         :long, 
         :image_url,
         :location_id,
-        :id)
+        :id,
+        :category_ids)
     end
 
     def cat_params

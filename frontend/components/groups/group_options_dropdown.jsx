@@ -46,12 +46,15 @@ class GroupOptionsDropdown extends React.Component{
         console.log("im removing membership")
         if (!this.props.currentUserId){
             document.location.href = '#/login'
+        } else if (this.props.totalMemberships === 1){
+            this.props.deleteGroup(this.props.groupId)            
+                .then( () => document.location.href = '#/groups')
         } else {
             this.props.deleteMembership(this.props.groupId)            
             .then( () => this.setState({
                 listOpen: false,
                 currentUserMember: false
-            }))
+            })) 
         }
     }
 
