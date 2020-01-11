@@ -94,10 +94,10 @@ class GroupOptionsDropdown extends React.Component{
                 You're a member
             </div>)
         let dropdownOption1 = !currentUserOrganizer ?
-            ( <li className="create-group-card-dropdown-option"></li>) :
+            ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <Link to={`/groups/form/${groupId}/edit`} className="create-group-card-dropdown-option">Edit Group</Link>)
         let dropdownOption2 = !currentUserOrganizer ?
-            ( <li className="create-group-card-dropdown-option"></li>) :
+            ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <li onClick={()=>this.handleDeleteGroup()} className="create-group-card-dropdown-option">Delete Group</li>)
         
         return(

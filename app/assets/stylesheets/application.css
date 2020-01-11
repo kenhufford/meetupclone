@@ -114,15 +114,20 @@
    display: flex;
    width: 98%;
    margin: 0 auto;
+   margin-left: 0px;
    justify-content: center;
    margin-top: 30px;
    flex-direction: row;
    font-family: Arial, Helvetica, sans-serif;
+   box-sizing: border-box;
+   padding: 0px;
 }
 
 .group-landing-banner-left{
+   padding: 0px;
    display: block;
-   padding: 10px
+   width: 100%;
+   box-sizing: border-box;
 }
 
 .group-landing-banner-left-title{
@@ -140,13 +145,9 @@
    text-justify: inter-word;
 }
 
-.group-landing-banner-left{
-   display: block;
-   padding: 10px
-}
 
 .group-landing-banner-left-search{
-   width: 90%;
+   width: 85%;
    display: flex;
    flex-direction: row;
 }
@@ -155,10 +156,13 @@
    position: relative;
    border: 1px solid lightgray;
    flex-grow: 4;
+   border-radius: 5px;
 }
 
 
 .group-landing-banner-left-search-bar{
+   padding: 0px 10px;
+   width: 95%;
    flex-grow: 1;
    display: inline;
    border-radius: 8px;
@@ -194,7 +198,7 @@
    display: flex;
    font-family: Arial, Helvetica, sans-serif;
    margin: 0 auto;
-   max-width: 1100px;
+   width:100%;
    flex-direction: column;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
@@ -355,7 +359,6 @@
    margin: 0 auto;
    justify-content: space-around;
    flex-wrap: wrap;
-   margin-top: 30px;
 }
 
 .groups-signup{
@@ -436,6 +439,7 @@
    font-family: Arial, Helvetica, sans-serif;
    margin: 0 auto;
    max-width: 1000px;
+   min-width: 900px;
    flex-direction: column;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
@@ -444,7 +448,6 @@
 }
 
 .group-show-header{
-   border-bottom: 1px lightgrey solid;
    height: auto;
    display: flex;
    justify-content: flex-start;
@@ -499,7 +502,10 @@
    justify-content: flex-start;
    height: 40px;
    padding-top: 10px;
+   padding-bottom: 10px;
    z-index: 5;
+   border-bottom: 1px lightgrey solid;
+   border-top: 1px lightgrey solid;
 }
 
 .group-show-stripe-left{
@@ -534,6 +540,10 @@
    width: 45%;
    list-style-type: none;
    align-items: top;
+}
+
+.group-show-divider-line{
+   border: 
 }
 
 .group-show-join-button{
@@ -637,6 +647,7 @@
    font-weight: 800;
    line-height: 24px;
    margin-top: 32px;
+   width:95%;
    display: flex;
    justify-content: space-between;
    margin-right: 10px;
@@ -677,7 +688,7 @@
 .group-show-members-right-member-info{
    display: flex;
    flex-direction: column;
-   padding: 10px;
+   justify-content: center;
 }
 
 .group-show-members-right-member-info p{
@@ -713,9 +724,9 @@
 
 .group-show-members-left{
    flex-grow: 1;
-   margin: 20px;
-   padding: 20px;
-   background-color: rgb(205, 234, 252);
+   margin: 10px;
+   padding: 10px;
+   background-color: rgb(232, 245, 253);
    border-radius: 10px;
    height: fit-content;
 }
@@ -728,6 +739,7 @@
 }
 
 .group-show-members-left-tab p{
+   padding: 10px 0px;
    font-size: 16px;
    font-weight: 400;
    line-height: 24px;
@@ -735,23 +747,20 @@
 }
 
 .group-show-members-right{
-   margin: 20px;
-   background-color: rgb(205, 234, 252);
+   margin: 10px;
+   background-color: rgb(232, 245, 253);
    border-radius: 10px;
    height: fit-content;
-   padding: 20px;
+   padding: 10px;
    flex-grow: 2;
    display: flex;
    flex-direction: column;
    align-items: baseline;
-}
-
-.group-show-members-right{
-   padding: 0px;
+   padding-left: 20px;
 }
 
 .group-show-members-right-header p {
-   margin-left: 40px; 
+   padding: 10px 0px;
    color: rgb(33, 33, 33);
    font-size: 20px;
    font-weight: 600;
@@ -762,8 +771,7 @@
 }
 
 .group-show-members-right-search-bar{
-   width: 90%;
-   margin-left: 40px; 
+   width: 95%;
    line-height: 28px;
    border: 1px lightgrey solid;
    border-radius: 8px;
@@ -909,29 +917,39 @@
 }
 
 .create-group-card-dropdown-option{
-   cursor:pointer;
+   cursor: pointer;
    padding: 5px;
-   
+   text-decoration: none;
+   color: black;
+
 }
 
 .create-group-card-dropdown-header-list{
+   background-color: rgb(240, 240, 240);
    list-style: none;
-   border: 1px lightgray solid;
+   border: 1px rgb(233, 233, 233) solid;
+   border-radius: 5px;
    display: flex;
-   justify-content: flex-start;
+   justify-content: center;
    flex-direction: column;
-   align-items: flex-start;
+   align-items: center;
    padding-left: 0px;
    cursor: pointer;
-   z-index:1
+   z-index:1;
+   position: absolute;
+   padding: 10px;
+   margin-top: 10px;
 }
 
 .create-group-card-dropdown-header-list-item{
-   padding-top: 5px;
-   padding-left: 5px;
    font-size: 14px;
    cursor: pointer;
-   width: 100%
+   width: 100%;
+   text-decoration: none;
+}
+
+.create-group-card-dropdown-option-hidden{
+   display:none;
 }
 
 .create-group-footer{

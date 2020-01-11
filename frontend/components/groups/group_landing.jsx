@@ -21,8 +21,9 @@ class GroupLanding extends React.Component{
             <div className="group-landing">
                 <div className="group-landing-banner">
                     <div className="group-landing-banner-left">
-                        <h1 className="group-landing-banner-left-title">The real world is calling</h1>
-                        <h3 className="group-landing-banner-left-subtitle">Attend local events to meet people, try something new, or do more of what you love.</h3>
+                        <h1 className="group-landing-banner-left-title">Battle is calls,</h1>
+                        <h1 className="group-landing-banner-left-title">answer</h1>
+                        <h3 className="group-landing-banner-left-subtitle">If this is your first night, you have to fight</h3>
                         <div className="group-landing-banner-left-search">
                             <div className="group-landing-banner-left-search-bar-container">
                             <input type="text" className="group-landing-banner-left-search-bar"/>

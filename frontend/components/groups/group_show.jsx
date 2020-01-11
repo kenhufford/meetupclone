@@ -13,22 +13,15 @@ class GroupShow extends React.Component{
         this.switchPage = this.switchPage.bind(this);
     }
 
-    // componentWillMount(){
-    //     this.props.fetchLocations();
-    //     this.props.fetchGroup(this.props.match.params.groupId);
-    // }
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
+            this.props.fetchGroup(this.props.match.params.groupId)
+        }
+    }
 
     componentDidMount(){
-        // const fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
-        // const fetchLocations = this.props.fetchLocations();
         this.props.fetchLocations();
-        this.props.fetchGroup(this.props.match.params.groupId);
-        // Promise.all([ fetchGroup, fetchLocations ]).then(() => {
-        //     this.setState = ({
-        //         currentPage: "about"
-        //     })
-        // });
-    
+        this.props.fetchGroup(this.props.match.params.groupId);  
     }
 
     switchPage(page){
@@ -39,7 +32,6 @@ class GroupShow extends React.Component{
     }
 
     render(){
-        debugger
         if (!this.props.group || !(!!Object.values(this.props.locations).length)) {
             return null
         } else {
@@ -83,43 +75,42 @@ class GroupShow extends React.Component{
             </div>)
 
             return(
-
-                <div className="group-show-div">
-                    <div className="group-show-header">
-                        <div className="group-show-header-left">
-                          <img src={window[this.props.group.imageUrl]} alt="group-image" className="group-show-header-left-image"/>
+                <div>
+                    <div className="group-show-div">
+                        <div className="group-show-header">
+                            <div className="group-show-header-left">
+                            <img src={window[this.props.group.imageUrl]} alt="group-image" className="group-show-header-left-image"/>
+                            </div>
+                            <div className="group-show-header-right">
+                                <h4 className="group-show-header-right-groupname">{name}</h4>
+                                <div className="group-show-header-right-location">
+                                    <i className="fas fa-map-marker-alt"></i>
+                                    <p>{this.props.locations[this.props.group.locationId].name}</p>
+                                </div>
+                                <div className="group-show-header-right-totalmembers">
+                                    <i className="fas fa-user-friends"></i>
+                                    <p className="group-show-header-right-totalmembers-text">{memberships.length} members</p>
+                                </div>
+                                <div className="group-show-header-right-organized">
+                                    <i className="fas fa-user"></i> 
+                                    <p className="group-show-header-right-organized-text">Organized by {organizers[0]} {organizersNum}</p>
+                                </div>
+                            
+                            </div>
                         </div>
-                        <div className="group-show-header-right">
-                            <h4 className="group-show-header-right-groupname">{name}</h4>
-                            <div className="group-show-header-right-location">
-                                <i className="fas fa-map-marker-alt"></i>
-                                <p>{this.props.locations[this.props.group.locationId].name}</p>
+                        
+                        <div className="group-show-stripe">
+                            <div className="group-show-stripe-left">
+                                <li className="group-show-inline-list-item" onClick={this.switchPage('about')}>About</li>
+                                <li className="group-show-inline-list-item">Events</li>
+                                <li className="group-show-inline-list-item" onClick={this.switchPage('members')}>Members</li>
+                                <li className="group-show-inline-list-item">Photos</li>
                             </div>
-                            <div className="group-show-header-right-totalmembers">
-                                <i className="fas fa-user-friends"></i>
-                                <p className="group-show-header-right-totalmembers-text">{memberships.length} members</p>
-                            </div>
-                            <div className="group-show-header-right-organized">
-                                <i className="fas fa-user"></i> 
-                                <p className="group-show-header-right-organized-text">Organized by {organizers[0]} {organizersNum}</p>
-                            </div>
-                           
+                            {groupDropdown}
                         </div>
+                        {currentTab}
                     </div>
-                    <div className="group-show-stripe">
-                        <div className="group-show-stripe-left">
-                            <li className="group-show-inline-list-item" onClick={this.switchPage('about')}>About</li>
-                            <li className="group-show-inline-list-item">Events</li>
-                            <li className="group-show-inline-list-item" onClick={this.switchPage('members')}>Members</li>
-                            <li className="group-show-inline-list-item">Photos</li>
-                        </div>
-                        {groupDropdown}
-                    </div>
-                    {currentTab}
-
-                    
-                    
-                </div>
+            </div>
             )
         }        
     }

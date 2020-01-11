@@ -2,9 +2,8 @@ class Api::GroupsController < ApplicationController
     before_action :require_logged_in, only: [:create]
     
     def index
-        groups = bounds ? Group.in_bounds(bounds) : Group.all
-
-        @groups = groups.includes(:memberships, :members, :types, :categories) 
+        @groups = Group.all
+        @groups = @groups.includes(:memberships, :members)
         render "api/groups/index"
     end
 
@@ -71,6 +70,10 @@ class Api::GroupsController < ApplicationController
 
     def bounds
       params[:bounds]
+    end
+
+    def search_terms
+      params.require(:search_term)
     end
 
     

@@ -6,6 +6,7 @@ import EventIndexContainer from './events/event_index_container';
 import GroupIndexContainer from './groups/group_index_container';
 import GroupShowContainer from './groups/group_show_container';
 import GroupLandingContainer from './groups/group_landing_container';
+import SearchBarContainer from './searchbar/search_bar_container';
 import CreateGroupFormContainer from './groups/create_group_form_container';
 import EditGroupFormContainer from './groups/edit_group_form_container';
 import {Route, Redirect, Switch, Link, HashRouter} from 'react-router-dom';
@@ -15,6 +16,7 @@ const App = () => (
   <div>
     <header>
       <HeaderContainer />
+      <SearchBarContainer /> 
     </header>
     <div className="main-body">
       <Switch>

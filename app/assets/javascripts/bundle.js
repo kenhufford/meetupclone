@@ -504,10 +504,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./groups/group_index_container */ "./frontend/components/groups/group_index_container.js");
 /* harmony import */ var _groups_group_show_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./groups/group_show_container */ "./frontend/components/groups/group_show_container.js");
 /* harmony import */ var _groups_group_landing_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./groups/group_landing_container */ "./frontend/components/groups/group_landing_container.js");
-/* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
-/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+/* harmony import */ var _searchbar_search_bar_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./searchbar/search_bar_container */ "./frontend/components/searchbar/search_bar_container.jsx");
+/* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
+/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+
 
 
 
@@ -522,36 +524,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_header_header_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_header_header_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar_container__WEBPACK_IMPORTED_MODULE_8__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["ProtectedRoute"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_12__["ProtectedRoute"], {
     exact: true,
     path: "/groups/form/new",
-    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["ProtectedRoute"], {
+    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_12__["ProtectedRoute"], {
     exact: true,
     path: "/groups/form/:groupId/edit",
-    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["AuthRoute"], {
+    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_10__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_12__["AuthRoute"], {
     exact: true,
     path: "/login",
     component: _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_11__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_12__["AuthRoute"], {
     exact: true,
     path: "/signup",
     component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
     path: "/events",
     component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
     exact: true,
     path: "/groups/:groupId",
     component: _groups_group_show_container__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
     exact: true,
     path: "/groups",
     component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
     exact: true,
     path: "/",
     component: _groups_group_landing_container__WEBPACK_IMPORTED_MODULE_7__["default"]
@@ -1610,9 +1612,11 @@ function (_React$Component) {
         className: "group-landing-banner-left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "group-landing-banner-left-title"
-      }, "The real world is calling"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+      }, "Battle is calls,"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "group-landing-banner-left-title"
+      }, "answer"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "group-landing-banner-left-subtitle"
-      }, "Attend local events to meet people, try something new, or do more of what you love."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "If this is your first night, you have to fight"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-landing-banner-left-search"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-landing-banner-left-search-bar-container"
@@ -1814,13 +1818,13 @@ function (_React$Component) {
         onClick: this.toggleList
       }, "You're a member");
       var dropdownOption1 = !currentUserOrganizer ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "create-group-card-dropdown-option"
+        className: "create-group-card-dropdown-option-hidden"
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/groups/form/".concat(groupId, "/edit"),
         className: "create-group-card-dropdown-option"
       }, "Edit Group");
       var dropdownOption2 = !currentUserOrganizer ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "create-group-card-dropdown-option"
+        className: "create-group-card-dropdown-option-hidden"
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
           return _this2.handleDeleteGroup();
@@ -1918,23 +1922,20 @@ function (_React$Component) {
     };
     _this.switchPage = _this.switchPage.bind(_assertThisInitialized(_this));
     return _this;
-  } // componentWillMount(){
-  //     this.props.fetchLocations();
-  //     this.props.fetchGroup(this.props.match.params.groupId);
-  // }
-
+  }
 
   _createClass(GroupShow, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
+        this.props.fetchGroup(this.props.match.params.groupId);
+      }
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      // const fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
-      // const fetchLocations = this.props.fetchLocations();
       this.props.fetchLocations();
-      this.props.fetchGroup(this.props.match.params.groupId); // Promise.all([ fetchGroup, fetchLocations ]).then(() => {
-      //     this.setState = ({
-      //         currentPage: "about"
-      //     })
-      // });
+      this.props.fetchGroup(this.props.match.params.groupId);
     }
   }, {
     key: "switchPage",
@@ -1950,8 +1951,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      debugger;
-
       if (!this.props.group || !!!Object.values(this.props.locations).length) {
         return null;
       } else {
@@ -2017,7 +2016,7 @@ function (_React$Component) {
           currentUserId: this.props.session.id,
           totalMembers: this.props.group.memberships.length
         }));
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-header"
@@ -2061,7 +2060,7 @@ function (_React$Component) {
           onClick: this.switchPage('members')
         }, "Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "group-show-inline-list-item"
-        }, "Photos")), groupDropdown), currentTab);
+        }, "Photos")), groupDropdown), currentTab));
       }
     }
   }]);
@@ -2507,6 +2506,137 @@ var Root = function Root(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Root);
+
+/***/ }),
+
+/***/ "./frontend/components/searchbar/search_bar.jsx":
+/*!******************************************************!*\
+  !*** ./frontend/components/searchbar/search_bar.jsx ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var SearchBar =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(SearchBar, _React$Component);
+
+  function SearchBar(props) {
+    var _this;
+
+    _classCallCheck(this, SearchBar);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SearchBar).call(this, props));
+    _this.state = {
+      search_term: ""
+    }; // this.handleSubmit = this.handleSubmit.bind(this)
+
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(SearchBar, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchLocations();
+    }
+  }, {
+    key: "update",
+    value: function update(e) {
+      console.log(e);
+      this.setState({
+        search_term: e.currentTarget.value
+      });
+    } // handleSubmit(e) {
+    //     console.log(e)
+    //     e.preventDefault();
+    //     this.props.fetchGroups(this.state)
+    //         .then( payload => console.log(payload))
+    //   }
+
+  }, {
+    key: "render",
+    value: function render() {
+      if (!this.props.locations) return null;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search-bar-div",
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "search-bar-input",
+        type: "text",
+        value: this.state.search_term,
+        onChange: this.update
+      })));
+    }
+  }]);
+
+  return SearchBar;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (SearchBar);
+
+/***/ }),
+
+/***/ "./frontend/components/searchbar/search_bar_container.jsx":
+/*!****************************************************************!*\
+  !*** ./frontend/components/searchbar/search_bar_container.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _components_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    locations: state.entities.locations
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchGroups: function fetchGroups(data) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroups"])(data));
+    },
+    fetchLocations: function fetchLocations() {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_1__["fetchLocations"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
