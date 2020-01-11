@@ -3,7 +3,7 @@ import GroupLanding from './group_landing';
 import {fetchGroups} from '../../actions/group_actions'
 
 const mapStateToProps = (state) => ({
-    groups: state.entities.groups
+    groups: Object.values(state.entities.groups)
 })
 
 const mapDispatchToProps = dispatch => ({

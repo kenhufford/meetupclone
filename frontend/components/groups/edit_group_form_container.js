@@ -10,19 +10,21 @@ const mstp = (state, ownProps) => {
     let categories = Object.values(state.entities.categories)
     let group = state.entities.groups[ownProps.match.params.groupId]
     let groupCat = group.categories
+    let selectedLocation;
     for (let i = 0; i < locations.length; i++){
         locations[i].key = 'location';
-        locations[i].selected = (locations.id === group.locationId)         
+        locations[i].selected = (locations[i].id === group.locationId) 
+        selectedLocation = locations[i].name        
     }
     for (let i = 0; i < categories.length; i++){
         categories[i].key = 'category';
-        categories[i].selected  = !groupCat[categories[i].id] ? false : true
+        categories[i].selected  = !!groupCat[categories[i].id] ? true : false
     }
-    console.log("edit form container!")
     return {
         group: group,
         locations: locations,
-        categories: categories
+        categories: categories,
+        selectedLocation: selectedLocation
     }
 }
 

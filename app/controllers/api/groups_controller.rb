@@ -4,7 +4,7 @@ class Api::GroupsController < ApplicationController
     def index
         groups = bounds ? Group.in_bounds(bounds) : Group.all
 
-        @groups = groups.includes(:memberships, :members) 
+        @groups = groups.includes(:memberships, :members, :types, :categories) 
         render "api/groups/index"
     end
 

@@ -807,44 +807,20 @@ function (_React$Component) {
   _createClass(CreateGroupForm, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
-      this.props.fetchCategories().then(function (payload) {
-        var categories = Object.values(payload.categories);
-
-        for (var i = 0; i < categories.length; i++) {
-          categories[i].key = 'category';
-          categories[i].selected = false;
-        }
-
-        _this2.setState({
-          categories: categories
-        });
-      });
-      this.props.fetchLocations().then(function (payload) {
-        var locations = Object.values(payload.locations);
-
-        for (var i = 0; i < locations.length; i++) {
-          locations[i].key = 'location';
-          locations[i].selected = false;
-        }
-
-        _this2.setState({
-          location: locations
-        });
-      });
+      this.props.fetchCategories();
+      this.props.fetchLocations();
     }
   }, {
     key: "handleStep",
     value: function handleStep(type) {
-      var _this3 = this;
+      var _this2 = this;
 
       return function () {
-        var slide = _this3.state.currentSlide;
-        var groupId = _this3.props.match.params.groupId;
+        var slide = _this2.state.currentSlide;
+        var groupId = _this2.props.match.params.groupId;
 
-        if (slide === 4 && _this3.state.description.length >= 50 && type === "next") {
-          var categories = _this3.state.categories;
+        if (slide === 4 && _this2.state.description.length >= 50 && type === "next") {
+          var categories = _this2.state.categories;
           var catArray = [];
 
           for (var i = 0; i < categories.length; i++) {
@@ -855,39 +831,38 @@ function (_React$Component) {
 
           var groupInfo = {
             id: groupId,
-            name: _this3.state.name,
-            description: _this3.state.description,
-            lat: _this3.state.lat,
-            "long": _this3.state["long"],
-            image_url: _this3.state.imageUrl,
-            location_id: _this3.state.selectedLocationId,
+            name: _this2.state.name,
+            description: _this2.state.description,
+            lat: _this2.state.lat,
+            "long": _this2.state["long"],
+            image_url: _this2.state.imageUrl,
+            location_id: _this2.state.selectedLocationId,
             category_ids: catArray
           };
-          console.log(groupInfo);
 
-          _this3.props.action(groupInfo).then(function (payload) {
-            _this3.props.history.push("/groups/".concat(payload.group.id));
+          _this2.props.action(groupInfo).then(function (payload) {
+            _this2.props.history.push("/groups/".concat(payload.group.id));
           });
-        } else if (slide === 0 && _this3.state.selectedLocation === "Select Location" && type === "next") {
-          _this3.setState({
+        } else if (slide === 0 && _this2.state.selectedLocation === "Select Location" && type === "next") {
+          _this2.setState({
             errorMessage: "Please select a location"
           });
-        } else if (slide === 2 && _this3.state.name.length <= 8 && type === "next") {
-          _this3.setState({
+        } else if (slide === 2 && _this2.state.name.length <= 8 && type === "next") {
+          _this2.setState({
             errorMessage: "Please enter more than 8 characters"
           });
-        } else if (slide === 3 && _this3.state.description.length <= 50 && type === "next") {
-          _this3.setState({
+        } else if (slide === 3 && _this2.state.description.length <= 50 && type === "next") {
+          _this2.setState({
             errorMessage: "Please enter more than 50 characters"
           });
         } else {
           slide = type === "prev" ? slide - 1 : slide + 1;
 
           if (slide < 0) {
-            slide = 0;
+            _this2.props.history.push("/groups/");
           }
 
-          _this3.setState({
+          _this2.setState({
             currentSlide: slide,
             errorMessage: ""
           });
@@ -897,10 +872,10 @@ function (_React$Component) {
   }, {
     key: "update",
     value: function update(key) {
-      var _this4 = this;
+      var _this3 = this;
 
       return function (e) {
-        return _this4.setState(_defineProperty({}, key, e.currentTarget.value));
+        return _this3.setState(_defineProperty({}, key, e.currentTarget.value));
       };
     }
   }, {
@@ -924,9 +899,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
-      console.log(this.props);
       if (!this.state.location[0] || !this.state.categories[0]) return null;
       var slide0 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-body"
@@ -960,7 +934,7 @@ function (_React$Component) {
           key: category.id
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           onClick: function onClick() {
-            return _this5.handleClick(category.id);
+            return _this4.handleClick(category.id);
           },
           className: category.selected ? "create-group-card-options-categories-button-selected" : "create-group-card-options-categories-button"
         }, category.name));
@@ -1033,6 +1007,19 @@ function (_React$Component) {
         onClick: this.handleStep('next'),
         className: "create-group-footer-next"
       }, "Next"))));
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories) {
+        return {
+          location: nextProps.locations,
+          categories: nextProps.categories,
+          selectedLocation: nextProps.selectedLocation
+        };
+      } else {
+        return null;
+      }
     }
   }]);
 
@@ -1201,9 +1188,6 @@ function (_React$Component) {
           className: "create-group-card-dropdown-header-list-item",
           key: index,
           onClick: function onClick() {
-            console.log(index);
-            console.log(location);
-
             _this2.props.toggleLocation(index);
 
             _this2.handleClickOutside();
@@ -1246,22 +1230,24 @@ var mstp = function mstp(state, ownProps) {
   var categories = Object.values(state.entities.categories);
   var group = state.entities.groups[ownProps.match.params.groupId];
   var groupCat = group.categories;
+  var selectedLocation;
 
   for (var i = 0; i < locations.length; i++) {
     locations[i].key = 'location';
-    locations[i].selected = locations.id === group.locationId;
+    locations[i].selected = locations[i].id === group.locationId;
+    selectedLocation = locations[i].name;
   }
 
   for (var _i = 0; _i < categories.length; _i++) {
     categories[_i].key = 'category';
-    categories[_i].selected = !groupCat[categories[_i].id] ? false : true;
+    categories[_i].selected = !!groupCat[categories[_i].id] ? true : false;
   }
 
-  console.log("edit form container!");
   return {
     group: group,
     locations: locations,
-    categories: categories
+    categories: categories,
+    selectedLocation: selectedLocation
   };
 };
 
@@ -1346,8 +1332,6 @@ function (_React$Component) {
   _createClass(GroupIndex, [{
     key: "handleSignup",
     value: function handleSignup() {
-      console.log(this.props);
-
       if (this.props.currentUserId === "") {
         document.location.href = '#/signup';
       } else {
@@ -1357,19 +1341,16 @@ function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
       var fetchGroups = this.props.fetchGroups();
       var fetchCategories = this.props.fetchCategories();
-      var fetchUser = this.props.fetchUser(this.props.currentUserId);
-      Promise.all([fetchGroups, fetchCategories, fetchUser]).then(function () {
-        _this2.forceUpdate();
-      });
+      var fetchUser = this.props.fetchUser(this.props.currentUserId); // Promise.all([ fetchGroups, fetchCategories, fetchUser ]).then(() => {
+      //     this.forceUpdate()
+      // });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (!this.props.groups) return null;
       var suggestedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1382,7 +1363,6 @@ function (_React$Component) {
       }));
       var userGroups;
       var yourGroups;
-      console.log(this.props);
 
       if (this.props.currentUsersGroups) {
         userGroups = [];
@@ -1394,7 +1374,7 @@ function (_React$Component) {
         }, userGroups.map(function (groupId) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
             key: groupId,
-            group: _this3.props.groups[groupId]
+            group: _this2.props.groups[groupId]
           });
         })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           onClick: this.handleSignup,
@@ -1576,7 +1556,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _group_index_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_container */ "./frontend/components/groups/group_index_container.js");
+/* harmony import */ var _group_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_item */ "./frontend/components/groups/group_index_item.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1617,6 +1597,11 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      if (!this.props.groups[0]) return null;
+      var nearbyGroups = [];
+      this.props.groups.map(function (group) {
+        if (group.locationId === 1) nearbyGroups.push(group);
+      });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-landing"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1643,7 +1628,14 @@ function (_React$Component) {
         src: window.mainImageURL
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-landing-groups"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Groups near San Francisco, CA")));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Groups near San Francisco, CA"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "groups-div"
+      }, nearbyGroups.map(function (group) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: group.id,
+          group: group
+        });
+      }))));
     }
   }]);
 
@@ -1672,7 +1664,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    groups: state.entities.groups
+    groups: Object.values(state.entities.groups)
   };
 };
 
@@ -1766,24 +1758,19 @@ function (_React$Component) {
   }, {
     key: "handleJoin",
     value: function handleJoin() {
-      var _this2 = this;
-
       if (!this.props.currentUserId) {
         document.location.href = '#/login';
       } else {
-        this.props.createMembership(this.props.groupId).then(function () {
-          return _this2.setState({
-            listOpen: false,
-            currentUserMember: true
-          });
+        this.props.createMembership(this.props.groupId);
+        this.setState({
+          listOpen: false,
+          currentUserMember: true
         });
       }
     }
   }, {
     key: "handleRemove",
     value: function handleRemove() {
-      var _this3 = this;
-
       if (!this.props.currentUserId) {
         document.location.href = '#/login';
       } else if (this.props.totalMemberships === 1) {
@@ -1791,11 +1778,10 @@ function (_React$Component) {
           return document.location.href = '#/groups';
         });
       } else {
-        this.props.deleteMembership(this.props.groupId).then(function () {
-          return _this3.setState({
-            listOpen: false,
-            currentUserMember: false
-          });
+        this.props.deleteMembership(this.props.groupId);
+        this.setState({
+          listOpen: false,
+          currentUserMember: false
         });
       }
     }
@@ -1813,7 +1799,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       var _this$props = this.props,
           currentUserOrganizer = _this$props.currentUserOrganizer,
@@ -1837,7 +1823,7 @@ function (_React$Component) {
         className: "create-group-card-dropdown-option"
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
-          return _this4.handleDeleteGroup();
+          return _this2.handleDeleteGroup();
         },
         className: "create-group-card-dropdown-option"
       }, "Delete Group");
@@ -1846,7 +1832,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-dropdown-header",
         onClick: function onClick() {
-          return _this4.toggleList();
+          return _this2.toggleList();
         }
       }, dropdownTitle, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-caret-down"
@@ -1864,6 +1850,8 @@ function (_React$Component) {
         return {
           currentUserMember: nextProps.currentUserMember
         };
+      } else {
+        return null;
       }
     }
   }]);
@@ -1930,26 +1918,31 @@ function (_React$Component) {
     };
     _this.switchPage = _this.switchPage.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // componentWillMount(){
+  //     this.props.fetchLocations();
+  //     this.props.fetchGroup(this.props.match.params.groupId);
+  // }
+
 
   _createClass(GroupShow, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
-      var fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
-      var fetchLocations = this.props.fetchLocations();
-      Promise.all([fetchGroup, fetchLocations]).then(function () {
-        _this2.forceUpdate();
-      });
+      // const fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
+      // const fetchLocations = this.props.fetchLocations();
+      this.props.fetchLocations();
+      this.props.fetchGroup(this.props.match.params.groupId); // Promise.all([ fetchGroup, fetchLocations ]).then(() => {
+      //     this.setState = ({
+      //         currentPage: "about"
+      //     })
+      // });
     }
   }, {
     key: "switchPage",
     value: function switchPage(page) {
-      var _this3 = this;
+      var _this2 = this;
 
       return function () {
-        _this3.setState({
+        _this2.setState({
           currentPage: page
         });
       };
@@ -1957,7 +1950,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.group || !this.props.group.members || !this.props.locations) {
+      debugger;
+
+      if (!this.props.group || !!!Object.values(this.props.locations).length) {
         return null;
       } else {
         var memberships = !this.props.group.memberships ? [] : this.props.group.memberships;
@@ -1973,7 +1968,7 @@ function (_React$Component) {
         var organizersNum = organizers.length === 1 ? " " : " and ".concat(organizers.length - 1, " others");
         var name = this.props.group.name;
         var currentUserOrganizer = organizerIds.includes(this.props.session.id);
-        var currentUserMember = this.props.group.currentUserMember;
+        var currentUserMember = this.props.group.currentUserMember ? true : false;
         var currentTab;
 
         switch (this.state.currentPage) {
@@ -2642,15 +2637,11 @@ function (_React$Component) {
   }, {
     key: "toggleSelected",
     value: function toggleSelected(index) {
-      console.log(this.state);
-      console.log(this.props.locations);
-      console.log(index);
       var loc = this.props.locations[index];
       this.setState({
         selectedLocation: loc.name,
         selectedLocationId: loc.id
       });
-      console.log(this.state);
     }
   }, {
     key: "handleDemoLogin",
@@ -2669,6 +2660,7 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      e.preventDefault();
       this.props.processForm({
         name: this.state.name,
         email: this.state.email,
@@ -3009,11 +3001,9 @@ var eventsReducer = function eventsReducer() {
 
   switch (action.type) {
     case _actions_event_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ALL_EVENTS"]:
-      console.log(action.events);
       return action.events;
 
     case _actions_event_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_EVENT"]:
-      console.log(action.event);
       return _defineProperty({}, action.event.id, action.event);
 
     case _actions_event_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_EVENT"]:
@@ -3276,7 +3266,6 @@ var usersReducer = function usersReducer() {
       return _defineProperty({}, action.currentUser.id, action.currentUser);
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
-      console.log("im receiving a user");
       return _defineProperty({}, action.user.id, action.user);
 
     default:

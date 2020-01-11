@@ -30,7 +30,7 @@
  .navbar-header{
      position: relative;
      display: flex;
-     height: 10vh;
+     height: 8vh;
      padding: 0px 5px 0px;
      margin-left: 10px;
      margin-right: 10px;
@@ -100,12 +100,15 @@
    font-family: Arial, Helvetica, sans-serif;
    margin: 0 auto;
    max-width: 1100px;
+   min-width: 900px;
    flex-direction: column;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
    height: 100%;
    min-height: auto;
  }
+
+ 
 
 .group-landing-banner{
    display: flex;
@@ -222,6 +225,7 @@
 
  .login-not-reg{
    font-size: 14px;
+   padding: 10px 0px;
  }
 
  .login-signup-link{
@@ -236,12 +240,14 @@
  }
 
  .login-form-label{
-   padding: 0px;
+
    font-size: 13px;
    font-weight: 700;
  }
 
  .login-input{
+   margin-top: 5px;
+   margin-bottom: 5px;
    padding: 5px;
    width: 95%;
    display: block;
@@ -253,7 +259,8 @@
 
 .login-buttons-div{
    display: flex;
-   align-items: space-around;
+   flex-direction: row;
+   align-items: center;
    justify-content: space-around;
 }
  .login-submit{
@@ -437,7 +444,6 @@
 }
 
 .group-show-header{
-   border-top: 1px lightgrey solid;
    border-bottom: 1px lightgrey solid;
    height: auto;
    display: flex;
@@ -574,6 +580,7 @@
 }
 
 .group-show-stripe-left-header{
+   padding: 10px 0px;
    font-size: 20px;
    font-weight: 800;
 }
@@ -670,10 +677,12 @@
 .group-show-members-right-member-info{
    display: flex;
    flex-direction: column;
+   padding: 10px;
 }
 
 .group-show-members-right-member-info p{
    font-size: 14px;
+   padding: 10px;
    font-weight: 500;
 }
 
@@ -831,7 +840,7 @@
    display: flex;
    font-family: Arial, Helvetica, sans-serif;
    margin: 0 auto;
-   max-width: 1100px;
+   max-width: 800px;
    flex-direction: column;
    letter-spacing: 0.01em;
    flex: 1 0 auto;

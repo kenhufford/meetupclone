@@ -9,7 +9,6 @@ import {RECEIVE_CURRENT_USER} from '../actions/session_actions';
       case RECEIVE_CURRENT_USER:
         return { [action.currentUser.id]: action.currentUser };
       case RECEIVE_USER:
-        console.log("im receiving a user")
         return { [action.user.id]: action.user };
       default:
         return state;

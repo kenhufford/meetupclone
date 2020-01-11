@@ -13,13 +13,21 @@ class GroupShow extends React.Component{
         this.switchPage = this.switchPage.bind(this);
     }
 
+    // componentWillMount(){
+    //     this.props.fetchLocations();
+    //     this.props.fetchGroup(this.props.match.params.groupId);
+    // }
+
     componentDidMount(){
-        const fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
-        const fetchLocations = this.props.fetchLocations();
-      
-        Promise.all([ fetchGroup, fetchLocations ]).then(() => {
-            this.forceUpdate()
-        });
+        // const fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
+        // const fetchLocations = this.props.fetchLocations();
+        this.props.fetchLocations();
+        this.props.fetchGroup(this.props.match.params.groupId);
+        // Promise.all([ fetchGroup, fetchLocations ]).then(() => {
+        //     this.setState = ({
+        //         currentPage: "about"
+        //     })
+        // });
     
     }
 
@@ -31,23 +39,24 @@ class GroupShow extends React.Component{
     }
 
     render(){
-        if (!this.props.group || !this.props.group.members || !this.props.locations) {
+        debugger
+        if (!this.props.group || !(!!Object.values(this.props.locations).length)) {
             return null
         } else {
             let memberships = (!this.props.group.memberships) ? [] : this.props.group.memberships 
             let membersObj = (this.props.group.members)
             let organizers = [];
             let organizerIds = [];
-                memberships.forEach ( (member)=> {
-                    if (member.memberType==="Organizer"){
-                        organizers.push(membersObj[member.userId].name)
-                        organizerIds.push(member.userId)
-                    }
-                })
+            memberships.forEach ( (member)=> {
+                if (member.memberType==="Organizer"){
+                    organizers.push(membersObj[member.userId].name)
+                    organizerIds.push(member.userId)
+                }
+            })
             let organizersNum = organizers.length===1 ? ` ` : ` and ${organizers.length-1} others` 
             let {name} = this.props.group
             let currentUserOrganizer = organizerIds.includes(this.props.session.id)
-            let currentUserMember = this.props.group.currentUserMember
+            let currentUserMember = this.props.group.currentUserMember ? true : false
             let currentTab;
             switch (this.state.currentPage) {
                 case "about":

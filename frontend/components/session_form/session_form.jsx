@@ -28,15 +28,12 @@ class SessionForm extends React.Component {
   }
 
   toggleSelected(index){
-    console.log(this.state)
-    console.log(this.props.locations)
-    console.log(index)
+
     let loc = this.props.locations[index]
     this.setState({
       selectedLocation: loc.name,
       selectedLocationId: loc.id
     })
-    console.log(this.state)
   }
 
   handleDemoLogin(){
@@ -49,6 +46,7 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault(); 
     this.props.processForm({
       name: this.state.name,
       email: this.state.email,

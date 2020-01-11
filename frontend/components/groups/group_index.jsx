@@ -10,7 +10,6 @@ class GroupIndex extends React.Component{
 }
 
     handleSignup(){
-        console.log(this.props)
         if (this.props.currentUserId === ""){
             document.location.href = '#/signup'
         } else {
@@ -24,9 +23,9 @@ class GroupIndex extends React.Component{
         const fetchCategories = this.props.fetchCategories();
         const fetchUser = this.props.fetchUser(this.props.currentUserId);
       
-        Promise.all([ fetchGroups, fetchCategories, fetchUser ]).then(() => {
-            this.forceUpdate()
-        });
+        // Promise.all([ fetchGroups, fetchCategories, fetchUser ]).then(() => {
+        //     this.forceUpdate()
+        // });
     }
 
 
@@ -43,7 +42,6 @@ class GroupIndex extends React.Component{
 
         let userGroups;
         let yourGroups;
-        console.log(this.props)
         if (this.props.currentUsersGroups){
             userGroups = []
             this.props.currentUsersGroups.map(groupIdObj => {

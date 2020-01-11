@@ -23,29 +23,22 @@ class CreateGroupForm extends React.Component{
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories ){
+            return ({
+                location: nextProps.locations,
+                categories: nextProps.categories,
+                selectedLocation: nextProps.selectedLocation
+            })
+        } else {
+            return null
+        }
+    }
+
     componentDidMount(){
         this.props.fetchCategories()
-            .then( (payload) => {
-                let categories = Object.values(payload.categories)
-                for (let i = 0; i < categories.length; i++){
-                    categories[i].key = 'category';
-                    categories[i].selected = false;
-                }
-                this.setState({
-                    categories: categories
-                })
-            })
         this.props.fetchLocations()
-            .then( (payload) => {
-                let locations = Object.values(payload.locations)
-                for (let i = 0; i < locations.length; i++){
-                    locations[i].key = 'location';
-                    locations[i].selected = false;
-                }
-                this.setState({
-                    location: locations
-                })
-            })
+
         }
 
     handleStep(type){
@@ -71,7 +64,6 @@ class CreateGroupForm extends React.Component{
                 location_id: this.state.selectedLocationId,
                 category_ids: catArray
             }
-            console.log(groupInfo)
             this.props.action(groupInfo)
                 .then( (payload) => {
                     this.props.history.push(`/groups/${payload.group.id}`)
@@ -92,7 +84,7 @@ class CreateGroupForm extends React.Component{
         } else {
             slide = (type === "prev") ? slide-1 : slide+1
             if (slide < 0){
-                slide = 0
+                this.props.history.push(`/groups/`)
             }
             this.setState({
                 currentSlide: slide,
@@ -124,7 +116,7 @@ class CreateGroupForm extends React.Component{
     }
 
     render(){
-        console.log(this.props)
+  
         if (!this.state.location[0] || !this.state.categories[0]) return null
         let slide0 = (
             <div className="create-group-card-body">

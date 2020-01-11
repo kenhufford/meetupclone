@@ -21,6 +21,8 @@ class GroupOptionsDropdown extends React.Component{
             return ({
                 currentUserMember: nextProps.currentUserMember
             })
+        } else {
+            return null
         }
     }
 
@@ -39,18 +41,22 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleJoin(){
+        
         if (!this.props.currentUserId){
             document.location.href = '#/login'
         } else {
+            
             this.props.createMembership(this.props.groupId)
-            .then( () => this.setState({
+            this.setState({
                 listOpen: false,
                 currentUserMember: true
-            }))
+            })
         }
+        
     }
 
     handleRemove(){
+        
         if (!this.props.currentUserId){
             document.location.href = '#/login'
         } else if (this.props.totalMemberships === 1){
@@ -58,11 +64,12 @@ class GroupOptionsDropdown extends React.Component{
                 .then( () => document.location.href = '#/groups')
         } else {
             this.props.deleteMembership(this.props.groupId)            
-            .then( () => this.setState({
+            this.setState({
                 listOpen: false,
                 currentUserMember: false
-            })) 
+            })
         }
+        
     }
 
     handleDeleteGroup(){
@@ -75,6 +82,7 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     render(){
+        
         let {currentUserOrganizer, groupId} = this.props
         let {currentUserMember} = this.state
         const{listOpen} = this.state

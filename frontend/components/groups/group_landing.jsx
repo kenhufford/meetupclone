@@ -1,5 +1,6 @@
 import React from 'react';
-import GroupIndexContainer from './group_index_container'
+import GroupIndexItem from './group_index_item'
+
 class GroupLanding extends React.Component{
     constructor(props){
         super(props)
@@ -11,6 +12,11 @@ class GroupLanding extends React.Component{
 
 
     render(){
+        if (!this.props.groups[0]) return null
+        let nearbyGroups = []
+        this.props.groups.map(group => {
+            if (group.locationId === 1) nearbyGroups.push(group)
+        })
         return(
             <div className="group-landing">
                 <div className="group-landing-banner">
@@ -31,7 +37,11 @@ class GroupLanding extends React.Component{
                 </div>
                 <div className="group-landing-groups">
                     <h4>Groups near San Francisco, CA</h4>
-                    {/* <GroupIndexContainer /> */}
+                    <div className="groups-div">
+                        {nearbyGroups.map(group => (
+                            <GroupIndexItem key={group.id} group={group}/>
+                        ))}
+                    </div>
                 </div>
             </div>
         )

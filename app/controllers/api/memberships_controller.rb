@@ -7,8 +7,10 @@ class Api::MembershipsController < ApplicationController
         @membership.member_type = "Member"
         if @membership.save
           @group = @membership.group
+          @current_user_member = true
           render 'api/groups/show'
         else
+        
           render json: @membership.errors.full_messages, status: 401
         end
       end
@@ -28,6 +30,7 @@ class Api::MembershipsController < ApplicationController
         @membership = Membership.find_by(user_id: current_user.id, group_id: params[:group_id])
         @group = @membership.group
         @membership.destroy
+        @current_user_member = false
         render 'api/groups/show'
       end
 
