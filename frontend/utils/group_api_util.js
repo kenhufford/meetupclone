@@ -75,3 +75,11 @@ export const deleteType = (type) => (
         data: {type}
     })
 )
+
+export const searchGroups = (searchQuery) => (
+    $.ajax({
+      method: "GET",
+      url: "/api/groups/search",
+      data: {search_query: searchQuery}
+    })
+)

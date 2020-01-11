@@ -19,13 +19,9 @@ class GroupIndex extends React.Component{
     }
 
     componentDidMount(){
-        const fetchGroups = this.props.fetchGroups();
-        const fetchCategories = this.props.fetchCategories();
-        const fetchUser = this.props.fetchUser(this.props.currentUserId);
-      
-        // Promise.all([ fetchGroups, fetchCategories, fetchUser ]).then(() => {
-        //     this.forceUpdate()
-        // });
+        this.props.fetchGroups();
+        this.props.fetchCategories();
+        this.props.fetchUser(this.props.currentUserId);
     }
 
 

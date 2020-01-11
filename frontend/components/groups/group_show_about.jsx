@@ -20,7 +20,9 @@ class GroupShowAbout extends React.Component{
                             <div className="group-show-main-right-organizers">
                                 <p className="group-show-main-right-organizers-title">Organizers</p>
                                 <div className="group-show-main-right-organizers-info">
-                                    <img src={window[group.members[this.props.organizerIds[0]].imageUrl]} alt="organizer-pic" className="group-show-member-picture"/> 
+                                    <div className="group-show-member-picture-div">
+                                        <img src={window[group.members[this.props.organizerIds[0]].imageUrl]} alt="organizer-pic" className="group-show-member-picture"/> 
+                                    </div>
                                     <p className="group-show-organizer-info-text">{this.props.organizers[0]} {this.props.organizersNum}</p> 
                                 </div>
 
@@ -35,7 +37,9 @@ class GroupShowAbout extends React.Component{
                                     {this.props.memberships.map ( (member, i)=> {
                                         if (i < 12) {
                                             let icon = (
-                                                <img key={i} src={window[this.props.membersObj[member.userId].imageUrl]} alt="member-pic" className="group-show-member-picture"/>
+                                                <div className="group-show-member-picture-div">
+                                                    <img key={i} src={window[this.props.membersObj[member.userId].imageUrl]} alt="member-pic" className="group-show-member-picture"/>
+                                                </div>
                                             )
                                        return icon
                                         }

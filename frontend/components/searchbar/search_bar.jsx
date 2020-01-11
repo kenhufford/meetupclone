@@ -4,37 +4,44 @@ class SearchBar extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            search_term: ""
+            query: ""
         }
-        // this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
         this.update = this.update.bind(this)
+        this.deleteQuery = this.deleteQuery.bind(this)
     }
 
-    componentDidMount(){
-        this.props.fetchLocations()
-    }
-
-    update(e){
-        console.log(e)
+    deleteQuery(e){
         this.setState({
-            search_term: e.currentTarget.value
+            query: ""
         })
     }
 
-    // handleSubmit(e) {
-    //     console.log(e)
-    //     e.preventDefault();
-    //     this.props.fetchGroups(this.state)
-    //         .then( payload => console.log(payload))
-    //   }
+    update(e) {
+        this.setState({
+            query: e.currentTarget.value
+        });
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        setTimeout((() => {
+            if (this.state.query === "") {
+                this.props.history.push("/groups");
+              } else {
+                this.props.history.push(`/search/?${this.state.query}`);
+              }}), 300);
+    }
 
     render(){
-        if (!this.props.locations) return null
         return(
-            <div className="search-bar-div" onSubmit={this.handleSubmit}>
-                <form>
-                    <input className="search-bar-input" type="text" value={this.state.search_term} onChange={this.update}/>
+            <div className="search-bar-div">
+                <form className="search-bar-form" onSubmit={this.handleSubmit}>
+                    <input type="text" value={this.state.query} onChange={this.update} 
+                    placeholder="Find your fight club" className="search-bar-input"/>
+                    <i  onClick={this.deleteQuery} className="fas fa-backspace"></i>
                 </form>
+                <button className="search-bar-button" onClick={this.handleSubmit}>Search</button>
             </div>
         )
     }

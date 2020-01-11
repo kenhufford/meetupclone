@@ -26,6 +26,36 @@
    min-height: 90vh;
 }
 
+.header-search-bar-form{
+   position: relative;
+   border: 1px solid lightgray;
+   border-radius: 5px;
+   padding-right: 5px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+}
+
+.header-search-bar-div{
+   padding: 10px 0px;
+   width: 40%;
+   display: flex;
+   flex-direction: row;
+}
+
+.header-search-bar-input{
+   color: #858585;
+   width: 100%;
+   line-height: 20px;
+   height: 24px;
+   padding-left: 8px;
+   padding-right: 8px;
+   font-size: 14px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
 
  .navbar-header{
      position: relative;
@@ -50,8 +80,10 @@
 
  .navbar-right{
      display: flex;
-     justify-content: space-around;
      text-align: center;
+     align-items: center;
+     justify-content: space-between;
+     width: 40%
  }
 
  .navbar-group-link{
@@ -96,6 +128,8 @@
  }
 
  .group-landing{
+   margin-top: 15px;
+   padding: 0px 20px;
    display: flex;
    font-family: Arial, Helvetica, sans-serif;
    margin: 0 auto;
@@ -128,6 +162,7 @@
    display: block;
    width: 100%;
    box-sizing: border-box;
+   margin-right: 50px;
 }
 
 .group-landing-banner-left-title{
@@ -146,49 +181,11 @@
 }
 
 
-.group-landing-banner-left-search{
-   width: 85%;
-   display: flex;
-   flex-direction: row;
-}
-
-.group-landing-banner-left-search-bar-container{
-   position: relative;
-   border: 1px solid lightgray;
-   flex-grow: 4;
-   border-radius: 5px;
-}
-
-
-.group-landing-banner-left-search-bar{
-   padding: 0px 10px;
-   width: 95%;
-   flex-grow: 1;
-   display: inline;
-   border-radius: 8px;
-   height: 14px;
-   font-weight: 500;
-   padding-top: 16px;
-   padding-bottom: 16px;
-   font-size: 18px;
-}
-
-.group-landing-banner-left-search-button{
-   font-size: 16px;
-   font-weight: 500;
-   height: 48px;
-   line-height: 1.45;
-   border-radius: 8px;
-   background-color: #f65858;
-   margin-left: 20px;
-   color: white;
-   width: 120px;
-}
 
 .group-landing-banner-right-image{
    background-size: cover;
    background-position: center 40%;
-   max-width: 600px;
+   min-width: 500px;
    border-radius: 8px;
    width: 100%;
 }
@@ -204,7 +201,16 @@
    flex: 1 0 auto;
    height: 100%;
    min-height: auto;
-   
+   align-items: center;
+}
+
+.group-landing-groups-dropdown{
+   display: flex;
+   flex-direction: row;
+   align-items: baseline;
+   justify-content: space-evenly;
+   width: 50%;
+
 }
 
 
@@ -407,6 +413,18 @@
    position: relative;
    overflow: hidden;
    color: white;
+
+}
+
+.groups-index-item-image{
+   background-repeat: no-repeat;
+   background-position: 50%;
+   background-size: cover;
+   width: 100%;
+   height: 100%;
+   box-sizing: border-box;
+   vertical-align: middle;
+   
 }
 
 .groups-index-item-image-text{
@@ -419,7 +437,7 @@
 .groups-index-item-image-text-small{
    font-size: 14px;
    color: rgba(255, 255, 255, 0.7);;
-   text-shadow: 1px 1px 0 rgba(0,0,0,.26);
+   text-shadow: 2px 2px 0 rgba(0,0,0,.26);
    margin-top: 2px;
    margin-bottom: 2px;
    font-weight: 500;
@@ -428,10 +446,94 @@
    font-size: 20px;
    color: #fff;
    text-decoration: none;
-   text-shadow: 1px 1px 0 rgba(0,0,0,.26);
+   text-shadow: 2px 2px 0 rgba(0,0,0,.26);
    font-weight: 800;
    margin-top: 2px;
    margin-bottom: 2px;
+}
+
+.search-bar-div{
+   padding: 10px 0px;
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+}
+
+.search-bar-form{
+   position: relative;
+   border: 1px solid lightgray;
+   flex-grow: 4;
+   border-radius: 5px;
+   padding-right: 5px;
+   display: flex;
+   align-items: center;
+}
+
+
+.search-bar-input{
+   color: #858585;
+   padding: 0px 10px;
+   width: 95%;
+   flex-grow: 1;
+   display: inline;
+   border-radius: 8px;
+   height: 14px;
+   font-weight: 400;
+   padding-top: 16px;
+   padding-bottom: 16px;
+   font-size: 18px;
+}
+
+.search-bar-button{
+   font-size: 16px;
+   font-weight: 500;
+   height: 48px;
+   line-height: 1.45;
+   border-radius: 8px;
+   background-color: #f65858;
+   margin-left: 20px;
+   color: white;
+   width: 120px;
+}
+
+.groups-search-div{
+   padding-top: 30px;
+   display: flex;
+   font-family: Arial, Helvetica, sans-serif;
+   margin: 0 auto;
+   max-width: 900px;
+   flex-direction: column;
+   letter-spacing: 0.01em;
+   flex: 1 0 auto;
+   height: 100%;
+   min-height: auto;
+   align-items: center;
+}
+
+.groups-search-bar-div{
+   width: 90%;
+}
+.groups-index-div-results > p{
+   stroke: transparent;
+   fill: rgba(0, 0, 0, 0.87);
+   color: rgba(0, 0, 0, 0.87);
+   font-size: 13px;
+   font-weight: 600;
+   line-height: 1.6;
+   letter-spacing: -0.02em;
+   word-spacing: 0.1em;
+   padding: 10px;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+.groups-index-div-results{
+   display: flex;
+   width: 98%;
+   margin: 0 auto;
+   justify-content: space-around;
+   flex-wrap: wrap;
 }
 
 .group-show-div{
@@ -466,7 +568,8 @@
    background-repeat: no-repeat;
    background-position: 50%;
    background-size: cover;
-   width: 90%;
+   width: auto;
+   max-height: 350px;
    height: auto;
    border-radius: 10px;
    box-sizing: border-box;
@@ -628,6 +731,11 @@
    padding-left: 15px;
    font-size: 16px;
    font-weight: 600;
+}
+
+.group-show-member-picture-div{
+   
+   overflow: hidden
 }
 
 .group-show-member-picture{
@@ -859,6 +967,9 @@
 .create-group-card-title{
    font-size: 40px;
    font-weight: 1400;
+   margin-top: 20px;
+   margin-bottom: 20px;
+
 }
 
 .create-group-card-description{
@@ -866,7 +977,7 @@
    font-weight: 400;
    line-height: 1.5;
    letter-spacing: 0.01em;
-   padding-bottom: 15px;
+   padding-bottom: 10px;
 }
 
 .create-group-card-errors{
@@ -874,8 +985,8 @@
    font-weight: 400;
    line-height: 1.5;
    letter-spacing: 0.01em;
-   padding-top: 10px;
-   padding-bottom: 10px;
+   padding-top: 8px;
+   padding-bottom: 8px;
 }
 
 
@@ -883,8 +994,11 @@
    letter-spacing: 0.01em;
    padding-top: 4px;
 }
-
+.create-group-card-ul{
+   margin-bottom: 10px;
+}
 .create-group-card-ul li{
+   font-size: 18px;
    letter-spacing: 0.01em;
    padding-top: 4px;
 }
@@ -925,7 +1039,7 @@
 }
 
 .create-group-card-dropdown-header-list{
-   background-color: rgb(240, 240, 240);
+   background-color: rgb(247, 247, 247);
    list-style: none;
    border: 1px rgb(233, 233, 233) solid;
    border-radius: 5px;
@@ -939,9 +1053,11 @@
    position: absolute;
    padding: 10px;
    margin-top: 10px;
+   width: inherit;
 }
 
 .create-group-card-dropdown-header-list-item{
+   padding: 5px 0px;
    font-size: 14px;
    cursor: pointer;
    width: 100%;
@@ -1047,4 +1163,9 @@
    font-size: 16px;
    height: 200px;
    vertical-align: top;
+}
+
+.fa-backspace{
+   right: 10px;
+   opacity: 30%;
 }

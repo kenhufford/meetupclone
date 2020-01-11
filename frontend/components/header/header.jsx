@@ -1,38 +1,53 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import HeaderSearch from './header_search'
+import { withRouter } from "react-router";
 
-const Header = ({ currentUser, logout }) => {
-  const goHome = ()=>{
-    document.location.href = '#/'
+const HeaderSearchWithRouter = withRouter(HeaderSearch)
+
+class Header extends React.Component{
+  constructor(props){
+    super(props)
   }
 
-  const sessionLinks = () => (
-    <nav className="navbar-right">
-      <a href="#/groups" className="navbar-explore-link">Explore</a>
-      <Link className="navbar-login-signup-link" to="/login">Log in</Link>
-      <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
-    </nav>
-  );
 
-  const signedIn = () => (
-    <nav className="navbar-right">
-      <a href="#/groups/form/new" className="navbar-group-link">Start a New Group</a>
-      <a href="#/groups" className="navbar-explore-link">Explore</a>
-      <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a>
-    </nav>
-  );
 
-  return (
-    <div className="navbar-header">
-      <nav className="navbar-left">
-        <img className="navbar-logo" src={window.fightclubURL} onClick={goHome}/>
-      </nav>
-      {currentUser ? signedIn() : sessionLinks()}
-    </div>
-  )
+  render(){
+    let { currentUser, logout, history } = this.props
+    const goHome = ()=>{
+      document.location.href = '#/'
+    }
   
- 
-};
+    const sessionLinks = () => (
+      <nav className="navbar-right">
+        <a href="#/groups" className="navbar-explore-link">Explore</a>
+        <HeaderSearchWithRouter />
+        <Link className="navbar-login-signup-link" to="/login">Log in</Link>
+        <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
+      </nav>
+    );
+  
+    const signedIn = () => (
+      <nav className="navbar-right">
+        <a href="#/groups/form/new" className="navbar-group-link">Start a New Group</a>
+        <HeaderSearchWithRouter />
+        <a href="#/groups" className="navbar-explore-link">Explore</a>
+        <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a>
+      </nav>
+    );
+      
+    return (
+      
+      <div className="navbar-header">
+        <nav className="navbar-left">
+          <img className="navbar-logo" src={window.fightclubURL} onClick={goHome}/>
+        </nav>
+        {currentUser ? signedIn() : sessionLinks()}
+      </div>
+    )
+    
+  }
+}
 
 
 export default Header;

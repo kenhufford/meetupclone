@@ -9,8 +9,6 @@ class CreateGroupFormDropdown extends React.Component{
     }
   }
 
-
-
   handleClickOutside(){
     this.setState({
       listOpen: false

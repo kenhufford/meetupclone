@@ -11,10 +11,11 @@ const mstp = (state, ownProps) => {
     let group = state.entities.groups[ownProps.match.params.groupId]
     let groupCat = group.categories
     let selectedLocation;
+    debugger
     for (let i = 0; i < locations.length; i++){
         locations[i].key = 'location';
         locations[i].selected = (locations[i].id === group.locationId) 
-        selectedLocation = locations[i].name        
+        if (group.locationId === locations[i].id) selectedLocation = locations[i].name        
     }
     for (let i = 0; i < categories.length; i++){
         categories[i].key = 'category';

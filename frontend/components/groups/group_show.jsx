@@ -73,7 +73,7 @@ class GroupShow extends React.Component{
                 currentUserId= {this.props.session.id}
                 totalMembers={this.props.group.memberships.length}/>
             </div>)
-
+            console.log(this.props.group)
             return(
                 <div>
                     <div className="group-show-div">

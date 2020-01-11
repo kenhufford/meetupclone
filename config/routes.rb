@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     resources :groups, only: [:create, :destroy, :show, :update, :index] do
       resources :memberships, only: [:create, :update, :destroy]
       resources :types, only: [:create, :destroy]
+      collection do
+        get 'search'
+      end
     end
     
   end

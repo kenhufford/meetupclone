@@ -2,9 +2,17 @@ class Api::GroupsController < ApplicationController
     before_action :require_logged_in, only: [:create]
     
     def index
-        @groups = Group.all
-        @groups = @groups.includes(:memberships, :members)
-        render "api/groups/index"
+        if params[:category_id]
+            @groups = Category.find(params[:category_id]).groups.includes(:memberships, :members)
+        else
+            @groups = Group.all.includes(:memberships, :members)
+        end
+        if @groups
+            render "api/groups/index"
+        else
+            render json: ["No group found"], status: 404
+        end
+        
     end
 
     def show
@@ -50,8 +58,32 @@ class Api::GroupsController < ApplicationController
         end
     end
 
+      
+    def search
+        @query = params[:search_query];
+        if @query.length > 0;
+            @groups = filtered_list(@query)
+            
+            if (@groups.length == 0)
+                render json: ["No group found"], status: 404
+            else
+                render :search
+            end
+        end
+        
+    end
+
+    def filtered_list(query)
+        query = query.downcase
+        results = Group.where("translate(name, ':;%', '') ILIKE :start_query", start_query: "#{query}%")
+        list = results.limit(12).includes(:categories)
+        
+    end
+
     private
 
+
+    # removed category_ids
     def group_params
         params.require(:group).permit(
         :name, 
@@ -60,20 +92,11 @@ class Api::GroupsController < ApplicationController
         :long, 
         :image_url,
         :location_id,
-        :id,
-        :category_ids)
+        :id)
     end
 
     def cat_params
        params[:group][:category_ids]
-    end
-
-    def bounds
-      params[:bounds]
-    end
-
-    def search_terms
-      params.require(:search_term)
     end
 
     

@@ -42,12 +42,13 @@ class CreateGroupForm extends React.Component{
         }
 
     handleStep(type){
+        console.log(this.state)
         return () => {
         let slide = this.state.currentSlide;
         let groupId = this.props.match.params.groupId;
+        let catArray = [];
         if (slide === 4 && this.state.description.length >= 50 && type==="next") {
             let {categories} = this.state;
-            let catArray = [];
                 for(let i = 0; i < categories.length; i++){
                     if (categories[i].selected) {
                         catArray.push(categories[i].id)
@@ -69,7 +70,7 @@ class CreateGroupForm extends React.Component{
                     this.props.history.push(`/groups/${payload.group.id}`)
                 })
             }
-        else if (slide === 0 && this.state.selectedLocation === "Select Location" && type==="next"){
+        else if (slide === 0 && this.state.selectedLocation===undefined && type==="next"){
             this.setState({
                 errorMessage: "Please select a location"
             })
