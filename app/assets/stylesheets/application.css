@@ -58,12 +58,11 @@
 }
 
  .navbar-header{
+     background-color: #ed1c40;
      position: relative;
      display: flex;
      height: 8vh;
-     padding: 0px 5px 0px;
-     margin-left: 10px;
-     margin-right: 10px;
+     padding: 0px 10px;
      justify-content: space-between;
      font-size: 14px;
      font-family: Arial, Helvetica, sans-serif;
@@ -83,12 +82,16 @@
      text-align: center;
      align-items: center;
      justify-content: space-between;
-     width: 40%
+     width: 50%
  }
+/* 
+ .navbar-right a{
+   text-shadow: 1px 1px 0 rgba(0,0,0,.26);
+ } */
 
  .navbar-group-link{
     text-decoration: none;
-    color: #ed1c40;
+    color: white;
     padding-left:8px ;
     padding-right: 8px ;
     font-weight: bold;
@@ -98,9 +101,10 @@
 
  .navbar-explore-link{
     text-decoration: none;
-    color: #858585;
+    color: white;
     padding-left:8px ;
     padding-right: 8px ;
+    font-weight: 600;
     
  }
 
@@ -110,13 +114,15 @@
     padding-left:8px ;
     padding-right: 8px ;
     font-weight: bold;
+    font-weight: 600;
  }
 
 .navbar-login-signup-link{
     text-decoration: none;
-    color: #858585;
+    color: white;
     padding-left:8px ;
     padding-right: 8px ;
+    font-weight: 600;
 }
 
  .navbar-dropdown{
@@ -124,7 +130,8 @@
     padding-right: 5px ;
     cursor: pointer;
     text-decoration: none;
-    color: #858585;
+    color: white;
+    font-weight: 600;
  }
 
  .group-landing{
@@ -322,7 +329,7 @@
    display: flex;
    flex-direction: row;
    justify-content: flex-start;
-   align-items: center;
+   align-items: baseline;
 }
 
 .signup-selected-location{
@@ -336,6 +343,7 @@
    line-height: 1.6;
    color: grey;
    font-weight: 300;
+   padding: 10px 0px;
 }
 
 .signup-submit{
@@ -355,7 +363,7 @@
    text-align: center;
    font-size: 13px;
    line-height: 1.6;
-   color: darkgray;
+   color: grey;
    font-weight: 300;
 }
 
@@ -371,7 +379,7 @@
    padding: 10px;
    cursor: pointer;
    text-decoration: none;
-   color: rgb(246, 88, 88);
+   color: #ed1c40;
    font-size: 20px;
    font-weight: 800;
    font-family: Arial, Helvetica, sans-serif;
@@ -490,7 +498,7 @@
    height: 48px;
    line-height: 1.45;
    border-radius: 8px;
-   background-color: #f65858;
+   background-color: #ed1c40;
    margin-left: 20px;
    color: white;
    width: 120px;
@@ -645,15 +653,11 @@
    align-items: top;
 }
 
-.group-show-divider-line{
-   border: 
-}
-
 .group-show-join-button{
    cursor: pointer;
    user-select: none;
    text-decoration: none;
-   background-color: rgb(246, 88, 88);
+   background-color: #ed1c40;
    color: white;
    border-radius: 6px;
    font-size: 14px;
@@ -665,7 +669,7 @@
    cursor: pointer;
    user-select: none;
    text-decoration: none;
-   background-color: rgb(246, 88, 88);
+   background-color: #ed1c40;
    color: white;
    border-radius: 6px;
    font-size: 14px;
@@ -1101,7 +1105,7 @@
    cursor: pointer;
    user-select: none;
    text-decoration: none;
-   background-color: rgb(246, 88, 88);
+   background-color: #ed1c40;
    color: white;
    border-radius: 6px;
    font-size: 14px;

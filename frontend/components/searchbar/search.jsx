@@ -53,8 +53,11 @@ class Search extends React.Component{
 
     render(){
         let {groups} = this.state
+        let message = groups.length === 0 ? (<p>No results found</p>) : (<p></p>)
+        
         let searchedGroups = (
             <div className="groups-div">
+                {message}
                 {groups.map( (group) => (
                     <GroupIndexItem key={group.id} group={group}/>
                 ))}

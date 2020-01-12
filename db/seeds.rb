@@ -6,6 +6,7 @@ Group.destroy_all
 Membership.destroy_all
 Location.destroy_all
 Type.destroy_all
+Category.destroy_all
 
 
 def pair_generator(range1, range2)
@@ -43,7 +44,8 @@ location_names.length.times do |i|
     end
 
     group_names = ["Street Fighters", "Mortal Kombatants", "Soul Calibur Online", "Smash Siblings", 
-    "Tekkies", "Only Arnolds", "My Hero AppAcademia", "Z Fighters", "The BEST Team", "The Bad Guys", "The Men In Tights", "History Buffs", "Rap Gods"]
+    "Tekkies", "Only Arnolds", "My Hero AppAcademia", "Z Fighters", "The BEST Team", "The Bad Guys", 
+    "The Men In Tights", "History Buffs", "Rap Gods"]
     total_groups = group_names.length;
     group_images = ["streetfighterURL","mortalkombatURL","soulcaliburURL","smashbrothersURL",
     "tekkenURL","arnoldsURL","myheroURL","zfightersURL","bestteamURL","badguysURL", "tightsURL", "historyURL", "rapperURL"]

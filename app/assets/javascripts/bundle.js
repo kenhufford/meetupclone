@@ -2826,9 +2826,10 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var groups = this.state.groups;
+      var message = groups.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No results found") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
       var searchedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "groups-div"
-      }, groups.map(function (group) {
+      }, message, groups.map(function (group) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: group.id,
           group: group
