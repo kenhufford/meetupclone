@@ -1745,7 +1745,10 @@ function (_React$Component) {
     value: function componentDidMount() {
       this.props.fetchGroups();
       this.props.fetchCategories();
-      this.props.fetchUser(this.props.currentUserId);
+
+      if (this.props.currentUserId) {
+        this.props.fetchUser(this.props.currentUserId);
+      }
     }
   }, {
     key: "render",
@@ -3605,6 +3608,7 @@ function (_React$Component) {
   }, {
     key: "renderErrors",
     value: function renderErrors() {
+      if (!this.props.errors) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: "error-".concat(i),

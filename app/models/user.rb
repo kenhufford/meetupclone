@@ -18,6 +18,8 @@ class User < ApplicationRecord
     source: :group
 
     has_many :reservations,
+    class_name: "Reservation",
+    foreign_key: :user_id,
     dependent: :destroy
 
     has_many :events,

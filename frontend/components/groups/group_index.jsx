@@ -21,7 +21,10 @@ class GroupIndex extends React.Component{
     componentDidMount(){
         this.props.fetchGroups();
         this.props.fetchCategories();
-        this.props.fetchUser(this.props.currentUserId);
+        if (this.props.currentUserId){
+            this.props.fetchUser(this.props.currentUserId);
+        }
+        
     }
 
 
