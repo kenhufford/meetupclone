@@ -1,7 +1,15 @@
 class Api::UsersController < ApplicationController
     def index
-      @users = User.all
-      render "api/users/index"
+      if params[:group_id]
+        @users = Group.find(params[:group_id]).members
+        render "api/users/index"
+      elsif params[:event_id]
+        @users = Event.find(params[:event_id]).attendees
+        render "api/users/index"
+      else 
+        @users = User.all
+        render "api/users/index"
+      end
     end
   
     def create

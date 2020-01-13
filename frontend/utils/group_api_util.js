@@ -36,30 +36,6 @@ export const deleteGroup = (groupId) => (
     })
 )
 
-export const createMembership = (groupId) => (
-    $.ajax({
-        url: `/api/groups/${groupId}/memberships`,
-        method: "POST",
-        data: {groupId}
-    })
-)
-
-export const updateMembership = (membership) => (
-    $.ajax({
-        url: `/api/groups/${membership.groupId}/memberships/${membership.id}`,
-        method: "PATCH",
-        data: {membership}
-    })
-)
-
-export const deleteMembership = (groupId) => (
-    $.ajax({
-        url: `/api/groups/${groupId}/memberships/1`,
-        method: "DELETE",
-        data: {groupId}
-    })
-)
-
 export const createType = (type) => (
     $.ajax({
         url: `/api/groups/${type.group_id}/types`,

@@ -5,9 +5,23 @@ export const fetchUser = (userId) => (
     })
 )
 
-export const fetchUsers = () => (
+export const fetchAllUsers = (id) => (
     $.ajax({
         url: `/api/users/`,
+        method: "GET"
+    })
+)
+
+export const fetchUsersFromGroup = (groupId) => (
+    $.ajax({
+        url: `/api/groups/${groupId}/users`,
+        method: "GET"
+    })
+)
+
+export const fetchUsersFromEvent = (eventId) => (
+    $.ajax({
+        url: `/api/events/${eventId}/users`,
         method: "GET"
     })
 )

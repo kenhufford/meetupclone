@@ -1,5 +1,16 @@
 class Api::MembershipsController < ApplicationController
 
+    def index
+      if @group = Group.find(params[:group_id])
+        @group_memberships = @group.memberships
+      end
+      if current_user.memberships
+        @user_memberships = current_user.memberships
+      end
+      
+      render "api/memberships/index"
+    end
+
     def create
         @membership = Membership.new
         @membership.user_id = current_user.id
@@ -8,11 +19,12 @@ class Api::MembershipsController < ApplicationController
         if @membership.save
           @group = @membership.group
           @current_user_member = true
-          render 'api/groups/show'
-        else
-        
+        else 
           render json: @membership.errors.full_messages, status: 401
         end
+        @user_memberships = current_user.memberships
+        @group_memberships = @group.memberships
+        render "api/memberships/index"
       end
 
       def update
@@ -20,10 +32,13 @@ class Api::MembershipsController < ApplicationController
         
         if @membership.update_attribute(:member_type, membership_params[:member_type])
           @group = @membership.group
-          render 'api/groups/show'
         else
           render json: @membership.errors.full_messages, status: 401
         end
+
+        @user_memberships = current_user.memberships
+        @group_memberships = @group.memberships
+        render "api/memberships/index"
       end
 
       def destroy
@@ -31,7 +46,9 @@ class Api::MembershipsController < ApplicationController
         @group = @membership.group
         @membership.destroy
         @current_user_member = false
-        render 'api/groups/show'
+        @user_memberships = current_user.memberships
+        @group_memberships = @group.memberships
+        render "api/memberships/index"
       end
 
       private

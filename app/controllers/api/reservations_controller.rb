@@ -1,5 +1,16 @@
 class Api::ReservationsController < ApplicationController
 
+    def index
+      if @event = Event.find(params[:event_id])
+        @event_reservations = @event.reservations
+      end
+      if current_user.reservations
+        @user_reservations = current_user.reservations
+      end
+      
+      render "api/reservations/index"
+    end
+
     def create
         @reservation = Reservation.new
         @reservation.user_id = current_user.id
@@ -8,10 +19,12 @@ class Api::ReservationsController < ApplicationController
         if @reservation.save
           @event = @reservation.event
           @current_user_attending = true
-          render 'api/events/show'
         else
           render json: @reservation.errors.full_messages, status: 401
         end
+        @user_reservations = current_user.reservations
+        @event_reservations = @event.reservations
+        render "api/reservations/index"
       end
 
       def destroy
@@ -19,7 +32,9 @@ class Api::ReservationsController < ApplicationController
         @event = @reservation.event
         @reservation.destroy
         @current_user_member = false
-        render 'api/events/show'
+        @user_reservations = current_user.reservations
+        @event_reservations = @event.reservations
+        render "api/reservations/index"
       end
 
       private

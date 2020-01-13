@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import {fetchGroup, createMembership, deleteMembership} from '../../actions/group_actions'
+import {fetchGroup} from '../../actions/group_actions'
+import {createMembership, deleteMembership} from '../../actions/membership_actions'
 import {fetchLocations} from '../../actions/location_actions'
 import {fetchEvents} from '../../actions/event_actions'
 import {fetchUser} from '../../actions/user_actions'
@@ -10,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
         group: state.entities.groups[ownProps.match.params.groupId],
         locations: state.entities.locations,
         session: state.session,
-        events: state.entities.events
+        events: state.entities.events,
+        memberships: state.entities.memberships
     }
 }
 

@@ -18,7 +18,17 @@ export const fetchUser = (userId) => dispatch => (
         .then(user => dispatch(receiveUser(user)))
 )
 
-export const fetchUsers = () => dispatch => (
-    APIUtils.fetchUsers()
+export const fetchAllUsers = () => dispatch => (
+    APIUtils.fetchAllUsers()
+        .then(users => dispatch(receiveUsers(users)))
+)
+
+export const fetchUsersFromGroup = (groupId) => dispatch => (
+    APIUtils.fetchUsersFromGroup(groupId)
+        .then(users => dispatch(receiveUsers(users)))
+)
+
+export const fetchUsersFromEvent = (eventId) => dispatch => (
+    APIUtils.fetchUsersFromEvent(eventId)
         .then(users => dispatch(receiveUsers(users)))
 )

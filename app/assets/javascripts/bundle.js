@@ -251,7 +251,7 @@ var updateFilter = function updateFilter(filter, value) {
 /*!*******************************************!*\
   !*** ./frontend/actions/group_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, searchGroups, createMembership, deleteMembership, updateMembership, createType, deleteType */
+/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, REMOVE_GROUP, fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, searchGroups, createType, deleteType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -265,9 +265,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateGroup", function() { return updateGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteGroup", function() { return deleteGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchGroups", function() { return searchGroups; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createType", function() { return createType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteType", function() { return deleteType; });
 /* harmony import */ var _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/group_api_util */ "./frontend/utils/group_api_util.js");
@@ -339,27 +336,6 @@ var searchGroups = function searchGroups(searchQuery) {
     });
   };
 };
-var createMembership = function createMembership(groupId) {
-  return function (dispatch) {
-    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["createMembership"](groupId).then(function (updatedGroup) {
-      return dispatch(receiveGroup(updatedGroup));
-    });
-  };
-};
-var deleteMembership = function deleteMembership(groupId) {
-  return function (dispatch) {
-    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteMembership"](groupId).then(function (updatedGroup) {
-      return dispatch(receiveGroup(updatedGroup));
-    });
-  };
-};
-var updateMembership = function updateMembership(memberType) {
-  return function (dispatch) {
-    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["updateMembership"](memberType).then(function (updatedGroup) {
-      return dispatch(receiveGroup(updatedGroup));
-    });
-  };
-};
 var createType = function createType(type) {
   return function (dispatch) {
     return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["createType"](type).then(function (updatedGroup) {
@@ -403,6 +379,118 @@ var fetchLocations = function fetchLocations() {
   return function (dispatch) {
     return _utils_location_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchLocations"]().then(function (locations) {
       return dispatch(receiveLocations(locations));
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./frontend/actions/membership_actions.js":
+/*!************************************************!*\
+  !*** ./frontend/actions/membership_actions.js ***!
+  \************************************************/
+/*! exports provided: RECEIVE_MEMBERSHIPS, createMembership, deleteMembership, updateMembership, fetchMemberships */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MEMBERSHIPS", function() { return RECEIVE_MEMBERSHIPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchMemberships", function() { return fetchMemberships; });
+/* harmony import */ var _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/membership_api_utils */ "./frontend/utils/membership_api_utils.js");
+
+var RECEIVE_MEMBERSHIPS = "RECEIVE_MEMBERSHIPS";
+
+var receiveMemberships = function receiveMemberships(memberships) {
+  return {
+    type: RECEIVE_MEMBERSHIPS,
+    memberships: memberships
+  };
+};
+
+var createMembership = function createMembership(groupId) {
+  return function (dispatch) {
+    return _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__["createMembership"](groupId).then(function (memberships) {
+      return dispatch(receiveMemberships(memberships));
+    });
+  };
+};
+var deleteMembership = function deleteMembership(groupId) {
+  return function (dispatch) {
+    return _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__["deleteMembership"](groupId).then(function (memberships) {
+      return dispatch(receiveMemberships(memberships));
+    });
+  };
+};
+var updateMembership = function updateMembership(memberType) {
+  return function (dispatch) {
+    return _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__["updateMembership"](memberType).then(function (memberships) {
+      return dispatch(receiveMemberships(memberships));
+    });
+  };
+};
+var fetchMemberships = function fetchMemberships(groupId) {
+  return function (dispatch) {
+    return _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMemberships"](groupId).then(function (memberships) {
+      return dispatch(receiveMemberships(memberships));
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./frontend/actions/reservation_actions.js":
+/*!*************************************************!*\
+  !*** ./frontend/actions/reservation_actions.js ***!
+  \*************************************************/
+/*! exports provided: RECEIVE_RESERVATIONS, createReservation, deleteReservation, updateReservation, fetchReservations */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_RESERVATIONS", function() { return RECEIVE_RESERVATIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createReservation", function() { return createReservation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteReservation", function() { return deleteReservation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateReservation", function() { return updateReservation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchReservations", function() { return fetchReservations; });
+/* harmony import */ var _utils_reservation_api_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/reservation_api_utils */ "./frontend/utils/reservation_api_utils.js");
+
+var RECEIVE_RESERVATIONS = "RECEIVE_RESERVATIONS";
+
+var receiveReservations = function receiveReservations(reservations) {
+  return {
+    type: RECEIVE_RESERVATIONS,
+    reservations: reservations
+  };
+};
+
+var createReservation = function createReservation(groupId) {
+  return function (dispatch) {
+    return _utils_reservation_api_utils__WEBPACK_IMPORTED_MODULE_0__["createReservation"](groupId).then(function (reservations) {
+      return dispatch(receiveReservations(reservations));
+    });
+  };
+};
+var deleteReservation = function deleteReservation(groupId) {
+  return function (dispatch) {
+    return _utils_reservation_api_utils__WEBPACK_IMPORTED_MODULE_0__["deleteReservation"](groupId).then(function (reservations) {
+      return dispatch(receiveReservations(reservations));
+    });
+  };
+};
+var updateReservation = function updateReservation(memberType) {
+  return function (dispatch) {
+    return _utils_reservation_api_utils__WEBPACK_IMPORTED_MODULE_0__["updateReservation"](memberType).then(function (reservations) {
+      return dispatch(receiveReservations(reservations));
+    });
+  };
+};
+var fetchReservations = function fetchReservations(eventId) {
+  return function (dispatch) {
+    return _utils_reservation_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchReservations"](eventId).then(function (reservations) {
+      return dispatch(receiveReservations(reservations));
     });
   };
 };
@@ -482,7 +570,7 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_USER, RECEIVE_USERS, fetchUser, fetchUsers */
+/*! exports provided: RECEIVE_USER, RECEIVE_USERS, fetchUser, fetchAllUsers, fetchUsersFromGroup, fetchUsersFromEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -490,7 +578,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USERS", function() { return RECEIVE_USERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAllUsers", function() { return fetchAllUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsersFromGroup", function() { return fetchUsersFromGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsersFromEvent", function() { return fetchUsersFromEvent; });
 /* harmony import */ var _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/user_api_util */ "./frontend/utils/user_api_util.js");
 
 var RECEIVE_USER = "RECEIVE_USER";
@@ -517,9 +607,23 @@ var fetchUser = function fetchUser(userId) {
     });
   };
 };
-var fetchUsers = function fetchUsers() {
+var fetchAllUsers = function fetchAllUsers() {
   return function (dispatch) {
-    return _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUsers"]().then(function (users) {
+    return _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchAllUsers"]().then(function (users) {
+      return dispatch(receiveUsers(users));
+    });
+  };
+};
+var fetchUsersFromGroup = function fetchUsersFromGroup(groupId) {
+  return function (dispatch) {
+    return _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUsersFromGroup"](groupId).then(function (users) {
+      return dispatch(receiveUsers(users));
+    });
+  };
+};
+var fetchUsersFromEvent = function fetchUsersFromEvent(eventId) {
+  return function (dispatch) {
+    return _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUsersFromEvent"](eventId).then(function (users) {
       return dispatch(receiveUsers(users));
     });
   };
@@ -2732,10 +2836,12 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
-/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
-/* harmony import */ var _components_groups_group_show__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/groups/group_show */ "./frontend/components/groups/group_show.jsx");
+/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/membership_actions */ "./frontend/actions/membership_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _components_groups_group_show__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/groups/group_show */ "./frontend/components/groups/group_show.jsx");
+
 
 
 
@@ -2748,7 +2854,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     group: state.entities.groups[ownProps.match.params.groupId],
     locations: state.entities.locations,
     session: state.session,
-    events: state.entities.events
+    events: state.entities.events,
+    memberships: state.entities.memberships
   };
 };
 
@@ -2771,24 +2878,24 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch(deleteGroup(groupId));
     }),
     fetchUser: function fetchUser(userId) {
-      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["fetchUser"])(userId));
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_5__["fetchUser"])(userId));
     },
     createMembership: function createMembership(groupId) {
-      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_1__["createMembership"])(groupId));
+      return dispatch(Object(_actions_membership_actions__WEBPACK_IMPORTED_MODULE_2__["createMembership"])(groupId));
     },
     deleteMembership: function deleteMembership(groupId) {
-      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_1__["deleteMembership"])(groupId));
+      return dispatch(Object(_actions_membership_actions__WEBPACK_IMPORTED_MODULE_2__["deleteMembership"])(groupId));
     },
     fetchLocations: function fetchLocations() {
-      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_2__["fetchLocations"])());
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_3__["fetchLocations"])());
     },
     fetchEvents: function fetchEvents() {
-      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_3__["fetchEvents"])());
+      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_4__["fetchEvents"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_groups_group_show__WEBPACK_IMPORTED_MODULE_5__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_groups_group_show__WEBPACK_IMPORTED_MODULE_6__["default"]));
 
 /***/ }),
 
@@ -3845,7 +3952,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./actions/membership_actions */ "./frontend/actions/membership_actions.js");
+/* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./actions/user_actions */ "./frontend/actions/user_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 
 
@@ -3873,6 +3986,17 @@ document.addEventListener('DOMContentLoaded', function () {
   window.store = store;
   window.dispatch = store.dispatch;
   window.getState = store.getState;
+  window.fetchAllUsers = _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["fetchAllUsers"];
+  window.fetchUsersFromEvent = _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["fetchUsersFromEvent"];
+  window.fetchUsersFromGroup = _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["fetchUsersFromGroup"];
+  window.fetchMemberships = _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__["fetchMemberships"];
+  window.createMembership = _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__["createMembership"];
+  window.deleteMembership = _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__["deleteMembership"];
+  window.updateMembership = _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__["updateMembership"];
+  window.fetchReservations = _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_6__["fetchReservations"];
+  window.createReservation = _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_6__["createReservation"];
+  window.deleteReservation = _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_6__["deleteReservation"];
+  window.updateReservation = _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_6__["updateReservation"];
   var root = document.getElementById('root');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store
@@ -3926,6 +4050,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _groups_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./groups_reducer */ "./frontend/reducers/groups_reducer.js");
 /* harmony import */ var _locations_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./locations_reducer */ "./frontend/reducers/locations_reducer.js");
 /* harmony import */ var _categories_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./categories_reducer */ "./frontend/reducers/categories_reducer.js");
+/* harmony import */ var _memberships_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./memberships_reducer */ "./frontend/reducers/memberships_reducer.js");
+/* harmony import */ var _reservations_reducer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./reservations_reducer */ "./frontend/reducers/reservations_reducer.js");
+
+
 
 
 
@@ -3937,7 +4065,9 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
   events: _events_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
   groups: _groups_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   locations: _locations_reducer__WEBPACK_IMPORTED_MODULE_4__["default"],
-  categories: _categories_reducer__WEBPACK_IMPORTED_MODULE_5__["default"]
+  categories: _categories_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
+  memberships: _memberships_reducer__WEBPACK_IMPORTED_MODULE_6__["default"],
+  reservations: _reservations_reducer__WEBPACK_IMPORTED_MODULE_7__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -4103,6 +4233,66 @@ var LocationsReducer = function LocationsReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (LocationsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/memberships_reducer.js":
+/*!**************************************************!*\
+  !*** ./frontend/reducers/memberships_reducer.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/membership_actions */ "./frontend/actions/membership_actions.js");
+
+
+var membershipsReducer = function membershipsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_membership_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_MEMBERSHIPS"]:
+      return action.memberships;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (membershipsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/reservations_reducer.js":
+/*!***************************************************!*\
+  !*** ./frontend/reducers/reservations_reducer.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
+
+
+var reservationsReducer = function reservationsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_RESERVATIONS"]:
+      return action.reservations;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (reservationsReducer);
 
 /***/ }),
 
@@ -4404,7 +4594,7 @@ var formatDateTime = function formatDateTime(date) {
 /*!******************************************!*\
   !*** ./frontend/utils/event_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchEvents, fetchEvent, createEvent, updateEvent, deleteEvent, createReservation, updateReservation, deleteReservation */
+/*! exports provided: fetchEvents, fetchEvent, createEvent, updateEvent, deleteEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4414,9 +4604,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createEvent", function() { return createEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateEvent", function() { return updateEvent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteEvent", function() { return deleteEvent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createReservation", function() { return createReservation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateReservation", function() { return updateReservation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteReservation", function() { return deleteReservation; });
 var fetchEvents = function fetchEvents() {
   return $.ajax({
     url: '/api/events',
@@ -4453,33 +4640,6 @@ var deleteEvent = function deleteEvent(eventId) {
     method: "DELETE"
   });
 };
-var createReservation = function createReservation(eventId) {
-  return $.ajax({
-    url: "/api/events/".concat(eventId, "/reservations"),
-    method: "POST",
-    data: {
-      eventId: eventId
-    }
-  });
-};
-var updateReservation = function updateReservation(reservation) {
-  return $.ajax({
-    url: "/api/events/".concat(reservation.eventId, "/reservations/").concat(reservation.id),
-    method: "PATCH",
-    data: {
-      reservation: reservation
-    }
-  });
-};
-var deleteReservation = function deleteReservation(eventId) {
-  return $.ajax({
-    url: "/api/events/".concat(eventId, "/reservations/1"),
-    method: "DELETE",
-    data: {
-      eventId: eventId
-    }
-  });
-};
 
 /***/ }),
 
@@ -4487,7 +4647,7 @@ var deleteReservation = function deleteReservation(eventId) {
 /*!******************************************!*\
   !*** ./frontend/utils/group_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createMembership, updateMembership, deleteMembership, createType, deleteType, searchGroups */
+/*! exports provided: fetchGroups, fetchGroup, createGroup, updateGroup, deleteGroup, createType, deleteType, searchGroups */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4497,9 +4657,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createGroup", function() { return createGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateGroup", function() { return updateGroup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteGroup", function() { return deleteGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createType", function() { return createType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteType", function() { return deleteType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchGroups", function() { return searchGroups; });
@@ -4538,33 +4695,6 @@ var deleteGroup = function deleteGroup(groupId) {
   return $.ajax({
     url: "/api/groups/".concat(groupId),
     method: "DELETE"
-  });
-};
-var createMembership = function createMembership(groupId) {
-  return $.ajax({
-    url: "/api/groups/".concat(groupId, "/memberships"),
-    method: "POST",
-    data: {
-      groupId: groupId
-    }
-  });
-};
-var updateMembership = function updateMembership(membership) {
-  return $.ajax({
-    url: "/api/groups/".concat(membership.groupId, "/memberships/").concat(membership.id),
-    method: "PATCH",
-    data: {
-      membership: membership
-    }
-  });
-};
-var deleteMembership = function deleteMembership(groupId) {
-  return $.ajax({
-    url: "/api/groups/".concat(groupId, "/memberships/1"),
-    method: "DELETE",
-    data: {
-      groupId: groupId
-    }
   });
 };
 var createType = function createType(type) {
@@ -4611,6 +4741,92 @@ var fetchLocations = function fetchLocations() {
   return $.ajax({
     url: "/api/locations/",
     method: "GET"
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/utils/membership_api_utils.js":
+/*!************************************************!*\
+  !*** ./frontend/utils/membership_api_utils.js ***!
+  \************************************************/
+/*! exports provided: fetchMemberships, createMembership, updateMembership, deleteMembership */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchMemberships", function() { return fetchMemberships; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMembership", function() { return createMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMembership", function() { return updateMembership; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMembership", function() { return deleteMembership; });
+var fetchMemberships = function fetchMemberships(groupId) {
+  return $.ajax({
+    url: "/api/groups/".concat(groupId, "/memberships"),
+    method: "GET"
+  });
+};
+var createMembership = function createMembership(groupId) {
+  return $.ajax({
+    url: "/api/groups/".concat(groupId, "/memberships"),
+    method: "POST"
+  });
+};
+var updateMembership = function updateMembership(membership) {
+  return $.ajax({
+    url: "/api/groups/".concat(membership.groupId, "/memberships/").concat(membership.id),
+    method: "PATCH",
+    data: {
+      membership: membership
+    }
+  });
+};
+var deleteMembership = function deleteMembership(groupId) {
+  return $.ajax({
+    url: "/api/groups/".concat(groupId, "/memberships/1"),
+    method: "DELETE"
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/utils/reservation_api_utils.js":
+/*!*************************************************!*\
+  !*** ./frontend/utils/reservation_api_utils.js ***!
+  \*************************************************/
+/*! exports provided: fetchReservations, createReservation, updateReservation, deleteReservation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchReservations", function() { return fetchReservations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createReservation", function() { return createReservation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateReservation", function() { return updateReservation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteReservation", function() { return deleteReservation; });
+var fetchReservations = function fetchReservations(eventId) {
+  return $.ajax({
+    url: "/api/events/".concat(eventId, "/reservations"),
+    method: "GET"
+  });
+};
+var createReservation = function createReservation(eventId) {
+  return $.ajax({
+    url: "/api/events/".concat(eventId, "/reservations"),
+    method: "POST"
+  });
+};
+var updateReservation = function updateReservation(reservation) {
+  return $.ajax({
+    url: "/api/events/".concat(reservation.eventId, "/reservations/").concat(reservation.id),
+    method: "PATCH",
+    data: {
+      reservation: reservation
+    }
+  });
+};
+var deleteReservation = function deleteReservation(eventId) {
+  return $.ajax({
+    url: "/api/events/".concat(eventId, "/reservations/1"),
+    method: "DELETE"
   });
 };
 
@@ -4721,22 +4937,36 @@ var deleteSession = function deleteSession() {
 /*!*****************************************!*\
   !*** ./frontend/utils/user_api_util.js ***!
   \*****************************************/
-/*! exports provided: fetchUser, fetchUsers */
+/*! exports provided: fetchUser, fetchAllUsers, fetchUsersFromGroup, fetchUsersFromEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAllUsers", function() { return fetchAllUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsersFromGroup", function() { return fetchUsersFromGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsersFromEvent", function() { return fetchUsersFromEvent; });
 var fetchUser = function fetchUser(userId) {
   return $.ajax({
     url: "/api/users/".concat(userId),
     method: "GET"
   });
 };
-var fetchUsers = function fetchUsers() {
+var fetchAllUsers = function fetchAllUsers(id) {
   return $.ajax({
     url: "/api/users/",
+    method: "GET"
+  });
+};
+var fetchUsersFromGroup = function fetchUsersFromGroup(groupId) {
+  return $.ajax({
+    url: "/api/groups/".concat(groupId, "/users"),
+    method: "GET"
+  });
+};
+var fetchUsersFromEvent = function fetchUsersFromEvent(eventId) {
+  return $.ajax({
+    url: "/api/events/".concat(eventId, "/users"),
     method: "GET"
   });
 };

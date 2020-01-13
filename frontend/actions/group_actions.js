@@ -49,21 +49,6 @@ export const searchGroups = (searchQuery) => dispatch => (
         .then( (group) => dispatch(receiveGroups(group)))
 )
 
-export const createMembership = groupId => dispatch => (
-    APIUtils.createMembership(groupId)
-        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
-)
-
-export const deleteMembership = groupId => dispatch => (
-    APIUtils.deleteMembership(groupId)
-        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
-)
-
-export const updateMembership = memberType => dispatch => (
-    APIUtils.updateMembership(memberType)
-        .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
-)
-
 export const createType = type => dispatch => (
     APIUtils.createType(type)
         .then( (updatedGroup) => dispatch(receiveGroup(updatedGroup)))
