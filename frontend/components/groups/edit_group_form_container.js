@@ -9,9 +9,8 @@ const mstp = (state, ownProps) => {
     let locations = Object.values(state.entities.locations)
     let categories = Object.values(state.entities.categories)
     let group = state.entities.groups[ownProps.match.params.groupId]
-    let groupCat = group.categories
     let selectedLocation;
-    debugger
+    
     for (let i = 0; i < locations.length; i++){
         locations[i].key = 'location';
         locations[i].selected = (locations[i].id === group.locationId) 
@@ -19,7 +18,7 @@ const mstp = (state, ownProps) => {
     }
     for (let i = 0; i < categories.length; i++){
         categories[i].key = 'category';
-        categories[i].selected  = !!groupCat[categories[i].id] ? true : false
+        categories[i].selected  = group.categoryIds.includes(categories[i].id)
     }
     return {
         group: group,

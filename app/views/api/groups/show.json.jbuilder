@@ -9,11 +9,10 @@
             end
         end
     end
-    json.categories do
-        @group.categories.each do |category|
-            json.set! category.id do
-                json.extract! category, :name
-            end
-        end
+    json.categoryIds do
+        json.array! @group.categories.pluck(:id)
+    end
+    json.eventIds do
+        json.array! @group.events.pluck(:id)
     end
 

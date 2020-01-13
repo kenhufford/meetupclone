@@ -482,16 +482,19 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_USER, fetchUser */
+/*! exports provided: RECEIVE_USER, RECEIVE_USERS, fetchUser, fetchUsers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USERS", function() { return RECEIVE_USERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
 /* harmony import */ var _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/user_api_util */ "./frontend/utils/user_api_util.js");
 
 var RECEIVE_USER = "RECEIVE_USER";
+var RECEIVE_USERS = "RECEIVE_USERS";
 
 var receiveUser = function receiveUser(user) {
   return {
@@ -500,10 +503,24 @@ var receiveUser = function receiveUser(user) {
   };
 };
 
+var receiveUsers = function receiveUsers(users) {
+  return {
+    type: RECEIVE_USERS,
+    users: users
+  };
+};
+
 var fetchUser = function fetchUser(userId) {
   return function (dispatch) {
     return _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUser"](userId).then(function (user) {
       return dispatch(receiveUser(user));
+    });
+  };
+};
+var fetchUsers = function fetchUsers() {
+  return function (dispatch) {
+    return _utils_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUsers"]().then(function (users) {
+      return dispatch(receiveUsers(users));
     });
   };
 };
@@ -886,6 +903,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -903,6 +921,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -931,7 +950,9 @@ function (_React$Component) {
       var _this2 = this;
 
       return function () {
-        if (key === "create") {
+        if (!_this2.props.currentUserId) {
+          _this2.props.history.push("/login");
+        } else if (key === "create") {
           _this2.props.createReservation(_this2.props.match.params.eventId).then(function (payload) {
             return _this2.setState({
               currentUserAttending: payload.event.currentUserAttending
@@ -959,6 +980,7 @@ function (_React$Component) {
       var _this3 = this;
 
       this.props.fetchLocations();
+      this.props.fetchUsers();
       this.props.fetchEvent(this.props.match.params.eventId).then(function (payload) {
         return _this3.setState({
           currentUserAttending: payload.event.currentUserAttending
@@ -969,32 +991,31 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log("event show re-rendering");
-      console.log(this.state.currentUserAttending);
-      debugger;
-
-      if (!this.props.event || !this.props.group) {
+      if (!this.props.event || !this.props.group || !this.props.locations || !this.props.users) {
         return null;
       } else {
         var _this$props$event = this.props.event,
             title = _this$props$event.title,
             description = _this$props$event.description,
             startTime = _this$props$event.startTime,
+            locationId = _this$props$event.locationId,
             endTime = _this$props$event.endTime,
             address = _this$props$event.address,
             imageUrl = _this$props$event.imageUrl,
             reservations = _this$props$event.reservations;
-        var group = this.props.group;
-        var attendeesObj = this.props.event.attendees;
+        var _this$props = this.props,
+            group = _this$props.group,
+            locations = _this$props.locations,
+            users = _this$props.users;
         var organizers = [];
         var organizerIds = [];
-        reservations.forEach(function (attendee) {
-          if (attendee.isOrganizer) {
-            organizers.push(attendee.name);
-            organizerIds.push(attendee.userId);
+        reservations.forEach(function (reservation) {
+          if (reservation.isOrganizer) {
+            organizers.push(users[reservation.userId].name);
+            organizerIds.push(reservation.userId);
           }
         });
-        var organizersText = organizers.length === 1 ? " " : " and ".concat(organizers.length - 1, " others");
+        var organizersText = organizers.length === 1 ? " " : "".concat(organizers[0], " and ").concat(organizers.length - 1, " others");
         var joinButton = !this.state.currentUserAttending ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           onClick: this.rsvp("create"),
           className: "event-show-join"
@@ -1002,6 +1023,7 @@ function (_React$Component) {
           onClick: this.rsvp("delete"),
           className: "event-show-join"
         }, "A HONORABLE RETREAT");
+        console.log(organizers);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1013,19 +1035,21 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-banner-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window[attendeesObj[organizerIds[0]].imageUrl],
+          src: window[users[organizerIds[0]].imageUrl],
           className: "event-show-member-picture",
           alt: "org-pic"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-banner-right-text"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, organizersText))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, organizers[0], " ", organizersText))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-left"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window[imageUrl],
           alt: "event-pic"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Details"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, description)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "event-show-description"
+        }, description)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-left-members"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Challengers (", reservations.length, ")")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-left-members-list"
@@ -1036,19 +1060,20 @@ function (_React$Component) {
               key: i
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
               key: i,
-              src: window[attendeesObj[member.userId].imageUrl],
+              src: window[users[member.userId].imageUrl],
               alt: "member-pic",
               className: "event-show-member-picture"
-            }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, attendeesObj[member.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, attendeesObj[member.userId].isOrganizer ? "Organizer" : "Challenger"));
+            }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, users[member.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, users[member.userId].isOrganizer ? "Organizer" : "Challenger"));
             return icon;
           }
         }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/groups/".concat(group.id),
           className: "event-show-main-right-groupinfo"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window[group.imageUrl]
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Initiated By:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), group.name, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Initiated By:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), group.name))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-right-eventinfo"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-right-infobox"
@@ -1058,7 +1083,7 @@ function (_React$Component) {
           className: "event-show-main-right-infobox"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "far fa-compass"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, address)))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, locations[locationId].name)))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-footer"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-footer-inter"
@@ -1094,6 +1119,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
 /* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
@@ -1107,7 +1134,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     event: state.entities.events[eventId],
     group: state.entities.groups[groupId],
-    currentUserId: userId
+    locations: state.entities.locations,
+    currentUserId: userId,
+    users: state.entities.users
   };
 };
 
@@ -1121,6 +1150,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchLocations: function fetchLocations() {
       return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_4__["fetchLocations"])());
+    },
+    fetchUsers: function fetchUsers() {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_5__["fetchUsers"])());
     },
     createReservation: function createReservation(eventId) {
       return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_2__["createReservation"])(eventId));
@@ -1630,9 +1662,7 @@ var mstp = function mstp(state, ownProps) {
   var locations = Object.values(state.entities.locations);
   var categories = Object.values(state.entities.categories);
   var group = state.entities.groups[ownProps.match.params.groupId];
-  var groupCat = group.categories;
   var selectedLocation;
-  debugger;
 
   for (var i = 0; i < locations.length; i++) {
     locations[i].key = 'location';
@@ -1642,7 +1672,7 @@ var mstp = function mstp(state, ownProps) {
 
   for (var _i = 0; _i < categories.length; _i++) {
     categories[_i].key = 'category';
-    categories[_i].selected = !!groupCat[categories[_i].id] ? true : false;
+    categories[_i].selected = group.categoryIds.includes(categories[_i].id);
   }
 
   return {
@@ -2377,6 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _group_show_about__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_show_about */ "./frontend/components/groups/group_show_about.jsx");
 /* harmony import */ var _group_show_members__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_show_members */ "./frontend/components/groups/group_show_members.jsx");
 /* harmony import */ var _group_options_dropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group_options_dropdown */ "./frontend/components/groups/group_options_dropdown.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2394,6 +2425,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2429,6 +2461,7 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchLocations();
+      this.props.fetchEvents();
       this.props.fetchGroup(this.props.match.params.groupId);
     }
   }, {
@@ -2445,16 +2478,22 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.group || !!!Object.values(this.props.locations).length) {
+      debugger;
+
+      if (!this.props.group || !this.props.locations || !this.props.events) {
         return null;
       } else {
-        var memberships = !this.props.group.memberships ? [] : this.props.group.memberships;
-        var membersObj = this.props.group.members;
+        var _this$props = this.props,
+            group = _this$props.group,
+            locations = _this$props.locations;
+        var _this$props$group = this.props.group,
+            memberships = _this$props$group.memberships,
+            members = _this$props$group.members;
         var organizers = [];
         var organizerIds = [];
         memberships.forEach(function (member) {
-          if (member.memberType === "Organizer") {
-            organizers.push(membersObj[member.userId].name);
+          if (member.memberType === "Captain") {
+            organizers.push(members[member.userId].name);
             organizerIds.push(member.userId);
           }
         });
@@ -2469,7 +2508,7 @@ function (_React$Component) {
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_about__WEBPACK_IMPORTED_MODULE_1__["default"], {
               switchPage: this.switchPage,
               memberships: memberships,
-              membersObj: membersObj,
+              members: members,
               organizers: organizers,
               organizerIds: organizerIds,
               props: this.props
@@ -2479,8 +2518,15 @@ function (_React$Component) {
           case "members":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members__WEBPACK_IMPORTED_MODULE_2__["default"], {
               organizerIds: organizerIds,
-              membersObj: membersObj,
+              members: members,
               memberships: memberships
+            });
+            break;
+
+          case "events":
+            currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupShowEvents, {
+              events: events,
+              group: group
             });
             break;
 
@@ -2488,7 +2534,7 @@ function (_React$Component) {
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_about__WEBPACK_IMPORTED_MODULE_1__["default"], {
               organizersNum: organizersNum,
               membership: memberships,
-              membersObj: membersObj,
+              members: members,
               organizers: organizers,
               organizerIds: organizerIds,
               props: this.props
@@ -2528,7 +2574,7 @@ function (_React$Component) {
           className: "group-show-header-right-location"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-map-marker-alt"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.locations[this.props.group.locationId].name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, locations[this.props.group.locationId].name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-header-right-totalmembers"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-user-friends"
@@ -2548,7 +2594,8 @@ function (_React$Component) {
           className: "group-show-inline-list-item",
           onClick: this.switchPage('about')
         }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "group-show-inline-list-item"
+          className: "group-show-inline-list-item",
+          onClick: this.switchPage('events')
         }, "Events"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "group-show-inline-list-item",
           onClick: this.switchPage('members')
@@ -2613,7 +2660,7 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      if (!this.props.props.group) {
+      if (!this.props.props.group.members) {
         return null;
       }
 
@@ -2653,10 +2700,11 @@ function (_React$Component) {
       }, this.props.memberships.map(function (member, i) {
         if (i < 12) {
           var icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-member-picture-div"
+            className: "group-show-member-picture-div",
+            key: i
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
             key: i,
-            src: window[_this.props.membersObj[member.userId].imageUrl],
+            src: window[_this.props.members[member.userId].imageUrl],
             alt: "member-pic",
             className: "group-show-member-picture"
           }));
@@ -2685,8 +2733,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
 /* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
-/* harmony import */ var _components_groups_group_show__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/groups/group_show */ "./frontend/components/groups/group_show.jsx");
+/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _components_groups_group_show__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/groups/group_show */ "./frontend/components/groups/group_show.jsx");
+
 
 
 
@@ -2697,7 +2747,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     group: state.entities.groups[ownProps.match.params.groupId],
     locations: state.entities.locations,
-    session: state.session
+    session: state.session,
+    events: state.entities.events
   };
 };
 
@@ -2720,7 +2771,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch(deleteGroup(groupId));
     }),
     fetchUser: function fetchUser(userId) {
-      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchUser"])(userId));
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["fetchUser"])(userId));
     },
     createMembership: function createMembership(groupId) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_1__["createMembership"])(groupId));
@@ -2730,11 +2781,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchLocations: function fetchLocations() {
       return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_2__["fetchLocations"])());
+    },
+    fetchEvents: function fetchEvents() {
+      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_3__["fetchEvents"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_groups_group_show__WEBPACK_IMPORTED_MODULE_4__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_components_groups_group_show__WEBPACK_IMPORTED_MODULE_5__["default"]));
 
 /***/ }),
 
@@ -2805,15 +2859,15 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           memberships = _this$props.memberships,
-          membersObj = _this$props.membersObj,
+          members = _this$props.members,
           organizerIds = _this$props.organizerIds;
       var list = this.state.currentPage === "All members" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
       }, memberships.map(function (membership, i) {
-        var _membersObj$membershi = membersObj[membership.userId],
-            imageUrl = _membersObj$membershi.imageUrl,
-            name = _membersObj$membershi.name,
-            createdAt = _membersObj$membershi.createdAt;
+        var _members$membership$u = members[membership.userId],
+            imageUrl = _members$membership$u.imageUrl,
+            name = _members$membership$u.name,
+            createdAt = _members$membership$u.createdAt;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i,
           className: "group-show-members-right-member-li"
@@ -2828,10 +2882,10 @@ function (_React$Component) {
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
       }, organizerIds.map(function (id, i) {
-        var _membersObj$id = membersObj[id],
-            imageUrl = _membersObj$id.imageUrl,
-            name = _membersObj$id.name,
-            createdAt = _membersObj$id.createdAt;
+        var _members$id = members[id],
+            imageUrl = _members$id.imageUrl,
+            name = _members$id.name,
+            createdAt = _members$id.createdAt;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i,
           className: "group-show-members-right-member-li"
@@ -4196,6 +4250,9 @@ var usersReducer = function usersReducer() {
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       return _defineProperty({}, action.user.id, action.user);
 
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USERS"]:
+      return action.users;
+
     default:
       return state;
   }
@@ -4664,15 +4721,22 @@ var deleteSession = function deleteSession() {
 /*!*****************************************!*\
   !*** ./frontend/utils/user_api_util.js ***!
   \*****************************************/
-/*! exports provided: fetchUser */
+/*! exports provided: fetchUser, fetchUsers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
 var fetchUser = function fetchUser(userId) {
   return $.ajax({
     url: "/api/users/".concat(userId),
+    method: "GET"
+  });
+};
+var fetchUsers = function fetchUsers() {
+  return $.ajax({
+    url: "/api/users/",
     method: "GET"
   });
 };

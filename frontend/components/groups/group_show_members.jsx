@@ -18,11 +18,11 @@ class GroupShowMembers extends React.Component{
     }
 
     render(){
-        let {memberships, membersObj, organizerIds} = this.props
+        let {memberships, members, organizerIds} = this.props
         let list = this.state.currentPage==="All members" ? 
         (<ul className="group-show-members-right-list">
             {memberships.map ((membership, i) => {
-                let {imageUrl, name, createdAt} = membersObj[membership.userId]
+                let {imageUrl, name, createdAt} = members[membership.userId]
                 return (
                     <li key={i} className="group-show-members-right-member-li">
                         <div className="group-show-members-right-member">
@@ -40,7 +40,7 @@ class GroupShowMembers extends React.Component{
 
         (<ul className="group-show-members-right-list">
             {organizerIds.map ((id, i) => {
-                let {imageUrl, name, createdAt} = membersObj[id]
+                let {imageUrl, name, createdAt} = members[id]
                 return (
                     <li key={i} className="group-show-members-right-member-li">
                         <div className="group-show-members-right-member">

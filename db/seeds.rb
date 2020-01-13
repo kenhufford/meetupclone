@@ -100,11 +100,11 @@ end
     soulcalibur_user_names = ["Nightmare", "Astaroth", "Cervantes" ]
     smashbrothers_user_names = ["Villager", "Wii Fit Trainer", "Fox"]
     tekken_user_names = ["Eddy", "King", "Heihachi", "Jin"]
-    arnolds_user_names = ["T-800", "Conan", "Douglas Quaid", "Commando", "Dutch", "Mr. Freeze"]
-    aa_user_names = ["Duke", "Evans", "Linda", "Chris", "Helen", "Joseph", "Sami", "Kenny", "Abel","Ian","Julie"]
+    arnolds_user_names = ["Mr. Freeze", "Conan", "Douglas Quaid", "Commando", "Dutch", "T-800"]
+    aa_user_names = ["Helen","Duke", "Evans", "Linda", "Chris", "Joseph", "Sami", "Kenny", "Abel","Ian","Julie"]
     dbz_user_names = ["Goku", "Vegeta", "Piccolo", "Trunks"]
     best_user_names = ["Krillin"]
-    badguys_user_names = ["Isabelle", "Howard Langston", "Sebastian", "Sakura"]
+    badguys_user_names = ["Isabelle", "Sebastian", "Howard Langston", "Sakura"]
     tights_user_names = ["Robin Hood", "Lil' Jon", "Dave Chapelle", "Blinkin"]
     history_user_names = ["Teddy", "Lincoln" "Caesar", "Joan of Arc"]
     rapper_user_names =["Kanye", "Kanye", "Kanye","Kanye"]
@@ -117,21 +117,38 @@ end
     soulcalibur_image_url = ["nightmareURL", "astarothURL", "voldoURL"]
     smashbrothers_image_url = ["villagerURL", "wiifitURL", "foxURL"]
     tekken_image_url = [ "eddyURL", "kingURL","heihachiURL", "jinURL"]
-    arnolds_image_url = ["t800URL", "conanURL", "douglasquaidURL", "commandoURL", "dutchURL", "mrfreezeURL"]
-    aa_image_url = ["dukeURL", "evansURL", "lindaURL", "chrisURL", "helenURL", "josephURL",
+    arnolds_image_url = ["mrfreezeURL","conanURL", "douglasquaidURL", "commandoURL", "dutchURL", "t800URL"]
+    aa_image_url = ["helenURL","dukeURL", "evansURL", "lindaURL", "chrisURL", "josephURL",
      "samiURL", "kennyURL", "abelURL","ianURL","julieURL"]
     dbz_image_url = ["gokuURL", "vegetaURL", "piccoloURL", "trunksURL"]
     best_image_url = ["krillinURL"]
-    badguys_image_url = ["isabelleURL", "howardlangstonURL", "sebastianURL", "sakuraURL"]
+    badguys_image_url = ["isabelleURL", "sebastianURL", "howardlangstonURL", "sakuraURL"]
     tights_image_url = ["robinhoodURL", "liljonURL", "davechapelleURL", "blinkinURL"]
     history_image_url = ["teddyURL", "lincolnURL", "caesarURL", "joanofarcURL"]
     rapper_image_url = ["kanyeURL","kanye2URL", "kanye3URL", "kanye4URL"]
     
     image_urls = [streetfighter_image_url, mortalkombat_image_url, soulcalibur_image_url, smashbrothers_image_url, tekken_image_url, 
     arnolds_image_url, aa_image_url, dbz_image_url, best_image_url, badguys_image_url, tights_image_url, history_image_url, rapper_image_url]
+  
+
+    streetfighter_event_orgs = []
+    mortalkombat_event_orgs = []
+    soulcalibur_event_orgs = []
+    smashbrothers_event_orgs = []
+    tekken_event_orgs = []
+    arnolds_event_orgs = []
+    aa_event_orgs = []
+    dbz_event_orgs = []
+    best_event_orgs = []
+    badguys_event_orgs = []
+    tights_event_orgs = []
+    history_event_orgs = []
+    rapper_event_orgs = []
     
-    member_types = ["Admin", "Organizer", "Member"]
+    event_orgs = [streetfighter_event_orgs, mortalkombat_event_orgs, soulcalibur_event_orgs, smashbrothers_event_orgs, tekken_event_orgs, 
+    arnolds_event_orgs, aa_event_orgs, dbz_event_orgs, best_event_orgs, badguys_event_orgs, tights_event_orgs, history_event_orgs, rapper_event_orgs]
     
+
     user_names.each_with_index do |group_names, i|
         group_names.each_with_index do |name, j|
             user = User.create!(
@@ -141,7 +158,16 @@ end
                 location_id: (Faker::Number.within(range: 1..location_names.length)),
                 image_url: image_urls[i][j]
                 )
-            j == 0 ? member_type = "Organizer" : member_type = member_types.sample  
+            event_orgs[i] << user.id
+
+            if j == 0 
+                member_type = "Captain" 
+            elsif j == 1
+                member_type = "Squad Leader" 
+            else 
+                member_type = "Initiate"
+            end
+
             Membership.create!(
                 group_id: i+1,
                 user_id: user.id,
@@ -163,12 +189,12 @@ end
     Membership.create!(
         group_id: 7,
         user_id: demo_user.id,
-        member_type: "Organizer"    
+        member_type: "Captain"    
     )
     Membership.create!(
         group_id: 5,
         user_id: demo_user.id,
-        member_type: "Organizer"    
+        member_type: "Squad Leader"    
     )
     Membership.create!(
         group_id: 1,
@@ -176,30 +202,115 @@ end
         member_type: "Member"    
     )
     
-    event_titles = ["Brawliday @ the Park", "Noob Friendly Fest", "No Magic Allowed", "Fireball Friday", 
-    "Sharpen Skills Saturday", "Sunday Runday", "Magic Management",
-    "Cheese Tactics Everyone Should Know", "Musical Monday with Song and Dance!"]
-    group_ids = [1, 2, 3, 4, 5]
-    descriptions = ["We stretch a bunch and lounge around in stretchy pants", "We play out in the streets until someone yells at us or a major injury happens", "We play in my basement until my mom yells at us to stop coming to her house"]
-    max_attendance = [100, 20, 5]
-    
-    event_titles.each_with_index do |event, i|
-        event = Event.create!(title: event, 
-        group_id: group_ids.sample, 
-        description: descriptions.sample, 
-        max_attendance: max_attendance.sample, 
-        start_time: Faker::Time.between_dates(from: Date.today - 1, to: Date.today, period: :all),
-        end_time: Faker::Time.between_dates(from: Date.today, to: Date.today+10, period: :all),
-        address: Faker::Address.street_address,
-        location_id: (1...location_names.length).to_a.sample)
+    sf_event_titles = ["Limb strength training", "A fun trip to wine country!"]
+    mk_event_titles  = ["A night of broken limbs", "Final Kombat"]
+    sc_event_titles = ["A Study of Blades", "Civilized Weapons Only"]
+    sb_event_titles = ["BRAWLIDAY", "Casual Friday!"] 
+    tekken_event_titles = ["Tek Tuesday", "Teknical Hit!"] 
+    arnold_event_titles = [ "Mr. Universe", "Pumpin' Iron"]
+    aa_event_titles = ["Winner gets a USB-C-HDMI Adapter!", "Cheese-its and Beer"]
+    dbz_event_titles = ["World Martial Arts Tournament", "Hell in a Cell Games", "Vegeta's driving lessons!"]
+    krillin_event_titles = ["BEST NIGHT EVER", "Definity not me by myself"]
+    badguys_event_titles = ["Bring your decks", "Gardening 101", "Clean up our community!"]
+    tights_event_titles = ["Castle Siege VI", "A Song of Silk and Spandex"]
+    history_event_titles = ["Ancient Martial Arts", "Avoiding Asssassination"]
+    rapper_event_titles = ["An Epic Rap Battle with the GOAT", "Fishsticks"]
 
-        10.times do |i|
-            organizer = (i = 1) ? true : false
+    event_titles = [sf_event_titles, mk_event_titles, sc_event_titles, sb_event_titles, tekken_event_titles, arnold_event_titles,
+    aa_event_titles, dbz_event_titles, krillin_event_titles, badguys_event_titles, tights_event_titles, history_event_titles,
+    rapper_event_titles]
+
+    sf_event_desc = ["Meet us out at the pier around sunset for some stress relief and strength training.  
+    We will provide water and food but please make sure to bring your car since we don't have any cars 
+    anymore and Blanka isn't legally allowed to drive.", "Come join us on a relaxing trip to Sonoma! We'll start
+    with a light pairing of whites and cheeses followed by some full-bodied reds.  Then we'll likely carry out
+    our tradition of having some light sparring in the winery warehouse until we're thrown out or carried out."]
+    mk_event_desc  = ["Kome test your might.  We will be inkluding a variety of materials for you, our
+    kontestants, to find the mightiest warriors who are kapable of joining our squad.  We suggest wearing
+    long sleeve shirts (no tanktops for you show offs out there", "Final Kombat XVII.  It's like it says.  This is 
+    our final, final, final, final, final, final, final, final, final, final, final, final, final
+    , final, final, final, final event.  We are Mortal Kombantants.  We know how to finish."]
+    sc_event_desc = ["Come join us at Nightmare's house where we plan to watch seminal sword film and study 
+    the blade.  We plan to watch Sword Art Online, Samurai Champloo, Kenshin and whatever else Nightmare's mom
+    will allow us to watch before she yells at us to 'Go home and get a life'.  She will also likely be baking
+    cookies so make sure you RSVP and come early!", "At dusk, we meet at the stage and put everything we learned
+    to the test.  Unlike the other uncivilized squads, we only fight 1v1 so no one can complain and say '1v1 me 
+    bro' when they are defeated.  No holding back and saying 'I was only testing your strength, now witness
+    my true power!' No charging up for more than 10 minutes because we don't have all night."]
+    sb_event_desc = ["BRAWLIDAY SEASON IS UPON US.  As always, we hold the biggest, best brawl of the year.  In
+    true brawl spirit, everyone is invited and there are NO RULES.  Bring any weapons, any friends, any time,
+    any place, anywhere.  Really this isn't an event, it's a fighting spirit. So come join the brawliest of
+    brawls and maybe we can convince you to join the Smash Siblings Squad!", "The name says it all.  Kick
+    off your shoes, because Smash Siblings is the most laidback squad on the coast.  We typically start off with some
+    light 1v1v1v1 on a big moving stage with all items activated then move on to 1v1v1v1v1v1v1v1 on Final
+    Destination with extra weapon drops and ultimates engaged.  Trophies and capri suns will be provided to
+    all in attendance!"] 
+
+    tekken_event_desc = ["Tek Tuesday", "Teknical Hit!"] 
+    arnold_event_desc = [ "Mr. Universe", "Pumpin' Iron"]
+    aa_event_desc = ["Winner gets a USB-C-HDMI Adapter!", "Cheese-its and Beer"]
+    dbz_event_desc = ["World Martial Arts Tournament", "Hell in a Cell Games", "Vegeta's driving lessons!"]
+    krillin_event_desc = ["BEST NIGHT EVER", "Definity not me by myself"]
+    badguys_event_desc = ["Bring your decks", "Gardening 101", "Clean up our community!"]
+    tights_event_desc = ["Castle Siege VI", "A Song of Silk and Spandex"]
+    history_event_desc = ["Ancient Martial Arts", "Avoiding Asssassination"]
+    rapper_event_desc = ["An Epic Rap Battle with the GOAT", "Fishsticks"]
+
+    event_descriptions = [sf_event_desc, mk_event_desc, sc_event_desc, sb_event_desc, tekken_event_desc, arnold_event_desc,
+    aa_event_desc, dbz_event_desc, krillin_event_desc, badguys_event_desc, tights_event_desc, history_event_desc,
+    rapper_event_desc]
+
+    sf_image_url = ["sfevent1URL", "sfevent2URL"]
+    mk_image_url  = ["mkevent1URL", "mkevent2URL"]
+    sc_image_url = ["scevent1URL", "scevent2URL"]
+    sb_image_url = ["sbevent1URL", "sbevent2URL"] 
+    tekken_image_url = ["tekkenevent1URL", "tekkenevent2URL"] 
+    arnold_image_url = [ "arnoldevent1URL", "arnoldeventURL"]
+    aa_image_url = ["aaevent1URL", "aaevent2URL"]
+    dbz_image_url = ["dbzevent1URL", "dbzevent2URL", "dbzevent3URL"]
+    krillin_image_url = ["krillinevent1URL", "krillinevent2URL"]
+    badguys_image_url = ["badguysevent1URL", "badguysevent2URL", "badguysevent3URL"]
+    tights_image_url = ["tightsevent1URL", "tightsevent2URL"]
+    history_image_url = ["historyevent1URL", "historyevent2URL"]
+    rapper_image_url = ["rapperevent1URL", "rapperevent2URL"]
+
+    event_image_urls = [sf_image_url, mk_image_url, sc_image_url, sb_image_url, tekken_image_url, arnold_image_url,
+    aa_image_url, dbz_image_url, krillin_image_url, badguys_image_url, tights_image_url, history_image_url,
+    rapper_image_url]
+
+    max_attendance = [100, 20, 5]
+    recurring_type = ["Weekly", "Monthly"]
+
+    
+    event_titles.each_with_index do |event_group_titles, i|
+        event_group_titles.each_with_index do |event_title, j|
+            event = Event.create!(
+            title: event_titles[i][j], 
+            group_id: i+1, 
+            description: event_descriptions[i][j], 
+            max_attendance: max_attendance.sample, 
+            start_time: Faker::Time.between_dates(from: Date.today+1, to: Date.today+5, period: :all),
+            end_time: Faker::Time.between_dates(from: Date.today+5, to: Date.today+10, period: :all),
+            address: Faker::Address.street_address,
+            location_id: (1...location_names.length).to_a.sample,
+            image_url: event_image_urls[i][j],
+            recurring_type: recurring_type.sample)
+
             Reservation.create!(
                 event_id: event.id,
-                user_id: i+1,
-                is_organizer: organizer
+                user_id: event_orgs[i].sample,
+                is_organizer: true
             )
+            
+            8.times do |k|
+                Reservation.create!(
+                    event_id: event.id,
+                    user_id: (Faker::Number.within(range: 1..user_names.flatten.length)),
+                    is_organizer: false
+                )
+            end
+
         end
+
     end
 

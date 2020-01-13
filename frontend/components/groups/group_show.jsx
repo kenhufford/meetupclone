@@ -2,6 +2,7 @@ import React from 'react';
 import GroupShowAbout from './group_show_about'
 import GroupShowMembers from './group_show_members'
 import GroupOptionsDropdown from './group_options_dropdown'
+import {Link} from 'react-router-dom'
 
 class GroupShow extends React.Component{
     constructor(props){
@@ -20,6 +21,7 @@ class GroupShow extends React.Component{
 
     componentDidMount(){
         this.props.fetchLocations();
+        this.props.fetchEvents();
         this.props.fetchGroup(this.props.match.params.groupId);  
     }
 
@@ -31,16 +33,17 @@ class GroupShow extends React.Component{
     }
 
     render(){
-        if (!this.props.group || !(!!Object.values(this.props.locations).length)) {
+        debugger
+        if (!this.props.group || !this.props.locations || !this.props.events) {
             return null
         } else {
-            let memberships = (!this.props.group.memberships) ? [] : this.props.group.memberships 
-            let membersObj = (this.props.group.members)
+            let {group, locations} = this.props
+            let {memberships, members} = this.props.group
             let organizers = [];
             let organizerIds = [];
             memberships.forEach ( (member)=> {
-                if (member.memberType==="Organizer"){
-                    organizers.push(membersObj[member.userId].name)
+                if (member.memberType==="Captain"){
+                    organizers.push(members[member.userId].name)
                     organizerIds.push(member.userId)
                 }
             })
@@ -51,13 +54,16 @@ class GroupShow extends React.Component{
             let currentTab;
             switch (this.state.currentPage) {
                 case "about":
-                    currentTab = (<GroupShowAbout switchPage={this.switchPage} memberships={memberships} membersObj={membersObj} organizers={organizers} organizerIds={organizerIds} props={this.props} />)
+                    currentTab = (<GroupShowAbout switchPage={this.switchPage} memberships={memberships} members={members} organizers={organizers} organizerIds={organizerIds} props={this.props} />)
                     break;
                     case "members":
-                        currentTab = <GroupShowMembers organizerIds={organizerIds} membersObj={membersObj} memberships={memberships}/>
+                        currentTab = <GroupShowMembers organizerIds={organizerIds} members={members} memberships={memberships}/>
+                        break;
+                    case "events":
+                        currentTab = <GroupShowEvents events={events} group={group}/>
                         break;
                     default:
-                        currentTab = (<GroupShowAbout organizersNum={organizersNum} membership={memberships} membersObj={membersObj} organizers={organizers} organizerIds={organizerIds} props={this.props} />)
+                        currentTab = (<GroupShowAbout organizersNum={organizersNum} membership={memberships} members={members} organizers={organizers} organizerIds={organizerIds} props={this.props} />)
                         break;
             }
             let groupDropdown = (!this.props.group.members) ? (<div className="group-show-stripe-right"></div>) : 
@@ -83,7 +89,7 @@ class GroupShow extends React.Component{
                                 <h4 className="group-show-header-right-groupname">{name}</h4>
                                 <div className="group-show-header-right-location">
                                     <i className="fas fa-map-marker-alt"></i>
-                                    <p>{this.props.locations[this.props.group.locationId].name}</p>
+                                    <p>{locations[this.props.group.locationId].name}</p>
                                 </div>
                                 <div className="group-show-header-right-totalmembers">
                                     <i className="fas fa-user-friends"></i>
@@ -100,7 +106,7 @@ class GroupShow extends React.Component{
                         <div className="group-show-stripe">
                             <div className="group-show-stripe-left">
                                 <li className="group-show-inline-list-item" onClick={this.switchPage('about')}>About</li>
-                                <li className="group-show-inline-list-item">Events</li>
+                                <li className="group-show-inline-list-item" onClick={this.switchPage('events')}>Events</li>
                                 <li className="group-show-inline-list-item" onClick={this.switchPage('members')}>Members</li>
                                 <li className="group-show-inline-list-item">Photos</li>
                             </div>

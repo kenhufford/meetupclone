@@ -1,4 +1,4 @@
-/* PHASE 0: Reset */
+
 
 html, body, header, nav, h1, a,
 ul, li, strong, main, button, i,
@@ -10,7 +10,6 @@ span, article, footer, time, small {
   border: 0;
   outline: 0;
   font-family: 'Roboto', sans-serif;
-  color: rgb(32, 32, 32);
 }
 
 ul {
