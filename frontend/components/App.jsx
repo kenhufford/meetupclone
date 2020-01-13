@@ -3,6 +3,7 @@ import HeaderContainer from "./header/header_container";
 import SignUpFormContainer from './session_form/signup_form_container';
 import LogInFormContainer from './session_form/login_form_container';
 import EventIndexContainer from './events/event_index_container';
+import EventShowContainer from './events/event_show_container';
 import GroupIndexContainer from './groups/group_index_container';
 import GroupShowContainer from './groups/group_show_container';
 import GroupLandingContainer from './groups/group_landing_container';
@@ -23,7 +24,8 @@ const App = () => (
         <ProtectedRoute exact path="/groups/form/:groupId/edit" component={EditGroupFormContainer} />
         <AuthRoute exact path="/login" component={LogInFormContainer} />
         <AuthRoute exact path="/signup" component={SignUpFormContainer} />
-        <Route path="/events" component={EventIndexContainer} />
+        <Route exact path="/groups/:groupId/events/:eventId" component={EventShowContainer} />
+        <Route exact path="/events" component={EventIndexContainer} />
         <Route path="/search" component={SearchContainer} />
         <Route exact path="/groups/:groupId" component={GroupShowContainer} />
         <Route exact path="/groups" component={GroupIndexContainer} />
@@ -31,7 +33,6 @@ const App = () => (
         <Redirect exact to="/" />
       </Switch>
     </div>
-   
   </div>
 );
 

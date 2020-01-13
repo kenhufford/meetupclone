@@ -17,6 +17,14 @@ class User < ApplicationRecord
     through: :memberships,
     source: :group
 
+    has_many :reservations,
+    dependent: :destroy
+
+    has_many :events,
+    class_name: "Event",
+    through: :reservations,
+    source: :event
+
     # add associations for memberships, rsvps
   
     def self.find_by_credentials(email, password)

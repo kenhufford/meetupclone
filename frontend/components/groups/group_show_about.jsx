@@ -18,7 +18,7 @@ class GroupShowAbout extends React.Component{
                         </div>
                         <div className="group-show-main-right">
                             <div className="group-show-main-right-organizers">
-                                <p className="group-show-main-right-organizers-title">Organizers</p>
+                                <p className="group-show-main-right-organizers-title">Captains</p>
                                 <div className="group-show-main-right-organizers-info">
                                     <div className="group-show-member-picture-div">
                                         <img src={window[group.members[this.props.organizerIds[0]].imageUrl]} alt="organizer-pic" className="group-show-member-picture"/> 

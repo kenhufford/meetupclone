@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
 import GroupShowAbout from './group_show_about'
 import GroupShowMembers from './group_show_members'
 import GroupOptionsDropdown from './group_options_dropdown'
@@ -73,7 +72,6 @@ class GroupShow extends React.Component{
                 currentUserId= {this.props.session.id}
                 totalMembers={this.props.group.memberships.length}/>
             </div>)
-            console.log(this.props.group)
             return(
                 <div>
                     <div className="group-show-div">

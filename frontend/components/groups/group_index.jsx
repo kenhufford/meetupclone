@@ -26,39 +26,47 @@ class GroupIndex extends React.Component{
 
 
     render(){
-        if (!this.props.groups) return null
-
+        let {currentUsersGroupIds, groups, categories} = this.props
+        let userGroups;
+        let yourGroups;
+        if (!groups[1]) return null
         let suggestedGroups = (
             <div className="groups-div">
-                {Object.values(this.props.groups).map( (group) => (
+                {Object.values(groups).map( (group) => (
                     <GroupIndexItem key={group.id} group={group}/>
                 ))}
             </div>
         )
-
-        let userGroups;
-        let yourGroups;
-        if (this.props.currentUsersGroups){
+        if (currentUsersGroupIds){
             userGroups = []
-            this.props.currentUsersGroups.map(groupIdObj => {
-                userGroups.push(groupIdObj["id"])
+            currentUsersGroupIds.map(groupId => {
+                userGroups.push(groups[groupId])
             })
-
             yourGroups = userGroups.length ? (
                 <div className="groups-div">
-                    {userGroups.map( (groupId) => (
-                        <GroupIndexItem key={groupId} group={this.props.groups[groupId]}/>
+                    {userGroups.map( (group, i) => (
+                        <GroupIndexItem key={i} group={group}/>
                     ))}
                 </div>
             ) :  
-            (<div onClick={this.handleSignup} className="groups-signup">Join a group!</div>)
+            (<div onClick={this.handleSignup} className="index-signup">Join a squad!</div>)
         }
 
         return(
-            <div className="groups-index-div">
-                <p className="groups-index-div-titles">YOUR GROUPS</p>
+            <div className="index-div">
+                <div className="index-header">
+                    <p className="index-div-titles">YOUR SQUADS</p>
+                    <div className="index-switch-div">
+                        <div className="index-switch-selected">
+                            <Link className="index-switch-text-selected" to="/groups">SQUADS</Link>
+                        </div>
+                        <div className="index-switch-not">
+                            <Link className="index-switch-text-not" to="/events">BRAWLS</Link>
+                        </div>                    
+                    </div>
+                </div>
                 {yourGroups}
-                <p className="groups-index-div-titles">NEARBY GROUPS</p>
+                <p className="index-div-titles">ALL SQUADS</p>
                 {suggestedGroups}
             </div>
 

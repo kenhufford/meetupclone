@@ -19,6 +19,11 @@ class Group < ApplicationRecord
     through: :types,
     source: :category
 
+    has_many :events,
+    dependent: :destroy
+
+    belongs_to :location
+
     def self.in_bounds(bounds)
         self.where("lat < ?", bounds[:northEast][:lat])
           .where("lat > ?", bounds[:southWest][:lat])

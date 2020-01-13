@@ -12,11 +12,11 @@ class GroupIndexItem extends React.Component{
         } else {
         const {id, name, description, lat, long, imageUrl, memberships} = this.props.group
         return(
-                <a key={id} href={`#/groups/${id}`} className="groups-index-item"> 
-                    <img className="groups-index-item-image" src={window[imageUrl]} alt=""/>
-                    <div className="groups-index-item-image-text">
-                        <p className="groups-index-item-image-text-big">{name}</p>
-                        <p className="groups-index-item-image-text-small" >{memberships.length} members</p>
+                <a key={id} href={`#/groups/${id}`} className="index-item"> 
+                    <img className="index-item-image" src={window[imageUrl]} alt=""/>
+                    <div className="index-item-image-text">
+                        <p className="index-item-image-text-big">{name}</p>
+                        <p className="index-item-image-text-small" >{memberships.length} members</p>
                     </div>
                 </a>
 

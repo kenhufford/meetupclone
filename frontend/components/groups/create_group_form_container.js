@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import CreateGroupForm from './create_group_form'
 import {createGroup} from '../../actions/group_actions'
-import {createMembership, updateMembership, createType} from '../../actions/group_actions'
+import {updateMembership, createType} from '../../actions/group_actions'
 import {fetchCategories} from '../../actions/category_actions'
 import {fetchLocations} from '../../actions/location_actions'
 
@@ -25,7 +25,6 @@ const mstp = (state) => {
 
 const mdtp = dispatch => ({
     action: (group) => dispatch(createGroup(group)),
-    createMembership: (groupId) => dispatch(createMembership(groupId)),
     updateMembership: (membership) => dispatch(updateMembership(membership)),
     createType: (type) => dispatch(createType(type)),
     fetchCategories: () => dispatch(fetchCategories()),

@@ -29,7 +29,7 @@ class Header extends React.Component{
   
     const signedIn = () => (
       <nav className="navbar-right">
-        <a href="#/groups/form/new" className="navbar-group-link">Start a New Group</a>
+        <a href="#/groups/form/new" className="navbar-group-link">Start a New Squad</a>
         <HeaderSearchWithRouter />
         <a href="#/groups" className="navbar-explore-link">Explore</a>
         <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a>
@@ -41,6 +41,8 @@ class Header extends React.Component{
       <div className="navbar-header">
         <nav className="navbar-left">
           <img className="navbar-logo" src={window.fightclubURL} onClick={goHome}/>
+          <i className="fab fa-github"></i>
+          <i className="fab fa-linkedin-in"></i>
         </nav>
         {currentUser ? signedIn() : sessionLinks()}
       </div>

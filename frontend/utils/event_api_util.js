@@ -1,4 +1,4 @@
-export const fetchAllEvents = () => (
+export const fetchEvents = () => (
     $.ajax({
         url: '/api/events',
         method: "GET"
@@ -32,5 +32,29 @@ export const deleteEvent = (eventId) => (
     $.ajax({
         url: `/api/events/${eventId}`,
         method: "DELETE"
+    })
+)
+
+export const createReservation = (eventId) => (
+    $.ajax({
+        url: `/api/events/${eventId}/reservations`,
+        method: "POST",
+        data: {eventId}
+    })
+)
+
+export const updateReservation = (reservation) => (
+    $.ajax({
+        url: `/api/events/${reservation.eventId}/reservations/${reservation.id}`,
+        method: "PATCH",
+        data: {reservation}
+    })
+)
+
+export const deleteReservation = (eventId) => (
+    $.ajax({
+        url: `/api/events/${eventId}/reservations/1`,
+        method: "DELETE",
+        data: {eventId}
     })
 )

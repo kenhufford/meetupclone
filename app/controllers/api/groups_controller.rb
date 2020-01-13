@@ -1,5 +1,5 @@
 class Api::GroupsController < ApplicationController
-    before_action :require_logged_in, only: [:create]
+    before_action :require_logged_in, only: [:create, :edit, :destroy]
     
     def index
         if params[:category_id]
@@ -75,9 +75,8 @@ class Api::GroupsController < ApplicationController
 
     def filtered_list(query)
         query = query.downcase
-        results = Group.where("translate(name, ':;%', '') ILIKE :start_query", start_query: "#{query}%")
-        list = results.limit(12).includes(:categories)
-        
+        group_results = Group.where("name ILIKE :start_query", start_query: "%#{query}%")
+        group_list = group_results.limit(12).includes(:categories)     
     end
 
     private

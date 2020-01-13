@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     resources :users, only:[:create, :show]
     resources :locations, only:[:index]
     resource :session, only: [:create, :destroy]
-    resources :events, only: [:create, :destroy, :show, :update, :index]
+    resources :events, only: [:create, :destroy, :show, :update, :index] do
+      resources :reservations, only: [:create, :destroy]
+    end
     resources :categories, only: [:index]
     resources :groups, only: [:create, :destroy, :show, :update, :index] do
       resources :memberships, only: [:create, :update, :destroy]

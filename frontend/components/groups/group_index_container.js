@@ -10,9 +10,7 @@ const mapStateToProps = (state) => {
         return {
             groups: state.entities.groups,
             currentUserId: userId,
-            currentUserLat: state.entities.users[userId].lat,
-            currentUserLong: state.entities.users[userId].long,
-            currentUsersGroups: state.entities.users[userId].groups,
+            currentUsersGroupIds: state.entities.users[userId].groupIds,
             categories: state.entities.categories
             }
     } else {

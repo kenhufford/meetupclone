@@ -41,7 +41,7 @@ location_names.length.times do |i|
         lat: location_lat_long[i][0],
         long: location_lat_long[i][1]
         )
-    end
+end
 
     group_names = ["Street Fighters", "Mortal Kombatants", "Soul Calibur Online", "Smash Siblings", 
     "Tekkies", "Only Arnolds", "My Hero AppAcademia", "Z Fighters", "The BEST Team", "The Bad Guys", 
@@ -49,9 +49,9 @@ location_names.length.times do |i|
     total_groups = group_names.length;
     group_images = ["streetfighterURL","mortalkombatURL","soulcaliburURL","smashbrothersURL",
     "tekkenURL","arnoldsURL","myheroURL","zfightersURL","bestteamURL","badguysURL", "tightsURL", "historyURL", "rapperURL"]
-    description = ["Imagine yourself on the mean city streets. The Guile theme is playing.  I'm holding back for two seconds and pressing forward + fierce.  If your heartrate is about 200 BPM, join us today.",
+    description = ["Imagine yourself on mean city streets. The Guile theme is playing.  I'm holding back for two seconds and pressing forward + fierce.  If your heartrate is about 200 BPM, join us today.",
     "Kan handle extreme kombat with brutal, photorealistic karacters? Kan you believe they cast Christopher Lambert as Raiden? Kome to the Kombatants for a flawless victory",
-    "When you were partying, We studied the blade. When you were coding, I mastered the blockchain. While you wasted your days at the gym in pursuit of vanity, I cultivated inner strength. And now that the world is on fire and the barbarians are at the gate you have the audacity to come to us for help.",
+    "When you were partying, We studied the blade. When you were coding, we mastered the blockchain. While you wasted your days at the gym in pursuit of vanity, we cultivated inner strength. And now that the world is on fire and the barbarians are at the gate you have the audacity to come to us for help.",
     "We are a PG rated fighting squad! Come join us if you enjoy a casual, fun fight club!  No try hards here! If you wanna be like that go join the Bad Guys or something",
     "Come join us at Tekkies, write the coolest code and only fight bravely behind a keyboard, where no one can hurt you.",
     "Commando.  Terminator.  Conan.  Dutch.  Mr. Freeze.  Only the greatest warriors can assemble under our banner.  Are you in?",
@@ -97,7 +97,7 @@ location_names.length.times do |i|
     
     streetfighter_user_names = ["Ken", "Guile", "Blanka", "M. Bison"]
     mortalkombat_user_names = ["Sub-Zero", "Shang Tsung", "Scorpion", "Liu Kang"]
-    soulcalibur_user_names = ["Nightmare", "Astaroth", "Voldo" ]
+    soulcalibur_user_names = ["Nightmare", "Astaroth", "Cervantes" ]
     smashbrothers_user_names = ["Villager", "Wii Fit Trainer", "Fox"]
     tekken_user_names = ["Eddy", "King", "Heihachi", "Jin"]
     arnolds_user_names = ["T-800", "Conan", "Douglas Quaid", "Commando", "Dutch", "Mr. Freeze"]
@@ -175,20 +175,31 @@ location_names.length.times do |i|
         user_id: demo_user.id,
         member_type: "Member"    
     )
-                    
-    event_titles = ["Yoga in the Park", "Football in the Streets", "Magic in a Dungeon"]
+    
+    event_titles = ["Brawliday @ the Park", "Noob Friendly Fest", "No Magic Allowed", "Fireball Friday", 
+    "Sharpen Skills Saturday", "Sunday Runday", "Magic Management",
+    "Cheese Tactics Everyone Should Know", "Musical Monday with Song and Dance!"]
     group_ids = [1, 2, 3, 4, 5]
     descriptions = ["We stretch a bunch and lounge around in stretchy pants", "We play out in the streets until someone yells at us or a major injury happens", "We play in my basement until my mom yells at us to stop coming to her house"]
     max_attendance = [100, 20, 5]
     
     event_titles.each_with_index do |event, i|
-        Event.create!(title: event, 
-        group_id: group_ids[i], 
-        description: descriptions[i], 
-        max_attendance: max_attendance[i], 
+        event = Event.create!(title: event, 
+        group_id: group_ids.sample, 
+        description: descriptions.sample, 
+        max_attendance: max_attendance.sample, 
         start_time: Faker::Time.between_dates(from: Date.today - 1, to: Date.today, period: :all),
         end_time: Faker::Time.between_dates(from: Date.today, to: Date.today+10, period: :all),
         address: Faker::Address.street_address,
-        lat: (Faker::Number.within(range: 37698217..37789758) / 1000000),
-        long: (Faker::Number.within(range: -122508186..-122397017) / 1000000))
+        location_id: (1...location_names.length).to_a.sample)
+
+        10.times do |i|
+            organizer = (i = 1) ? true : false
+            Reservation.create!(
+                event_id: event.id,
+                user_id: i+1,
+                is_organizer: organizer
+            )
+        end
     end
+

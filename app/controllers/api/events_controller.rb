@@ -1,22 +1,29 @@
 class Api::EventsController < ApplicationController
-  before_action :require_logged_in, only: [:create]
+  before_action :require_logged_in, only: [:create, :edit, :destroy]
 
   def index
-    # events = bounds ? Event.in_bounds(bounds) : Event.all
-
-    # @benches = benches.includes(:categories, :group) 
     @events = Event.all
     render "api/events/index"
   end
 
   def show
     @event = Event.find(params[:id])
+    if current_user
+      @current_user_attending = !!@event.attendees.find_by(id: current_user.id)
+    else
+        @current_user_attending  = false
+    end
     render "api/events/show"
   end
 
   def create
     @event = Event.new(event_params)
     if @event.save
+        @reservation = Reservation.new
+        @reservation.event_id = @event.id
+        @reservation.user_id = current_user.id
+        @reservation.is_organizer = true
+        @reservation.save
         render "api/events/show"
     else
         render json: [@event.errors.full_messages], status: 401
@@ -53,10 +60,6 @@ class Api::EventsController < ApplicationController
     :lat, 
     :long, 
     :image_url)
-  end
-
-  def bounds
-    params[:bounds]
   end
 
 end

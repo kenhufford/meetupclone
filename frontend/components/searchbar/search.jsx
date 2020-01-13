@@ -57,7 +57,6 @@ class Search extends React.Component{
         
         let searchedGroups = (
             <div className="groups-div">
-                {message}
                 {groups.map( (group) => (
                     <GroupIndexItem key={group.id} group={group}/>
                 ))}
@@ -68,8 +67,9 @@ class Search extends React.Component{
                 <div className="groups-search-bar-div">
                     <SearchBar history={this.props.history} />
                 </div>
+                {message}
                 <ul className="groups-index-div-results">
-                    <p>GROUP RESULTS</p>
+                    <p>SQUAD RESULTS</p>
                     {searchedGroups}
                 </ul>
 

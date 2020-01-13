@@ -35,7 +35,6 @@ class HeaderSearch extends React.Component{
     }
 
     render(){
-        console.log(this.props)
         if (!this.props.history) return null
         return(
             <div className="header-search-bar-div">

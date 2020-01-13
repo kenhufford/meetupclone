@@ -86,31 +86,52 @@ class GroupOptionsDropdown extends React.Component{
         let {currentUserOrganizer, groupId} = this.props
         let {currentUserMember} = this.state
         const{listOpen} = this.state
-        let dropdownTitle = !currentUserMember ? 
-            (<div className="create-group-card-dropdown-header-title" onClick={this.handleJoin}>
-                Join Group
-            </div>):
-            (<div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
-                You're a member
-            </div>)
+        let dropdownTitle; 
+        if (currentUserMember && currentUserOrganizer){
+            dropdownTitle = (
+                <div className="create-group-card-dropdown-header-title-div">
+                    <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
+                    You're a Squad Captain</div>
+                    <i className="fas fa-caret-down"></i>
+                </div>)
+        } else if (currentUserMember){
+            dropdownTitle = (
+                <div className="create-group-card-dropdown-header-title-div">
+                    <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
+                    You're a member</div>
+                    <i className="fas fa-caret-down"></i>
+                </div>)
+
+        } else {
+            dropdownTitle = (
+                <div className="create-group-card-dropdown-header-title-div">
+                    <div className="create-group-card-dropdown-header-title" onClick={this.handleJoin}>
+                    Join Squad
+                    </div>
+                </div>)
+        }
+
         let dropdownOption1 = !currentUserOrganizer ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <Link to={`/groups/form/${groupId}/edit`} className="create-group-card-dropdown-option">Edit Group</Link>)
         let dropdownOption2 = !currentUserOrganizer ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <li onClick={()=>this.handleDeleteGroup()} className="create-group-card-dropdown-option">Delete Group</li>)
+        let dropdownOption3 = !currentUserOrganizer ?
+            ( <li className="create-group-card-dropdown-option-hidden"></li>) :
+            ( <Link to={`/groups/${groupId}/events/new`} className="create-group-card-dropdown-option">Start a Brawl</Link>)
         
         return(
             
             <div className="create-group-card-dropdown">
                 <div className="create-group-card-dropdown-header" onClick={() => this.toggleList()} >
                     {dropdownTitle}
-                    <i className="fas fa-caret-down"></i>
                 </div>
                 {listOpen && <ul className="create-group-card-dropdown-header-list">
                     <li onClick={this.handleRemove} className="create-group-card-dropdown-option">Leave the Group</li>
                     {dropdownOption1}
                     {dropdownOption2}
+                    {dropdownOption3}
                 </ul>}
             </div>
         )

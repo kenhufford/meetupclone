@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_185557) do
+ActiveRecord::Schema.define(version: 2020_01_12_192539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +29,11 @@ ActiveRecord::Schema.define(version: 2020_01_09_185557) do
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.string "address", null: false
-    t.integer "lat", null: false
-    t.integer "long", null: false
     t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "recurring_type"
+    t.integer "location_id", null: false
   end
 
   create_table "groups", force: :cascade do |t|
@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(version: 2020_01_09_185557) do
     t.integer "group_id"
     t.integer "user_id"
     t.string "member_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.boolean "is_organizer", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
