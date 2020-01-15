@@ -5,6 +5,13 @@ export const fetchEvents = () => (
     })
 )
 
+export const fetchEventsFromGroup = (groupId) => (
+    $.ajax({
+        url: `/api/groups/${groupId}}/events`,
+        method: "GET"
+    })
+)
+
 export const fetchEvent = (eventId) => (
     $.ajax({
         url: `/api/events/${eventId}`,
@@ -32,5 +39,13 @@ export const deleteEvent = (eventId) => (
     $.ajax({
         url: `/api/events/${eventId}`,
         method: "DELETE"
+    })
+)
+
+export const searchEvents = (searchQuery) => (
+    $.ajax({
+      method: "GET",
+      url: "/api/events/search",
+      data: {search_query: searchQuery}
     })
 )

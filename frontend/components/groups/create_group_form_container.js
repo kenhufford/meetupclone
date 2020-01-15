@@ -1,7 +1,8 @@
 import {connect} from 'react-redux'
 import CreateGroupForm from './create_group_form'
 import {createGroup} from '../../actions/group_actions'
-import {updateMembership, createType} from '../../actions/group_actions'
+import {createType} from '../../actions/group_actions'
+import {updateMembership} from '../../actions/membership_actions'
 import {fetchCategories} from '../../actions/category_actions'
 import {fetchLocations} from '../../actions/location_actions'
 

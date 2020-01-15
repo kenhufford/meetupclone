@@ -24,6 +24,11 @@ export const fetchEvents = () => dispatch => (
         .then(events => dispatch(receiveEvents(events)))
 )
 
+export const fetchEventsFromGroup = (groupId) => dispatch => (
+    APIUtils.fetchEventsFromGroup(groupId)
+        .then(events => dispatch(receiveEvents(events)))
+)
+
 export const fetchEvent = (eventId) => dispatch => (
     APIUtils.fetchEvent(eventId)
         .then(event => dispatch(receiveEvent(event)))
@@ -44,12 +49,7 @@ export const deleteEvent = (eventId) => dispatch => (
         .then(() => dispatch(removeEvent(eventId)))
 )
 
-export const createReservation = eventId => dispatch => (
-    APIUtils.createReservation(eventId)
-        .then( (updatedEvent) => dispatch(receiveEvent(updatedEvent)))
-)
-
-export const deleteReservation = eventId => dispatch => (
-    APIUtils.deleteReservation(eventId)
-        .then( (updatedEvent) => dispatch(receiveEvent(updatedEvent)))
+export const searchEvents = (searchQuery) => dispatch => (
+    APIUtils.searchEvents(searchQuery)
+        .then( (events) => dispatch(receiveEvents(events)))
 )

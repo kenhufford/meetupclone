@@ -28,7 +28,7 @@ class Api::GroupsController < ApplicationController
     def create
         @group = Group.new(group_params)
         if @group.save
-            @membership = Membership.new(group_id: @group.id, user_id: current_user.id, member_type: "Organizer")
+            @membership = Membership.new(group_id: @group.id, user_id: current_user.id, member_type: "Captain")
             @membership.save
             cat_params.each do |id|
                 @type = Type.new
@@ -52,9 +52,13 @@ class Api::GroupsController < ApplicationController
     end
 
     def destroy
-    @group = Group.find(params[:id])
-        if !@group.destroy
-        render json: ["No group to destroy"], status: 404
+        @group = Group.find(params[:id])
+        @groups = Group.all
+
+        if @group.destroy
+            render "api/groups/index"
+        else
+            render json: ["No group to destroy"], status: 404
         end
     end
 
@@ -67,7 +71,7 @@ class Api::GroupsController < ApplicationController
             if (@groups.length == 0)
                 render json: ["No group found"], status: 404
             else
-                render :search
+                render :index
             end
         end
         

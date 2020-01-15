@@ -5,24 +5,25 @@ class EventShow extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            currentUserAttending: false
+            currentUserAttending: false,
+            loaded: false
         }
         this.rsvp = this.rsvp.bind(this)
     }
 
     rsvp(key){
         return () => {
-            if (!this.props.currentUserId){
+            if (!this.props.currentUser){
                 this.props.history.push(`/login`)
             } else if (key==="create"){
                 this.props.createReservation(this.props.match.params.eventId)            
-                .then(payload => this.setState({
-                    currentUserAttending: payload.event.currentUserAttending
+                .then( () => this.setState({
+                    currentUserAttending: true
                 }))
             } else {
                 this.props.deleteReservation(this.props.match.params.eventId)            
-                .then(payload => this.setState({
-                    currentUserAttending: payload.event.currentUserAttending
+                .then( () => this.setState({
+                    currentUserAttending: false
                 }))
             }
         }
@@ -31,39 +32,44 @@ class EventShow extends React.Component{
     componentDidUpdate(prevProps) {
         if (this.props.match.params.eventId !== prevProps.match.params.eventId) {
             this.props.fetchEvent(this.props.match.params.eventId)
+            this.props.fetchUsersFromEvent(this.props.match.params.eventId);
+            this.props.fetchReservations(this.props.match.params.eventId);  
         }
     }
 
     componentDidMount(){
-        this.props.fetchLocations();
-        this.props.fetchUsers();
-        this.props.fetchEvent(this.props.match.params.eventId)
+        let eventId = this.props.match.params.eventId;
+        let groupId = this.props.match.params.groupId;
+        const fetchLocations = this.props.fetchLocations();
+        const fetchUsersFromEvent = this.props.fetchUsersFromEvent(eventId);
+        const fetchEvent = this.props.fetchEvent(eventId)
             .then(payload => this.setState({
                 currentUserAttending: payload.event.currentUserAttending
             }))  
-        this.props.fetchGroup(this.props.match.params.groupId);  
+        const fetchGroup = this.props.fetchGroup(groupId);  
+        const fetchReservations = this.props.fetchReservations(eventId);  
+        Promise.all([fetchLocations, fetchUsersFromEvent, fetchEvent, fetchGroup, fetchReservations])
+        .then( () => this.setState({loaded:true}))
     }
 
     render(){
-
-        if (!this.props.event || !this.props.group || !this.props.locations ||!this.props.users) {
-            return null
-        } else {
+        if(this.state.loaded){
             let {title, description, startTime, locationId,
-                endTime, address, imageUrl, reservations} = this.props.event
-            let {group, locations, users} = this.props;
-            let organizers = [];
-            let organizerIds = [];
-            reservations.forEach ( (reservation)=> {
+                endTime, address, imageUrl} = this.props.event
+            let {group, locations, users, reservations} = this.props;
+            let captains = [];
+            let captainIds = [];
+            reservations.eventReservations.forEach ( (reservation)=> {
                 if (reservation.isOrganizer){
-                    organizers.push(users[reservation.userId].name)
-                    organizerIds.push(reservation.userId)
+                    if (!users[reservation.userId]) return null
+                    captains.push(users[reservation.userId].name)
+                    captainIds.push(reservation.userId)
                 }
             })
-            let organizersText = organizers.length===1 ? ` ` : `${organizers[0]} and ${organizers.length-1} others` 
+            let captainsText = captains.length===1 ? ` ` : `${captains[0]} and ${captains.length-1} others` 
             let joinButton = !this.state.currentUserAttending ? (<button onClick={this.rsvp("create")} className="event-show-join">A NEW CHALLENGER APPROACHES</button>) : 
             (<button onClick={this.rsvp("delete")} className="event-show-join">A HONORABLE RETREAT</button>)
-            console.log(organizers)
+            
             return(
                 <div className="event-show">
                     <div className="event-show-banner">
@@ -73,12 +79,12 @@ class EventShow extends React.Component{
                                 <p>{formatDate(startTime)}</p>
                             </div>  
                             <div className="event-show-banner-right">
-                                <img src={window[users[organizerIds[0]].imageUrl]} 
+                                <img src={window[users[captainIds[0]].imageUrl]} 
                                 className="event-show-member-picture"
                                 alt="org-pic"/>
                                 <div className="event-show-banner-right-text">
                                     <p>Brawl organized by</p>
-                                    <p>{organizers[0]} {organizersText}</p>
+                                    <p>{captains[0]} {captainsText}</p>
                                 </div>
                             </div>  
                         </div>
@@ -91,17 +97,16 @@ class EventShow extends React.Component{
                             </div>
                             <div className="event-show-main-left-members">
                                 <div >
-                                    Challengers ({reservations.length})
+                                    Challengers ({reservations.eventReservations.length})
                                 </div>
                             </div>
                             <div className="event-show-main-left-members-list">
-                                    {reservations.map ( (member, i)=> {
+                                    {reservations.eventReservations.map ( (reservation, i)=> {
                                         if (i < 12) {
                                             let icon = (
                                                 <div className="event-show-member-picture-div" key={i}>
-                                                    <img key={i} src={window[users[member.userId].imageUrl]} alt="member-pic" className="event-show-member-picture"/>
-                                                    <p>{users[member.userId].name}</p>
-                                                    <p>{users[member.userId].isOrganizer ? "Organizer" : "Challenger"}</p>
+                                                    <img key={i} src={window[users[reservation.userId].imageUrl]} alt="member-pic" className="event-show-member-picture"/>
+                                                    <p>{users[reservation.userId].name}</p>
                                                 </div>
                                             )
                                        return icon
@@ -153,6 +158,11 @@ class EventShow extends React.Component{
                     </div>
 
                 </div>
+                
+            )
+        } else {
+            return (
+                <div></div>
             )
         }
     }

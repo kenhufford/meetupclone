@@ -1,5 +1,6 @@
 import React from 'react'
 import GroupIndexItem from '../groups/group_index_item'
+import EventIndexItem from '../events/event_index_item'
 import SearchBar from '../searchbar/search_bar'
 
 class Search extends React.Component{
@@ -7,6 +8,7 @@ class Search extends React.Component{
         super(props)
         this.state = {
             groups: [],
+            events: [],
             query: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -37,6 +39,11 @@ class Search extends React.Component{
                 let groups = Object.values(payload.groups)
                 this.setState({groups})
             })
+        this.props.searchEvents(result)
+            .then(payload => {
+                let events = Object.values(payload.events)
+                this.setState({events})
+            })
     }
 
     componentDidUpdate(prevProps) {
@@ -48,12 +55,18 @@ class Search extends React.Component{
                     let groups = Object.values(payload.groups)
                     this.setState({groups})
                 })
+            this.props.searchEvents(result)
+                .then(payload => {
+                    let events = Object.values(payload.events)
+                    this.setState({events})
+                })
         }
     }
 
     render(){
-        let {groups} = this.state
-        let message = groups.length === 0 ? (<p>No results found</p>) : (<p></p>)
+        let {groups, events} = this.state
+        let squadMessages = groups.length === 0 ? (<p>No results found</p>) : (<p></p>)
+        let brawlMessages = events.length === 0 ? (<p>No results found</p>) : (<p></p>)
         
         let searchedGroups = (
             <div className="groups-div">
@@ -62,15 +75,28 @@ class Search extends React.Component{
                 ))}
             </div>
         )
+        let searchedEvents = (
+            <div className="groups-div">
+                {events.map( (event) => (
+                    <EventIndexItem key={event.id} event={event} groupName={event.name}/>
+                ))}
+            </div>
+        )
+        
         return(
             <div className="groups-search-div">
                 <div className="groups-search-bar-div">
                     <SearchBar history={this.props.history} />
                 </div>
-                {message}
+                {squadMessages}
                 <ul className="groups-index-div-results">
                     <p>SQUAD RESULTS</p>
                     {searchedGroups}
+                </ul>
+                {brawlMessages}
+                <ul className="groups-index-div-results">
+                    <p>BRAWL RESULTS</p>
+                    {searchedEvents}
                 </ul>
 
             </div>

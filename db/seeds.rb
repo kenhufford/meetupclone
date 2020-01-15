@@ -106,7 +106,7 @@ end
     best_user_names = ["Krillin"]
     badguys_user_names = ["Isabelle", "Sebastian", "Howard Langston", "Sakura"]
     tights_user_names = ["Robin Hood", "Lil' Jon", "Dave Chapelle", "Blinkin"]
-    history_user_names = ["Teddy", "Lincoln" "Caesar", "Joan of Arc"]
+    history_user_names = ["Teddy", "Lincoln", "Caesar", "Joan of Arc"]
     rapper_user_names =["Kanye", "Kanye", "Kanye","Kanye"]
     
     user_names = [streetfighter_user_names, mortalkombat_user_names, soulcalibur_user_names, smashbrothers_user_names, tekken_user_names, 
@@ -208,7 +208,7 @@ end
     sb_event_titles = ["BRAWLIDAY", "Casual Friday!"] 
     tekken_event_titles = ["Tek Tuesday", "Teknical Hit!"] 
     arnold_event_titles = [ "Mr. Universe", "Pumpin' Iron"]
-    aa_event_titles = ["Winner gets a USB-C-HDMI Adapter!", "Cheese-its and Beer"]
+    aa_event_titles = ["Winner gets a USB-C-HDMI Adapter!", "HackerBrawl"]
     dbz_event_titles = ["World Martial Arts Tournament", "Hell in a Cell Games", "Vegeta's driving lessons!"]
     krillin_event_titles = ["BEST NIGHT EVER", "Definity not me by myself"]
     badguys_event_titles = ["Bring your decks", "Gardening 101", "Clean up our community!"]
@@ -252,9 +252,9 @@ end
     dbz_event_desc = ["World Martial Arts Tournament", "Hell in a Cell Games", "Vegeta's driving lessons!"]
     krillin_event_desc = ["BEST NIGHT EVER", "Definity not me by myself"]
     badguys_event_desc = ["Bring your decks", "Gardening 101", "Clean up our community!"]
-    tights_event_desc = ["Castle Siege VI", "A Song of Silk and Spandex"]
+    tights_event_desc = ["AN EPIC BRIDGE BRAWL", "A Song of Silk and Spandex"]
     history_event_desc = ["Ancient Martial Arts", "Avoiding Asssassination"]
-    rapper_event_desc = ["An Epic Rap Battle with the GOAT", "Fishsticks"]
+    rapper_event_desc = ["An Epic Rap Battle with the GOAT", "Keepin' Up With Kanyes"]
 
     event_descriptions = [sf_event_desc, mk_event_desc, sc_event_desc, sb_event_desc, tekken_event_desc, arnold_event_desc,
     aa_event_desc, dbz_event_desc, krillin_event_desc, badguys_event_desc, tights_event_desc, history_event_desc,
@@ -265,7 +265,7 @@ end
     sc_image_url = ["scevent1URL", "scevent2URL"]
     sb_image_url = ["sbevent1URL", "sbevent2URL"] 
     tekken_image_url = ["tekkenevent1URL", "tekkenevent2URL"] 
-    arnold_image_url = [ "arnoldevent1URL", "arnoldeventURL"]
+    arnold_image_url = [ "arnoldevent1URL", "arnoldevent2URL"]
     aa_image_url = ["aaevent1URL", "aaevent2URL"]
     dbz_image_url = ["dbzevent1URL", "dbzevent2URL", "dbzevent3URL"]
     krillin_image_url = ["krillinevent1URL", "krillinevent2URL"]

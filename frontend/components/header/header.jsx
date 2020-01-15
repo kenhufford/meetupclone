@@ -13,7 +13,7 @@ class Header extends React.Component{
 
 
   render(){
-    let { currentUser, logout, history } = this.props
+    let { currentUser, logout } = this.props
     const goHome = ()=>{
       document.location.href = '#/'
     }

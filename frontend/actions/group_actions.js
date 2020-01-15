@@ -2,7 +2,7 @@ import * as APIUtils from '../utils/group_api_util'
 
 export const RECEIVE_GROUPS = "RECEIVE_GROUPS";
 export const RECEIVE_GROUP = "RECEIVE_GROUP";
-export const REMOVE_GROUP = "REMOVE_GROUP";
+// export const REMOVE_GROUP = "REMOVE_GROUP";
 
 const receiveGroups = (groups) => ({
     type: RECEIVE_GROUPS,
@@ -13,10 +13,10 @@ const receiveGroup = (group) => ({
     type: RECEIVE_GROUP,
     group
 })
-const removeGroup = (groupId) => ({
-    type: REMOVE_GROUP,
-    groupId
-})
+// const removeGroup = (groupId) => ({
+//     type: REMOVE_GROUP,
+//     groupId
+// })
 
 export const fetchGroups = (filters) => dispatch => (
     APIUtils.fetchGroups(filters)
@@ -40,13 +40,13 @@ export const updateGroup = (group) => dispatch => (
 
 export const deleteGroup = (groupId) => dispatch => (
     APIUtils.deleteGroup(groupId)
-        .then( () => dispatch(removeGroup(groupId)))
+        .then( (groups) => dispatch(receiveGroups(groups)))
 )
 
 
 export const searchGroups = (searchQuery) => dispatch => (
     APIUtils.searchGroups(searchQuery)
-        .then( (group) => dispatch(receiveGroups(group)))
+        .then( (groups) => dispatch(receiveGroups(groups)))
 )
 
 export const createType = type => dispatch => (

@@ -18,11 +18,11 @@ class GroupShowMembers extends React.Component{
     }
 
     render(){
-        let {memberships, members, organizerIds} = this.props
+        let {memberships, users, captainIds} = this.props
         let list = this.state.currentPage==="All members" ? 
         (<ul className="group-show-members-right-list">
             {memberships.map ((membership, i) => {
-                let {imageUrl, name, createdAt} = members[membership.userId]
+                let {imageUrl, name, createdAt} = users[membership.userId]
                 return (
                     <li key={i} className="group-show-members-right-member-li">
                         <div className="group-show-members-right-member">
@@ -39,8 +39,8 @@ class GroupShowMembers extends React.Component{
         </ul>) : 
 
         (<ul className="group-show-members-right-list">
-            {organizerIds.map ((id, i) => {
-                let {imageUrl, name, createdAt} = members[id]
+            {captainIds.map ((id, i) => {
+                let {imageUrl, name, createdAt} = users[id]
                 return (
                     <li key={i} className="group-show-members-right-member-li">
                         <div className="group-show-members-right-member">
@@ -66,7 +66,7 @@ class GroupShowMembers extends React.Component{
                     </div>
                     <div className="group-show-members-left-tab" onClick={this.switchPage("Leadership team")}>
                         <p>Leadership</p>
-                        <p> {this.props.organizerIds.length}</p>
+                        <p> {this.props.captainIds.length}</p>
                     </div>
                 </div>
                 <div className="group-show-members-right">

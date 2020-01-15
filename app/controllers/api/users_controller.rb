@@ -1,5 +1,8 @@
 class Api::UsersController < ApplicationController
     def index
+      if current_user
+        @current_user = current_user
+      end
       if params[:group_id]
         @users = Group.find(params[:group_id]).members
         render "api/users/index"

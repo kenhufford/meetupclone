@@ -1,13 +1,17 @@
 class Api::ReservationsController < ApplicationController
 
     def index
-      if @event = Event.find(params[:event_id])
-        @event_reservations = @event.reservations
-      end
-      if current_user.reservations
+      if current_user
         @user_reservations = current_user.reservations
+      else
+        @user_reservations = {}
       end
-      
+      if params[:event_id] == "0"
+        @event_reservations = {}
+      else
+        @event = Event.find(params[:event_id])
+        @event_reservations = @event.reservations    
+      end
       render "api/reservations/index"
     end
 

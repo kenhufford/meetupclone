@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom'
 class EventIndex extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            loaded: false
+        }
     this.handleSignup = this.handleSignup.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
 }
@@ -19,64 +22,62 @@ class EventIndex extends React.Component{
     }
 
     componentDidMount(){
-        this.props.fetchEvents();
-        this.props.fetchGroups();
-        this.props.fetchUser(this.props.currentUserId);
+        const fetchEvents = this.props.fetchEvents();
+        const fetchGroups = this.props.fetchGroups();
+        const fetchReservations = this.props.fetchReservations(0);
+        Promise.all([fetchEvents, fetchGroups, fetchReservations])
+            .then( () => this.setState({loaded:true}))
     }
-
 
     render(){
-        let {events, currentUsersEventsIds, groups} = this.props
-        let userEvents;
-        let yourEventsDiv;
-        if (!events || !groups) return null
-
-        let suggestedEvents = (
-            <div className="groups-div">
-                {Object.values(events).map( (event) => (
-                    <EventIndexItem key={event.id} event={event} groups={groups} />
-                ))}
-            </div>
-        )
-
-
-        if (currentUsersEventsIds){
-            userEvents = [];
-            currentUsersEventsIds.map(eventId => {
-                userEvents.push(eventId)
-            })
-
-        yourEventsDiv = userEvents.length ? (
-            <div className="events-div">
-                {userEvents.map( (eventId) => (
-                    <EventIndexItem key={eventId} event={this.props.events[eventId]}/>
-                ))}
-            </div>
-        ) :  
-        (<div className="index-signup">No brawls scheduled</div>)
-        }
-
-        return(
-            <div className="index-div">
-                <div className="index-header">
-                    <p className="index-div-titles">YOUR BRAWLS</p>
-                    <div className="index-switch-div">
-                        <div className="index-switch-not">
-                            <Link className="index-switch-text-not" to="/groups">SQUADS</Link>
-                        </div>
-                        <div className="index-switch-selected">
-                            <Link className="index-switch-text-selected" to="/events">BRAWLS</Link>
-                        </div>                    
-                    </div>
+        if(this.state.loaded){
+            debugger
+            let {events, groups, reservations} = this.props;
+            let yourEventsDiv;
+            let {userReservations} = reservations;
+            let allEvents = (
+                <div className="groups-div">
+                    {Object.values(events).map( (event) => (
+                        <EventIndexItem key={event.id} event={event} groupName={event.name}/>
+                    ))}
                 </div>
-                {yourEventsDiv}
-                <p className="index-div-titles">ALL BRAWLS</p>
-                {suggestedEvents}
-            </div>
-
-        )
-
+            )
+            
+    
+            yourEventsDiv = !userReservations.length===0 ? (
+                <div className="events-div">
+                    {userReservations.map( (reservation) => (
+                        <EventIndexItem key={reservation.id} groupName={groups[reservation.eventId].name} event={events[reservation.eventId]}/>
+                    ))}
+                </div>
+            ) :  
+            (<div className="index-signup">No brawls scheduled</div>)
+            return (
+                    <div className="index-div">
+                        <div className="index-header">
+                            <p className="index-div-titles">YOUR BRAWLS</p>
+                            <div className="index-switch-div">
+                                <div className="index-switch-not">
+                                    <Link className="index-switch-text-not" to="/groups">SQUADS</Link>
+                                </div>
+                                <div className="index-switch-selected">
+                                    <Link className="index-switch-text-selected" to="/events">BRAWLS</Link>
+                                </div>                    
+                            </div>
+                        </div>
+                        {yourEventsDiv}
+                        <p className="index-div-titles">ALL BRAWLS</p>
+                        {allEvents}
+                    </div>
+            )
+        } else {
+            return (
+                <div></div>
+            )
+        }
+        
     }
+        
 }
 
 export default EventIndex

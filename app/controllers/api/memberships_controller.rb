@@ -1,13 +1,17 @@
 class Api::MembershipsController < ApplicationController
 
     def index
-      if @group = Group.find(params[:group_id])
-        @group_memberships = @group.memberships
-      end
-      if current_user.memberships
+      if current_user
         @user_memberships = current_user.memberships
+      else
+        @user_memberships = {}
       end
-      
+      if params[:group_id] == "0"
+        @group_memberships = {}
+      else
+        @group = Group.find(params[:group_id])
+        @group_memberships = @group.memberships    
+      end
       render "api/memberships/index"
     end
 
@@ -15,7 +19,7 @@ class Api::MembershipsController < ApplicationController
         @membership = Membership.new
         @membership.user_id = current_user.id
         @membership.group_id = params[:group_id]
-        @membership.member_type = "Member"
+        @membership.member_type = "Initiate"
         if @membership.save
           @group = @membership.group
           @current_user_member = true

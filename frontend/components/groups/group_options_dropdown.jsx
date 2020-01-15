@@ -42,7 +42,7 @@ class GroupOptionsDropdown extends React.Component{
 
     handleJoin(){
         
-        if (!this.props.currentUserId){
+        if (!this.state.currentUserMember){
             document.location.href = '#/login'
         } else {
             
@@ -56,12 +56,12 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleRemove(){
-        
-        if (!this.props.currentUserId){
+        debugger
+        if (!this.props.currentUser){
             document.location.href = '#/login'
-        } else if (this.props.totalMemberships === 1){
+        } else if (this.props.totalMembers === 1){
             this.props.deleteGroup(this.props.groupId)            
-                .then( () => document.location.href = '#/groups')
+            document.location.href = '#/groups'
         } else {
             this.props.deleteMembership(this.props.groupId)            
             this.setState({
@@ -73,21 +73,22 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleDeleteGroup(){
-        if (!this.props.currentUserId){
+        debugger
+        if (!this.props.currentUser){
             document.location.href = '#/login'
         } else {
             this.props.deleteGroup(this.props.groupId)            
-                .then( () => document.location.href = '#/groups')
+            document.location.href = '#/groups'
         }
     }
 
     render(){
         
-        let {currentUserOrganizer, groupId} = this.props
+        let {currentUserCaptain, groupId} = this.props
         let {currentUserMember} = this.state
         const{listOpen} = this.state
         let dropdownTitle; 
-        if (currentUserMember && currentUserOrganizer){
+        if (currentUserMember && currentUserCaptain){
             dropdownTitle = (
                 <div className="create-group-card-dropdown-header-title-div">
                     <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
@@ -111,13 +112,13 @@ class GroupOptionsDropdown extends React.Component{
                 </div>)
         }
 
-        let dropdownOption1 = !currentUserOrganizer ?
+        let dropdownOption1 = !currentUserCaptain ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <Link to={`/groups/form/${groupId}/edit`} className="create-group-card-dropdown-option">Edit Group</Link>)
-        let dropdownOption2 = !currentUserOrganizer ?
+        let dropdownOption2 = !currentUserCaptain ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <li onClick={()=>this.handleDeleteGroup()} className="create-group-card-dropdown-option">Delete Group</li>)
-        let dropdownOption3 = !currentUserOrganizer ?
+        let dropdownOption3 = !currentUserCaptain ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <Link to={`/groups/${groupId}/events/new`} className="create-group-card-dropdown-option">Start a Brawl</Link>)
         

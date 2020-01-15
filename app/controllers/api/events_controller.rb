@@ -2,7 +2,11 @@ class Api::EventsController < ApplicationController
   before_action :require_logged_in, only: [:create, :edit, :destroy]
 
   def index
+  if params[:group_id]
+    @events = Group.find(params[:group_id]).events
+  else
     @events = Event.all
+  end
     render "api/events/index"
   end
 
@@ -45,6 +49,28 @@ class Api::EventsController < ApplicationController
         render json: ["No event to destroy"], status: 404
      end
   end
+
+  def search
+    @query = params[:search_query];
+    if @query.length > 0;
+        @events = filtered_list(@query)
+        
+        if (@events.length == 0)
+            render json: ["No group found"], status: 404
+        else
+            render :index
+        end
+    end  
+  end
+
+  def filtered_list(query)
+    query = query.downcase
+    event_results = Event.where("title ILIKE :start_query", start_query: "%#{query}%")
+    event_list = event_results.limit(12).includes(:group)
+  end
+
+  
+
 
   private
 

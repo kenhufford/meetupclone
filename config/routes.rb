@@ -6,12 +6,16 @@ Rails.application.routes.draw do
     resources :events, only: [:create, :destroy, :show, :update, :index] do
       resources :reservations, only: [:index, :create, :destroy]
       resources :users, only:[:index]
+      collection do
+        get 'search'
+      end
     end
     resources :categories, only: [:index]
     resources :groups, only: [:create, :destroy, :show, :update, :index] do
       resources :memberships, only: [:index, :create, :update, :destroy]
       resources :types, only: [:create, :destroy]
       resources :users, only:[:index]
+      resources :events, only:[:index]
       collection do
         get 'search'
       end

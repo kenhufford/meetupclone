@@ -11,6 +11,7 @@ class SessionForm extends React.Component {
       password: '',
       selectedLocation: "Select Location",
       selectedLocationId: "",
+      locationError: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDemoLogin = this.handleDemoLogin.bind(this);
@@ -47,13 +48,21 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault(); 
-    this.props.processForm({
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      location_id: this.state.selectedLocationId,
-      image_url: "gokuURL"
-    })}
+    debugger
+    if (this.state.selectedLocationId === ""){
+      this.setState({
+        locationError: "Please select a location"
+      })
+    } else {
+      this.props.processForm({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        location_id: this.state.selectedLocationId,
+        image_url: "gokuURL"
+      })
+    }
+  }
 
   renderErrors() {
     if (!this.props.errors) return (<ul></ul>)
@@ -69,6 +78,7 @@ class SessionForm extends React.Component {
   }
 
   render() {
+    debugger
     const display = this.props.formType==="Log in" ? (
         <div className="login-form-container">
           <form onSubmit={this.handleSubmit} className="login-form-box">
@@ -136,6 +146,10 @@ class SessionForm extends React.Component {
                 />
               </label>
               <br/>
+              <div>
+                <p className="signup-selected-location-error">{this.state.locationError}</p>
+                
+              </div>
               <div className="signup-location-dropdown-div">
                 <p className="signup-selected-location">{this.state.selectedLocation}</p>                  
                 <CreateGroupFormDropdown  location={this.state.selectedLocation} list={this.props.locations} toggleLocation={this.toggleSelected} />

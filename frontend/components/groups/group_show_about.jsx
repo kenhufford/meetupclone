@@ -6,11 +6,11 @@ class GroupShowAbout extends React.Component{
     }
 
     render(){
-        if (!this.props.props.group.members){
+        if (!this.props.group){
             return null
         }
-        let {group} = this.props.props
-        
+        let {group, captainsNum, captainIds, memberIds, users, memberships} = this.props
+    
         return (
             <div className="group-show-main">
                         <div className="group-show-main-left">
@@ -22,24 +22,24 @@ class GroupShowAbout extends React.Component{
                                 <p className="group-show-main-right-organizers-title">Captains</p>
                                 <div className="group-show-main-right-organizers-info">
                                     <div className="group-show-member-picture-div">
-                                        <img src={window[group.members[this.props.organizerIds[0]].imageUrl]} alt="organizer-pic" className="group-show-member-picture"/> 
+                                        <img src={window[users[captainIds[0]].imageUrl]} alt="organizer-pic" className="group-show-member-picture"/> 
                                     </div>
-                                    <p className="group-show-organizer-info-text">{this.props.organizers[0]} {this.props.organizersNum}</p> 
+                                    <p className="group-show-organizer-info-text">{users[captainIds[0]].name} {captainsNum}</p> 
                                 </div>
 
                             </div>
                             <div className="group-show-main-right-members">
                                 <div onClick={this.props.switchPage("members")}>
-                                    Members ({this.props.memberships.length})
+                                    Members ({memberIds.length})
                                 </div>
                                 <p onClick={this.props.switchPage("members")}>See All</p>
                             </div>
                             <div className="group-show-main-right-members-list">
-                                    {this.props.memberships.map ( (member, i)=> {
+                                    {memberships.map ( (member, i)=> {
                                         if (i < 12) {
                                             let icon = (
                                                 <div className="group-show-member-picture-div" key={i} >
-                                                    <img key={i} src={window[this.props.members[member.userId].imageUrl]} alt="member-pic" className="group-show-member-picture"/>
+                                                    <img key={i} src={window[users[member.userId].imageUrl]} alt="member-pic" className="group-show-member-picture"/>
                                                 </div>
                                             )
                                        return icon

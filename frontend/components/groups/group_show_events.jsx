@@ -1,11 +1,11 @@
 import React from 'react';
 import {formatDate, formatDateTime} from '../../utils/date_util'
-
+import {Link} from 'react-router-dom'
 class GroupShowEvents extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            currentPage: "All events"
+            currentPage: "All Scheduled Brawls"
         }
         this.switchPage = this.switchPage.bind(this);
     }
@@ -18,65 +18,44 @@ class GroupShowEvents extends React.Component{
     }
 
     render(){
-        let {events, group, locations, members} = this.props
-        let list = this.state.currentPage==="All events" ? 
-        (<ul className="group-show-members-right-list">
-            {events.map ((event, i) => {
-                let {imageUrl, title, startTime, description, reservations, address, locationId} = members[membership.userId]
+        console.log(this.props)
+        let {events, locations} = this.props
+        let list = 
+        (<ul className="group-show-events-list">
+            {Object.keys(events).map ((eventId, i) => {
+                let {title, description, locationId, groupId, imageUrl, startTime, endTime, address, reservationIds} = events[eventId]
                 return (
-                    <li key={i} className="group-show-members-right-member-li">
-                        <div className="group-show-members-right-member">
-                            <img src={window[imageUrl]} className="group-show-members-right-member-img"/>
-                            <div className="group-show-members-right-member-info">
-                                <p>{formatDateTime(startTime)}</p>
+                    <li key={i} className="group-show-events-li">
+                        <div className="group-show-events-event-div">
+                            <div className="group-show-events-event-info">
                                 <p>{title}</p>
+                                <p>{formatDateTime(startTime)}</p>
                                 <p>{locations[locationId].name}</p>
-                                <p>{reservations.length}</p>
+                                <p>{reservationIds.length} challengers</p>
+                            </div>
+                            <div className="group-show-events-event-link">
+                                <Link to={`/groups/${groupId}/events/${eventId}`} >
+                                    <img src={window[imageUrl]} alt="event-img" className="group-show-events-img"/>
+                                </Link>
                             </div>
                         </div>
-
+                        <div className="group-show-events-info">
+                            <p>{description}</p>
+                        </div>
                     </li>
                 )
             })}
-        </ul>) : 
-
-        (<ul className="group-show-members-right-list">
-            {organizerIds.map ((id, i) => {
-                let {imageUrl, name, createdAt} = members[id]
-                return (
-                    <li key={i} className="group-show-members-right-member-li">
-                        <div className="group-show-members-right-member">
-                            <img src={window[imageUrl]} className="group-show-members-right-member-img"/>
-                            <div  className="group-show-members-right-member-info">
-                                <p>{name}</p>
-                                <p>Joined on {formatDate(createdAt)}</p>
-                            </div>
-                        </div>
-
-                    </li>
-                )
-            })}
-        </ul>)
+        </ul>) 
 
         return (
             
-            <div className="group-show-members">
-                <div className="group-show-members-left">
-                    <div className="group-show-members-left-tab" onClick={this.switchPage("All members")}>
-                        <p>All Members</p>
-                        <p> {this.props.memberships.length}</p>
-                    </div>
-                    <div className="group-show-members-left-tab" onClick={this.switchPage("Leadership team")}>
-                        <p>Leadership</p>
-                        <p> {this.props.organizerIds.length}</p>
-                    </div>
-                </div>
-                <div className="group-show-members-right">
-                    <div className="group-show-members-right-header">
+            <div className="group-show-events">
+                <div className="group-show-events-main">
+                    <div className="group-show-events-header">
                         <p>{this.state.currentPage}</p>
                     </div>
-                    <div className="group-show-members-right-search">
-                        <input className="group-show-members-right-search-bar" type="text"/>
+                    <div className="group-show-events-search">
+                        <input className="group-show-events-search-bar" type="text"/>
                     </div>
                     {list}
                 </div>
