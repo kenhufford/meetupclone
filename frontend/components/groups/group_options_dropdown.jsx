@@ -41,11 +41,10 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleJoin(){
-        
-        if (!this.state.currentUserMember){
+        debugger
+        if (!this.props.currentUser){
             document.location.href = '#/login'
         } else {
-            
             this.props.createMembership(this.props.groupId)
             this.setState({
                 listOpen: false,
@@ -120,7 +119,7 @@ class GroupOptionsDropdown extends React.Component{
             ( <li onClick={()=>this.handleDeleteGroup()} className="create-group-card-dropdown-option">Delete Group</li>)
         let dropdownOption3 = !currentUserCaptain ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
-            ( <Link to={`/groups/${groupId}/events/new`} className="create-group-card-dropdown-option">Start a Brawl</Link>)
+            ( <Link to={`/events/new/${groupId}`} className="create-group-card-dropdown-option">Start a Brawl</Link>)
         
         return(
             

@@ -15,7 +15,7 @@ const mstp = (state) => {
             description: '',
             lat: '',
             long: '',
-            imageUrl: 'ginyuforceURL',
+            imageUrl: 'defaultg1URL',
             selectedLocationId: '',
             selectedLocation: "Select Location"
         },

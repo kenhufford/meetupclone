@@ -4,6 +4,10 @@ class Api::EventsController < ApplicationController
   def index
   if params[:group_id]
     @events = Group.find(params[:group_id]).events
+  elsif params[:location_id]
+    @events = Location.find(params[:location_id]).events
+  elsif params[:category_id]
+    @events = Category.find(params[:category_id]).events
   else
     @events = Event.all
   end
@@ -54,9 +58,8 @@ class Api::EventsController < ApplicationController
     @query = params[:search_query];
     if @query.length > 0;
         @events = filtered_list(@query)
-        
         if (@events.length == 0)
-            render json: ["No group found"], status: 404
+            render json: ["No event found"], status: 404
         else
             render :index
         end
@@ -83,8 +86,7 @@ class Api::EventsController < ApplicationController
     :start_time, 
     :end_time, 
     :address, 
-    :lat, 
-    :long, 
+    :location_id,
     :image_url)
   end
 

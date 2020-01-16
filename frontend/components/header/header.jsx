@@ -41,8 +41,13 @@ class Header extends React.Component{
       <div className="navbar-header">
         <nav className="navbar-left">
           <img className="navbar-logo" src={window.fightclubURL} onClick={goHome}/>
-          <i className="fab fa-github"></i>
-          <i className="fab fa-linkedin-in"></i>
+          <a target="_blank" href="https://github.com/kenhufford">
+            <i className="fab fa-github"></i>
+          </a>
+          <a target="_blank" href="https://www.linkedin.com/in/kenneth-hufford-b09a324b/">
+            <i className="fab fa-linkedin-in"></i>
+          </a>
+          
         </nav>
         {currentUser ? signedIn() : sessionLinks()}
       </div>

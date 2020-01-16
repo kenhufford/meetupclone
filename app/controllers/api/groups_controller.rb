@@ -3,7 +3,11 @@ class Api::GroupsController < ApplicationController
     
     def index
         if params[:category_id]
-            @groups = Category.find(params[:category_id]).groups.includes(:memberships, :members)
+            @groups = Category.find(params[:category_id]).groups
+        elsif params[:location_id]
+            @groups = Location.find(params[:location_id]).groups
+        elsif params[:category_id]
+            @groups = Category.find(params[:category_id]).groups
         else
             @groups = Group.all.includes(:memberships, :members)
         end
@@ -67,7 +71,6 @@ class Api::GroupsController < ApplicationController
         @query = params[:search_query];
         if @query.length > 0;
             @groups = filtered_list(@query)
-            
             if (@groups.length == 0)
                 render json: ["No group found"], status: 404
             else
@@ -80,7 +83,7 @@ class Api::GroupsController < ApplicationController
     def filtered_list(query)
         query = query.downcase
         group_results = Group.where("name ILIKE :start_query", start_query: "%#{query}%")
-        group_list = group_results.limit(12).includes(:categories)     
+        group_list = group_results   
     end
 
     private

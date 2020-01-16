@@ -6,6 +6,20 @@ export const fetchGroups = (data) => (
     })
 )
 
+export const fetchGroupsFromLocation = (locationId) => (
+    $.ajax({
+        url: `/api/locations/${locationId}/groups/`,
+        method: "GET"
+    })
+)
+
+export const fetchGroupsFromCategory = (categoryId) => (
+    $.ajax({
+        url: `/api/categories/${categoryId}/groups/`,
+        method: "GET"
+    })
+)
+
 export const fetchGroup = (groupId) => (
     $.ajax({
         url: `/api/groups/${groupId}`,

@@ -3,7 +3,8 @@ import GroupShowAbout from './group_show_about'
 import GroupShowMembers from './group_show_members'
 import GroupShowEvents from './group_show_events'
 import GroupOptionsDropdown from './group_options_dropdown';
-
+import {Link} from 'react-router-dom'
+ 
 class GroupShow extends React.Component{
     constructor(props){
         super(props)
@@ -43,7 +44,7 @@ class GroupShow extends React.Component{
             let {group, locations, events, users, memberships, session, currentUser} = this.props
             let {name, locationId, imageUrl} = this.props.group
             let currentUserCaptain;
-            let currentUserMember;
+            let currentUserMember = false;
             let captainIds = []
             let memberIds = []
             memberships.groupMemberships.map(membership => {
@@ -55,7 +56,7 @@ class GroupShow extends React.Component{
                     currentUserMember = true
                 }
             })
-
+            
             if (users[captainIds[0]]===undefined) return null
             let captainsNum = captainIds.length===1 ? ` ` : ` and ${captainIds.length-1} others` 
             
@@ -82,16 +83,16 @@ class GroupShow extends React.Component{
             }
             let groupDropdown = <div className="group-show-stripe-right">
                 <GroupOptionsDropdown 
-                createMembership={this.props.createMembership} 
-                deleteMembership={this.props.deleteMembership} 
-                deleteGroup={this.props.deleteGroup}
-                currentUserCaptain={currentUserCaptain} 
-                currentUserMember={currentUserMember} 
-                groupId={group.id}
-                currentUser= {currentUser}
-                totalMembers={memberIds.length}/>
+                    createMembership={this.props.createMembership} 
+                    deleteMembership={this.props.deleteMembership} 
+                    deleteGroup={this.props.deleteGroup}
+                    currentUserCaptain={currentUserCaptain} 
+                    currentUserMember={currentUserMember} 
+                    groupId={group.id}
+                    currentUser= {currentUser}
+                    totalMembers={memberIds.length}
+                />
             </div>
-            console.log(this.props)
             return(
                 <div>
                     <div className="group-show-div">
@@ -103,7 +104,7 @@ class GroupShow extends React.Component{
                                 <h4 className="group-show-header-right-groupname">{name}</h4>
                                 <div className="group-show-header-right-location">
                                     <i className="fas fa-map-marker-alt"></i>
-                                    <p>{locations[locationId].name}</p>
+                                    <Link to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
                                 </div>
                                 <div className="group-show-header-right-totalmembers">
                                     <i className="fas fa-user-friends"></i>

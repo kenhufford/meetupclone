@@ -138,7 +138,7 @@ class EventShow extends React.Component{
                                     <i className="far fa-compass"></i>
                                     <div>
                                         <p>{address}</p>
-                                        <p>{locations[locationId].name}</p>
+                                        <Link className="event-show-main-right-infobox-link" to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
                                     </div>
                                 </div>
                                 

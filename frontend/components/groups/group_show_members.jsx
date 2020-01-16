@@ -19,6 +19,7 @@ class GroupShowMembers extends React.Component{
 
     render(){
         let {memberships, users, captainIds} = this.props
+        console.log(users)
         let list = this.state.currentPage==="All members" ? 
         (<ul className="group-show-members-right-list">
             {memberships.map ((membership, i) => {
@@ -73,9 +74,7 @@ class GroupShowMembers extends React.Component{
                     <div className="group-show-members-right-header">
                         <p>{this.state.currentPage}</p>
                     </div>
-                    <div className="group-show-members-right-search">
-                        <input className="group-show-members-right-search-bar" type="text"/>
-                    </div>
+
                     {list}
                 </div>
             </div>

@@ -17,31 +17,42 @@ def pair_generator(range1, range2)
             results << [i,j]
         end
     end
-    results
+    results.shuffle!
+    results = results[0..results.length / 2]
 end
 
-category_names = ["Spamming only", "Air juggling", "I only know how to smash", "This isn't even my final form", "Pillow Fighting",
-"5000 times kaioken", "Pure cheese", "Only crab style", "Ankle picks and imanari rolls", "up up down down left right left right b a",
-"Song and dance!"]
+category_names = ["Spam", "Air juggling", "I only know smash", "This isn't even my final form", "Pillow Fighting",
+"5000 times kaioken", "Pure cheese", "Only crab style", "Rolling around", "Ancient Arts",
+"Michael Jackson Style Dance Battle!", "Keyboard Warrior", "Drunken Boxing"]
 
-category_names.each do |category|
-    Category.create!(
-        name: category
+category_image_urls = ["spamURL", "airURL", "smashURL", "finalURL", "pillowURL", "kaiokenURL", "cheeseURL", "crabURL", "rollURL",
+"ancientURK", "mjURL", "keyboardURL", "drunkURL"]
+
+category_ids = []
+
+category_names.each_with_index do |category, i|
+    category = Category.create!(
+        name: category,
+        image_url: category_image_urls[i]
     )
+    category_ids << category.id
 end
 
 total_users = 18;
 
 location_names = ["San Francisco", "Oakland", "San Jose", "Orange County", "Los Angeles", "New York City"]
 location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311], [40.7128, 74.0060] ]
-
+location_ids = []
 location_names.length.times do |i|
-    Location.create!(
+    location = Location.create!(
         name: location_names[i],
         lat: location_lat_long[i][0],
         long: location_lat_long[i][1]
         )
+    location_ids << location.id
 end
+
+
 
     group_names = ["Street Fighters", "Mortal Kombatants", "Soul Calibur Online", "Smash Siblings", 
     "Tekkies", "Only Arnolds", "My Hero AppAcademia", "Z Fighters", "The BEST Team", "The Bad Guys", 
@@ -84,14 +95,15 @@ end
     That's all it was Kanye, we still love Kanye
     And I love you like Kanye loves Kanye, hahaha"
 ]
-
+    group_ids = []
     group_names.each_with_index do |name, i|
-        Group.create!(
+        group = Group.create!(
             name: name,
             description: description[i],
             image_url: group_images[i],
-            location_id: (Faker::Number.within(range: 1..location_names.length))
+            location_id: location_ids.sample
         )
+        group_ids << group.id
     end
     
     
@@ -148,20 +160,22 @@ end
     event_orgs = [streetfighter_event_orgs, mortalkombat_event_orgs, soulcalibur_event_orgs, smashbrothers_event_orgs, tekken_event_orgs, 
     arnolds_event_orgs, aa_event_orgs, dbz_event_orgs, best_event_orgs, badguys_event_orgs, tights_event_orgs, history_event_orgs, rapper_event_orgs]
     
-
+    user_ids = []
+    group_captains = []
     user_names.each_with_index do |group_names, i|
         group_names.each_with_index do |name, j|
             user = User.create!(
                 name: name,
                 email: Faker::Internet.unique.email,
                 password: '123456',
-                location_id: (Faker::Number.within(range: 1..location_names.length)),
+                location_id: location_ids.sample,
                 image_url: image_urls[i][j]
                 )
-            event_orgs[i] << user.id
+            user_ids << user.id
 
             if j == 0 
                 member_type = "Captain" 
+                group_captains << user.id
             elsif j == 1
                 member_type = "Squad Leader" 
             else 
@@ -169,14 +183,14 @@ end
             end
 
             Membership.create!(
-                group_id: i+1,
+                group_id: group_ids[i],
                 user_id: user.id,
                 member_type: member_type      
                 )
         end
     end
                 
-    type_pairs = pair_generator(total_groups, category_names.length)
+    type_pairs = pair_generator(group_ids.length, category_ids.length)
     
     type_pairs.each do |pair|
         Type.create!(
@@ -292,20 +306,20 @@ end
             start_time: Faker::Time.between_dates(from: Date.today+1, to: Date.today+5, period: :all),
             end_time: Faker::Time.between_dates(from: Date.today+5, to: Date.today+10, period: :all),
             address: Faker::Address.street_address,
-            location_id: (1...location_names.length).to_a.sample,
+            location_id: location_ids.sample,
             image_url: event_image_urls[i][j],
             recurring_type: recurring_type.sample)
 
             Reservation.create!(
                 event_id: event.id,
-                user_id: event_orgs[i].sample,
+                user_id: group_captains.sample,
                 is_organizer: true
             )
             
             8.times do |k|
                 Reservation.create!(
                     event_id: event.id,
-                    user_id: (Faker::Number.within(range: 1..user_names.flatten.length)),
+                    user_id: user_ids.sample,
                     is_organizer: false
                 )
             end

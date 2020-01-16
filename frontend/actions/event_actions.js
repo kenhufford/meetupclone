@@ -29,6 +29,11 @@ export const fetchEventsFromGroup = (groupId) => dispatch => (
         .then(events => dispatch(receiveEvents(events)))
 )
 
+export const fetchEventsFromLocation = (locationId) => dispatch => (
+    APIUtils.fetchEventsFromLocation(locationId)
+        .then(events => dispatch(receiveEvents(events)))
+)
+
 export const fetchEvent = (eventId) => dispatch => (
     APIUtils.fetchEvent(eventId)
         .then(event => dispatch(receiveEvent(event)))

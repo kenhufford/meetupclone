@@ -31,27 +31,26 @@ class EventIndex extends React.Component{
 
     render(){
         if(this.state.loaded){
-            debugger
-            let {events, groups, reservations} = this.props;
+            let {events, reservations} = this.props;
             let yourEventsDiv;
             let {userReservations} = reservations;
             let allEvents = (
                 <div className="groups-div">
                     {Object.values(events).map( (event) => (
-                        <EventIndexItem key={event.id} event={event} groupName={event.name}/>
+                        <EventIndexItem key={event.id} event={event} />
                     ))}
                 </div>
             )
-            
-    
-            yourEventsDiv = !userReservations.length===0 ? (
-                <div className="events-div">
-                    {userReservations.map( (reservation) => (
-                        <EventIndexItem key={reservation.id} groupName={groups[reservation.eventId].name} event={events[reservation.eventId]}/>
-                    ))}
-                </div>
-            ) :  
-            (<div className="index-signup">No brawls scheduled</div>)
+                    debugger
+            yourEventsDiv = userReservations.length===0 ? 
+                (<div className="index-signup">No brawls scheduled</div>) :
+                (
+                    <div className="events-div">
+                        {userReservations.map( (reservation) => (
+                            <EventIndexItem key={reservation.id} event={events[reservation.eventId]}/>
+                        ))}
+                    </div>
+                ) 
             return (
                     <div className="index-div">
                         <div className="index-header">
@@ -62,7 +61,10 @@ class EventIndex extends React.Component{
                                 </div>
                                 <div className="index-switch-selected">
                                     <Link className="index-switch-text-selected" to="/events">BRAWLS</Link>
-                                </div>                    
+                                </div>                 
+                                <div className="index-switch-not">
+                                    <Link className="index-switch-text-not" to="/events">FIGHTING STYLES</Link>
+                                </div>            
                             </div>
                         </div>
                         {yourEventsDiv}

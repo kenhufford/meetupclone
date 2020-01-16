@@ -37,14 +37,13 @@ class CreateGroupForm extends React.Component{
     }
 
     componentDidMount(){
-        const fetchCategories = this.props.fetchCategories()
-        const fetchLocations = this.props.fetchLocations()
-        Promise.all([fetchCategories, fetchCategories])
+        const fetchCategories = this.props.fetchCategories();
+        const fetchLocations = this.props.fetchLocations();
+        Promise.all([fetchCategories, fetchLocations])
         .then( () => this.setState({loaded:true}))
         }
 
     handleStep(type){
-        console.log(this.state)
         return () => {
         let slide = this.state.currentSlide;
         let groupId = this.props.match.params.groupId;

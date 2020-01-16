@@ -13,13 +13,20 @@ const receiveGroup = (group) => ({
     type: RECEIVE_GROUP,
     group
 })
-// const removeGroup = (groupId) => ({
-//     type: REMOVE_GROUP,
-//     groupId
-// })
+
 
 export const fetchGroups = (filters) => dispatch => (
     APIUtils.fetchGroups(filters)
+        .then( (groups) => dispatch(receiveGroups(groups)))
+)
+
+export const fetchGroupsFromLocation = (locationId) => dispatch => (
+    APIUtils.fetchGroupsFromLocation(locationId)
+        .then( (groups) => dispatch(receiveGroups(groups)))
+)
+
+export const fetchGroupsFromCategory = (categoryId) => dispatch => (
+    APIUtils.fetchGroupsFromCategory(categoryId)
         .then( (groups) => dispatch(receiveGroups(groups)))
 )
 
