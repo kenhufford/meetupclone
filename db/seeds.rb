@@ -40,7 +40,7 @@ end
 
 total_users = 18;
 
-location_names = ["San Francisco", "Oakland", "San Jose", "Orange County", "Los Angeles", "New York City"]
+location_names = ["San Francisco", "The Shadow Realm", "A Dank Basement", "The Future", "Namek", "Kanto Region"]
 location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311], [40.7128, 74.0060] ]
 location_ids = []
 location_names.length.times do |i|
@@ -62,7 +62,7 @@ end
     "tekkenURL","arnoldsURL","myheroURL","zfightersURL","bestteamURL","badguysURL", "tightsURL", "historyURL", "rapperURL"]
     description = ["Imagine yourself on mean city streets. The Guile theme is playing.  I'm holding back for two seconds and pressing forward + fierce.  If your heartrate is about 200 BPM, join us today.",
     "Kan handle extreme kombat with brutal, photorealistic karacters? Kan you believe they cast Christopher Lambert as Raiden? Kome to the Kombatants for a flawless victory",
-    "When you were partying, We studied the blade. When you were coding, we mastered the blockchain. While you wasted your days at the gym in pursuit of vanity, we cultivated inner strength. And now that the world is on fire and the barbarians are at the gate you have the audacity to come to us for help.",
+    "When you were partying, we studied the blade. When you were coding, we mastered the blockchain. While you wasted your days at the gym in pursuit of vanity, we cultivated inner strength. And now that the world is on fire and the barbarians are at the gate you have the audacity to come to us for help.",
     "We are a PG rated fighting squad! Come join us if you enjoy a casual, fun fight club!  No try hards here! If you wanna be like that go join the Bad Guys or something",
     "Come join us at Tekkies, write the coolest code and only fight bravely behind a keyboard, where no one can hurt you.",
     "Commando.  Terminator.  Conan.  Dutch.  Mr. Freeze.  Only the greatest warriors can assemble under our banner.  Are you in?",

@@ -7,9 +7,6 @@ const eventsReducer = (state={}, action) => {
             return action.events
         case RECEIVE_EVENT:
             return { [action.event.id]: action.event };
-        case REMOVE_EVENT:
-            delete nextState[action.eventId] 
-            return nextState;
         default:
             return state;
     }

@@ -28,9 +28,9 @@ class GroupShowEvents extends React.Component{
                     <li key={i} className="group-show-events-li">
                         <div className="group-show-events-event-div">
                             <div className="group-show-events-event-info">
-                                <p>{title}</p>
-                                <p>{formatDateTime(startTime)}</p>
-                                <p>{locations[locationId].name}</p>
+                                <span className="group-show-events-event-title">{title}</span>
+                                <p>{formatDate(startTime)}</p>
+                                <Link to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
                                 <p>{reservationIds.length} challengers</p>
                             </div>
                             <div className="group-show-events-event-link">
@@ -53,9 +53,6 @@ class GroupShowEvents extends React.Component{
                 <div className="group-show-events-main">
                     <div className="group-show-events-header">
                         <p>{this.state.currentPage}</p>
-                    </div>
-                    <div className="group-show-events-search">
-                        <input className="group-show-events-search-bar" type="text"/>
                     </div>
                     {list}
                 </div>

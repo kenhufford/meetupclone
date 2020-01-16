@@ -20,7 +20,8 @@ const mstp = (state) => {
             selectedLocation: "Select Location"
         },
         locations: locations,
-        categories: categories
+        categories: categories,
+        categorySelected: false
     }
 }
 

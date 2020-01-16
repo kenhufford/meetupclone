@@ -1,5 +1,6 @@
 import React from 'react';
 import CreateGroupFormDropdown from '../groups/create_group_form_dropdown'
+import {formatDateInput} from '../../utils/date_util'
 
 class CreateEventForm extends React.Component{
     constructor(props){
@@ -17,11 +18,12 @@ class CreateEventForm extends React.Component{
                 imageUrl: imageUrl,
                 address: address,
                 groupId: groupId,
-                selectedLocation: "Select Location",
             },
+            selectedLocation: this.props.selectedLocation,
             loaded: true,
             currentSlide: 0,
             errorMessage: "",
+            eventId: this.props.eventId,
             locations: this.props.locations,
         }
         this.handleStep = this.handleStep.bind(this);
@@ -45,9 +47,10 @@ class CreateEventForm extends React.Component{
     handleStep(type){
         return () => {
             let {title, description, maxAttendance, startTime, endTime, 
-                locationId, imageUrl, selectedLocation, address, groupId} = this.state.event
+                locationId, imageUrl, address, groupId} = this.state.event
+            let {selectedLocation} = this.state
             let slide = this.state.currentSlide;
-            let eventId = this.props.match.params.eventId;
+            let eventId = this.state.eventId;
             if (slide === 4 && description.length >= 10 && type==="next") {
                 let eventInfo = {
                     id: eventId,
@@ -58,11 +61,12 @@ class CreateEventForm extends React.Component{
                     end_time: endTime,
                     location_id: locationId,
                     image_url: imageUrl,
-                    group_id: groupId
+                    group_id: groupId,
+                    address: address
                 }
                 this.props.action(eventInfo)
                     .then( (payload) => {
-                        this.props.history.push(`groups/${payload.event.group_id}/events/${payload.event.id}`)
+                        window.location.href = (`#/groups/${payload.event.groupId}/events/${payload.event.id}`)
                     })
                 }
             else if (slide === 0 && selectedLocation===undefined && type==="next"){
@@ -76,6 +80,10 @@ class CreateEventForm extends React.Component{
             } else if (slide === 0 && !(Number.isInteger(parseInt(maxAttendance))) && type==="next"){
                 this.setState({
                     errorMessage: "Please enter an integer for max attendance"
+                })
+            } else if (slide === 1 && (startTime.length===0 || endTime.length===0) && type==="next"){
+                this.setState({
+                    errorMessage: "Please select start and end times for the brawl"
                 })
             } else if (slide === 2 && title.length<3 && type==="next"){
                 this.setState({
@@ -116,30 +124,29 @@ class CreateEventForm extends React.Component{
                 newState
             })
         }
-
     }
 
     toggleSelected(index){
         let loc = this.state.locations[index]
-        let newState = Object.assign({}, this.state)
-        newState.event.locationId = loc.id
-        newState.event.selectedLocation = loc.name
+        let newStateEvent = Object.assign({}, this.state.event)
+        newStateEvent.locationId = loc.id
+        let selectedLocation = loc.name
         this.setState({
-            newState
+            event: newStateEvent,
+            selectedLocation: selectedLocation
         })
     }
 
     render(){
         if (this.state.loaded){
-            console.log(this.state)
             let slide0 = (
                 <div className="create-group-card-body">
                     <h3 className="create-group-card-title">First, where is your brawl located?</h3>
                     <p className="create-group-card-description">Pick a good location for your brawl.  Think about ambiance, max capacity of the venue, proximity to emergency services.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <p className="create-group-card-selected">{this.state.event.selectedLocation}</p>
-                        <CreateGroupFormDropdown location={this.state.event.selectedLocation} list={this.state.locations} toggleLocation={this.toggleSelected} />
+                        <p className="create-group-card-selected">{this.state.selectedLocation}</p>
+                        <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.locations} toggleLocation={this.toggleSelected} />
                     </div>
                     <div className="create-group-card-options">
                         <input className="create-group-card-name-field" type="text" value={this.state.event.address}  placeholder="Address here" onChange={this.update('address')}/>
@@ -155,8 +162,26 @@ class CreateEventForm extends React.Component{
                 <div className="create-group-card-body">
                     <h3 className="create-group-card-title">When will the brawl begin and end?</h3>
                     <p className="create-group-card-description">Be careful with time travel! We will not be responsible for changes to time/space as a result of irresponsible time-brawling.</p>
+                    <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-
+                        <div className="create-group-card-options-dates">
+                            <label className="create-group-card-options-dates-category">Brawl Begins
+                                <input
+                                onChange={this.update("startTime")}
+                                className="date"
+                                type="date"
+                                value={formatDateInput(this.state.event.startTime)}>
+                                </input>
+                            </label>
+                            <label className="create-group-card-options-dates-category">Brawl Ends
+                                <input
+                                onChange={this.update("endTime")}
+                                className="date"
+                                type="date"
+                                value={formatDateInput(this.state.event.endTime)}>
+                                </input>
+                            </label>
+                        </div>
                     </div>
                 </div>
             )
@@ -167,7 +192,7 @@ class CreateEventForm extends React.Component{
                     <p className="create-group-card-description">Pick something that will attract challengers from all corners of thise universe.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <input className="create-group-card-name-field" type="text" value={this.state.event.title}  placeholder={this.state.event.selectedLocation + "'s Biggest Brawl"} onChange={this.update('title')}/>
+                        <input className="create-group-card-name-field" type="text" value={this.state.event.title}  placeholder={this.state.selectedLocation + "'s Biggest Brawl"} onChange={this.update('title')}/>
                     </div>
                 </div>
             )
@@ -177,7 +202,7 @@ class CreateEventForm extends React.Component{
                     <h3 className="create-group-card-title">Describe the brawl, what the challengers should expect, what to bring and what to wear.</h3>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.description} placeholder="Please enter at least 10 characters" onChange={this.update('description')}/>
+                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.event.description} placeholder="Please enter at least 10 characters" onChange={this.update('description')}/>
                     </div>
                 </div>
             )

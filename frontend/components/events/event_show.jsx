@@ -1,14 +1,17 @@
 import React from 'react';
 import {formatDate, formatDateWithDay, formatTime} from '../../utils/date_util';
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
+
 class EventShow extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+            toEventIndex: false,
             currentUserAttending: false,
-            loaded: false
+            loaded: false,
         }
         this.rsvp = this.rsvp.bind(this)
+        this.deleteEvent = this.deleteEvent.bind(this)
     }
 
     rsvp(key){
@@ -20,12 +23,29 @@ class EventShow extends React.Component{
                 .then( () => this.setState({
                     currentUserAttending: true
                 }))
+            } else if (this.props.reservations.eventReservations.length===1){
+                this.props.deleteEvent(this.props.match.params.eventId)            
+                    .then( () => {
+                        this.setState({toEventIndex: true})
+                    })
             } else {
                 this.props.deleteReservation(this.props.match.params.eventId)            
                 .then( () => this.setState({
                     currentUserAttending: false
                 }))
             }
+        }
+    }
+
+    deleteEvent(){
+        if (!this.props.currentUser){
+            document.location.href = '#/login'
+        } else {
+            this.setState({ loaded: false })
+            this.props.deleteEvent(this.props.event.id)            
+                .then( () => {
+                    this.setState({toEventIndex: true})
+                })
         }
     }
 
@@ -53,23 +73,47 @@ class EventShow extends React.Component{
     }
 
     render(){
+        if (this.state.toEventIndex === true) {
+            return <Redirect to='/events' />
+          }
+
         if(this.state.loaded){
-            let {title, description, startTime, locationId,
-                endTime, address, imageUrl} = this.props.event
-            let {group, locations, users, reservations} = this.props;
+            let {title, description, startTime, locationId, maxAttendance,
+                endTime, address, imageUrl, id} = this.props.event
+            let {group, locations, users, reservations, currentUserId} = this.props;
             let captains = [];
             let captainIds = [];
+            let currentUserCaptain;
             reservations.eventReservations.forEach ( (reservation)=> {
                 if (reservation.isOrganizer){
                     if (!users[reservation.userId]) return null
                     captains.push(users[reservation.userId].name)
                     captainIds.push(reservation.userId)
+                    if (reservation.userId === currentUserId){
+                        currentUserCaptain = true;
+                    }
                 }
             })
             let captainsText = captains.length===1 ? ` ` : `${captains[0]} and ${captains.length-1} others` 
-            let joinButton = !this.state.currentUserAttending ? (<button onClick={this.rsvp("create")} className="event-show-join">A NEW CHALLENGER APPROACHES</button>) : 
-            (<button onClick={this.rsvp("delete")} className="event-show-join">A HONORABLE RETREAT</button>)
+            let joinButton;
+            if (maxAttendance<=reservations.eventReservations.length){
+                joinButton = (<button className="event-show-join">TOO LATE EVENT FULL</button>)
+            } else if (!this.state.currentUserAttending){
+                joinButton = (<button onClick={this.rsvp("create")} className="event-show-join">A NEW CHALLENGER</button>)
+            } else if (this.state.currentUserAttending){
+                joinButton = (<button onClick={this.rsvp("delete")} className="event-show-join">A HONORABLE RETREAT</button>)
+            }
             
+            let organizerOptions = currentUserCaptain ? (
+                <div className="event-show-main-right-infobox">
+                    <i className="far fa-compass"></i>
+                    <div>
+                        <p>Organizer Options</p>
+                        <Link to={`/events/form/${id}/edit`}>Edit Event</Link>
+                        <p className="text-link" onClick={this.deleteEvent}>Cancel the Brawl</p>
+                    </div>
+                </div>
+            ) : (<div></div>)
             return(
                 <div className="event-show">
                     <div className="event-show-banner">
@@ -79,13 +123,13 @@ class EventShow extends React.Component{
                                 <p>{formatDate(startTime)}</p>
                             </div>  
                             <div className="event-show-banner-right">
-                                <img src={window[users[captainIds[0]].imageUrl]} 
-                                className="event-show-member-picture"
-                                alt="org-pic"/>
                                 <div className="event-show-banner-right-text">
                                     <p>Brawl organized by</p>
                                     <p>{captains[0]} {captainsText}</p>
                                 </div>
+                                <img src={window[users[captainIds[0]].imageUrl]} 
+                                className="event-show-member-picture"
+                                alt="org-pic"/>
                             </div>  
                         </div>
                     </div>
@@ -130,8 +174,8 @@ class EventShow extends React.Component{
                                 <div className="event-show-main-right-infobox">
                                     <i className="far fa-clock"></i>
                                     <div>
-                                        <p>{formatDateWithDay(startTime)}</p>
-                                        <p>{formatTime(startTime) + " " + formatTime(endTime)}</p>
+                                        <p>{formatDateWithDay(startTime)}  to</p>
+                                        <p>{formatDateWithDay(endTime)}</p>
                                     </div>
                                 </div>
                                 <div className="event-show-main-right-infobox">
@@ -141,6 +185,7 @@ class EventShow extends React.Component{
                                         <Link className="event-show-main-right-infobox-link" to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
                                     </div>
                                 </div>
+                                {organizerOptions}
                                 
                             </div>
                         </div>

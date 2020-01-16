@@ -41,7 +41,7 @@ class EventIndex extends React.Component{
                     ))}
                 </div>
             )
-                    debugger
+                    
             yourEventsDiv = userReservations.length===0 ? 
                 (<div className="index-signup">No brawls scheduled</div>) :
                 (

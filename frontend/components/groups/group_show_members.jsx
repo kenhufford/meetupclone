@@ -18,8 +18,8 @@ class GroupShowMembers extends React.Component{
     }
 
     render(){
+        let icons = {"Initiate": "initiateURL","Squad Leader": "squadleaderURL","Captain": "captainURL"}
         let {memberships, users, captainIds} = this.props
-        console.log(users)
         let list = this.state.currentPage==="All members" ? 
         (<ul className="group-show-members-right-list">
             {memberships.map ((membership, i) => {
@@ -29,8 +29,14 @@ class GroupShowMembers extends React.Component{
                         <div className="group-show-members-right-member">
                             <img src={window[imageUrl]} className="group-show-members-right-member-img"/>
                             <div className="group-show-members-right-member-info">
-                                <p>{name}</p>
-                                <p>Joined on {formatDate(createdAt)}</p>
+                                <div className="group-show-members-right-member-info-left">
+                                    <p>{name}</p>
+                                    <p>Joined on {formatDate(createdAt)}</p>
+                                </div>
+                                <div className="group-show-members-right-member-info-right">
+                                    <p>{membership.memberType}</p>
+                                    <img className="group-show-member-picture-square" src={window[icons[membership.memberType]]} alt=""/>
+                                </div>
                             </div>
                         </div>
 
@@ -67,7 +73,7 @@ class GroupShowMembers extends React.Component{
                     </div>
                     <div className="group-show-members-left-tab" onClick={this.switchPage("Leadership team")}>
                         <p>Leadership</p>
-                        <p> {this.props.captainIds.length}</p>
+                        <p>{this.props.captainIds.length}</p>
                     </div>
                 </div>
                 <div className="group-show-members-right">

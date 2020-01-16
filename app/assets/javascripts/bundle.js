@@ -209,8 +209,8 @@ var updateEvent = function updateEvent(event) {
 };
 var deleteEvent = function deleteEvent(eventId) {
   return function (dispatch) {
-    return _utils_event_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteEvent"](eventId).then(function () {
-      return dispatch(removeEvent(eventId));
+    return _utils_event_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteEvent"](eventId).then(function (events) {
+      return dispatch(receiveEvents(events));
     });
   };
 };
@@ -669,9 +669,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _searchbar_search_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./searchbar/search_container */ "./frontend/components/searchbar/search_container.jsx");
 /* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
 /* harmony import */ var _events_create_event_form_container__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./events/create_event_form_container */ "./frontend/components/events/create_event_form_container.js");
-/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+/* harmony import */ var _events_edit_event_form_container__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./events/edit_event_form_container */ "./frontend/components/events/edit_event_form_container.js");
+/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+
 
 
 
@@ -692,53 +694,57 @@ __webpack_require__.r(__webpack_exports__);
 var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_header_header_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
-    exact: true,
-    path: "/groups/form/new",
-    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_11__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
-    exact: true,
-    path: "/groups/form/:groupId/edit",
-    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_13__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["AuthRoute"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_16__["AuthRoute"], {
     exact: true,
     path: "/login",
     component: _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["AuthRoute"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_16__["AuthRoute"], {
     exact: true,
     path: "/signup",
     component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
-    exact: true,
-    path: "/groups/:groupId/events/:eventId",
-    component: _events_event_show_container__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
-    path: "/events/new/:groupId",
-    component: _events_create_event_form_container__WEBPACK_IMPORTED_MODULE_12__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
+    path: "/search",
+    component: _searchbar_search_container__WEBPACK_IMPORTED_MODULE_10__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
     exact: true,
     path: "/events",
     component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
     exact: true,
     path: "/categories",
     component: _categories_category_index_container__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
-    path: "/search",
-    component: _searchbar_search_container__WEBPACK_IMPORTED_MODULE_10__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_16__["ProtectedRoute"], {
+    exact: true,
+    path: "/events/form/:eventId/edit/",
+    component: _events_edit_event_form_container__WEBPACK_IMPORTED_MODULE_13__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_16__["ProtectedRoute"], {
+    path: "/events/new/:groupId",
+    component: _events_create_event_form_container__WEBPACK_IMPORTED_MODULE_12__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_16__["ProtectedRoute"], {
+    exact: true,
+    path: "/groups/form/new",
+    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_11__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
+    exact: true,
+    path: "/groups/:groupId/events/:eventId",
+    component: _events_event_show_container__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_16__["ProtectedRoute"], {
+    exact: true,
+    path: "/groups/form/:groupId/edit",
+    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_14__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
     exact: true,
     path: "/groups/:groupId",
     component: _groups_group_show_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
     exact: true,
     path: "/groups",
     component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_7__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Route"], {
     exact: true,
     path: "/",
     component: _groups_group_landing_container__WEBPACK_IMPORTED_MODULE_9__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Redirect"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Redirect"], {
     exact: true,
     to: "/"
   }))));
@@ -986,6 +992,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1003,6 +1010,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1038,12 +1046,13 @@ function (_React$Component) {
         locationId: locationId,
         imageUrl: imageUrl,
         address: address,
-        groupId: groupId,
-        selectedLocation: "Select Location"
+        groupId: groupId
       },
+      selectedLocation: _this.props.selectedLocation,
       loaded: true,
       currentSlide: 0,
       errorMessage: "",
+      eventId: _this.props.eventId,
       locations: _this.props.locations
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
@@ -1079,11 +1088,11 @@ function (_React$Component) {
             endTime = _this3$state$event.endTime,
             locationId = _this3$state$event.locationId,
             imageUrl = _this3$state$event.imageUrl,
-            selectedLocation = _this3$state$event.selectedLocation,
             address = _this3$state$event.address,
             groupId = _this3$state$event.groupId;
+        var selectedLocation = _this3.state.selectedLocation;
         var slide = _this3.state.currentSlide;
-        var eventId = _this3.props.match.params.eventId;
+        var eventId = _this3.state.eventId;
 
         if (slide === 4 && description.length >= 10 && type === "next") {
           var eventInfo = {
@@ -1095,11 +1104,12 @@ function (_React$Component) {
             end_time: endTime,
             location_id: locationId,
             image_url: imageUrl,
-            group_id: groupId
+            group_id: groupId,
+            address: address
           };
 
           _this3.props.action(eventInfo).then(function (payload) {
-            _this3.props.history.push("groups/".concat(payload.event.group_id, "/events/").concat(payload.event.id));
+            window.location.href = "#/groups/".concat(payload.event.groupId, "/events/").concat(payload.event.id);
           });
         } else if (slide === 0 && selectedLocation === undefined && type === "next") {
           _this3.setState({
@@ -1112,6 +1122,10 @@ function (_React$Component) {
         } else if (slide === 0 && !Number.isInteger(parseInt(maxAttendance)) && type === "next") {
           _this3.setState({
             errorMessage: "Please enter an integer for max attendance"
+          });
+        } else if (slide === 1 && (startTime.length === 0 || endTime.length === 0) && type === "next") {
+          _this3.setState({
+            errorMessage: "Please select start and end times for the brawl"
           });
         } else if (slide === 2 && title.length < 3 && type === "next") {
           _this3.setState({
@@ -1168,11 +1182,12 @@ function (_React$Component) {
     key: "toggleSelected",
     value: function toggleSelected(index) {
       var loc = this.state.locations[index];
-      var newState = Object.assign({}, this.state);
-      newState.event.locationId = loc.id;
-      newState.event.selectedLocation = loc.name;
+      var newStateEvent = Object.assign({}, this.state.event);
+      newStateEvent.locationId = loc.id;
+      var selectedLocation = loc.name;
       this.setState({
-        newState: newState
+        event: newStateEvent,
+        selectedLocation: selectedLocation
       });
     }
   }, {
@@ -1181,7 +1196,6 @@ function (_React$Component) {
       var _this6 = this;
 
       if (this.state.loaded) {
-        console.log(this.state);
         var slide0 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -1194,8 +1208,8 @@ function (_React$Component) {
           className: "create-group-card-options"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-selected"
-        }, this.state.event.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          location: this.state.event.selectedLocation,
+        }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          location: this.state.selectedLocation,
           list: this.state.locations,
           toggleLocation: this.toggleSelected
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1223,9 +1237,27 @@ function (_React$Component) {
           className: "create-group-card-title"
         }, "When will the brawl begin and end?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
-        }, "Be careful with time travel! We will not be responsible for changes to time/space as a result of irresponsible time-brawling."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, "Be careful with time travel! We will not be responsible for changes to time/space as a result of irresponsible time-brawling."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "create-group-card-errors"
+        }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-options"
-        }));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "create-group-card-options-dates"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          className: "create-group-card-options-dates-category"
+        }, "Brawl Begins", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          onChange: this.update("startTime"),
+          className: "date",
+          type: "date",
+          value: Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateInput"])(this.state.event.startTime)
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          className: "create-group-card-options-dates-category"
+        }, "Brawl Ends", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          onChange: this.update("endTime"),
+          className: "date",
+          type: "date",
+          value: Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateInput"])(this.state.event.endTime)
+        })))));
         var slide2 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -1240,7 +1272,7 @@ function (_React$Component) {
           className: "create-group-card-name-field",
           type: "text",
           value: this.state.event.title,
-          placeholder: this.state.event.selectedLocation + "'s Biggest Brawl",
+          placeholder: this.state.selectedLocation + "'s Biggest Brawl",
           onChange: this.update('title')
         })));
         var slide3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1254,7 +1286,7 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
           className: "create-group-card-name-field-big",
           type: "text",
-          value: this.state.description,
+          value: this.state.event.description,
           placeholder: "Please enter at least 10 characters",
           onChange: this.update('description')
         })));
@@ -1339,14 +1371,15 @@ var mstp = function mstp(state, ownProps) {
       title: '',
       description: '',
       maxAttendance: '',
-      startTime: '',
-      endTime: '',
+      startTime: "theDate",
+      endTime: "theTomorrow",
       locationId: '',
-      selectedLocation: "Select Location",
       imageUrl: '',
       groupId: ownProps.match.params.groupId
     },
-    locations: locations
+    locations: locations,
+    eventId: "",
+    selectedLocation: "Select Location"
   };
 };
 
@@ -1365,6 +1398,148 @@ var mdtp = function mdtp(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_create_event_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/events/edit_event_form.jsx":
+/*!********************************************************!*\
+  !*** ./frontend/components/events/edit_event_form.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _create_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_event_form */ "./frontend/components/events/create_event_form.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var EditEventForm =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(EditEventForm, _React$Component);
+
+  function EditEventForm(props) {
+    var _this;
+
+    _classCallCheck(this, EditEventForm);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditEventForm).call(this, props));
+    _this.state = {
+      loaded: false
+    };
+    return _this;
+  }
+
+  _createClass(EditEventForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var fetchLocations = this.props.fetchLocations();
+      var fetchEvent = this.props.fetchEvent(this.props.match.params.eventId);
+      Promise.all([fetchLocations, fetchEvent]).then(function () {
+        return _this2.setState({
+          loaded: true
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.state.loaded) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_event_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          event: this.props.event,
+          eventId: this.props.match.params.eventId,
+          locations: this.props.locations,
+          fetchLocations: this.props.fetchLocations,
+          action: this.props.action,
+          selectedLocation: this.props.selectedLocation
+        }));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+      }
+    }
+  }]);
+
+  return EditEventForm;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (EditEventForm);
+
+/***/ }),
+
+/***/ "./frontend/components/events/edit_event_form_container.js":
+/*!*****************************************************************!*\
+  !*** ./frontend/components/events/edit_event_form_container.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _edit_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit_event_form */ "./frontend/components/events/edit_event_form.jsx");
+/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+
+
+
+
+
+var mstp = function mstp(state, ownProps) {
+  var selectedLocation;
+  var locations = Object.values(state.entities.locations);
+  var event = state.entities.events[ownProps.match.params.eventId];
+
+  for (var i = 0; i < locations.length; i++) {
+    locations[i].key = 'location';
+    locations[i].selected = locations[i].id === event.locationId;
+    if (event.locationId === locations[i].id) selectedLocation = locations[i].name;
+  }
+
+  return {
+    event: event,
+    locations: locations,
+    selectedLocation: selectedLocation
+  };
+};
+
+var mdtp = function mdtp(dispatch) {
+  return {
+    action: function action(event) {
+      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_2__["updateEvent"])(event));
+    },
+    fetchLocations: function fetchLocations() {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_3__["fetchLocations"])());
+    },
+    fetchEvent: function fetchEvent(eventId) {
+      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_2__["fetchEvent"])(eventId));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mstp, mdtp)(_edit_event_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -1462,7 +1637,6 @@ function (_React$Component) {
             event: event
           });
         }));
-        debugger;
         yourEventsDiv = userReservations.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-signup"
         }, "No brawls scheduled") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1688,10 +1862,12 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(EventShow).call(this, props));
     _this.state = {
+      toEventIndex: false,
       currentUserAttending: false,
       loaded: false
     };
     _this.rsvp = _this.rsvp.bind(_assertThisInitialized(_this));
+    _this.deleteEvent = _this.deleteEvent.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1709,6 +1885,12 @@ function (_React$Component) {
               currentUserAttending: true
             });
           });
+        } else if (_this2.props.reservations.eventReservations.length === 1) {
+          _this2.props.deleteEvent(_this2.props.match.params.eventId).then(function () {
+            _this2.setState({
+              toEventIndex: true
+            });
+          });
         } else {
           _this2.props.deleteReservation(_this2.props.match.params.eventId).then(function () {
             return _this2.setState({
@@ -1717,6 +1899,24 @@ function (_React$Component) {
           });
         }
       };
+    }
+  }, {
+    key: "deleteEvent",
+    value: function deleteEvent() {
+      var _this3 = this;
+
+      if (!this.props.currentUser) {
+        document.location.href = '#/login';
+      } else {
+        this.setState({
+          loaded: false
+        });
+        this.props.deleteEvent(this.props.event.id).then(function () {
+          _this3.setState({
+            toEventIndex: true
+          });
+        });
+      }
     }
   }, {
     key: "componentDidUpdate",
@@ -1730,21 +1930,21 @@ function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this4 = this;
 
       var eventId = this.props.match.params.eventId;
       var groupId = this.props.match.params.groupId;
       var fetchLocations = this.props.fetchLocations();
       var fetchUsersFromEvent = this.props.fetchUsersFromEvent(eventId);
       var fetchEvent = this.props.fetchEvent(eventId).then(function (payload) {
-        return _this3.setState({
+        return _this4.setState({
           currentUserAttending: payload.event.currentUserAttending
         });
       });
       var fetchGroup = this.props.fetchGroup(groupId);
       var fetchReservations = this.props.fetchReservations(eventId);
       Promise.all([fetchLocations, fetchUsersFromEvent, fetchEvent, fetchGroup, fetchReservations]).then(function () {
-        return _this3.setState({
+        return _this4.setState({
           loaded: true
         });
       });
@@ -1752,37 +1952,72 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      if (this.state.toEventIndex === true) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+          to: "/events"
+        });
+      }
+
       if (this.state.loaded) {
         var _this$props$event = this.props.event,
             title = _this$props$event.title,
             description = _this$props$event.description,
             startTime = _this$props$event.startTime,
             locationId = _this$props$event.locationId,
+            maxAttendance = _this$props$event.maxAttendance,
             endTime = _this$props$event.endTime,
             address = _this$props$event.address,
-            imageUrl = _this$props$event.imageUrl;
+            imageUrl = _this$props$event.imageUrl,
+            id = _this$props$event.id;
         var _this$props = this.props,
             group = _this$props.group,
             locations = _this$props.locations,
             users = _this$props.users,
-            reservations = _this$props.reservations;
+            reservations = _this$props.reservations,
+            currentUserId = _this$props.currentUserId;
         var captains = [];
         var captainIds = [];
+        var currentUserCaptain;
         reservations.eventReservations.forEach(function (reservation) {
           if (reservation.isOrganizer) {
             if (!users[reservation.userId]) return null;
             captains.push(users[reservation.userId].name);
             captainIds.push(reservation.userId);
+
+            if (reservation.userId === currentUserId) {
+              currentUserCaptain = true;
+            }
           }
         });
         var captainsText = captains.length === 1 ? " " : "".concat(captains[0], " and ").concat(captains.length - 1, " others");
-        var joinButton = !this.state.currentUserAttending ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: this.rsvp("create"),
-          className: "event-show-join"
-        }, "A NEW CHALLENGER APPROACHES") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: this.rsvp("delete"),
-          className: "event-show-join"
-        }, "A HONORABLE RETREAT");
+        var joinButton;
+
+        if (maxAttendance <= reservations.eventReservations.length) {
+          joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "event-show-join"
+          }, "TOO LATE EVENT FULL");
+        } else if (!this.state.currentUserAttending) {
+          joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            onClick: this.rsvp("create"),
+            className: "event-show-join"
+          }, "A NEW CHALLENGER");
+        } else if (this.state.currentUserAttending) {
+          joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            onClick: this.rsvp("delete"),
+            className: "event-show-join"
+          }, "A HONORABLE RETREAT");
+        }
+
+        var organizerOptions = currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "event-show-main-right-infobox"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "far fa-compass"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organizer Options"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/events/form/".concat(id, "/edit")
+        }, "Edit Event"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "text-link",
+          onClick: this.deleteEvent
+        }, "Cancel the Brawl"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1793,13 +2028,13 @@ function (_React$Component) {
           className: "event-show-banner-left"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-banner-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "event-show-banner-right-text"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, captains[0], " ", captainsText)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window[users[captainIds[0]].imageUrl],
           className: "event-show-member-picture",
           alt: "org-pic"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "event-show-banner-right-text"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, captains[0], " ", captainsText))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-left"
@@ -1838,14 +2073,14 @@ function (_React$Component) {
           className: "event-show-main-right-infobox"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "far fa-clock"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithDay"])(startTime)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatTime"])(startTime) + " " + Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatTime"])(endTime)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithDay"])(startTime), "  to"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithDay"])(endTime)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-main-right-infobox"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "far fa-compass"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           className: "event-show-main-right-infobox-link",
           to: "/search/?location%20".concat(locationId)
-        }, locations[locationId].name)))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, locations[locationId].name))), organizerOptions))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-footer"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show-footer-inter"
@@ -1896,13 +2131,20 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var eventId = ownProps.match.params.eventId;
   var groupId = ownProps.match.params.groupId;
+  var currentUserId;
+
+  if (!!state.session.id) {
+    currentUserId = state.session.id;
+  }
+
   return {
     event: state.entities.events[eventId],
     group: state.entities.groups[groupId],
     reservations: state.entities.reservations,
     locations: state.entities.locations,
     users: state.entities.users,
-    currentUser: !!state.session.id
+    currentUser: !!state.session.id,
+    currentUserId: currentUserId
   };
 };
 
@@ -1910,6 +2152,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchEvent: function fetchEvent(eventId) {
       return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_2__["fetchEvent"])(eventId));
+    },
+    deleteEvent: function deleteEvent(eventId) {
+      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_2__["deleteEvent"])(eventId));
     },
     fetchGroup: function fetchGroup(groupId) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_3__["fetchGroup"])(groupId));
@@ -2002,9 +2247,11 @@ function (_React$Component) {
       selectedLocationId: selectedLocationId,
       errorMessage: "",
       location: _this.props.locations,
-      categories: _this.props.categories
+      categories: _this.props.categories,
+      categorySelected: _this.props.categorySelected
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
+    _this.handleClickPic = _this.handleClickPic.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -2028,11 +2275,12 @@ function (_React$Component) {
       var _this3 = this;
 
       return function () {
+        console.log(_this3.state.categorySelected);
         var slide = _this3.state.currentSlide;
         var groupId = _this3.props.match.params.groupId;
         var catArray = [];
 
-        if (slide === 4 && _this3.state.description.length >= 50 && type === "next") {
+        if (slide === 4 && _this3.state.description.length >= 20 && type === "next") {
           var categories = _this3.state.categories;
 
           for (var i = 0; i < categories.length; i++) {
@@ -2059,13 +2307,17 @@ function (_React$Component) {
           _this3.setState({
             errorMessage: "Please select a location"
           });
-        } else if (slide === 2 && _this3.state.name.length <= 8 && type === "next") {
+        } else if (slide === 1 && !_this3.state.categorySelected && type === "next") {
           _this3.setState({
-            errorMessage: "Please enter more than 8 characters"
+            errorMessage: "Please select a fighting style"
           });
-        } else if (slide === 3 && _this3.state.description.length <= 50 && type === "next") {
+        } else if (slide === 2 && _this3.state.name.length <= 4 && type === "next") {
           _this3.setState({
-            errorMessage: "Please enter more than 50 characters"
+            errorMessage: "Please enter more than 4 characters"
+          });
+        } else if (slide === 3 && _this3.state.description.length <= 20 && type === "next") {
+          _this3.setState({
+            errorMessage: "Please enter more than 20 characters"
           });
         } else {
           slide = type === "prev" ? slide - 1 : slide + 1;
@@ -2100,18 +2352,34 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "handleClickPic",
+    value: function handleClickPic(key) {
+      var _this5 = this;
+
+      return function (e) {
+        e.preventDefault(); // let newState = Object.assign({}, this.state)
+        // newState.imageUrl = `defaultg${key+1}URL`;
+        // console.log(newState.imageUrl)
+
+        _this5.setState({
+          imageUrl: "defaultg".concat(key + 1, "URL")
+        });
+      };
+    }
+  }, {
     key: "handleClick",
     value: function handleClick(categoryId) {
       var temp = this.state.categories;
       temp[categoryId - 1].selected = !temp[categoryId - 1].selected;
       this.setState({
-        categories: temp
+        categories: temp,
+        categorySelected: true
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.state.loaded) {
         var slide0 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2120,7 +2388,7 @@ function (_React$Component) {
           className: "create-group-card-title"
         }, "First, where is your squad located?."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
-        }, "Beatup squads meet locally and in person. We\u2019ll connect you with people who live in and around your area."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "Squads meet locally and in person. We will recruit warriors from across your region."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-errors"
         }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-options"
@@ -2135,9 +2403,11 @@ function (_React$Component) {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "create-group-card-title"
-        }, "Choose a few topics that describe your squad's style"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "What best typifies your squad's fighting style"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
-        }, "Be specific and don't be shy. We won't divulge the secret training methods of your squad.  We will help potential squad members find you!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, "Be specific and don't be shy. We won't divulge the secret training methods of your squad.  We will help potential squad members find you!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "create-group-card-errors"
+        }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-options"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "create-group-card-options-categories"
@@ -2146,7 +2416,7 @@ function (_React$Component) {
             key: category.id
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             onClick: function onClick() {
-              return _this5.handleClick(category.id);
+              return _this6.handleClick(category.id);
             },
             className: category.selected ? "create-group-card-options-categories-button-selected" : "create-group-card-options-categories-button"
           }, category.name));
@@ -2172,9 +2442,9 @@ function (_React$Component) {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "create-group-card-title"
-        }, "Now describe what your squad is about.  Tenets.  Core Principles.  Average Wednesday mornings."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "Now describe what your squad is about.  Tenets.  Core Principles.  Power level requirements."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
-        }, "People will see this when we promote your squad, but you\u2019ll be able to add to it later, too."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+        }, "Potential recruits will see this when we promote your squad, so give it your all."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
           className: "create-group-card-ol"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "What's the purpose of the squad?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Who should join?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "What will you do at your events?")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-errors"
@@ -2184,20 +2454,29 @@ function (_React$Component) {
           className: "create-group-card-name-field-big",
           type: "text",
           value: this.state.description,
-          placeholder: "Please enter at least 50 characters",
+          placeholder: "Please enter at least 20 characters",
           onChange: this.update('description')
         })));
+        var urls = ["defaultg1URL", "defaultg2URL", "defaultg3URL", "defaultg4URL", "defaultg5URL", "defaultg6URL"];
         var slide4 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "create-group-card-title"
-        }, "Almost done! Just take a minute to review our guidelines"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "Final step before forming your own squad."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
-        }, "Beatup is all about helping people live fuller, happier lives\u2014with the help of strong communities that like to let out phyiscal energy at Squad-sanctioned brawls. This means that all squads should:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-          className: "create-group-card-ul"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Provide mental/physical gains and EXP for members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Encourage real human interactions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Meet in real life"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Have a leader present at all events"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Fight with honor at any brawl event"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Fight with honor for glory at any brawl event")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "create-group-card-description"
-        }, "Once you submit your squad, Beatup will review it based on these guidelines and make sure it gets promoted to the right people.  "));
+        }, "Select an image to proudly represents the spirit of your squad."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "create-event-images"
+        }, urls.map(function (url, i) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            onClick: _this6.handleClickPic(i),
+            key: i
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            className: _this6.state.imageUrl === url ? "create-event-image-selected" : "create-event-image",
+            value: "i",
+            src: window[url],
+            alt: ""
+          }));
+        })));
         var slides = [slide0, slide1, slide2, slide3, slide4];
         var completion = "create-group-completion-".concat(this.state.currentSlide);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2282,7 +2561,8 @@ var mstp = function mstp(state) {
       selectedLocation: "Select Location"
     },
     locations: locations,
-    categories: categories
+    categories: categories,
+    categorySelected: false
   };
 };
 
@@ -2481,8 +2761,8 @@ var mdtp = function mdtp(dispatch) {
     fetchLocations: function fetchLocations() {
       return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_4__["fetchLocations"])());
     },
-    fetchGroup: function fetchGroup() {
-      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroup"])());
+    fetchGroup: function fetchGroup(groupId) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroup"])(groupId));
     }
   };
 };
@@ -3040,7 +3320,8 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupOptionsDropdown).call(this, props));
     _this.state = {
       listOpen: false,
-      currentUserMember: _this.props.currentUserMember
+      currentUserMember: _this.props.currentUserMember,
+      toGroupIndex: false
     };
     _this.handleJoin = _this.handleJoin.bind(_assertThisInitialized(_this));
     _this.handleRemove = _this.handleRemove.bind(_assertThisInitialized(_this));
@@ -3085,13 +3366,16 @@ function (_React$Component) {
   }, {
     key: "handleRemove",
     value: function handleRemove() {
-      debugger;
+      var _this2 = this;
 
       if (!this.props.currentUser) {
         document.location.href = '#/login';
       } else if (this.props.totalMembers === 1) {
-        this.props.deleteGroup(this.props.groupId);
-        document.location.href = '#/groups';
+        this.props.deleteGroup(this.props.groupId).then(function () {
+          _this2.setState({
+            toGroupIndex: true
+          });
+        });
       } else {
         this.props.deleteMembership(this.props.groupId);
         this.setState({
@@ -3103,19 +3387,28 @@ function (_React$Component) {
   }, {
     key: "handleDeleteGroup",
     value: function handleDeleteGroup() {
-      debugger;
+      var _this3 = this;
 
       if (!this.props.currentUser) {
         document.location.href = '#/login';
       } else {
-        this.props.deleteGroup(this.props.groupId);
-        document.location.href = '#/groups';
+        this.props.deleteGroup(this.props.groupId).then(function () {
+          _this3.setState({
+            toGroupIndex: true
+          });
+        });
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this4 = this;
+
+      if (this.state.toGroupIndex === true) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+          to: "/groups"
+        });
+      }
 
       var _this$props = this.props,
           currentUserCaptain = _this$props.currentUserCaptain,
@@ -3161,7 +3454,7 @@ function (_React$Component) {
         className: "create-group-card-dropdown-option-hidden"
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
-          return _this2.handleDeleteGroup();
+          return _this4.handleDeleteGroup();
         },
         className: "create-group-card-dropdown-option"
       }, "Delete Group");
@@ -3176,7 +3469,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-group-card-dropdown-header",
         onClick: function onClick() {
-          return _this2.toggleList();
+          return _this4.toggleList();
         }
       }, dropdownTitle), listOpen && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "create-group-card-dropdown-header-list"
@@ -3221,6 +3514,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _group_show_events__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group_show_events */ "./frontend/components/groups/group_show_events.jsx");
 /* harmony import */ var _group_options_dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group_options_dropdown */ "./frontend/components/groups/group_options_dropdown.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3245,6 +3539,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+var GroupOptionsDropdownWithRouter = Object(react_router__WEBPACK_IMPORTED_MODULE_6__["withRouter"])(_group_options_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 var GroupShow =
 /*#__PURE__*/
@@ -3385,7 +3681,7 @@ function (_React$Component) {
 
         var groupDropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_options_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupOptionsDropdownWithRouter, {
           createMembership: this.props.createMembership,
           deleteMembership: this.props.deleteMembership,
           deleteGroup: this.props.deleteGroup,
@@ -3729,7 +4025,11 @@ function (_React$Component) {
           className: "group-show-events-event-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-event-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateTime"])(startTime)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "group-show-events-event-title"
+        }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/search/?location%20".concat(locationId)
+        }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-event-link"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           to: "/groups/".concat(groupId, "/events/").concat(eventId)
@@ -3747,12 +4047,7 @@ function (_React$Component) {
         className: "group-show-events-main"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.currentPage)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-events-search"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "group-show-events-search-bar",
-        type: "text"
-      })), list));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.currentPage)), list));
     }
   }]);
 
@@ -3828,11 +4123,15 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var icons = {
+        "Initiate": "initiateURL",
+        "Squad Leader": "squadleaderURL",
+        "Captain": "captainURL"
+      };
       var _this$props = this.props,
           memberships = _this$props.memberships,
           users = _this$props.users,
           captainIds = _this$props.captainIds;
-      console.log(users);
       var list = this.state.currentPage === "All members" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
       }, memberships.map(function (membership, i) {
@@ -3850,7 +4149,15 @@ function (_React$Component) {
           className: "group-show-members-right-member-img"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-members-right-member-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt)))));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-members-right-member-info-left"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-members-right-member-info-right"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, membership.memberType), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          className: "group-show-member-picture-square",
+          src: window[icons[membership.memberType]],
+          alt: ""
+        })))));
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
       }, captainIds.map(function (id, i) {
@@ -3880,7 +4187,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "All Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", this.props.memberships.length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-left-tab",
         onClick: this.switchPage("Leadership team")
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", this.props.captainIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.captainIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right-header"
@@ -5182,10 +5489,6 @@ var eventsReducer = function eventsReducer() {
     case _actions_event_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_EVENT"]:
       return _defineProperty({}, action.event.id, action.event);
 
-    case _actions_event_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_EVENT"]:
-      delete nextState[action.eventId];
-      return nextState;
-
     default:
       return state;
   }
@@ -5558,12 +5861,13 @@ var fetchCategories = function fetchCategories() {
 /*!*************************************!*\
   !*** ./frontend/utils/date_util.js ***!
   \*************************************/
-/*! exports provided: formatDate, formatDateWithDay, formatTime, formatDateTime */
+/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatTime, formatDateTime */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateInput", function() { return formatDateInput; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateWithDay", function() { return formatDateWithDay; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return formatTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return formatDateTime; });
@@ -5596,6 +5900,39 @@ var formatDate = function formatDate(date) {
   var day = obj.getDate();
   var year = obj.getFullYear();
   return "".concat(month, " ").concat(day, ", ").concat(year);
+};
+var formatDateInput = function formatDateInput(date) {
+  var months = {
+    0: '01',
+    1: '02',
+    2: '03',
+    3: '04',
+    4: '05',
+    5: '06',
+    6: '07',
+    7: '08',
+    8: '09',
+    9: '10',
+    10: '11',
+    11: '12'
+  };
+  var days = {
+    1: '01',
+    2: '02',
+    3: '03',
+    4: '04',
+    5: '05',
+    6: '06',
+    7: '07',
+    8: '08',
+    9: '09',
+    0: '00'
+  };
+  var obj = new Date(date);
+  var month = months[obj.getMonth()];
+  var day = obj.getDate() < 10 ? days[obj.getDate()] : obj.getDate();
+  var year = obj.getFullYear();
+  return "".concat(year, "-").concat(month, "-").concat(day);
 };
 var formatDateWithDay = function formatDateWithDay(date) {
   var months = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import onClickOutside from "react-onclickoutside";
 
 class GroupOptionsDropdown extends React.Component{
@@ -7,7 +7,8 @@ class GroupOptionsDropdown extends React.Component{
         super(props)
         this.state = {
             listOpen: false,
-            currentUserMember: this.props.currentUserMember
+            currentUserMember: this.props.currentUserMember,
+            toGroupIndex: false
           }
         this.handleJoin = this.handleJoin.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
@@ -55,12 +56,13 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleRemove(){
-        debugger
         if (!this.props.currentUser){
             document.location.href = '#/login'
         } else if (this.props.totalMembers === 1){
-            this.props.deleteGroup(this.props.groupId)            
-            document.location.href = '#/groups'
+            this.props.deleteGroup(this.props.groupId)
+            .then( () => {
+                this.setState({toGroupIndex: true})
+            })
         } else {
             this.props.deleteMembership(this.props.groupId)            
             this.setState({
@@ -72,16 +74,21 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleDeleteGroup(){
-        debugger
         if (!this.props.currentUser){
             document.location.href = '#/login'
         } else {
-            this.props.deleteGroup(this.props.groupId)            
-            document.location.href = '#/groups'
+            this.props.deleteGroup(this.props.groupId)
+                .then( () => {
+                    this.setState({toGroupIndex: true})
+                })
         }
     }
 
     render(){
+
+        if (this.state.toGroupIndex === true) {
+            return <Redirect to='/groups' />
+          }
         
         let {currentUserCaptain, groupId} = this.props
         let {currentUserMember} = this.state

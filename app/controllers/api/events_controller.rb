@@ -2,16 +2,16 @@ class Api::EventsController < ApplicationController
   before_action :require_logged_in, only: [:create, :edit, :destroy]
 
   def index
-  if params[:group_id]
-    @events = Group.find(params[:group_id]).events
-  elsif params[:location_id]
-    @events = Location.find(params[:location_id]).events
-  elsif params[:category_id]
-    @events = Category.find(params[:category_id]).events
-  else
-    @events = Event.all
-  end
-    render "api/events/index"
+    if params[:group_id]
+      @events = Group.find(params[:group_id]).events
+    elsif params[:location_id]
+      @events = Location.find(params[:location_id]).events
+    elsif params[:category_id]
+      @events = Category.find(params[:category_id]).events
+    else
+      @events = Event.all
+    end
+      render "api/events/index"
   end
 
   def show
@@ -40,7 +40,7 @@ class Api::EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-    if @event.updateAttributes(event_params)
+    if @event.update_attributes(event_params)
         render "api/events/show"
     else
         render json: [@event.errors.full_messages], status: 401
@@ -52,6 +52,8 @@ class Api::EventsController < ApplicationController
      if !@event.destroy
         render json: ["No event to destroy"], status: 404
      end
+     @events = Event.all
+     render "api/events/index"
   end
 
   def search

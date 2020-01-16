@@ -11,9 +11,11 @@ import GroupLandingContainer from './groups/group_landing_container';
 import SearchContainer from './searchbar/search_container';
 import CreateGroupFormContainer from './groups/create_group_form_container';
 import CreateEventFormContainer from './events/create_event_form_container';
+import EditEventFormContainer from './events/edit_event_form_container';
 import EditGroupFormContainer from './groups/edit_group_form_container';
-import {Route, Redirect, Switch, Link, HashRouter} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
+
 
 const App = () => (
   <div>
@@ -22,15 +24,16 @@ const App = () => (
     </header>
     <div className="main-body">
       <Switch>
-        <ProtectedRoute exact path="/groups/form/new" component={CreateGroupFormContainer} />
-        <ProtectedRoute exact path="/groups/form/:groupId/edit" component={EditGroupFormContainer} />
         <AuthRoute exact path="/login" component={LogInFormContainer} />
         <AuthRoute exact path="/signup" component={SignUpFormContainer} />
-        <Route exact path="/groups/:groupId/events/:eventId" component={EventShowContainer} />
-        <ProtectedRoute path="/events/new/:groupId" component={CreateEventFormContainer} />
+        <Route path="/search" component={SearchContainer} />
         <Route exact path="/events" component={EventIndexContainer} />
         <Route exact path="/categories" component={CategoryIndexContainer} />
-        <Route path="/search" component={SearchContainer} />
+        <ProtectedRoute exact path="/events/form/:eventId/edit/" component={EditEventFormContainer} />
+        <ProtectedRoute path="/events/new/:groupId" component={CreateEventFormContainer} />
+        <ProtectedRoute exact path="/groups/form/new" component={CreateGroupFormContainer} />
+        <Route exact path="/groups/:groupId/events/:eventId" component={EventShowContainer} />
+        <ProtectedRoute exact path="/groups/form/:groupId/edit" component={EditGroupFormContainer} />
         <Route exact path="/groups/:groupId" component={GroupShowContainer} />
         <Route exact path="/groups" component={GroupIndexContainer} />
         <Route exact path="/" component={GroupLandingContainer} />

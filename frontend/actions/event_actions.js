@@ -51,7 +51,7 @@ export const updateEvent = (event) => dispatch => (
 
 export const deleteEvent = (eventId) => dispatch => (
     APIUtils.deleteEvent(eventId)
-        .then(() => dispatch(removeEvent(eventId)))
+        .then((events) => dispatch(receiveEvents(events)))
 )
 
 export const searchEvents = (searchQuery) => dispatch => (

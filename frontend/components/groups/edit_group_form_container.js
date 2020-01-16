@@ -34,7 +34,7 @@ const mdtp = dispatch => ({
     deleteType: (type) => dispatch(deleteType(type)),
     fetchCategories: () => dispatch(fetchCategories()),
     fetchLocations: () => dispatch(fetchLocations()),
-    fetchGroup: () => dispatch(fetchGroup())
+    fetchGroup: (groupId) => dispatch(fetchGroup(groupId))
 })
 
 export default connect(mstp, mdtp)(EditGroupForm)

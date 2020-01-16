@@ -4,6 +4,7 @@
     <title>Meetup</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
     <script type="text/javascript">
       window.fightclubURL = "<%= image_url('logo_Beatup.png') %>";
       window.saitamaURL = "<%= image_url('saitama.jpg') %>";
@@ -132,6 +133,9 @@
       window.defaultg4URL = "<%= image_url('defaultg4URL.jpeg') %>";
       window.defaultg5URL = "<%= image_url('defaultg5URL.png') %>";
       window.defaultg6URL = "<%= image_url('defaultg6URL.png') %>";
+      window.initiateURL = "<%= image_url('initiateURL.png') %>";
+      window.squadleaderURL = "<%= image_url('squadleaderURL.png') %>";
+      window.captainURL = "<%= image_url('captainURL.png') %>";
      
     </script>
     <%= stylesheet_link_tag 'application', media: 'all' %> <%= csrf_meta_tags %>

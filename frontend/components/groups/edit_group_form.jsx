@@ -12,7 +12,7 @@ class EditGroupForm extends React.Component{
     componentDidMount(){
         const fetchCategories = this.props.fetchCategories();
         const fetchLocations = this.props.fetchLocations();
-        const fetchGroup = this.props.fetchGroup();
+        const fetchGroup = this.props.fetchGroup(this.props.match.params.groupId);
         Promise.all([fetchCategories, fetchLocations, fetchGroup])
         .then( () => this.setState({loaded:true}))
     }
@@ -21,7 +21,7 @@ class EditGroupForm extends React.Component{
         if (this.state.loaded){
             return(
                 <div>
-                    <CreateGroupForm props={this.props} groupId={this.props.match.params.groupId}/>
+                    <CreateGroupForm props={this.props} groupId={this.props.match.params.groupId} categorySelected={true}/>
                 </div>
             )
         } else {

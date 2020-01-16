@@ -18,9 +18,11 @@ class CreateGroupForm extends React.Component{
             selectedLocationId: selectedLocationId,
             errorMessage: "",
             location: this.props.locations,
-            categories: this.props.categories
+            categories: this.props.categories,
+            categorySelected: this.props.categorySelected
         }
         this.handleStep = this.handleStep.bind(this);
+        this.handleClickPic = this.handleClickPic.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
@@ -45,10 +47,11 @@ class CreateGroupForm extends React.Component{
 
     handleStep(type){
         return () => {
+            console.log(this.state.categorySelected)
         let slide = this.state.currentSlide;
         let groupId = this.props.match.params.groupId;
         let catArray = [];
-        if (slide === 4 && this.state.description.length >= 50 && type==="next") {
+        if (slide === 4 && this.state.description.length >= 20 && type==="next") {
             let {categories} = this.state;
                 for(let i = 0; i < categories.length; i++){
                     if (categories[i].selected) {
@@ -75,13 +78,17 @@ class CreateGroupForm extends React.Component{
             this.setState({
                 errorMessage: "Please select a location"
             })
-        } else if (slide === 2 && this.state.name.length <= 8 && type==="next"){
+        } else if (slide === 1 && !this.state.categorySelected && type==="next"){
             this.setState({
-                errorMessage: "Please enter more than 8 characters"
+                errorMessage: "Please select a fighting style"
             })
-        } else if (slide === 3 && this.state.description.length <= 50 && type==="next"){
+        } else if (slide === 2 && this.state.name.length <= 4 && type==="next"){
             this.setState({
-                errorMessage: "Please enter more than 50 characters"
+                errorMessage: "Please enter more than 4 characters"
+            })
+        } else if (slide === 3 && this.state.description.length <= 20 && type==="next"){
+            this.setState({
+                errorMessage: "Please enter more than 20 characters"
             })
         } else {
             slide = (type === "prev") ? slide-1 : slide+1
@@ -109,11 +116,24 @@ class CreateGroupForm extends React.Component{
         })
     }
 
+    handleClickPic(key){
+        return e =>{
+            e.preventDefault();
+            // let newState = Object.assign({}, this.state)
+            // newState.imageUrl = `defaultg${key+1}URL`;
+            // console.log(newState.imageUrl)
+            this.setState({
+                imageUrl: `defaultg${key+1}URL`
+            })
+        }
+    }
+
     handleClick(categoryId){
         let temp = this.state.categories
         temp[categoryId-1].selected = !temp[categoryId-1].selected 
         this.setState({
-            categories: temp
+            categories: temp,
+            categorySelected: true
           })
     }
 
@@ -122,7 +142,7 @@ class CreateGroupForm extends React.Component{
             let slide0 = (
                 <div className="create-group-card-body">
                     <h3 className="create-group-card-title">First, where is your squad located?.</h3>
-                    <p className="create-group-card-description">Beatup squads meet locally and in person. We’ll connect you with people who live in and around your area.</p>
+                    <p className="create-group-card-description">Squads meet locally and in person. We will recruit warriors from across your region.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
                         <p className="create-group-card-selected">{this.state.selectedLocation}</p>
@@ -133,8 +153,9 @@ class CreateGroupForm extends React.Component{
     
             let slide1 = (
                 <div className="create-group-card-body">
-                    <h3 className="create-group-card-title">Choose a few topics that describe your squad's style</h3>
+                    <h3 className="create-group-card-title">What best typifies your squad's fighting style</h3>
                     <p className="create-group-card-description">Be specific and don't be shy. We won't divulge the secret training methods of your squad.  We will help potential squad members find you!</p>
+                    <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
                         <ul className="create-group-card-options-categories">
                             {this.state.categories.map( (category) => (
@@ -161,8 +182,8 @@ class CreateGroupForm extends React.Component{
     
             let slide3 = (
                 <div className="create-group-card-body">
-                    <h3 className="create-group-card-title">Now describe what your squad is about.  Tenets.  Core Principles.  Average Wednesday mornings.</h3>
-                    <p className="create-group-card-description">People will see this when we promote your squad, but you’ll be able to add to it later, too.</p>
+                    <h3 className="create-group-card-title">Now describe what your squad is about.  Tenets.  Core Principles.  Power level requirements.</h3>
+                    <p className="create-group-card-description">Potential recruits will see this when we promote your squad, so give it your all.</p>
                     <ol className="create-group-card-ol">
                         <li>What's the purpose of the squad?</li>
                         <li>Who should join?</li>
@@ -170,24 +191,24 @@ class CreateGroupForm extends React.Component{
                     </ol>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.description} placeholder="Please enter at least 50 characters" onChange={this.update('description')}/>
+                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.description} placeholder="Please enter at least 20 characters" onChange={this.update('description')}/>
                     </div>
                 </div>
             )
     
+            let urls = ["defaultg1URL", "defaultg2URL", "defaultg3URL", "defaultg4URL", "defaultg5URL", "defaultg6URL"]
             let slide4 = (
                 <div className="create-group-card-body">
-                    <h3 className="create-group-card-title">Almost done! Just take a minute to review our guidelines</h3>
-                    <p className="create-group-card-description">Beatup is all about helping people live fuller, happier lives—with the help of strong communities that like to let out phyiscal energy at Squad-sanctioned brawls. This means that all squads should:</p>
-                    <ul className="create-group-card-ul">
-                        <li>Provide mental/physical gains and EXP for members</li>
-                        <li>Encourage real human interactions</li>
-                        <li>Meet in real life</li>
-                        <li>Have a leader present at all events</li>
-                        <li>Fight with honor at any brawl event</li>
-                        <li>Fight with honor for glory at any brawl event</li>
-                    </ul>
-                    <p className="create-group-card-description">Once you submit your squad, Beatup will review it based on these guidelines and make sure it gets promoted to the right people.  </p>
+                    <h3 className="create-group-card-title">Final step before forming your own squad.</h3>
+                    <p className="create-group-card-description">Select an image to proudly represents the spirit of your squad.</p>
+                    <div className="create-event-images">
+                        {urls.map( (url, i) => {
+                            return (<div onClick={this.handleClickPic(i)} key={i}>
+                                <img  className={this.state.imageUrl===url ? "create-event-image-selected" : "create-event-image"} 
+                                    value="i" src={window[url]} alt=""/>
+                            </div>)
+                        })}
+                    </div>
                 </div>
             )
     

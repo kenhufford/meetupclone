@@ -4,7 +4,10 @@ import GroupShowMembers from './group_show_members'
 import GroupShowEvents from './group_show_events'
 import GroupOptionsDropdown from './group_options_dropdown';
 import {Link} from 'react-router-dom'
- 
+import { withRouter } from "react-router";
+
+const GroupOptionsDropdownWithRouter = withRouter(GroupOptionsDropdown) 
+
 class GroupShow extends React.Component{
     constructor(props){
         super(props)
@@ -82,7 +85,7 @@ class GroupShow extends React.Component{
                         break;
             }
             let groupDropdown = <div className="group-show-stripe-right">
-                <GroupOptionsDropdown 
+                <GroupOptionsDropdownWithRouter 
                     createMembership={this.props.createMembership} 
                     deleteMembership={this.props.deleteMembership} 
                     deleteGroup={this.props.deleteGroup}

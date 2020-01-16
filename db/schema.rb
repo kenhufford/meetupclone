@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_15_174235) do
+ActiveRecord::Schema.define(version: 2020_01_16_201421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,9 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.datetime "updated_at", null: false
     t.string "recurring_type"
     t.integer "location_id", null: false
+    t.index ["group_id"], name: "index_events_on_group_id"
+    t.index ["location_id"], name: "index_events_on_location_id"
+    t.index ["title"], name: "index_events_on_title"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -46,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "location_id", null: false
+    t.index ["name"], name: "index_groups_on_name"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -54,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.float "long", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_locations_on_name"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -62,6 +67,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.string "member_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_memberships_on_group_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -70,6 +77,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.boolean "is_organizer", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_reservations_on_event_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "types", force: :cascade do |t|
@@ -77,6 +86,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.integer "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_types_on_category_id"
+    t.index ["group_id"], name: "index_types_on_group_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -90,6 +101,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_174235) do
     t.string "name", null: false
     t.integer "location_id", null: false
     t.string "image_url"
+    t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
   end
 

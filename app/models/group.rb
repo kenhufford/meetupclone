@@ -1,6 +1,6 @@
 class Group < ApplicationRecord
     validates :name, :description, presence: true
-    validates :description, length: { minimum: 40 }
+    validates :description, length: { minimum: 20 }
 
     has_many :memberships,
     class_name: "Membership",

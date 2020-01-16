@@ -11,14 +11,15 @@ const mstp = (state, ownProps) => {
             title: '',
             description: '',
             maxAttendance: '',
-            startTime: '',
-            endTime: '',
+            startTime: "theDate",
+            endTime: "theTomorrow",
             locationId: '',
-            selectedLocation: "Select Location",
             imageUrl: '',
             groupId: ownProps.match.params.groupId
         },
         locations: locations,
+        eventId: "",
+        selectedLocation: "Select Location",
     }
 }
 
