@@ -32,7 +32,7 @@ class Api::MembershipsController < ApplicationController
       end
 
       def update
-        @membership = Membership.find_by(user_id: current_user.id, group_id: params[:group_id])
+        @membership = Membership.find(params[:id])
         
         if @membership.update_attribute(:member_type, membership_params[:member_type])
           @group = @membership.group
@@ -57,7 +57,7 @@ class Api::MembershipsController < ApplicationController
 
       private
       def membership_params
-        params.require(:membership).permit(:member_type)
+        params.require(:membership).permit(:member_type, :user_id, :group_id)
       end
 
 end

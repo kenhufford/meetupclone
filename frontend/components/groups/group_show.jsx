@@ -76,7 +76,11 @@ class GroupShow extends React.Component{
                         currentTab = (<GroupShowAbout switchPage={this.switchPage} memberships={memberships.groupMemberships} users={users} captainsNum={captainsNum} captainIds={captainIds} group={group} memberIds={memberIds}/>)
                         break;
                     case "members":
-                        currentTab = <GroupShowMembers captainIds={captainIds} users={users} memberships={memberships.groupMemberships}/>
+                        currentTab = <GroupShowMembers 
+                                        currentUserCaptain={currentUserCaptain} 
+                                        captainIds={captainIds} users={users} 
+                                        memberships={memberships.groupMemberships}
+                                        updateMembership={this.props.updateMembership}/>
                         break;
                     case "events":
                         currentTab = <GroupShowEvents events={eventsArray} group={group} locations={locations}/>

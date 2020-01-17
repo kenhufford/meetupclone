@@ -439,9 +439,9 @@ var deleteMembership = function deleteMembership(groupId) {
     });
   };
 };
-var updateMembership = function updateMembership(memberType) {
+var updateMembership = function updateMembership(membership) {
   return function (dispatch) {
-    return _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__["updateMembership"](memberType).then(function (memberships) {
+    return _utils_membership_api_utils__WEBPACK_IMPORTED_MODULE_0__["updateMembership"](membership).then(function (memberships) {
       return dispatch(receiveMemberships(memberships));
     });
   };
@@ -2359,9 +2359,7 @@ function (_React$Component) {
       var _this5 = this;
 
       return function (e) {
-        e.preventDefault(); // let newState = Object.assign({}, this.state)
-        // newState.imageUrl = `defaultg${key+1}URL`;
-        // console.log(newState.imageUrl)
+        e.preventDefault();
 
         _this5.setState({
           imageUrl: "defaultg".concat(key + 1, "URL")
@@ -3660,9 +3658,11 @@ function (_React$Component) {
 
           case "members":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              currentUserCaptain: currentUserCaptain,
               captainIds: captainIds,
               users: users,
-              memberships: memberships.groupMemberships
+              memberships: memberships.groupMemberships,
+              updateMembership: this.props.updateMembership
             });
             break;
 

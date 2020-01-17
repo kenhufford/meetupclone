@@ -265,15 +265,26 @@ end
     Destination with extra weapon drops and ultimates engaged.  Trophies and capri suns will be provided to
     all in attendance!"] 
 
-    tekken_event_desc = ["Tek Tuesday", "Teknical Hit!"] 
-    arnold_event_desc = [ "Mr. Universe", "Pumpin' Iron"]
-    aa_event_desc = ["Winner gets a USB-C-HDMI Adapter!", "Cheese-its and Beer"]
-    dbz_event_desc = ["World Martial Arts Tournament", "Hell in a Cell Games", "Vegeta's driving lessons!"]
-    krillin_event_desc = ["BEST NIGHT EVER", "Definity not me by myself"]
-    badguys_event_desc = ["Bring your decks", "Gardening 101", "Clean up our community!"]
-    tights_event_desc = ["AN EPIC BRIDGE BRAWL", "A Song of Silk and Spandex"]
-    history_event_desc = ["Ancient Martial Arts", "Avoiding Asssassination"]
-    rapper_event_desc = ["An Epic Rap Battle with the GOAT", "Keepin' Up With Kanyes"]
+    tekken_event_desc = ["Join us for another night huddled in a dark room, only lit by VSCode dark mode, as we dive down rabbit holes so deep, you'll wonder if we will emerge in the motherland, Japan itself", 
+    "We're hosting a coding brawl, where the victor will be declared by the amount of Codewars problems solved or amount of coffee one can consume before keeling over.  Only one will emerge victorious."] 
+    arnold_event_desc = ["I don't have any weak points. I had weak points three years ago, but my main thing in mind is, my goal always was, to even out everything to the point... that everything is perfect. Which means if I want to increase one muscle a half inch, the rest of the body has to increase. I would never make one muscle increase or decrease, because everything fits together now, and all I have to do is get my posing routine down more perfect, which is almost impossible to do, you know. It's perfect already",
+    "The greatest feeling you can get in a gym, or the most satisfying feeling you can get in the gym is... The Pump. Let's say you train your biceps. Blood is rushing into your muscles and that's what we call The Pump. You muscles get a really tight feeling, like your skin is going to explode any minute, and it's really tight - it's like somebody blowing air into it, into your muscle. It just blows up, and it feels really different. It feels fantastic."]
+    aa_event_desc = ["Bring your best to 825 Battery St.  We are offering to the winner, a highly prized, oft-contested HDMI-USB-C adapter for all your dual-screen needs.",
+    "It's happy hour at App Academy so we'll be handing out free beer and cheez-its to all in attendance at HackerBrawl! The challenge will be to stuff yourself as much as you can before you head off bravely to battle, full of vigor and empty calories!"]
+    dbz_event_desc = ["Come to the 25th Number One Under Heaven Martial Arts Gathering!  We promise a fair brawl this time and we promise we won't use any sensu-beans, spirit bombs, insanely long transformations and chargeups or deus ex machinas this time!", 
+    "To Earth: You have ten days to prepare for the ultimate Cell Games.  Any fighter who gives up or touch outside of the HELL IN A CELL will automatically lose.  ANY fighter who is killed will be immediately disqualifed and banned from the tournament FOREVER!", 
+    "We are having a little bit of fun this time so everyone bring your cars (NO STREET FIGHTERS ALLOWED) as we use them to try to teach Vegeta to drive again! Everyone will get a turn to hop in the car with everyone's favorite Saiyan and feel a shot of adrenaline unlike any other!"]
+    krillin_event_desc = ["Uhhh hey... hey guys! It's m-me! Krillin!  If you're like, not to busy and stuff, you should head on over to the coolest brawl in town and learn from the c-c-coolest martial artist on earth.",
+     "I... I m-mean w-we... are having lots of people coming this time! So, so, so many in fact we are like, getting extra seats and benches and maybe bleachers brought over this time so everyone should sign up for this brawl because I actually purchased a whole cheese and chocolate fountain for the brawl so please come."]
+    badguys_event_desc = ["Games are not boring. Games purify our souls and leave room for new development that challenges the mind! They are the products of human wisdom!", 
+    "Come join us in doing some good for the community as we take some time of brawling and work on planting and weeding in the community garden.  Capri-suns will be provided for all all produce will be given away to charity!", 
+    "Every brawl has a consequence.  We all love a good brawl but we never think of the mess we leave behind.  After every episode of Dragon Ball Z we come together to clean up the rubble created by the many kamehamehas and destructo-discs.  So come help us clean up after our community!"]
+    tights_event_desc = ["We are hosting a 1v1 tournament style brawl at the Nottingham Creek Bridge.  Due to the narrow pass over this raging ravine, only two challengers at a time can fight and anyone who falls into the deep cold depths of the Mighty Nottingham will be disqualified if they survive.", 
+    "As everyone well knows, we love singing and dancing more than every other Squad and find it to be the most invigorating fighting style due to it's incomparable spirit!  Find us at the Nottinham theater and prepare to be beset by the melodious music of the Mightiest Men."]
+    history_event_desc = ["Stay awhile a listen to our 10 hour lecture followed by a 10 minute demonstration and 5 minute brawl (that's all the stamina we old timers have).  We will be debating the merits of Wushu sword arts in modern brawl combat.  Tea and herbs will be provided to all who pass out during the lecture.", 
+    "We host another lecture to discuss the pros and cons of bodyguards, body armor and public spaces.  Use our knowledge, we beg of you."]
+    rapper_event_desc = ["I think I do myself a disservice by comparing myself to Steve Jobs and Walt Disney and human beings that we've seen before. It should be more like Willy Wonka... and welcome to my chocolate factory.", 
+    "I would hear stories about Steve Jobs and feel like he was at 100 percent exactly what he wanted to do, but I'm sure even a Steve Jobs has compromised. Even a Rick Owens has compromised. You know, even a Kanye West has compromised. Sometimes you don't even know when you're being compromised till after the fact, and that's what you regret."]
 
     event_descriptions = [sf_event_desc, mk_event_desc, sc_event_desc, sb_event_desc, tekken_event_desc, arnold_event_desc,
     aa_event_desc, dbz_event_desc, krillin_event_desc, badguys_event_desc, tights_event_desc, history_event_desc,

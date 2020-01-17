@@ -17,8 +17,8 @@ export const deleteMembership = groupId => dispatch => (
         .then( (memberships) => dispatch(receiveMemberships(memberships)))
 )
 
-export const updateMembership = memberType => dispatch => (
-    APIUtils.updateMembership(memberType)
+export const updateMembership = membership => dispatch => (
+    APIUtils.updateMembership(membership)
         .then( (memberships) => dispatch(receiveMemberships(memberships)))
 )
 

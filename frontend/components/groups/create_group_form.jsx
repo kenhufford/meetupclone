@@ -120,9 +120,6 @@ class CreateGroupForm extends React.Component{
     handleClickPic(key){
         return e =>{
             e.preventDefault();
-            // let newState = Object.assign({}, this.state)
-            // newState.imageUrl = `defaultg${key+1}URL`;
-            // console.log(newState.imageUrl)
             this.setState({
                 imageUrl: `defaultg${key+1}URL`
             })

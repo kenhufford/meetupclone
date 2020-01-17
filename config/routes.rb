@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :events, only: [:index]
     end
     resource :session, only: [:create, :destroy]
+    resources :memberships, only: [:update]
     resources :events, only: [:create, :destroy, :show, :update, :index] do
       resources :reservations, only: [:index, :create, :destroy]
       resources :users, only:[:index]
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
       resources :groups, only: [:index]
     end
     resources :groups, only: [:create, :destroy, :show, :update, :index] do
-      resources :memberships, only: [:index, :create, :update, :destroy]
+      resources :memberships, only: [:index, :create, :destroy]
       resources :types, only: [:create, :destroy]
       resources :users, only:[:index]
       resources :events, only:[:index]

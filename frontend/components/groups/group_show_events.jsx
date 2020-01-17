@@ -76,31 +76,6 @@ class GroupShowEvents extends React.Component{
                     </li>
                 )
             })}
-
-{/* 
-            {Object.keys(events).map ((eventId, i) => {
-                let {title, description, locationId, groupId, imageUrl, startTime, endTime, address, reservationIds} = events[eventId]
-                return (
-                    <li key={i} className="group-show-events-li">
-                        <div className="group-show-events-event-div">
-                            <div className="group-show-events-event-info">
-                                <span className="group-show-events-event-title">{title}</span>
-                                <p>{formatDate(startTime)}</p>
-                                <Link to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
-                                <p>{reservationIds.length} challengers</p>
-                            </div>
-                            <div className="group-show-events-event-link">
-                                <Link to={`/groups/${groupId}/events/${eventId}`} >
-                                    <img src={window[imageUrl]} alt="event-img" className="group-show-events-img"/>
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="group-show-events-info">
-                            <p>{description}</p>
-                        </div>
-                    </li>
-                )
-            })} */}
         </ul>) 
 
         return (
