@@ -23,7 +23,7 @@ class GroupShowEvents extends React.Component{
         events.map( brawl => {
             switch (brawl.recurringType) {
                 case "Weekly":
-                    for(let i = 0; i < 8; i++){
+                    for(let i = 1; i < 8; i++){
                         let brawl1 = Object.assign({}, brawl)
                         brawl1.startTime = addWeek(brawl.startTime, i)
                         brawl1.endTime = addWeek(brawl.endTime, i)
@@ -31,7 +31,7 @@ class GroupShowEvents extends React.Component{
                     }
                     break
                 case "Monthly":
-                    for(let i = 0; i < 3; i++){
+                    for(let i = 1; i < 4; i++){
                         let brawl1 = Object.assign({}, brawl)
                         brawl1.startTime = addMonth(brawl.startTime, i)
                         brawl1.endTime = addMonth(brawl.endTime, i)
@@ -45,7 +45,6 @@ class GroupShowEvents extends React.Component{
         allBrawls.sort(function(a,b){
             return new Date(a.startTime) - new Date(b.startTime)
           })
-          console.log(allBrawls)
         let list = 
         (<ul className="group-show-events-list">
 

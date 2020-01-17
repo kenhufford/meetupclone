@@ -4015,7 +4015,7 @@ function (_React$Component) {
       events.map(function (brawl) {
         switch (brawl.recurringType) {
           case "Weekly":
-            for (var i = 0; i < 8; i++) {
+            for (var i = 1; i < 8; i++) {
               var brawl1 = Object.assign({}, brawl);
               brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.startTime, i);
               brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.endTime, i);
@@ -4025,7 +4025,7 @@ function (_React$Component) {
             break;
 
           case "Monthly":
-            for (var _i = 0; _i < 3; _i++) {
+            for (var _i = 1; _i < 4; _i++) {
               var _brawl = Object.assign({}, brawl);
 
               _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.startTime, _i);
@@ -4041,7 +4041,6 @@ function (_React$Component) {
       allBrawls.sort(function (a, b) {
         return new Date(a.startTime) - new Date(b.startTime);
       });
-      console.log(allBrawls);
       var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-events-list"
       }, allBrawls.map(function (brawl, i) {
