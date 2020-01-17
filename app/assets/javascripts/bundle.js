@@ -3359,8 +3359,6 @@ function (_React$Component) {
   }, {
     key: "handleJoin",
     value: function handleJoin() {
-      debugger;
-
       if (!this.props.currentUser) {
         document.location.href = '#/login';
       } else {
@@ -3480,9 +3478,9 @@ function (_React$Component) {
           return _this4.toggleList();
         }
       }, dropdownTitle), listOpen && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        onClick: this.handleRemove,
         className: "create-group-card-dropdown-header-list"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        onClick: this.handleRemove,
         className: "create-group-card-dropdown-option"
       }, "Leave the Group"), dropdownOption1, dropdownOption2, dropdownOption3));
     }
@@ -5362,6 +5360,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.getState = store.getState;
   window.fetchAllUsers = _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["fetchAllUsers"];
   window.fetchEventsFromGroup = _actions_event_actions__WEBPACK_IMPORTED_MODULE_4__["fetchEventsFromGroup"];
+  window.fetchEventsFromLocation = _actions_event_actions__WEBPACK_IMPORTED_MODULE_4__["fetchEventsFromLocation"];
   window.searchEvents = _actions_event_actions__WEBPACK_IMPORTED_MODULE_4__["searchEvents"];
   window.fetchUsersFromGroup = _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["fetchUsersFromGroup"];
   window.fetchMemberships = _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__["fetchMemberships"];
@@ -6062,7 +6061,7 @@ var fetchEventsFromGroup = function fetchEventsFromGroup(groupId) {
 };
 var fetchEventsFromLocation = function fetchEventsFromLocation(locationId) {
   return $.ajax({
-    url: "/api/groups/".concat(locationId, "}/events"),
+    url: "/api/locations/".concat(locationId, "}/events"),
     method: "GET"
   });
 };

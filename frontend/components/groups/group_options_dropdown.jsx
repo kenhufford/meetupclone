@@ -42,7 +42,6 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     handleJoin(){
-        debugger
         if (!this.props.currentUser){
             document.location.href = '#/login'
         } else {
@@ -134,8 +133,8 @@ class GroupOptionsDropdown extends React.Component{
                 <div className="create-group-card-dropdown-header" onClick={() => this.toggleList()} >
                     {dropdownTitle}
                 </div>
-                {listOpen && <ul className="create-group-card-dropdown-header-list">
-                    <li onClick={this.handleRemove} className="create-group-card-dropdown-option">Leave the Group</li>
+                {listOpen && <ul  onClick={this.handleRemove} className="create-group-card-dropdown-header-list">
+                    <li className="create-group-card-dropdown-option">Leave the Group</li>
                     {dropdownOption1}
                     {dropdownOption2}
                     {dropdownOption3}
