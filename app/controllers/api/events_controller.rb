@@ -3,11 +3,11 @@ class Api::EventsController < ApplicationController
 
   def index
     if params[:group_id]
-      @events = Group.find(params[:group_id]).events
+      @events = Group.find(params[:group_id]).events.order(start_time: :desc)
     elsif params[:location_id]
-      @events = Location.find(params[:location_id]).events
+      @events = Location.find(params[:location_id]).events.order(start_time: :desc)
     elsif params[:category_id]
-      @events = Category.find(params[:category_id]).events
+      @events = Category.find(params[:category_id]).events.order(start_time: :desc)
     else
       @events = Event.all
     end

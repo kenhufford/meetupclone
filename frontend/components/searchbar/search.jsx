@@ -12,8 +12,9 @@ class Search extends React.Component{
             query: "",
             lastQuery: "",
             loaded: false,
+            typing: false,
+            typingTimeout: 0
         }
-        this.handleSubmit = this.handleSubmit.bind(this)
         this.update = this.update.bind(this)
         this.search = this.search.bind(this)
     }
@@ -22,19 +23,6 @@ class Search extends React.Component{
         this.setState({
             query: e.currentTarget.value
         });
-    }
-
-    handleSubmit(e){
-        let query = this.state.query
-        e.preventDefault();
-        setTimeout((() => {
-            if (this.state.query === "") {
-                this.setState({query: ""})
-                this.props.history.push("/groups");
-              } else {
-                this.setState({query: "", lastQuery: query})
-                this.props.history.push(`/search/?${query}`);
-              }}), 300);
     }
 
     componentDidMount(){
@@ -126,7 +114,7 @@ class Search extends React.Component{
             case "category":
                 this.setState({groups: [], events: []})
                 Promise.all([fetchGroupsFromCategory, fetchCategories])
-                    .then(setSearchStateSuccessBoth, setSearchStateFail)
+                    .then(setSearchStateSuccessGroups, setSearchStateFailOne)
                     break;
             default:
                 this.setState({groups: [], events: []})
@@ -142,7 +130,6 @@ class Search extends React.Component{
         if (this.state.loaded){
 
             let squadsOnly = (this.props.location.search.slice(1).split("%20"))[0] !== "category"
-
             let {groups, events} = this.state;
             let {locations, categories} = this.props;
             let squadMessages = groups.length === 0 ? (<p>No results found</p>) : (<p></p>)
@@ -155,7 +142,6 @@ class Search extends React.Component{
                 lastQuery = categories[lastQuery[lastQuery.length-1]].name.toUpperCase()
             } 
             let searchedGroups = (
-
                 <ul className="groups-index-div-results">
                     <p>SQUAD RESULTS FOR {lastQuery}</p>
                     <span>{squadMessages}</span>
@@ -165,8 +151,8 @@ class Search extends React.Component{
                         ))}
                     </div>
                 </ul>
-
             )
+
             let searchedEvents = squadsOnly ? (
                 <ul className="groups-index-div-results">
                     <p>BRAWL RESULTS FOR {lastQuery}</p>

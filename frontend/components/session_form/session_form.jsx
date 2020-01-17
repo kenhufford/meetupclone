@@ -48,7 +48,6 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault(); 
-    debugger
     if (this.state.selectedLocationId === ""){
       this.setState({
         locationError: "Please select a location"

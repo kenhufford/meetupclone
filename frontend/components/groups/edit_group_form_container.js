@@ -10,7 +10,7 @@ const mstp = (state, ownProps) => {
     let categories = Object.values(state.entities.categories)
     let group = state.entities.groups[ownProps.match.params.groupId]
     let selectedLocation;
-    
+    debugger
     for (let i = 0; i < locations.length; i++){
         locations[i].key = 'location';
         locations[i].selected = (locations[i].id === group.locationId) 
@@ -24,7 +24,8 @@ const mstp = (state, ownProps) => {
         group: group,
         locations: locations,
         categories: categories,
-        selectedLocation: selectedLocation
+        selectedLocation: selectedLocation,
+        categorySelected: true
     }
 }
 

@@ -5,7 +5,8 @@ class CreateGroupForm extends React.Component{
     constructor(props){
         super(props)
         let {name, description, lat, long, imageUrl, selectedLocationId, selectedLocation} = this.props.group
-
+        let {categorySelected} = this.props
+        debugger
         this.state = {
             loaded: false,
             name: name,
@@ -19,7 +20,7 @@ class CreateGroupForm extends React.Component{
             errorMessage: "",
             location: this.props.locations,
             categories: this.props.categories,
-            categorySelected: this.props.categorySelected
+            categorySelected: categorySelected
         }
         this.handleStep = this.handleStep.bind(this);
         this.handleClickPic = this.handleClickPic.bind(this);

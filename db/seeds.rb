@@ -7,6 +7,7 @@ Membership.destroy_all
 Location.destroy_all
 Type.destroy_all
 Category.destroy_all
+Reservation.destroy_all
 
 
 def pair_generator(range1, range2)
@@ -95,6 +96,8 @@ end
     That's all it was Kanye, we still love Kanye
     And I love you like Kanye loves Kanye, hahaha"
 ]
+
+
     group_ids = []
     group_names.each_with_index do |name, i|
         group = Group.create!(
@@ -171,15 +174,17 @@ end
                 location_id: location_ids.sample,
                 image_url: image_urls[i][j]
                 )
-            user_ids << user.id
+            
 
             if j == 0 
                 member_type = "Captain" 
                 group_captains << user.id
             elsif j == 1
                 member_type = "Squad Leader" 
+                user_ids << user.id
             else 
                 member_type = "Initiate"
+                user_ids << user.id
             end
 
             Membership.create!(
@@ -293,7 +298,7 @@ end
     rapper_image_url]
 
     max_attendance = [100, 20, 5]
-    recurring_type = ["Weekly", "Monthly"]
+    recurring_type = ["Weekly", "Monthly", "None"]
 
     
     event_titles.each_with_index do |event_group_titles, i|
@@ -312,14 +317,15 @@ end
 
             Reservation.create!(
                 event_id: event.id,
-                user_id: group_captains.sample,
+                user_id: group_captains[j],
                 is_organizer: true
             )
             
             8.times do |k|
-                Reservation.create!(
+                shuffled_ids = user_ids.shuffle
+                Reservation.create(
                     event_id: event.id,
-                    user_id: user_ids.sample,
+                    user_id: shuffled_ids[k],
                     is_organizer: false
                 )
             end

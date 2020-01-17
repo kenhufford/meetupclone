@@ -855,7 +855,7 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           className: "index-switch-text-selected",
           to: "/categories"
-        }, "FIGHTING STYLES")))), allFightingStyles);
+        }, "STYLES")))), allFightingStyles);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -1669,8 +1669,8 @@ function (_React$Component) {
           className: "index-switch-not"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           className: "index-switch-text-not",
-          to: "/events"
-        }, "FIGHTING STYLES")))), yourEventsDiv, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          to: "/categories"
+        }, "STYLES")))), yourEventsDiv, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles"
         }, "ALL BRAWLS"), allEvents);
       } else {
@@ -2235,6 +2235,8 @@ function (_React$Component) {
         imageUrl = _this$props$group.imageUrl,
         selectedLocationId = _this$props$group.selectedLocationId,
         selectedLocation = _this$props$group.selectedLocation;
+    var categorySelected = _this.props.categorySelected;
+    debugger;
     _this.state = {
       loaded: false,
       name: name,
@@ -2248,7 +2250,7 @@ function (_React$Component) {
       errorMessage: "",
       location: _this.props.locations,
       categories: _this.props.categories,
-      categorySelected: _this.props.categorySelected
+      categorySelected: categorySelected
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
     _this.handleClickPic = _this.handleClickPic.bind(_assertThisInitialized(_this));
@@ -2724,6 +2726,7 @@ var mstp = function mstp(state, ownProps) {
   var categories = Object.values(state.entities.categories);
   var group = state.entities.groups[ownProps.match.params.groupId];
   var selectedLocation;
+  debugger;
 
   for (var i = 0; i < locations.length; i++) {
     locations[i].key = 'location';
@@ -2740,7 +2743,8 @@ var mstp = function mstp(state, ownProps) {
     group: group,
     locations: locations,
     categories: categories,
-    selectedLocation: selectedLocation
+    selectedLocation: selectedLocation,
+    categorySelected: true
   };
 };
 
@@ -2899,7 +2903,7 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           className: "index-switch-text-not",
           to: "/categories"
-        }, "FIGHTING STYLES")))), yourGroups, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "STYLES")))), yourGroups, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles"
         }, "ALL SQUADS"), suggestedGroups);
       } else {
@@ -3193,7 +3197,9 @@ function (_React$Component) {
           className: "landing-main"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "landing-location-dropdown"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Squads near ", this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+          className: "landing-location-h4"
+        }, "Squads in ", this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
           location: this.state.selectedLocation,
           list: this.state.location,
           toggleLocation: this.toggleSelected
@@ -3204,7 +3210,9 @@ function (_React$Component) {
             key: group.id,
             group: group
           });
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Events near ", this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+          className: "landing-location-h4"
+        }, "Events in ", this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "landing-events-div"
         }, nearbyEvents.map(function (event) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -3637,6 +3645,7 @@ function (_React$Component) {
         }
 
         var currentTab;
+        var eventsArray = Object.values(events);
 
         switch (this.state.currentPage) {
           case "about":
@@ -3661,7 +3670,7 @@ function (_React$Component) {
 
           case "events":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_events__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              events: events,
+              events: eventsArray,
               group: group,
               locations: locations
             });
@@ -4001,45 +4010,78 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.props);
       var _this$props = this.props,
           events = _this$props.events,
           locations = _this$props.locations;
+      var allBrawls = [];
+      events.map(function (brawl) {
+        switch (brawl.recurringType) {
+          case "Weekly":
+            for (var i = 0; i < 8; i++) {
+              var brawl1 = Object.assign({}, brawl);
+              brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.startTime, i);
+              brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.endTime, i);
+              allBrawls.push(brawl1);
+            }
+
+            break;
+
+          case "Monthly":
+            for (var _i = 0; _i < 3; _i++) {
+              var _brawl = Object.assign({}, brawl);
+
+              _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.startTime, _i);
+              _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.endTime, _i);
+              allBrawls.push(_brawl);
+            }
+
+          default:
+            allBrawls.push(brawl);
+            break;
+        }
+      });
+      allBrawls.sort(function (a, b) {
+        return new Date(a.startTime) - new Date(b.startTime);
+      });
+      console.log(allBrawls);
       var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-events-list"
-      }, Object.keys(events).map(function (eventId, i) {
-        var _events$eventId = events[eventId],
-            title = _events$eventId.title,
-            description = _events$eventId.description,
-            locationId = _events$eventId.locationId,
-            groupId = _events$eventId.groupId,
-            imageUrl = _events$eventId.imageUrl,
-            startTime = _events$eventId.startTime,
-            endTime = _events$eventId.endTime,
-            address = _events$eventId.address,
-            reservationIds = _events$eventId.reservationIds;
+      }, allBrawls.map(function (brawl, i) {
+        var title = brawl.title,
+            locationId = brawl.locationId,
+            groupId = brawl.groupId,
+            imageUrl = brawl.imageUrl,
+            startTime = brawl.startTime,
+            endTime = brawl.endTime,
+            address = brawl.address,
+            id = brawl.id,
+            reservationIds = brawl.reservationIds,
+            recurringType = brawl.recurringType;
+        var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i,
           className: "group-show-events-li"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-event-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-events-event-div-top"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-events-event-div-bottom"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-event-info"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: "group-show-events-event-title"
-        }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           to: "/search/?location%20".concat(locationId)
         }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-event-link"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          to: "/groups/".concat(groupId, "/events/").concat(eventId)
+          to: "/groups/".concat(groupId, "/events/").concat(id)
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window[imageUrl],
           alt: "event-img",
           className: "group-show-events-img"
-        })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-events-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, description)));
+        }))))));
       }));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events"
@@ -4549,9 +4591,10 @@ function (_React$Component) {
       events: [],
       query: "",
       lastQuery: "",
-      loaded: false
+      loaded: false,
+      typing: false,
+      typingTimeout: 0
     };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.search = _this.search.bind(_assertThisInitialized(_this));
     return _this;
@@ -4563,30 +4606,6 @@ function (_React$Component) {
       this.setState({
         query: e.currentTarget.value
       });
-    }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this2 = this;
-
-      var query = this.state.query;
-      e.preventDefault();
-      setTimeout(function () {
-        if (_this2.state.query === "") {
-          _this2.setState({
-            query: ""
-          });
-
-          _this2.props.history.push("/groups");
-        } else {
-          _this2.setState({
-            query: "",
-            lastQuery: query
-          });
-
-          _this2.props.history.push("/search/?".concat(query));
-        }
-      }, 300);
     }
   }, {
     key: "componentDidMount",
@@ -4605,7 +4624,7 @@ function (_React$Component) {
   }, {
     key: "search",
     value: function search(split) {
-      var _this3 = this;
+      var _this2 = this;
 
       var result = split.join(" ");
       this.setState({
@@ -4630,31 +4649,31 @@ function (_React$Component) {
           loaded: true
         });
 
-        _this3.setState(newState);
+        _this2.setState(newState);
       };
 
       var setSearchStateSuccessEvents = function setSearchStateSuccessEvents(payload) {
         var events = payload[0] === undefined ? [] : Object.values(payload[0].events);
-        var newState = Object.assign(_this3.state, {
+        var newState = Object.assign(_this2.state, {
           query: "",
           lastQuery: result.toUpperCase(),
           events: events,
           loaded: true
         });
 
-        _this3.setState(newState);
+        _this2.setState(newState);
       };
 
       var setSearchStateSuccessGroups = function setSearchStateSuccessGroups(payload) {
         var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups);
-        var newState = Object.assign(_this3.state, {
+        var newState = Object.assign(_this2.state, {
           query: "",
           lastQuery: result.toUpperCase(),
           groups: groups,
           loaded: true
         });
 
-        _this3.setState(newState);
+        _this2.setState(newState);
       };
 
       var setSearchStateFail = function setSearchStateFail(payload) {
@@ -4667,7 +4686,7 @@ function (_React$Component) {
           loaded: true
         });
 
-        _this3.setState(newState);
+        _this2.setState(newState);
       };
 
       var setSearchStateFailOne = function setSearchStateFailOne(payload) {
@@ -4678,7 +4697,7 @@ function (_React$Component) {
           loaded: true
         });
 
-        _this3.setState(newState);
+        _this2.setState(newState);
       };
 
       switch (split[0]) {
@@ -4695,7 +4714,7 @@ function (_React$Component) {
             groups: [],
             events: []
           });
-          Promise.all([fetchGroupsFromCategory, fetchCategories]).then(setSearchStateSuccessBoth, setSearchStateFail);
+          Promise.all([fetchGroupsFromCategory, fetchCategories]).then(setSearchStateSuccessGroups, setSearchStateFailOne);
           break;
 
         default:
@@ -4812,7 +4831,9 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SearchBar).call(this, props));
     _this.state = {
-      query: ""
+      query: "",
+      typing: false,
+      typingTimeout: 0
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -4830,6 +4851,23 @@ function (_React$Component) {
   }, {
     key: "update",
     value: function update(e) {
+      var _this2 = this;
+
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+
+      this.setState({
+        query: e.target.value,
+        typing: false,
+        typingTimeout: setTimeout(function () {
+          if (_this2.state.query === "") {
+            _this2.props.history.push("/groups");
+          } else {
+            _this2.props.history.push("/search/?".concat(_this2.state.query));
+          }
+        }, 300)
+      });
       this.setState({
         query: e.currentTarget.value
       });
@@ -4837,14 +4875,14 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       e.preventDefault();
       setTimeout(function () {
-        if (_this2.state.query === "") {
-          _this2.props.history.push("/groups");
+        if (_this3.state.query === "") {
+          _this3.props.history.push("/groups");
         } else {
-          _this2.props.history.push("/search/?".concat(_this2.state.query));
+          _this3.props.history.push("/search/?".concat(_this3.state.query));
         }
       }, 300);
     }
@@ -5091,7 +5129,6 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      debugger;
 
       if (this.state.selectedLocationId === "") {
         this.setState({
@@ -5861,7 +5898,7 @@ var fetchCategories = function fetchCategories() {
 /*!*************************************!*\
   !*** ./frontend/utils/date_util.js ***!
   \*************************************/
-/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatTime, formatDateTime */
+/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatTime, addWeek, addMonth, formatDateTime */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5870,6 +5907,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateInput", function() { return formatDateInput; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateWithDay", function() { return formatDateWithDay; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return formatTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addWeek", function() { return addWeek; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMonth", function() { return addMonth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return formatDateTime; });
 var formatDate = function formatDate(date) {
   var months = {
@@ -5975,6 +6014,16 @@ var formatTime = function formatTime(date) {
   var paddedMinutes = tmp.slice(tmp.length - 2);
   var ampm = fullHours < 12 || fullHours === 0 ? 'am' : 'pm';
   return "".concat(hours, ":").concat(paddedMinutes).concat(ampm);
+};
+var addWeek = function addWeek(date, n) {
+  var obj = new Date(date);
+  obj.setDate(obj.getDate() + 7 * n);
+  return obj;
+};
+var addMonth = function addMonth(date, n) {
+  var obj = new Date(date);
+  obj.setMonth(obj.getMonth() + 1 * n);
+  return obj;
 };
 var formatDateTime = function formatDateTime(date) {
   return "".concat(formatDate(date), " ").concat(formatTime(date));

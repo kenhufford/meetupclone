@@ -70,6 +70,7 @@ class GroupShow extends React.Component{
             }
             
             let currentTab;
+            let eventsArray = Object.values(events)
             switch (this.state.currentPage) {
                     case "about":
                         currentTab = (<GroupShowAbout switchPage={this.switchPage} memberships={memberships.groupMemberships} users={users} captainsNum={captainsNum} captainIds={captainIds} group={group} memberIds={memberIds}/>)
@@ -78,7 +79,7 @@ class GroupShow extends React.Component{
                         currentTab = <GroupShowMembers captainIds={captainIds} users={users} memberships={memberships.groupMemberships}/>
                         break;
                     case "events":
-                        currentTab = <GroupShowEvents events={events} group={group} locations={locations}/>
+                        currentTab = <GroupShowEvents events={eventsArray} group={group} locations={locations}/>
                         break;
                     default:
                         currentTab = (<GroupShowAbout captainsNum={captainsNum} membership={memberships} users={users} captains={captains} captainIds={captainIds} props={this.props} />)

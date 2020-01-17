@@ -64,7 +64,7 @@ class GroupIndex extends React.Component{
                                 <Link className="index-switch-text-not" to="/events">BRAWLS</Link>
                             </div>                    
                             <div className="index-switch-not">
-                                <Link className="index-switch-text-not" to="/categories">FIGHTING STYLES</Link>
+                                <Link className="index-switch-text-not" to="/categories">STYLES</Link>
                             </div>                    
                         </div>
                     </div>

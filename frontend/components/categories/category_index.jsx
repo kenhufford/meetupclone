@@ -40,7 +40,7 @@ class EventIndex extends React.Component{
                                     <Link className="index-switch-text-not" to="/events">BRAWLS</Link>
                                 </div>                    
                                 <div className="index-switch-selected">
-                                    <Link className="index-switch-text-selected" to="/categories">FIGHTING STYLES</Link>
+                                    <Link className="index-switch-text-selected" to="/categories">STYLES</Link>
                                 </div>                    
                             </div>
                         </div>

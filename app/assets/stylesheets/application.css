@@ -240,13 +240,15 @@
    align-items: baseline;
    justify-content: space-evenly;
    width: 50%;
-   
 }
 
 .landing-location-dropdown i{
    font-size: 16px;
 }
 
+.landing-location-h4{
+   font-size: 18px;
+}
 
 
 .login-form-errors{
@@ -482,8 +484,9 @@
    padding: 10px;
    border: 1px lightgray solid;
    border-radius: 8px;
-   text-align: center;
+   text-align: center;;
    margin: 0px 10px;
+   background-color: rgb(12, 255, 174);
 }
 
 .index-switch-text-selected{
@@ -491,19 +494,23 @@
    font-weight: 600;
    color: white;
    cursor: pointer;
+   padding: 10px;
 }
 
 .index-switch-text-not{
    font-size: 16px;
    font-weight: 600;
    text-decoration: none;
-   color: rgb(32, 32, 32);;
+   color: rgb(32, 32, 32);
+   cursor: pointer;
+   padding: 10px;
+   text-align: center;
+   
 }
 
 .index-div-titles{
    stroke: transparent;
-   fill: rgba(0, 0, 0, 0.87);
-   color: rgba(0, 0, 0, 0.87);
+   color: black;
    font-size: 18px;
    font-weight: 600;
    line-height: 1.6;
@@ -642,8 +649,7 @@
 
 .groups-index-div-results > p{
    stroke: transparent;
-   fill: rgba(0, 0, 0, 0.87);
-   color: rgba(0, 0, 0, 0.87);
+color: black;
    font-size: 18px;
    font-weight: 600;
    line-height: 1.6;
@@ -981,7 +987,7 @@
    flex-grow: 1;
    margin: 10px;
    padding: 10px;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    border-radius: 10px;
    height: fit-content;
 }
@@ -1003,7 +1009,7 @@
 
 .group-show-members-right{
    margin: 10px;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    border-radius: 10px;
    height: fit-content;
    padding: 10px;
@@ -1078,7 +1084,7 @@
 
    position:absolute;
    width: 20%;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    height: 10px;
    z-index: 1;
    left: 0px;
@@ -1086,7 +1092,7 @@
 .create-group-completion-1{
    position:absolute;
    width: 40%;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    height: 10px;
    z-index: 1;
    left: 0px;
@@ -1095,7 +1101,7 @@
 .create-group-completion-2{
    position:absolute;
    width: 60%;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    height: 10px;
    z-index: 1;
    left: 0px;
@@ -1103,7 +1109,7 @@
 .create-group-completion-3{
    position:absolute;
    width: 80%;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    height: 10px;
    z-index: 1;
    left: 0px;
@@ -1111,7 +1117,7 @@
 .create-group-completion-4{
    position:absolute;
    width: 100%;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    height: 10px;
    z-index: 1;
    left: 0px;
@@ -1271,7 +1277,7 @@
    color: rgb(70, 70, 70);
    border-radius: 6px;
    border: 1px rgb(197, 197, 197) solid;
-   font-size: 14px;
+   font-size: 18px;
    font-weight: bold;
    height: 50px;
    width: 180px;
@@ -1285,7 +1291,7 @@
    background-color: #FF0C37;
    color: white;
    border-radius: 6px;
-   font-size: 14px;
+   font-size: 18px;
    font-weight: bold;
    height: 50px;
    width: 180px;
@@ -1308,7 +1314,7 @@
    color: #ff350c;
    font-weight: 500;
    height: 40px;
-   font-size: 14px;
+   font-size: 18px;
    cursor: pointer;
 }
 
@@ -1321,7 +1327,7 @@
    color: white;
    font-weight: 500;
    height: 40px;
-   font-size: 14px;
+   font-size: 18px;
    cursor: pointer;
 }
 
@@ -1695,16 +1701,36 @@
    padding: 20px 10px;
    margin: 10px 0px;
    border-radius: 10px;
-   background: rgb(12, 255, 174, 0.3);
+   background-color: rgb(12, 255, 174);
    border-radius: 10px;
 }  
 
 .group-show-events-event-div{
    display: flex;
-   flex-direction: row;
+   flex-direction: column;
    justify-content: space-between;
    align-items: center;
    padding: 0px 15px;
+}
+
+.group-show-events-event-div-top{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.group-show-events-event-div-top p{
+   padding: 8px 0px;
+   font-size: 20px;
+}
+
+.group-show-events-event-div-bottom{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
 }
 
 .group-show-events-event-title{
@@ -1716,7 +1742,7 @@
    line-height: 2em;
    display: flex;
    flex-direction: column;
-   text-align: left;
+   align-items: flex-start;
    
 }
 
@@ -1739,6 +1765,7 @@
    min-height: 200px;
    display: flex;
    justify-content: flex-end;
+   align-items: flex-end;
 }
 
 .group-show-events-info p{
@@ -1814,3 +1841,7 @@
    padding: 10px;
    font-size: 16px;
 }
+
+
+
+

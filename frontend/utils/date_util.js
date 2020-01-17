@@ -107,6 +107,18 @@ export const formatDateWithDay = date => {
     const ampm = fullHours < 12 || fullHours === 0 ? 'am' : 'pm';
     return `${hours}:${paddedMinutes}${ampm}`;
   };
+
+  export const addWeek = (date, n) => {
+    const obj = new Date(date);
+    obj.setDate(obj.getDate() + 7 * n)
+    return obj
+  };
+
+  export const addMonth = (date, n) => {
+    const obj = new Date(date);
+    obj.setMonth(obj.getMonth() + 1 * n)
+    return obj
+  };
   
   export const formatDateTime = date => (
     `${formatDate(date)} ${formatTime(date)}`
