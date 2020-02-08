@@ -173,7 +173,7 @@ class CreateGroupForm extends React.Component{
                     <p className="create-group-card-description">Take a deep breath and decide what name should be shouted for all eternity.  Will it be a name that inspires love?  Fear?  Or both.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <input className="create-group-card-name-field" type="text" value={this.state.name}  placeholder={this.state.selectedLocation + "'s Big Beatdown Bullies"} onChange={this.update('name')}/>
+                        <input className="create-group-card-name-field" type="text" value={this.state.name || ''}  placeholder={this.state.selectedLocation + "'s Big Beatdown Bullies"} onChange={this.update('name')}/>
                     </div>
                 </div>
             )
@@ -189,7 +189,7 @@ class CreateGroupForm extends React.Component{
                     </ol>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.description} placeholder="Please enter at least 20 characters" onChange={this.update('description')}/>
+                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.description || ''} placeholder="Please enter at least 20 characters" onChange={this.update('description')}/>
                     </div>
                 </div>
             )

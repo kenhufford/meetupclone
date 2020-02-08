@@ -19,7 +19,11 @@ class SessionForm extends React.Component {
   }
 
   componentDidMount(){
-    this.props.fetchLocations()
+    this.props.fetchLocations();
+  }
+
+  componentWillUnmount(){
+    this.props.clearErrors();
   }
 
   update(field) {
@@ -48,11 +52,13 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault(); 
-    if (this.state.selectedLocationId === ""){
+    if (this.state.selectedLocationId === "" && this.props.formType === "Sign up"){
       this.setState({
         locationError: "Please select a location"
       })
-    } else {
+    } else if (this.props.formType === "Log in"){
+      this.props.processForm(this.state);
+    }else {
       this.props.processForm({
         name: this.state.name,
         email: this.state.email,
@@ -77,7 +83,6 @@ class SessionForm extends React.Component {
   }
 
   render() {
-    debugger
     const display = this.props.formType==="Log in" ? (
         <div className="login-form-container">
           <form onSubmit={this.handleSubmit} className="login-form-box">
@@ -107,7 +112,7 @@ class SessionForm extends React.Component {
               </label>
               <br/>
               <div className="login-buttons-div">
-                <input className="login-submit" type="submit" value={this.props.formType} />
+              <input onClick={this.handleSubmit}  className="login-submit" type="submit" value={this.props.formType} />
                 <p>OR </p>
                 <input onClick={this.handleDemoLogin}  className="login-demo-submit" type="submit" value="Demo Sign In"/>
               </div>

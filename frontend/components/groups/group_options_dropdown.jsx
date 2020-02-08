@@ -126,6 +126,9 @@ class GroupOptionsDropdown extends React.Component{
         let dropdownOption3 = !currentUserCaptain ?
             ( <li className="create-group-card-dropdown-option-hidden"></li>) :
             ( <Link to={`/events/new/${groupId}`} className="create-group-card-dropdown-option">Start a Brawl</Link>)
+        let dropdownOption4 = !currentUserMember ?
+            ( <li className="create-group-card-dropdown-option-hidden">Leave Group</li>) :
+            (<li onClick={this.handleRemove} className="create-group-card-dropdown-option">Leave Group</li>) 
         
         return(
             
@@ -133,11 +136,11 @@ class GroupOptionsDropdown extends React.Component{
                 <div className="create-group-card-dropdown-header" onClick={() => this.toggleList()} >
                     {dropdownTitle}
                 </div>
-                {listOpen && <ul  onClick={this.handleRemove} className="create-group-card-dropdown-header-list">
-                    <li className="create-group-card-dropdown-option">Leave the Group</li>
+                {listOpen && <ul  className="create-group-card-dropdown-header-list">
                     {dropdownOption1}
                     {dropdownOption2}
                     {dropdownOption3}
+                    {dropdownOption4}
                 </ul>}
             </div>
         )

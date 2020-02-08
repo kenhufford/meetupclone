@@ -168,7 +168,7 @@ class Search extends React.Component{
             return(
                 <div className="groups-search-div">
                     <div className="groups-search-bar-div">
-                        <SearchBar history={this.props.history} />
+                        <SearchBar history={this.props.history} autoSearch={true} />
                     </div>
                     {searchedGroups}
                     {searchedEvents}

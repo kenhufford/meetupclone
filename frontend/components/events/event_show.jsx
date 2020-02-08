@@ -28,6 +28,7 @@ class EventShow extends React.Component{
                     .then( () => {
                         this.setState({toEventIndex: true})
                     })
+                this.props.history.push('/groups')
             } else {
                 this.props.deleteReservation(this.props.match.params.eventId)            
                 .then( () => this.setState({

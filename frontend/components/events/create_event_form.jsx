@@ -149,11 +149,11 @@ class CreateEventForm extends React.Component{
                         <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.locations} toggleLocation={this.toggleSelected} />
                     </div>
                     <div className="create-group-card-options">
-                        <input className="create-group-card-name-field" type="text" value={this.state.event.address}  placeholder="Address here" onChange={this.update('address')}/>
+                        <input className="create-group-card-name-field" type="text" value={this.state.event.address || ''}  placeholder="Address here" onChange={this.update('address')}/>
                     </div>
                     <p className="create-group-card-description">Set a maximum attendance of the venue.</p>
                     <div className="create-group-card-options">
-                        <input className="create-group-card-name-field" type="text" value={this.state.event.maxAttendance}  placeholder="9000" onChange={this.update('maxAttendance')}/>
+                        <input className="create-group-card-name-field" type="text" value={this.state.event.maxAttendance || ''}  placeholder="9000" onChange={this.update('maxAttendance')}/>
                     </div>
                 </div>
             )
@@ -189,10 +189,10 @@ class CreateEventForm extends React.Component{
             let slide2 = (
                 <div className="create-group-card-body">
                     <h3 className="create-group-card-title">What will your brawl be named?</h3>
-                    <p className="create-group-card-description">Pick something that will attract challengers from all corners of thise universe.</p>
+                    <p className="create-group-card-description">Pick something that will attract challengers from all corners of this universe.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <input className="create-group-card-name-field" type="text" value={this.state.event.title}  placeholder={this.state.selectedLocation + "'s Biggest Brawl"} onChange={this.update('title')}/>
+                        <input className="create-group-card-name-field" type="text" value={this.state.event.title || ''}  placeholder={this.state.selectedLocation + "'s Biggest Brawl"} onChange={this.update('title')}/>
                     </div>
                 </div>
             )
@@ -202,7 +202,7 @@ class CreateEventForm extends React.Component{
                     <h3 className="create-group-card-title">Describe the brawl, what the challengers should expect, what to bring and what to wear.</h3>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.event.description} placeholder="Please enter at least 10 characters" onChange={this.update('description')}/>
+                        <textarea className="create-group-card-name-field-big" type="text" value={this.state.event.description || ''} placeholder="Please enter at least 10 characters" onChange={this.update('description')}/>
                     </div>
                 </div>
             )

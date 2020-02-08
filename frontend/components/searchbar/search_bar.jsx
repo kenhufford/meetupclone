@@ -6,7 +6,8 @@ class SearchBar extends React.Component{
         this.state = {
             query: "",
             typing: false,
-            typingTimeout: 0
+            typingTimeout: 0,
+            autoSearch: this.props.autoSearch
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.update = this.update.bind(this)
@@ -23,17 +24,20 @@ class SearchBar extends React.Component{
         if (this.state.typingTimeout) {
             clearTimeout(this.state.typingTimeout);
          }
-     
-         this.setState({
-            query: e.target.value,
-            typing: false,
-            typingTimeout: setTimeout((() => {
-                if (this.state.query === "") {
-                    this.props.history.push("/groups");
-                } else {
-                    this.props.history.push(`/search/?${this.state.query}`);
-                }}), 300)
-        });
+
+        if (this.state.autoSearch){
+            this.setState({
+                query: e.target.value,
+                typing: false,
+                typingTimeout: setTimeout((() => {
+                    if (this.state.query === "") {
+                        this.props.history.push("/groups");
+                    } else {
+                        this.props.history.push(`/search/?${this.state.query}`);
+                    }
+                }), 300)
+            });
+        }
 
         this.setState({
             query: e.currentTarget.value

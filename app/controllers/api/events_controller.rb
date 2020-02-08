@@ -34,6 +34,7 @@ class Api::EventsController < ApplicationController
         @reservation.save
         render "api/events/show"
     else
+      debugger
         render json: [@event.errors.full_messages], status: 401
     end
   end
@@ -81,6 +82,7 @@ class Api::EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
+    :id,
     :title, 
     :group_id, 
     :description, 

@@ -55,7 +55,7 @@ class GroupLanding extends React.Component{
                         <div className="landing-banner-left">
                             <h1 className="landing-banner-left-title">Join the ultimate brawl</h1>
                             <h3 className="landing-banner-left-subtitle">Find your spirit squad and enter the fray</h3>
-                            <SearchBar history={this.props.history} />
+                            <SearchBar history={this.props.history} autoSearch={false} />
                         </div>
                         <div className="landing-banner-right">
                             <img className="landing-banner-right-image" src={window.mainImageURL}/>

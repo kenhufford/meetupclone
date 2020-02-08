@@ -253,6 +253,7 @@
 
 .login-form-errors{
    font-size: 14px;
+   padding: 5px 0px;
 
 }
 
@@ -476,6 +477,12 @@
    border-radius: 8px;
    text-align: center;
    margin: 0px 10px;
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.1);
+}
+
+.index-switch-selected:hover{
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.3);
+   transform: translateY(-1px);
 }
 
 .index-switch-not{
@@ -487,6 +494,12 @@
    text-align: center;;
    margin: 0px 10px;
    background-color: rgb(12, 255, 174);
+   box-shadow: 0 0 20px rgba(12, 255, 174, 0.1);
+}
+
+.index-switch-not:hover{
+   box-shadow: 0 0 20px rgba(12, 255, 174, 0.3);
+   transform: translateY(-1px);
 }
 
 .index-switch-text-selected{
@@ -521,11 +534,12 @@
 
 .index-item{
    border: 1px solid rgb(206, 206, 206);
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
    width:  250px;
    height: 150px;
    overflow: hidden;
    margin-bottom: 15px;
-   border-radius: 3px;
+   border-radius: 5px;
    position: relative;
    overflow: hidden;
    color: white;
@@ -534,8 +548,8 @@
 }
 
 .index-item:hover{
-   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
-   transform: translateY(-1px);
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.6);
+   transform: translateY(-2px);
 }
 
 .index-item a{
