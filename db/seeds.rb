@@ -328,7 +328,7 @@ end
 
             Reservation.create!(
                 event_id: event.id,
-                user_id: group_captains[j],
+                user_id: group_captains[i],
                 is_organizer: true
             )
             
