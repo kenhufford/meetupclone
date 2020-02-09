@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_09_014943) do
+ActiveRecord::Schema.define(version: 2020_02_09_025432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,12 +32,12 @@ ActiveRecord::Schema.define(version: 2020_02_09_014943) do
   end
 
   create_table "channelships", force: :cascade do |t|
-    t.bigint "group_id"
+    t.bigint "channel_id"
     t.bigint "user_id"
     t.boolean "moderator", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_channelships_on_group_id"
+    t.index ["channel_id"], name: "index_channelships_on_channel_id"
     t.index ["user_id"], name: "index_channelships_on_user_id"
   end
 
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 2020_02_09_014943) do
   end
 
   add_foreign_key "channels", "groups"
-  add_foreign_key "channelships", "groups"
+  add_foreign_key "channelships", "channels"
   add_foreign_key "channelships", "users"
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "users"

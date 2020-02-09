@@ -7,11 +7,15 @@ class Channel < ApplicationRecord
 
     has_many :channelships,
     class_name: "Channelship",
-    foreign_key: :channel_id
+    foreign_key: :channel_id,
     dependent: :destroy
 
     has_many :users,
     class_name: "User",
     through: :channelships,
     source: :user
+
+    has_many :messages,
+    class_name: "Message",
+    foreign_key: :channel_id
 end

@@ -29,7 +29,7 @@ class Api::ChannelsController < ApplicationController
     def channel_params
         params.require(:channel).permit(
         :id,
-        :channel_name,
+        :name,
         :group_id,
         :channel_icon)
     end

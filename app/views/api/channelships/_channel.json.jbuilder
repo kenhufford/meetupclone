@@ -1,1 +1,0 @@
-json.extract! channelship, :id, :group_id, :user_id, :moderator
