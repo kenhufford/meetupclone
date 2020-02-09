@@ -3,6 +3,7 @@ import GroupIndex from './group_index';
 import {fetchGroups} from '../../actions/group_actions'
 import {fetchUser} from '../../actions/user_actions'
 import {fetchCategories} from '../../actions/category_actions'
+import {fetchMemberships} from '../../actions/membership_actions'
 
 const mapStateToProps = (state) => {
     let userId = state.session.id

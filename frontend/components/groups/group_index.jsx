@@ -23,10 +23,10 @@ class GroupIndex extends React.Component{
 
     componentDidMount(){
         const fetchGroups = this.props.fetchGroups();
-        const fetchMemberships = this.props.fetchMemberships(0);
+        // const fetchMemberships = this.props.fetchMemberships(0);
         const fetchCategories = this.props.fetchCategories();
 
-        Promise.all([fetchCategories, fetchMemberships, fetchGroups])
+        Promise.all([fetchCategories, fetchGroups])
         .then( () => this.setState({loaded:true}))
         
     }

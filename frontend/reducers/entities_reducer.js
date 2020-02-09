@@ -8,7 +8,7 @@ import categoriesReducer from "./categories_reducer";
 import membershipsReducer from "./memberships_reducer";
 import reservationsReducer from "./reservations_reducer";
 import channelsReducer from "./channels_reducer";
-import messagesReducer from "./messags_reducer";
+import messagesReducer from "./messages_reducer";
 import channelshipsReducer from "./channelships_reducer";
 
 const entitiesReducer = combineReducers({

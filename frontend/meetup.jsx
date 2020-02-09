@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/root';
 import configureStore from './store/store';
-import {fetchGroupChannels, createChannel, deleteChannel} from './actions/channel_actions'
-import {fetchChannelMessages, createMessage, deleteMessage} from './actions/message_actions'
-import {fetchChannelships, createChannelship, deleteChannelship} from './actions/channelship_actions'
+// import {fetchGroupChannels, createChannel, deleteChannel} from './actions/channel_actions'
+// import {fetchChannelMessages, createMessage, deleteMessage} from './actions/message_actions'
+// import {fetchChannelships, createChannelship, deleteChannelship} from './actions/channelship_actions'
 
 document.addEventListener('DOMContentLoaded', () => {
   let store;
@@ -22,15 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
   window.store = store;
   window.dispatch = store.dispatch;
   window.getState = store.getState;
-  window.fetchGroupChannels = fetchGroupChannels;
-  window.createChannel = createChannel;
-  window.deleteChannel = deleteChannel;
-  window.fetchChannelMessages = fetchChannelMessages;
-  window.createMessage = createMessage;
-  window.deleteMessage = deleteMessage;
-  window.fetchChannelships = fetchChannelships;
-  window.createChannelship = createChannelship;
-  window.deleteChannelship = deleteChannelship;
+  // window.fetchGroupChannels = fetchGroupChannels;
+  // window.createChannel = createChannel;
+  // window.deleteChannel = deleteChannel;
+  // window.fetchChannelMessages = fetchChannelMessages;
+  // window.createMessage = createMessage;
+  // window.deleteMessage = deleteMessage;
+  // window.fetchChannelships = fetchChannelships;
+  // window.createChannelship = createChannelship;
+  // window.deleteChannelship = deleteChannelship;
   
 
   const root = document.getElementById('root');
