@@ -22,14 +22,17 @@ Rails.application.routes.draw do
       resources :types, only: [:create, :destroy]
       resources :users, only:[:index]
       resources :events, only:[:index]
+
+      resources :channels, only: [:index, :create, :destroy] do
+        resources :messages, only: [:index, :create, :destroy]
+        resources :channelships, only: [:index, :create, :destroy]
+      end
+      
       collection do
         get 'search'
       end
     end
-    resources :channels, only: [:index, :create, :destroy] do
-      resources :messages, only: [:index, :create, :destroy]
-      resources :channelships, only: [:index, :create, :destroy]
-    end
+
 
     
   end

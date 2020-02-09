@@ -2,11 +2,7 @@ class Api::MessagesController < ApplicationController
     before_action :require_logged_in, only: [:index, :create, :destroy]
 
   def index
-    if params[:channel_id]
-      @messages = Channel.find(params[:channel_id]).messages.order(created_at: :asc).limit(20)
-    elsif params[:user_id]
-      @messages = User.find(params[:user_id]).messages.order(created_at: :asc).limit(20)
-    end
+      @messages = Channel.find(params[:id]).messages.order(created_at: :asc).limit(40)
       render "api/messages/index"
   end
 
