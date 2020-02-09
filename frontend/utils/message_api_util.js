@@ -1,13 +1,13 @@
 export const fetchChannelMessages = (channel) => (
     $.ajax({
-        url: `/api/groups/${channel.groupId}/channels/${channel.id}/messages`,
+        url: `/api/groups/${channel.group_id}/channels/${channel.id}/messages`,
         method: "GET"
     })
 )
 
 export const createMessage = (message) => (
     $.ajax({
-        url: `/api/groups/${message.groupId}/channels/${message.channelId}/messages`,
+        url: `/api/groups/${message.group_id}/channels/${message.channel_id}/messages`,
         method: "POST",
         data: {message}
     })
@@ -15,7 +15,7 @@ export const createMessage = (message) => (
 
 export const deleteMessage = (message) => (
     $.ajax({
-        url: `/api/groups/${message.groupId}/channels/${message.channelId}/messages/${message.id}`,
+        url: `/api/groups/${message.group_id}/channels/${message.channel_id}/messages/${message.id}`,
         method: "DELETE",
     })
 )

@@ -7,7 +7,7 @@ export const fetchGroupChannels = (groupId) => (
 
 export const createChannel = (channel) => (
     $.ajax({
-        url: `/api/groups/${channel.groupId}/channels`,
+        url: `/api/groups/${channel.group_id}/channels`,
         method: "POST",
         data: {channel}
     })
@@ -15,7 +15,7 @@ export const createChannel = (channel) => (
 
 export const deleteChannel = (channel) => (
     $.ajax({
-        url: `/api/groups/${channel.groupId}/channels/${channel.id}`,
+        url: `/api/groups/${channel.group_id}/channels/${channel.id}`,
         method: "DELETE",
     })
 )
