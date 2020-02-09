@@ -27,7 +27,20 @@ class User < ApplicationRecord
     through: :reservations,
     source: :event
 
-    # add associations for memberships, rsvps
+    has_many :messages,
+    class_name: "Message",
+    foreign_key: :user_id,
+    dependent: :destroy
+
+    has_many :channelships,
+    class_name: "Channelship",
+    foreign_key: :user_id
+    dependent: :destroy
+
+    has_many :users,
+    class_name: "User",
+    through: :channelships,
+    source: :user
   
     def self.find_by_credentials(email, password)
       user = User.find_by(email: email)

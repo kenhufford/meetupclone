@@ -26,6 +26,11 @@ Rails.application.routes.draw do
         get 'search'
       end
     end
+    resources :channels, only: [:index, :create, :destroy] do
+      resources :messages, only: [:index, :create, :destroy]
+      resources :channelships, only: [:index, :create, :destroy]
+    end
+
     
   end
 
