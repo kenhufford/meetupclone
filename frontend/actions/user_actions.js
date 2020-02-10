@@ -32,3 +32,8 @@ export const fetchUsersFromEvent = (eventId) => dispatch => (
     APIUtils.fetchUsersFromEvent(eventId)
         .then(users => dispatch(receiveUsers(users)))
 )
+
+export const fetchUsersFromChannel = (channelId) => dispatch => (
+    APIUtils.fetchUsersFromChannel(channelId)
+        .then(users => dispatch(receiveUsers(users)))
+)

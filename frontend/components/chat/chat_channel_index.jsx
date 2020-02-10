@@ -1,28 +1,32 @@
+
 import React from "react";
 
-class ChannelIndex extends React.Component{
-    constructor(props){
+class ChatChannelIndex extends React.Component {
+    constructor(props) {
         super(props);
-        this.state = {
+    }
 
+    render() {
+        let channels = Object.values(this.props.channels);
+        let channelList;
+        if (channels.length !== 0) {
+            channelList = channels.map((channel, i) =>
+                (<li key={i} value={channel.id} onClick={this.props.selectChannel}>
+                    {channel.name}
+                </li>))
+        } else {
+            channelList = <p>Pick a group</p>
         }
-    }
-
-    componentDidMount(){
-    }
-
-    render(){
         return (
             <div className="chat-channel-index">
                 Channel index
                 <ul>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
+                    {channelList}
+                    <li>Add a channel</li>
                 </ul>
             </div>
         )
     }
 }
 
-export default ChannelIndex;
+export default ChatChannelIndex;

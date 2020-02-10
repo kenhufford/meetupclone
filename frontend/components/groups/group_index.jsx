@@ -27,7 +27,7 @@ class GroupIndex extends React.Component{
         const fetchCategories = this.props.fetchCategories();
 
         Promise.all([fetchCategories, fetchGroups])
-        .then( () => this.setState({loaded:true}))
+            .then( () => this.setState({loaded:true}))
         
     }
 

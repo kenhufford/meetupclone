@@ -6,6 +6,8 @@ class Api::GroupsController < ApplicationController
             @groups = Category.find(params[:category_id]).groups
         elsif params[:location_id]
             @groups = Location.find(params[:location_id]).groups
+        elsif params[:user_id]
+            @groups = User.find(params[:user_id]).groups
         else
             @groups = Group.all.includes(:memberships, :members)
         end

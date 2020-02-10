@@ -37,10 +37,10 @@ class User < ApplicationRecord
     foreign_key: :user_id,
     dependent: :destroy
 
-    has_many :users,
-    class_name: "User",
+    has_many :channels,
+    class_name: "Channel",
     through: :channelships,
-    source: :user
+    source: :channel
   
     def self.find_by_credentials(email, password)
       user = User.find_by(email: email)

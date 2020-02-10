@@ -1,6 +1,6 @@
 export const fetchChannelships = (channel) => (
     $.ajax({
-        url: `/api/groups/${channel.group_id}/channels/${channel.id}/channelships`,
+        url: `/api/groups/${channel.groupId}/channels/${channel.id}/channelships`,
         method: "GET"
     })
 )

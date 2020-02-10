@@ -25,3 +25,10 @@ export const fetchUsersFromEvent = (eventId) => (
         method: "GET"
     })
 )
+
+export const fetchUsersFromChannel = (channelId) => (
+    $.ajax({
+        url: `/api/channels/${channelId}/users`,
+        method: "GET"
+    })
+)

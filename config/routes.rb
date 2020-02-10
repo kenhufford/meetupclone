@@ -35,7 +35,9 @@ Rails.application.routes.draw do
       end
     end
 
-
+    resources :channels do
+      resources :users, only: [:index]
+    end
     
   end
 

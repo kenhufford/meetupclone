@@ -3,7 +3,9 @@ import React from "react";
 class MessageForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { body: "", channelId: 1, userId: 1 };
+        this.state = { 
+            body: ""
+        };
     }
 
     update(field) {
@@ -13,7 +15,11 @@ class MessageForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        App.cable.subscriptions.subscriptions[0].speak({ message: this.state.body, user_id: this.state.userId, channel_id: this.state.channelId });
+        debugger
+        App.cable.subscriptions.subscriptions[0].speak({ 
+            message: this.state.body, 
+            user_id: this.props.userId, 
+            channel_id: this.props.selectedChannelId });
         this.setState({ body: "" });
     }
 

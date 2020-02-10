@@ -3,33 +3,49 @@ import MessageForm from "./chat_message_form";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = { 
-            messages: [] 
+            messages: []
         };
         this.bottom = React.createRef();
-        this.channelName = "this.props.channel.name";
-        // this.channelName = this.props.channel.name;
-        this.channelId = 1;
-        // this.channelId = this.props.channel.id;
-        this.channelIcon = "channelURL";
-        // this.channelIcon = this.props.channel.icon;
+        
     }
 
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
+        if (this.bottom.current) {
+            this.bottom.current.scrollIntoView();
+        }
+        let oldChannelId = prevProps.selectedChannelId;
+        let channelId = this.props.selectedChannelId;
+        let channel = this.props.selectedChannel;
+        if (oldChannelId !== channelId) {
+            this.setupSocket();
+            this.props.fetchChannelMessages(channel)
+                .then(data => {
+                    let messages = Object.values(data.messages);
+                    this.setState({
+                        messages
+                    })
+                });
+        }
+    }
+
+    setupSocket(){
+        if(this.props.selectedChannelId === '') return null
+        if (App.currentChannel) {
+            App.currentChannel.unsubscribe();
+        }
+        debugger
         App.cable.subscriptions.create(
-            { channel: this.state.channelName, id: this.state.channelId },
+            { channel: "ChatChannel", id: this.props.selectedChannelId},
             {
                 received: data => {
                     switch (data.type) {
                         case "message":
-                            this.setState({
-                                messages: this.state.messages.concat(data.message)
-                            });
-                            break;
-                        case "messages":
-                            debugger
-                            this.setState({ messages: Object.values(data.messages) });
+                            // this.setState({
+                            //     messages: this.state.messages.concat(data.message)
+                            // });
+                            receiveMessage(JSON.parse(data.message));
                             break;
                     }
                 },
@@ -38,15 +54,16 @@ class ChatDisplay extends React.Component {
         );
     }
 
-    componentDidUpdate() {
-        this.bottom.current.scrollIntoView();
-    }
-
     render() {
+        
         const messageList = this.state.messages.map((message, idx) => {
             return (
                 <li key={idx}>
-                    {message.message}
+                    <div>
+                        <p>{message.message}</p>
+                        <p>{message.createdAt}</p>
+                    </div>
+                    
                     <div ref={this.bottom} />
                 </li>
             );
@@ -55,7 +72,9 @@ class ChatDisplay extends React.Component {
             <div className="chat-display">
                 <div>ChatRoom</div>
                 <div className="message-list">{messageList}</div>
-                <MessageForm />
+                <MessageForm 
+                    userId={this.props.userId}
+                    selectedChannelId={this.props.selectedChannelId}/>
             </div>
         );
     }

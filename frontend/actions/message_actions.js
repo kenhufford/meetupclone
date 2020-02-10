@@ -10,7 +10,6 @@ export const receiveMessage = message => ({
     message
 })
 
-
 const receiveChannelMessages = messages => ({
     type: RECEIVE_CHANNEL_MESSAGES,
     messages
