@@ -11,15 +11,17 @@ class ChatGroupIndex extends React.Component {
         let groupsList;
         if (groups.length !== 0){
             groupsList = groups.map((group, i) =>
-                            (<li key={i} value={group.id} onClick={this.props.selectGroup}>
-                                {group.name}
-                            </li>)       )     
+                            (<div key={i} 
+                                value={group.id} 
+                                onClick={(e) => this.props.selectGroup(e)} 
+                                className="chat-group-index-item">
+                                <img src={window[group.iconUrl]}/>
+                            </div>)       )     
         } else {
             groupsList = <p>Join a group</p>
         }
         return (
             <div className="chat-group-index">
-                Group index
                 <ul>
                     {groupsList}
                 </ul>

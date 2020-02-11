@@ -1865,11 +1865,10 @@ color: black;
    margin-top: 15px;
    display: flex;
    margin: 0 auto;
-   max-width: 1100px;
-   min-width: 900px;
+   width: 80%;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
-   height: 100%; 
+   height: 90vh;
    min-height: auto;
    border: 1px solid black;
    flex-direction: row;
@@ -1894,6 +1893,27 @@ color: black;
    flex-direction: column;
    width: 25%;
    border: 1px solid black;
+   overflow: scroll;
+   align-items: center;
+}
+
+
+.chat-group-index-item img{
+   margin:10px;
+   background-repeat: no-repeat;
+   background-position: 50%;
+   background-size: cover;
+   width: 60px;
+   height: 60px;
+   border-radius: 999px;
+   box-sizing: border-box;
+   vertical-align: middle;
+   transition: box-shadow .3s;
+}
+
+.chat-group-index-item img:hover{
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
+   transform: translateY(-1px);
 }
 
 .chat-channel-index{
@@ -1914,7 +1934,94 @@ color: black;
    display: flex;
    flex-direction: column;
    height: 90%;
+   width: 100%;
    justify-content: space-evenly;
    align-items: center;
+   overflow: none;
 }
 
+.chat-message{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   font-weight: 700;
+   padding: 15px 20px;
+}
+
+.chat-message img{
+   margin:10px;
+   background-repeat: no-repeat;
+   background-position: 50%;
+   background-size: cover;
+   width: 40px;
+   height: 40px;
+   border-radius: 999px;
+   box-sizing: border-box;
+   vertical-align: middle;
+   transition: box-shadow .3s;
+}
+
+.chat-message img:hover{
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
+   transform: translateY(-1px);
+}
+
+.chat-message-right{
+   width: 90%;
+}
+
+.chat-message-info{
+   display: flex;
+   flex-direction: row;
+}
+
+.chat-message:hover{
+   background-color: rgb(12, 255, 174);
+   cursor: pointer;
+}
+
+.chat-message-name{
+   padding: 5px;
+}
+
+.chat-message-time{
+   padding: 5px;
+   color: rgb(80, 80, 80);
+}
+
+.chat-message-message{
+   padding: 5px;
+}
+
+.message-list{
+   overflow: scroll;
+   width: 100%;
+}
+
+
+
+.modal{
+   width: 82%;
+   height: 90%;
+   top: 62px;
+   left: 20vh;
+   position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  transition: 1.1s ease-out;
+  box-shadow: 
+    -2rem 2rem 2rem rgba(black, 0.2);
+  filter: blur(0);
+  transform: scale(1);  
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-off{
+   opacity: 0;
+    visibility: hidden;
+    filter: blur(8px);
+    transform: scale(0.33);
+    box-shadow: 1rem 0 0 rgba(black, 0.2);
+}

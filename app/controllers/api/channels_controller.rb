@@ -1,10 +1,15 @@
 class Api::ChannelsController < ApplicationController
-
+before_action :require_logged_in, only: [:index, :create, :destroy]
     def index
-      if params[:group_id]
-        @channels = Group.find(params[:group_id]).channels.order(name: :desc)
-      end
-      render "api/channels/index"
+        @group_channels = Group.find(params[:group_id]).channels.order(name: :desc)
+        
+        @user_channels = Group.find(params[:group_id])
+                        .channels
+                        .joins(:channelships)
+                        .where(channelships: { user_id: current_user.id })
+                        .where("dm IS true")
+                        .order(name: :desc)
+        render "api/channels/index"
     end
 
     def create

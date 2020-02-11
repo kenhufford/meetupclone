@@ -38,7 +38,7 @@ class Chat extends React.Component {
     }
 
     selectGroup(e){
-        let groupId = e.currentTarget.value;
+        let groupId = e.currentTarget.getAttribute('value');
         let fetchGroupChannels = this.props.fetchGroupChannels(groupId);
         let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
         Promise.all([fetchGroupChannels, fetchUsersFromGroup])
@@ -74,6 +74,7 @@ class Chat extends React.Component {
     }
 
     render() {
+        let selectedChannel = this.state.selectedChannelId === '' ? false : this.state.channels[this.state.selectedChannelId];
         if (this.state.loaded){
             return (
                 <div>
@@ -83,20 +84,23 @@ class Chat extends React.Component {
                                 groups={this.state.groups} 
                                 selectGroup={this.selectGroup}/>
                             <ChatChannelIndex 
-                                channels={this.state.channels} 
+                                channels={this.state.channels}
+                                groupId={this.state.selectedGroupId}
                                 createChannel={this.props.createChannel}
-                                selectChannel={this.selectChannel}/>
+                                selectChannel={this.selectChannel}
+                                channelUsers={this.state.channelUsers}
+                                groupUsers={this.state.groupUsers}/>
                         </div>
                         <div className="chat-main-right">
                             <ChatInfoBar 
-                                selectedChannel={this.state.channels[this.state.selectedChannelId]}
+                                selectedChannel={selectedChannel}
                                 groupUsers={this.state.groupUsers}
                                 channelUsers={this.state.channelUsers}
                                 loadInfoBar={this.state.loadInfoBar} />
                             <ChatDisplay 
                                 receiveMessage={this.props.receiveMessage}
                                 userId={this.props.currentUser.id}
-                                selectedChannel={this.state.channels[this.state.selectedChannelId]}
+                                selectedChannel={selectedChannel}
                                 selectedChannelId={this.state.selectedChannelId}
                                 selectedChannelName={this.state.selectedChannelName}
                                 channelUsers={this.state.channelUsers}
