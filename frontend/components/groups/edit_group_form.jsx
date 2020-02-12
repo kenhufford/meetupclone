@@ -18,7 +18,6 @@ class EditGroupForm extends React.Component{
 
     render(){
         if (this.state.loaded){
-            debugger
             return(
                 <div>
                     <CreateGroupForm props={this.props} groupId={this.props.match.params.groupId} categorySelected={true}/>

@@ -36,7 +36,6 @@ class ChatDisplay extends React.Component {
         if (App.currentChannel) {
             App.currentChannel.unsubscribe();
         }
-        debugger
         App.cable.subscriptions.create(
             { channel: "ChatChannel", id: this.props.selectedChannelId},
             {

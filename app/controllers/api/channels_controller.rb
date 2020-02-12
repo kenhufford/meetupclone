@@ -1,24 +1,43 @@
 class Api::ChannelsController < ApplicationController
 before_action :require_logged_in, only: [:index, :create, :destroy]
     def index
-        @group_channels = Group.find(params[:group_id]).channels.order(name: :desc)
+        @group_channels = Group.find(params[:group_id])
+                        .channels
+                        .where(:dm => false)
+                        .order(name: :desc)
         
         @user_channels = Group.find(params[:group_id])
                         .channels
-                        .joins(:channelships)
-                        .where(channelships: { user_id: current_user.id })
-                        .where("dm IS true")
+                        .includes(:channelships)
+                        .where(:dm => true)
+                        .where(:channelships => {:user_id => current_user.id})
                         .order(name: :desc)
         render "api/channels/index"
     end
 
     def create
-        @channel = Channel.new(channel_params)
-        if @channel.save
-            @channels = Group.find(params[:group_id]).channels.order(name: :desc)
-            render "api/channels/index"
+        hashed = ''
+        if (channel_params[:hash_string])
+            hashed = channel_params[:hash_string].hash
+            @old_channel = Channel.find_by(hash_string: hashed)
+            if @old_channel 
+                render "api/channels/show"
+            else
+                @channel = Channel.new(channel_params)
+                @channel.hash_string = hashed
+                if @channel.save
+                    render "api/channels/show"
+                else
+                    render json: [@message.errors.full_messages], status: 401
+                end
+            end
         else
-            render json: [@message.errors.full_messages], status: 401
+            @channel = Channel.new(channel_params)
+            if @channel.save
+                render "api/channels/show"
+            else
+                render json: [@message.errors.full_messages], status: 401
+            end
         end
     end
 
@@ -36,6 +55,8 @@ before_action :require_logged_in, only: [:index, :create, :destroy]
         :id,
         :name,
         :group_id,
-        :channel_icon)
+        :channel_icon,
+        :dm,
+        :hash_string)
     end
 end

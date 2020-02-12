@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_042134) do
+ActiveRecord::Schema.define(version: 2020_02_12_004600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_042134) do
     t.datetime "updated_at", null: false
     t.bigint "group_id"
     t.boolean "dm", null: false
+    t.string "hash_string"
     t.index ["group_id"], name: "index_channels_on_group_id"
   end
 

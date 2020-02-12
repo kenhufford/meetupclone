@@ -34,7 +34,6 @@ class Api::EventsController < ApplicationController
         @reservation.save
         render "api/events/show"
     else
-      debugger
         render json: [@event.errors.full_messages], status: 401
     end
   end

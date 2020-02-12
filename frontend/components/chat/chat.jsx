@@ -14,15 +14,15 @@ class Chat extends React.Component {
             groups: {},
             selectedGroupId: '',
             channels: {},
-            selectedChannelId: '',
-            selectedChannelName: '',
             channelships: {},
             groupUsers: {},
             channelUsers: {},
+            selectedChannel:{}
         }
 
         this.selectGroup = this.selectGroup.bind(this);
         this.selectChannel = this.selectChannel.bind(this);
+        this.selectAfterCreateChannel = this.selectAfterCreateChannel.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +44,7 @@ class Chat extends React.Component {
         Promise.all([fetchGroupChannels, fetchUsersFromGroup])
             .then((data) => {
                 let channels = data[0].channels;
+                console.log(channels)
                 let groupUsers = data[1].users;
                 this.setState({
                     selectedGroupId: groupId,
@@ -53,9 +54,10 @@ class Chat extends React.Component {
             })
     }
 
-    selectChannel(e){
-        let channelId = e.currentTarget.value;
-        let selectedChannel = this.state.channels[channelId];
+    selectChannel(channelId, type){
+        let selectedChannel = type === "group" ? this.state.channels.groupChannels[channelId]
+            : this.state.channels.userChannels[channelId] 
+         
         let fetchChannelships = this.props.fetchChannelships(selectedChannel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channelId);
         Promise.all([fetchChannelships, fetchUsersFromChannel])
@@ -63,8 +65,28 @@ class Chat extends React.Component {
                 let channelships = data[0].channelships;
                 let channelUsers = data[1].users;
                 this.setState({
-                    selectedChannelId: channelId,
-                    selectedChannelName: selectedChannel.name,
+                    selectedChannel: selectedChannel,
+                    loaded: true,
+                    channelships,
+                    channelUsers,
+                    loadInfoBar: true
+                });
+            })
+    }
+
+    selectAfterCreateChannel(channel){
+        let selectedChannel = channel;
+        let fetchChannelships = this.props.fetchChannelships(channel);
+        let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
+        let fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
+        Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels])
+            .then((data) => {
+                let channelships = data[0].channelships;
+                let channelUsers = data[1].users;
+                let channels = data[2].channels
+                this.setState({
+                    selectedChannel,
+                    channels,
                     loaded: true,
                     channelships,
                     channelUsers,
@@ -74,7 +96,6 @@ class Chat extends React.Component {
     }
 
     render() {
-        let selectedChannel = this.state.selectedChannelId === '' ? false : this.state.channels[this.state.selectedChannelId];
         if (this.state.loaded){
             return (
                 <div>
@@ -86,23 +107,26 @@ class Chat extends React.Component {
                             <ChatChannelIndex 
                                 channels={this.state.channels}
                                 groupId={this.state.selectedGroupId}
-                                createChannel={this.props.createChannel}
-                                selectChannel={this.selectChannel}
                                 channelUsers={this.state.channelUsers}
-                                groupUsers={this.state.groupUsers}/>
+                                selectChannel={this.selectChannel}
+                                groupUsers={this.state.groupUsers}
+                                createChannel={this.props.createChannel}
+                                createChannelship={this.props.createChannelship}
+                                selectAfterCreateChannel={this.selectAfterCreateChannel}
+                                currentUser={this.props.currentUser}/>
                         </div>
                         <div className="chat-main-right">
                             <ChatInfoBar 
-                                selectedChannel={selectedChannel}
+                                selectedChannel={this.state.selectedChannel}
                                 groupUsers={this.state.groupUsers}
                                 channelUsers={this.state.channelUsers}
                                 loadInfoBar={this.state.loadInfoBar} />
                             <ChatDisplay 
                                 receiveMessage={this.props.receiveMessage}
                                 userId={this.props.currentUser.id}
-                                selectedChannel={selectedChannel}
-                                selectedChannelId={this.state.selectedChannelId}
-                                selectedChannelName={this.state.selectedChannelName}
+                                selectedChannel={this.state.selectedChannel}
+                                selectedChannelId={this.state.selectedChannel.id}
+                                selectedChannelName={this.state.selectedChannel.name}
                                 channelUsers={this.state.channelUsers}
                                 fetchChannelMessages={this.props.fetchChannelMessages}
                                 />

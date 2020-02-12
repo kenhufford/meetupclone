@@ -2001,27 +2001,93 @@ color: black;
 
 
 
-.modal{
-   width: 82%;
+.chat-dm-modal{
+   width: 95%;
    height: 90%;
-   top: 62px;
-   left: 20vh;
+   top: 90px;
+   left: 5vh;
    position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  transition: 1.1s ease-out;
-  box-shadow: 
-    -2rem 2rem 2rem rgba(black, 0.2);
-  filter: blur(0);
-  transform: scale(1);  
-  opacity: 1;
-  visibility: visible;
+   background: white;
+   border: 1px solid #ccc;
+   transition: 1.1s ease-out;
+   filter: blur(0);
+   transform: scale(1);
+   opacity: 1;
+   visibility: visible;
+   background-color: rgb(43, 43, 43);
+   border-radius: 8px;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
-.modal-off{
-   opacity: 0;
-    visibility: hidden;
-    filter: blur(8px);
-    transform: scale(0.33);
-    box-shadow: 1rem 0 0 rgba(black, 0.2);
+.chat-dm-actions{
+   display: flex;
+   width: 100%;
+   align-items: baseline;
+   flex-direction: row-reverse;
+}
+
+.chat-dm-actions i{
+   font-size: 32px;
+   cursor: pointer;
+   padding: 10px;
+}
+
+.chat-dm-content{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 90%;
+   max-width: 700px;
+}
+
+.chat-dm-content > p{
+   font-size: 40px;
+   font-weight: 1000;
+   padding: 10px
+}
+
+.chat-dm-search-container{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   width: 90%;
+}
+
+.chat-dm-search{
+   box-sizing: border-box;
+   height: 50px;
+   width: 80%;
+   vertical-align: bottom;
+   border: transparent;
+   font-size: 20px;
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   border-radius: 50px;
+   line-height: -2rem;
+   padding: 15px 50px;
+   background-color: lightgray;
+   margin-right: 20px;
+   color: rgb(255, 53, 12)
+}
+
+
+.chat-dm-search-go{
+   width: 10%;
+    border-radius: 10px;
+    background-color: rgb(12, 255, 174);
+    color: black;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: 800;
+    font-size: 24px;
+}
+
+
+
+
+.chat-dm-search{
+   border: 1px solid lightgrey;
+   border-radius: 8px;
 }

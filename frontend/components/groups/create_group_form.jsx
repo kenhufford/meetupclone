@@ -6,7 +6,6 @@ class CreateGroupForm extends React.Component{
         super(props)
         let {name, description, lat, long, imageUrl, selectedLocationId, selectedLocation} = this.props.group
         let {categorySelected} = this.props
-        debugger
         this.state = {
             loaded: false,
             name: name,

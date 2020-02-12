@@ -44,7 +44,7 @@ class ChatChannelIndex extends React.Component {
         let userChannelList;
         if (groupChannels.length !== 0) {
             groupChannelList = groupChannels.map((channel, i) =>
-                (<li key={i} value={channel.id} onClick={this.props.selectChannel}>
+                (<li key={i} onClick={() => this.props.selectChannel(channel.id, "group")}>
                     {channel.name}
                 </li>))
         } else {
@@ -53,7 +53,7 @@ class ChatChannelIndex extends React.Component {
 
         if (userChannels.length !== 0) {
             userChannelList = userChannels.map((channel, i) =>
-                (<li key={i} value={channel.id} onClick={this.props.selectChannel}>
+                (<li key={i} value={channel.id} onClick={() => this.props.selectChannel(channel.id, "user")}>
                     {channel.name}
                 </li>))
         } else {
@@ -75,8 +75,15 @@ class ChatChannelIndex extends React.Component {
                     <ChatDirectMessageInvite 
                         show={this.state.show} 
                         closeModal={this.closeModal} 
-                        userChannelList={this.props.userChannelList}
-                        groupUsers={this.props.groupUsers}/>
+                        channels={this.props.channels}
+                        groupId={this.props.groupId}
+                        groupUsers={this.props.groupUsers}
+                        createChannel={this.props.createChannel}
+                        selectChannel={this.props.selectChannel}
+                        createChannelship={this.props.createChannelship}
+                        selectAfterCreateChannel={this.props.selectAfterCreateChannel}
+                        currentUser={this.props.currentUser}
+                        />
                 </ul>
             </div>
         )
