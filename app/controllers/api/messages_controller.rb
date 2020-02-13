@@ -2,7 +2,7 @@ class Api::MessagesController < ApplicationController
     before_action :require_logged_in, only: [:index, :create, :destroy]
 
   def index
-      @messages = Channel.find(params[:channel_id]).messages.order(created_at: :asc).limit(40)
+      @messages = Channel.find(params[:channel_id]).messages.order(created_at: :desc).limit(40)
       render "api/messages/index"
   end
 
@@ -21,7 +21,7 @@ class Api::MessagesController < ApplicationController
      if !@message.destroy
         render json: ["No message to destroy"], status: 404
      end
-    @messages = Channel.find(@message.channel_id).messages.order(created_at: :asc).limit(20)
+    @messages = Channel.find(@message.channel_id).messages.order(created_at: :desc).limit(40)
     render "api/messages/index"
   end
 

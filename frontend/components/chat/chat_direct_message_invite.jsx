@@ -18,8 +18,8 @@ class ChatDirectMessageInvite extends React.Component{
 
     componentDidMount(){
         let dmChannels = [];
-        if (this.props.channels.userChannels !== undefined) {
-            dmChannels = Object.values(this.props.channels.userChannels).map(channel => (channel))
+        if (this.props.userChannels !== undefined) {
+            dmChannels = Object.values(this.props.userChannels).map(channel => (channel))
         } 
         this.setState({
             dmChannels
@@ -56,7 +56,7 @@ class ChatDirectMessageInvite extends React.Component{
     createChannel(){
         let currentUser = this.props.currentUser;
         let channelName = '';
-        let hashString = '';
+        let hashString = this.props.groupId;
         let users = [];
         users.push(currentUser);
         users = users.concat(Object.values(this.state.addedToChannel));

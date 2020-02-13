@@ -23,6 +23,11 @@ export const createChannel = (channel) => dispatch => (
         .then(channel => dispatch(receiveChannel(channel)))
 )
 
+export const updateChannel = (channel) => dispatch =>(
+    APIUtils.updateChannel(channel)
+        .then(channel => dispatch(receiveChannel(channel)))
+)
+
 export const deleteChannel = (channel) => dispatch => (
     APIUtils.deleteChannel(channel)
         .then(channels => dispatch(receiveGroupChannels(channels)))

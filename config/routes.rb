@@ -37,9 +37,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :channels do
+
+    resources :channels, only: [:update] do
       resources :users, only: [:index]
     end
+
+    resources :channelships, only: [:index, :update] 
     
   end
 

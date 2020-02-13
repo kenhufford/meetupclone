@@ -1,6 +1,6 @@
 import React from "react";
 import MessageForm from "./chat_message_form";
-import { formatTime } from "../../utils/date_util";
+import { formatTime, formatDateWithDay } from "../../utils/date_util";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
@@ -9,6 +9,11 @@ class ChatDisplay extends React.Component {
             messages: []
         };
         this.bottom = React.createRef();
+        this.makeMsg = this.makeMsg.bind(this);
+    }
+
+    componentDidMount(){
+        this.setupSocket();
     }
 
     componentDidUpdate(prevProps) {
@@ -16,8 +21,8 @@ class ChatDisplay extends React.Component {
         if (this.bottom.current) {
             this.bottom.current.scrollIntoView();
         }
-        let oldChannelId = prevProps.selectedChannelId;
-        let channelId = this.props.selectedChannelId;
+        let oldChannelId = prevProps.selectedChannel.id;
+        let channelId = this.props.selectedChannel.id;
         let channel = this.props.selectedChannel;
         if (oldChannelId !== channelId) {
             this.setupSocket();
@@ -31,29 +36,41 @@ class ChatDisplay extends React.Component {
         }
     }
 
+    makeMsg(data){
+        let channelId = this.props.selectedChannel.id
+        let { message, user_id, channel_id, updated_at, created_at } = data.message
+        let newMsg = {
+            message,
+            userId: user_id,
+            channelId: channel_id,
+            updatedAt: updated_at,
+            createdAt: created_at
+        }
+        this.props.updateChannel({id: channelId})
+            .then( () => {
+                this.props.updateChannelship({channel_id: channelId})
+            })
+
+        this.setState({
+            messages: this.state.messages.concat(newMsg)
+        });
+    }
+
     setupSocket(){
-        if(this.props.selectedChannelId === '') return null
+        let channelId = this.props.selectedChannel.id
+        if (channelId === undefined) return null
+        debugger
         if (App.currentChannel) {
             App.currentChannel.unsubscribe();
         }
-        App.cable.subscriptions.create(
-            { channel: "ChatChannel", id: this.props.selectedChannelId},
-            {
-                received: data => {
+        App.currentChannel = App.cable.subscriptions.create(
+            {   channel: "ChatChannel", 
+                id: channelId
+            },
+            {   received: data => {
                     switch (data.type) {
                         case "message":
-                            let {message, user_id, channel_id, updated_at, created_at} = data.message
-                            let newMsg = {
-                                message,
-                                userId: user_id,
-                                channelId: channel_id,
-                                updatedAt: updated_at,
-                                createdAt: created_at
-                            }
-                            
-                            this.setState({
-                                messages: this.state.messages.concat(newMsg)
-                            });
+                            this.makeMsg(data);
                             break;
                     }
                 },
@@ -63,11 +80,15 @@ class ChatDisplay extends React.Component {
     }
 
     render() {
-        
+        let lastDay;
         const messageList = this.state.messages.map((message, idx) => {
             if (this.props.channelUsers[message.userId]===undefined) return null
+            let thisDay = formatDateWithDay(message.createdAt);
+            let diffDay = thisDay !== lastDay;
+            lastDay = thisDay;
             return (
                 <li key={idx}>
+                    {diffDay ? (<div>{thisDay}</div>) : <div> </div>}
                     <div className="chat-message">
                         <img src={window[this.props.channelUsers[message.userId].imageUrl]}/>
                         <div className="chat-message-right">
@@ -80,18 +101,16 @@ class ChatDisplay extends React.Component {
                             </div>
                         </div>
                     </div>
-                    
                     <div ref={this.bottom} />
                 </li>
             );
         });
         return (
             <div className="chat-display">
-                <div>ChatRoom</div>
                 <ul className="message-list">{messageList}</ul>
                 <MessageForm 
                     userId={this.props.userId}
-                    selectedChannelId={this.props.selectedChannelId}/>
+                    selectedChannelId={this.props.selectedChannel.id}/>
             </div>
         );
     }

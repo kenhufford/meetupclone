@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_12_004600) do
+ActiveRecord::Schema.define(version: 2020_02_12_173857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_02_12_004600) do
     t.boolean "moderator", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_visited"
     t.index ["channel_id"], name: "index_channelships_on_channel_id"
     t.index ["user_id"], name: "index_channelships_on_user_id"
   end

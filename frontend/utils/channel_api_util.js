@@ -13,6 +13,14 @@ export const createChannel = (channel) => (
     })
 )
 
+export const updateChannel = (channel) => (
+    $.ajax({
+        url: `/api/channels/${channel.id}`,
+        method: "PATCH",
+        data: {channel}
+    })
+)
+
 export const deleteChannel = (channel) => (
     $.ajax({
         url: `/api/groups/${channel.group_id}/channels/${channel.id}`,

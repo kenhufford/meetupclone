@@ -1,14 +1,15 @@
 class Api::ChannelshipsController < ApplicationController
 
     def index
-      if current_user
+      if current_user && !params[:channel_id]
         @user_channelships = current_user.channelships
+        render "api/channelships/userindex"
       end
       if params[:channel_id]
-        
         @channel_channelships = Channel.find(params[:channel_id]).channelships
+        render "api/channelships/channelindex"
       end
-      render "api/channelships/index"
+      
     end
 
     def create
@@ -19,6 +20,22 @@ class Api::ChannelshipsController < ApplicationController
             end
             @channel_channelships = Channel.find(params[:channel_id]).channelships
             render "api/channelships/index"
+        else
+            render json: [@channelship.errors.full_messages], status: 401
+        end
+    end
+
+    def update
+        channelshipId = Channel.find(channelship_params[:channel_id])
+            .channelships
+            .where(:channelships => {:user_id => current_user.id})
+            .limit(1)
+            .pluck("id")
+            .first
+        @channelship = Channelship.find(channelshipId)
+        @channelship.last_visited = Time.now
+        if @channelship.update_attributes(channelship_params)
+            render "api/channelships/show"
         else
             render json: [@channelship.errors.full_messages], status: 401
         end
@@ -41,6 +58,7 @@ class Api::ChannelshipsController < ApplicationController
         :id,
         :moderator,
         :channel_id,
-        :user_id)
+        :user_id,
+        :last_visited)
     end
 end

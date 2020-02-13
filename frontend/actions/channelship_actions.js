@@ -7,13 +7,23 @@ const receiveChannelships = channelships => ({
     channelships
 })
 
-export const fetchChannelships = (channel) => dispatch => (
+export const fetchChannelshipsFromUser = () => dispatch => (
+    APIUtils.fetchChannelshipsFromUser()
+        .then(channelships => dispatch(receiveChannelships(channelships)))
+)
+
+export const fetchChannelships= (channel) => dispatch => (
     APIUtils.fetchChannelships(channel)
         .then(channelships => dispatch(receiveChannelships(channelships)))
 )
 
 export const createChannelship = (channelship) => dispatch => (
     APIUtils.createChannelship(channelship)
+        .then(channelships => dispatch(receiveChannelships(channelships)))
+)
+
+export const updateChannelship = (channelship) => dispatch => (
+    APIUtils.updateChannelship(channelship)
         .then(channelships => dispatch(receiveChannelships(channelships)))
 )
 

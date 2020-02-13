@@ -93,7 +93,7 @@ export const formatDateWithDay = date => {
     const day = obj.getDate();
     const year = obj.getFullYear();
     const dayOfWeek = daysOfWeek[obj.getDay()];
-    return `${dayOfWeek}, ${month} ${day}, ${year}`;
+    return `${dayOfWeek}, ${month} ${day}`;
   };
   
   export const formatTime = date => {
@@ -124,3 +124,8 @@ export const formatDateWithDay = date => {
     `${formatDate(date)} ${formatTime(date)}`
   );
   
+  export const moreRecentOrEqualThanDate = (date1, date2) =>{
+    let d1 = new Date(date1);
+    let d2 = new Date(date2);
+    return (d1 >= d2) ? true : false
+  }

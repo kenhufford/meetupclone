@@ -23,7 +23,8 @@
 .main-body > div{
    display: flex;
    flex-direction: column;
-   min-height: 90vh;
+   min-height: 85vh;
+   margin-top: 20px;
 }
 
 .header-search-bar-form{
@@ -523,7 +524,7 @@
 
 .index-div-titles{
    stroke: transparent;
-   color: black;
+   color: #404040;
    font-size: 18px;
    font-weight: 600;
    line-height: 1.6;
@@ -663,7 +664,7 @@
 
 .groups-index-div-results > p{
    stroke: transparent;
-color: black;
+color: #404040;
    font-size: 18px;
    font-weight: 600;
    line-height: 1.6;
@@ -1862,39 +1863,45 @@ color: black;
 
 
 .chat-main{
-   margin-top: 15px;
+   margin-top: 30px;
    display: flex;
    margin: 0 auto;
    width: 80%;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
-   height: 90vh;
+   height: 85vh;
    min-height: auto;
-   border: 1px solid black;
+   background-color: rgb(43, 43, 43);
+   border: 3px solid rgb(112, 112, 112);
+   border-radius: 8px;
    flex-direction: row;
+   color: rgb(231, 231, 231) !important;
+}
+
+.chat-main i{
+   color: rgb(231, 231, 231);
 }
 
 .chat-main-left{
    display: flex;
    flex-direction: row;
    width: 30%;
-   border: 1px solid black;
+   border-radius: 8px;
 }
 
 .chat-main-right{
    display: flex;
    flex-direction: column;
    width: 70%;
-   border: 1px solid black;
 }
 
 .chat-group-index{
    display:flex;
    flex-direction: column;
    width: 25%;
-   border: 1px solid black;
    overflow: scroll;
    align-items: center;
+   padding-top: 10px;
 }
 
 
@@ -1920,8 +1927,44 @@ color: black;
    display:flex;
    flex-direction: column;
    width: 75%;
-   border: 1px solid black;
+   background-color: rgb(53, 53, 53);
+   padding: 20px 10px 0px 10px;
+   overflow: scroll;
+   font-size: 20px;
 }
+
+.chat-channel-index-item{
+   font-size: 18px;
+   color: lightgray;
+   padding: 5px 0px;
+}
+.chat-channel-index-item-notify{
+   font-size: 18px;
+   color: red;
+   padding: 5px 0px;
+}
+
+.chat-channel-dm-div{
+   display:flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: baseline;
+   margin-bottom: 10px;
+  
+}
+
+.chat-channel-dm-div p{ 
+   color: white;
+}
+
+
+
+.chat-channel-list p{
+   margin: 8px 0px;
+   color: white;
+}
+
+
 
 .chat-info-bar{
    display: flex;
@@ -1977,7 +2020,6 @@ color: black;
 }
 
 .chat-message:hover{
-   background-color: rgb(12, 255, 174);
    cursor: pointer;
 }
 
@@ -1987,7 +2029,6 @@ color: black;
 
 .chat-message-time{
    padding: 5px;
-   color: rgb(80, 80, 80);
 }
 
 .chat-message-message{
@@ -2077,14 +2118,23 @@ color: black;
    width: 10%;
     border-radius: 10px;
     background-color: rgb(12, 255, 174);
-    color: black;
+    color: #404040;
     text-align: center;
     padding-top: 10px;
     font-weight: 800;
     font-size: 24px;
 }
 
+.chat-channel-dm-container{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
 
+.chat-channel-dm-container > i{
+   font-size: 10px;
+   padding-right: 10px;
+}
 
 
 .chat-dm-search{

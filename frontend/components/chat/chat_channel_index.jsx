@@ -1,25 +1,66 @@
 
 import React from "react";
 import ChatDirectMessageInvite from './chat_direct_message_invite';
+import {moreRecentOrEqualThanDate} from '../../utils/date_util';
 
 class ChatChannelIndex extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             show: false,
+            userChannels: {},
+            groupChannels: {},
+            loaded: false
         }
         this.closeModal = this.closeModal.bind(this);
+        this.clearNotify = this.clearNotify.bind(this);
     }
-    // left off here, need to make channel, channelships with people
+
+    componentDidMount(){
+        let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
+        let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
+        Promise.all([fetchGroupChannels, fetchChannelshipsFromUser])
+            .then( (data) => {
+                let groupChannels = data[0].channels.groupChannels;
+                let userChannels = data[0].channels.userChannels===undefined ? {} : data[0].channels.userChannels;
+                let userChannelships = data[1].channelships.userChannelships;
+                this.setState({
+                    groupChannels,
+                    userChannels,
+                    channelships: {userChannelships},
+                    loaded: true
+                })
+            })
+    }
+
+    componentDidUpdate(prevProps){
+        if (this.props.groupId !== prevProps.groupId){
+            let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
+            let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
+            Promise.all([fetchGroupChannels, fetchChannelshipsFromUser])
+                .then((data) => {
+                    let groupChannels = data[0].channels.groupChannels;
+                    let userChannels = data[0].channels.userChannels === undefined ? {} : data[0].channels.userChannels;
+                    let userChannelships = data[1].channelships.userChannelships;
+                    this.setState({
+                        groupChannels,
+                        userChannels,
+                        channelships: { userChannelships },
+                    })
+                })
+        }
+    }
+
+    clearNotify(e){
+        e.currentTarget.className = "chat-channel-index-item";
+    }
+
     directMessage(){
         this.props.createChannel({
             name: "new channel",
             channel_icon: "defaultchannelURL",
             group_id: this.props.groupId
         })
-            .then( (channel)=>{
-
-            })
     }
 
     showModal(){
@@ -35,27 +76,52 @@ class ChatChannelIndex extends React.Component {
     };
 
     render() {
-        let channels = this.props.channels;
-        let groupChannels;
-        let userChannels;
-        groupChannels = channels.groupChannels !== undefined ? Object.values(channels.groupChannels) : [];
-        userChannels = channels.userChannels !== undefined ? Object.values(channels.userChannels) : [];
+        if (!this.state.loaded) return null
+        let userChannelships = this.state.channelships.userChannelships;
+        let groupChannelships = this.state.channelships.groupChannelships;
+        let channelToChannelshipHash = {};
+        Object.values(userChannelships).forEach(channelship => {
+            channelToChannelshipHash[channelship.channelId] = {lastVisited: channelship.lastVisited}
+        })
+        let groupChannels = this.state.groupChannels !== undefined ? Object.values(this.state.groupChannels ) : [];
+        let userChannels = this.state.userChannels !== undefined ? Object.values(this.state.userChannels) : [];
         let groupChannelList;
         let userChannelList;
         if (groupChannels.length !== 0) {
-            groupChannelList = groupChannels.map((channel, i) =>
-                (<li key={i} onClick={() => this.props.selectChannel(channel.id, "group")}>
-                    {channel.name}
-                </li>))
+            groupChannelList = groupChannels.map((channel, i) =>{
+                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt); 
+                console.log(channelToChannelshipHash[channel.id].lastVisited)
+                console.log(channel.updatedAt)
+                console.log(notify)
+                debugger
+                return (<div key={i} className="chat-channel-dm-container">
+                        <i className="far fa-circle"></i>
+                    <li 
+                        onClick={(e) => {
+                            this.props.selectChannel(channel.id, "group");
+                            this.clearNotify(e)
+                        }}
+
+                        className={notify ? ("chat-channel-index-item-notify") : ("chat-channel-index-item")}>
+                        {channel.name}
+                    </li>
+                    </div>)})
         } else {
             groupChannelList = <p>Pick a group</p>
         }
 
         if (userChannels.length !== 0) {
             userChannelList = userChannels.map((channel, i) =>
-                (<li key={i} value={channel.id} onClick={() => this.props.selectChannel(channel.id, "user")}>
-                    {channel.name}
-                </li>))
+                (
+                    <div key={i} className="chat-channel-dm-container">
+                    <i className="far fa-circle"></i>
+                    <li 
+                        value={channel.id}
+                        className="chat-channel-index-item"
+                        onClick={() => this.props.selectChannel(channel.id, "user")}>
+                        {channel.name}
+                    </li>
+                </div>))
         } else {
             userChannelList = <p>Pick a group</p>
         }
@@ -63,19 +129,29 @@ class ChatChannelIndex extends React.Component {
         
         return (
             <div className="chat-channel-index">
-                <p>Channels</p>
+                <div className="chat-channel-dm-div">
+                    <p>Add Channel</p>
+                    <i className="fas fa-plus-circle"
+                        // onClick={(e) => this.showModal()}  add channel modal
+                        >
+                    </i>
+                </div>
                 <ul className="chat-channel-list">
                     {groupChannelList}
-                    <li>Add a channel</li>
                 </ul>
                 <ul className="chat-channel-list">
+                    <div className="chat-channel-dm-div">
+                        <p>Direct Messages</p>
+                        <i className="fas fa-plus-circle"
+                             onClick={(e) => this.showModal()}>
+                        </i>
+                    </div>
+                    
                     {userChannelList}
-                    <button className="toggle-button" onClick={ (e) => this.showModal()}> show Modal 
-                    </button>
                     <ChatDirectMessageInvite 
                         show={this.state.show} 
                         closeModal={this.closeModal} 
-                        channels={this.props.channels}
+                        userChannels={this.props.userChannels}
                         groupId={this.props.groupId}
                         groupUsers={this.props.groupUsers}
                         createChannel={this.props.createChannel}

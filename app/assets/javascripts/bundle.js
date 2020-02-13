@@ -122,7 +122,7 @@ var fetchCategories = function fetchCategories() {
 /*!*********************************************!*\
   !*** ./frontend/actions/channel_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_GROUP_CHANNELS, RECEIVE_CHANNEL, fetchGroupChannels, createChannel, deleteChannel */
+/*! exports provided: RECEIVE_GROUP_CHANNELS, RECEIVE_CHANNEL, fetchGroupChannels, createChannel, updateChannel, deleteChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -131,6 +131,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL", function() { return RECEIVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchGroupChannels", function() { return fetchGroupChannels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannel", function() { return createChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannel", function() { return deleteChannel; });
 /* harmony import */ var _utils_channel_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/channel_api_util */ "./frontend/utils/channel_api_util.js");
 
@@ -165,6 +166,13 @@ var createChannel = function createChannel(channel) {
     });
   };
 };
+var updateChannel = function updateChannel(channel) {
+  return function (dispatch) {
+    return _utils_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["updateChannel"](channel).then(function (channel) {
+      return dispatch(receiveChannel(channel));
+    });
+  };
+};
 var deleteChannel = function deleteChannel(channel) {
   return function (dispatch) {
     return _utils_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteChannel"](channel).then(function (channels) {
@@ -179,14 +187,16 @@ var deleteChannel = function deleteChannel(channel) {
 /*!*************************************************!*\
   !*** ./frontend/actions/channelship_actions.js ***!
   \*************************************************/
-/*! exports provided: RECEIVE_CHANNELSHIPS, fetchChannelships, createChannelship, deleteChannelship */
+/*! exports provided: RECEIVE_CHANNELSHIPS, fetchChannelshipsFromUser, fetchChannelships, createChannelship, updateChannelship, deleteChannelship */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNELSHIPS", function() { return RECEIVE_CHANNELSHIPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannelshipsFromUser", function() { return fetchChannelshipsFromUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannelships", function() { return fetchChannelships; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannelship", function() { return createChannelship; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannelship", function() { return updateChannelship; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelship", function() { return deleteChannelship; });
 /* harmony import */ var _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/channelship_api_util */ "./frontend/utils/channelship_api_util.js");
 
@@ -199,6 +209,13 @@ var receiveChannelships = function receiveChannelships(channelships) {
   };
 };
 
+var fetchChannelshipsFromUser = function fetchChannelshipsFromUser() {
+  return function (dispatch) {
+    return _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchChannelshipsFromUser"]().then(function (channelships) {
+      return dispatch(receiveChannelships(channelships));
+    });
+  };
+};
 var fetchChannelships = function fetchChannelships(channel) {
   return function (dispatch) {
     return _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchChannelships"](channel).then(function (channelships) {
@@ -209,6 +226,13 @@ var fetchChannelships = function fetchChannelships(channel) {
 var createChannelship = function createChannelship(channelship) {
   return function (dispatch) {
     return _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__["createChannelship"](channelship).then(function (channelships) {
+      return dispatch(receiveChannelships(channelships));
+    });
+  };
+};
+var updateChannelship = function updateChannelship(channelship) {
+  return function (dispatch) {
+    return _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__["updateChannelship"](channelship).then(function (channelships) {
       return dispatch(receiveChannelships(channelships));
     });
   };
@@ -1264,8 +1288,25 @@ function (_React$Component) {
         var groups = data[0].groups;
 
         _this2.setState({
-          loaded: true,
           groups: groups
+        });
+
+        var groupId = Object.values(groups)[0].id;
+
+        var fetchGroupChannels = _this2.props.fetchGroupChannels(groupId);
+
+        var fetchUsersFromGroup = _this2.props.fetchUsersFromGroup(groupId);
+
+        Promise.all([fetchUsersFromGroup, fetchGroupChannels]).then(function (data) {
+          var groupUsers = data[0].users;
+          var channels = data[1].channels;
+
+          _this2.setState({
+            selectedGroupId: groupId,
+            loaded: true,
+            channels: channels,
+            groupUsers: groupUsers
+          });
         });
       });
     }
@@ -1279,7 +1320,6 @@ function (_React$Component) {
       var fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
       Promise.all([fetchGroupChannels, fetchUsersFromGroup]).then(function (data) {
         var channels = data[0].channels;
-        console.log(channels);
         var groupUsers = data[1].users;
 
         _this3.setState({
@@ -1297,16 +1337,22 @@ function (_React$Component) {
       var selectedChannel = type === "group" ? this.state.channels.groupChannels[channelId] : this.state.channels.userChannels[channelId];
       var fetchChannelships = this.props.fetchChannelships(selectedChannel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channelId);
-      Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
-        var channelships = data[0].channelships;
-        var channelUsers = data[1].users;
+      var channelships = Object.assign({}, this.state.channelships);
+      this.props.updateChannelship({
+        channel_id: channelId
+      }).then(function () {
+        return Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
+          var channelChannelships = data[0].channelships.channelChannelships;
+          channelships[channelChannelships] = channelChannelships;
+          var channelUsers = data[1].users;
 
-        _this4.setState({
-          selectedChannel: selectedChannel,
-          loaded: true,
-          channelships: channelships,
-          channelUsers: channelUsers,
-          loadInfoBar: true
+          _this4.setState({
+            selectedChannel: selectedChannel,
+            loaded: true,
+            channelships: channelships,
+            channelUsers: channelUsers,
+            loadInfoBar: true
+          });
         });
       });
     }
@@ -1346,15 +1392,16 @@ function (_React$Component) {
           groups: this.state.groups,
           selectGroup: this.selectGroup
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          channels: this.state.channels,
+          currentUser: this.props.currentUser,
           groupId: this.state.selectedGroupId,
-          channelUsers: this.state.channelUsers,
+          groupUsers: this.state.groupUsers // selectedChannel={this.state.selectedChannel}
+          ,
           selectChannel: this.selectChannel,
-          groupUsers: this.state.groupUsers,
           createChannel: this.props.createChannel,
-          createChannelship: this.props.createChannelship,
+          fetchGroupChannels: this.props.fetchGroupChannels,
+          fetchChannelshipsFromUser: this.props.fetchChannelshipsFromUser,
           selectAfterCreateChannel: this.selectAfterCreateChannel,
-          currentUser: this.props.currentUser
+          createChannelship: this.props.createChannelship
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -1366,9 +1413,9 @@ function (_React$Component) {
           receiveMessage: this.props.receiveMessage,
           userId: this.props.currentUser.id,
           selectedChannel: this.state.selectedChannel,
-          selectedChannelId: this.state.selectedChannel.id,
-          selectedChannelName: this.state.selectedChannel.name,
           channelUsers: this.state.channelUsers,
+          updateChannel: this.props.updateChannel,
+          updateChannelship: this.props.updateChannelship,
           fetchChannelMessages: this.props.fetchChannelMessages
         }))));
       } else {
@@ -1396,6 +1443,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _chat_direct_message_invite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_direct_message_invite */ "./frontend/components/chat/chat_direct_message_invite.jsx");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1417,6 +1465,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ChatChannelIndex =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1429,21 +1478,74 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatChannelIndex).call(this, props));
     _this.state = {
-      show: false
+      show: false,
+      userChannels: {},
+      groupChannels: {},
+      loaded: false
     };
     _this.closeModal = _this.closeModal.bind(_assertThisInitialized(_this));
+    _this.clearNotify = _this.clearNotify.bind(_assertThisInitialized(_this));
     return _this;
-  } // left off here, need to make channel, channelships with people
-
+  }
 
   _createClass(ChatChannelIndex, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
+      var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
+      Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function (data) {
+        var groupChannels = data[0].channels.groupChannels;
+        var userChannels = data[0].channels.userChannels === undefined ? {} : data[0].channels.userChannels;
+        var userChannelships = data[1].channelships.userChannelships;
+
+        _this2.setState({
+          groupChannels: groupChannels,
+          userChannels: userChannels,
+          channelships: {
+            userChannelships: userChannelships
+          },
+          loaded: true
+        });
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var _this3 = this;
+
+      if (this.props.groupId !== prevProps.groupId) {
+        var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
+        var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
+        Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function (data) {
+          var groupChannels = data[0].channels.groupChannels;
+          var userChannels = data[0].channels.userChannels === undefined ? {} : data[0].channels.userChannels;
+          var userChannelships = data[1].channelships.userChannelships;
+
+          _this3.setState({
+            groupChannels: groupChannels,
+            userChannels: userChannels,
+            channelships: {
+              userChannelships: userChannelships
+            }
+          });
+        });
+      }
+    }
+  }, {
+    key: "clearNotify",
+    value: function clearNotify(e) {
+      e.currentTarget.className = "chat-channel-index-item";
+    }
+  }, {
     key: "directMessage",
     value: function directMessage() {
       this.props.createChannel({
         name: "new channel",
         channel_icon: "defaultchannelURL",
         group_id: this.props.groupId
-      }).then(function (channel) {});
+      });
     }
   }, {
     key: "showModal",
@@ -1462,24 +1564,42 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this4 = this;
 
-      var channels = this.props.channels;
-      var groupChannels;
-      var userChannels;
-      groupChannels = channels.groupChannels !== undefined ? Object.values(channels.groupChannels) : [];
-      userChannels = channels.userChannels !== undefined ? Object.values(channels.userChannels) : [];
+      if (!this.state.loaded) return null;
+      var userChannelships = this.state.channelships.userChannelships;
+      var groupChannelships = this.state.channelships.groupChannelships;
+      var channelToChannelshipHash = {};
+      Object.values(userChannelships).forEach(function (channelship) {
+        channelToChannelshipHash[channelship.channelId] = {
+          lastVisited: channelship.lastVisited
+        };
+      });
+      var groupChannels = this.state.groupChannels !== undefined ? Object.values(this.state.groupChannels) : [];
+      var userChannels = this.state.userChannels !== undefined ? Object.values(this.state.userChannels) : [];
       var groupChannelList;
       var userChannelList;
 
       if (groupChannels.length !== 0) {
         groupChannelList = groupChannels.map(function (channel, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+          console.log(channelToChannelshipHash[channel.id].lastVisited);
+          console.log(channel.updatedAt);
+          console.log(notify);
+          debugger;
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
-            onClick: function onClick() {
-              return _this2.props.selectChannel(channel.id, "group");
-            }
-          }, channel.name);
+            className: "chat-channel-dm-container"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "far fa-circle"
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            onClick: function onClick(e) {
+              _this4.props.selectChannel(channel.id, "group");
+
+              _this4.clearNotify(e);
+            },
+            className: notify ? "chat-channel-index-item-notify" : "chat-channel-index-item"
+          }, channel.name));
         });
       } else {
         groupChannelList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Pick a group");
@@ -1487,13 +1607,18 @@ function (_React$Component) {
 
       if (userChannels.length !== 0) {
         userChannelList = userChannels.map(function (channel, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
+            className: "chat-channel-dm-container"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "far fa-circle"
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             value: channel.id,
+            className: "chat-channel-index-item",
             onClick: function onClick() {
-              return _this2.props.selectChannel(channel.id, "user");
+              return _this4.props.selectChannel(channel.id, "user");
             }
-          }, channel.name);
+          }, channel.name));
         });
       } else {
         userChannelList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Pick a group");
@@ -1501,19 +1626,26 @@ function (_React$Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-channel-index"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-channel-dm-div"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add Channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-plus-circle" // onClick={(e) => this.showModal()}  add channel modal
+
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "chat-channel-list"
-      }, groupChannelList, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Add a channel")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, groupChannelList), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "chat-channel-list"
-      }, userChannelList, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "toggle-button",
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-channel-dm-div"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Direct Messages"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-plus-circle",
         onClick: function onClick(e) {
-          return _this2.showModal();
+          return _this4.showModal();
         }
-      }, " show Modal"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_direct_message_invite__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      })), userChannelList, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_direct_message_invite__WEBPACK_IMPORTED_MODULE_1__["default"], {
         show: this.state.show,
         closeModal: this.closeModal,
-        channels: this.props.channels,
+        userChannels: this.props.userChannels,
         groupId: this.props.groupId,
         groupUsers: this.props.groupUsers,
         createChannel: this.props.createChannel,
@@ -1582,8 +1714,17 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     fetchChannelships: function fetchChannelships(channel) {
       return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_3__["fetchChannelships"])(channel));
     },
+    fetchChannelshipsFromUser: function fetchChannelshipsFromUser(channel) {
+      return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_3__["fetchChannelshipsFromUser"])(channel));
+    },
     createChannel: function createChannel(channel) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__["createChannel"])(channel));
+    },
+    updateChannel: function updateChannel(channel) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__["updateChannel"])(channel));
+    },
+    updateChannelship: function updateChannelship(channel) {
+      return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_3__["updateChannelship"])(channel));
     },
     createChannelship: function createChannelship(channelship) {
       return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_3__["createChannelship"])(channelship));
@@ -1659,8 +1800,8 @@ function (_React$Component) {
     value: function componentDidMount() {
       var dmChannels = [];
 
-      if (this.props.channels.userChannels !== undefined) {
-        dmChannels = Object.values(this.props.channels.userChannels).map(function (channel) {
+      if (this.props.userChannels !== undefined) {
+        dmChannels = Object.values(this.props.userChannels).map(function (channel) {
           return channel;
         });
       }
@@ -1708,7 +1849,7 @@ function (_React$Component) {
 
       var currentUser = this.props.currentUser;
       var channelName = '';
-      var hashString = '';
+      var hashString = this.props.groupId;
       var users = [];
       users.push(currentUser);
       users = users.concat(Object.values(this.state.addedToChannel));
@@ -1848,9 +1989,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -1875,10 +2016,16 @@ function (_React$Component) {
       messages: []
     };
     _this.bottom = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.makeMsg = _this.makeMsg.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChatDisplay, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setupSocket();
+    }
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       var _this2 = this;
@@ -1889,8 +2036,8 @@ function (_React$Component) {
         this.bottom.current.scrollIntoView();
       }
 
-      var oldChannelId = prevProps.selectedChannelId;
-      var channelId = this.props.selectedChannelId;
+      var oldChannelId = prevProps.selectedChannel.id;
+      var channelId = this.props.selectedChannel.id;
       var channel = this.props.selectedChannel;
 
       if (oldChannelId !== channelId) {
@@ -1905,40 +2052,56 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "setupSocket",
-    value: function setupSocket() {
+    key: "makeMsg",
+    value: function makeMsg(data) {
       var _this3 = this;
 
-      if (this.props.selectedChannelId === '') return null;
+      var channelId = this.props.selectedChannel.id;
+      var _data$message = data.message,
+          message = _data$message.message,
+          user_id = _data$message.user_id,
+          channel_id = _data$message.channel_id,
+          updated_at = _data$message.updated_at,
+          created_at = _data$message.created_at;
+      var newMsg = {
+        message: message,
+        userId: user_id,
+        channelId: channel_id,
+        updatedAt: updated_at,
+        createdAt: created_at
+      };
+      this.props.updateChannel({
+        id: channelId
+      }).then(function () {
+        _this3.props.updateChannelship({
+          channel_id: channelId
+        });
+      });
+      this.setState({
+        messages: this.state.messages.concat(newMsg)
+      });
+    }
+  }, {
+    key: "setupSocket",
+    value: function setupSocket() {
+      var _this4 = this;
+
+      var channelId = this.props.selectedChannel.id;
+      if (channelId === undefined) return null;
+      debugger;
 
       if (App.currentChannel) {
         App.currentChannel.unsubscribe();
       }
 
-      App.cable.subscriptions.create({
+      App.currentChannel = App.cable.subscriptions.create({
         channel: "ChatChannel",
-        id: this.props.selectedChannelId
+        id: channelId
       }, {
         received: function received(data) {
           switch (data.type) {
             case "message":
-              var _data$message = data.message,
-                  message = _data$message.message,
-                  user_id = _data$message.user_id,
-                  channel_id = _data$message.channel_id,
-                  updated_at = _data$message.updated_at,
-                  created_at = _data$message.created_at;
-              var newMsg = {
-                message: message,
-                userId: user_id,
-                channelId: channel_id,
-                updatedAt: updated_at,
-                createdAt: created_at
-              };
-
-              _this3.setState({
-                messages: _this3.state.messages.concat(newMsg)
-              });
+              _this4.makeMsg(data);
 
               break;
           }
@@ -1951,37 +2114,41 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
+      var lastDay;
       var messageList = this.state.messages.map(function (message, idx) {
-        if (_this4.props.channelUsers[message.userId] === undefined) return null;
+        if (_this5.props.channelUsers[message.userId] === undefined) return null;
+        var thisDay = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithDay"])(message.createdAt);
+        var diffDay = thisDay !== lastDay;
+        lastDay = thisDay;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: idx
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, diffDay ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, thisDay) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window[_this4.props.channelUsers[message.userId].imageUrl]
+          src: window[_this5.props.channelUsers[message.userId].imageUrl]
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-info"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "chat-message-name"
-        }, _this4.props.channelUsers[message.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, _this5.props.channelUsers[message.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "chat-message-time"
         }, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatTime"])(message.createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-message"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message.message)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          ref: _this4.bottom
+          ref: _this5.bottom
         }));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-display"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "ChatRoom"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "message-list"
       }, messageList), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         userId: this.props.userId,
-        selectedChannelId: this.props.selectedChannelId
+        selectedChannelId: this.props.selectedChannel.id
       }));
     }
   }]);
@@ -2166,9 +2333,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -2190,6 +2357,7 @@ function (_React$Component) {
     _this.state = {
       body: ""
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -6633,13 +6801,13 @@ document.addEventListener('DOMContentLoaded', function () {
   window.dispatch = store.dispatch;
   window.getState = store.getState; // window.fetchGroupChannels = fetchGroupChannels;
 
-  window.createChannel = _actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__["createChannel"]; // window.deleteChannel = deleteChannel;
+  window.updateChannel = _actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__["updateChannel"]; // window.deleteChannel = deleteChannel;
   // window.fetchChannelMessages = fetchChannelMessages;
   // window.createMessage = createMessage;
   // window.deleteMessage = deleteMessage;
   // window.fetchChannelships = fetchChannelships;
 
-  window.createChannelship = _actions_channelship_actions__WEBPACK_IMPORTED_MODULE_5__["createChannelship"]; // window.deleteChannelship = deleteChannelship;
+  window.updateChannelship = _actions_channelship_actions__WEBPACK_IMPORTED_MODULE_5__["updateChannelship"]; // window.deleteChannelship = deleteChannelship;
 
   var root = document.getElementById('root');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -7287,13 +7455,14 @@ var fetchCategories = function fetchCategories() {
 /*!********************************************!*\
   !*** ./frontend/utils/channel_api_util.js ***!
   \********************************************/
-/*! exports provided: fetchGroupChannels, createChannel, deleteChannel */
+/*! exports provided: fetchGroupChannels, createChannel, updateChannel, deleteChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchGroupChannels", function() { return fetchGroupChannels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannel", function() { return createChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannel", function() { return deleteChannel; });
 var fetchGroupChannels = function fetchGroupChannels(groupId) {
   return $.ajax({
@@ -7305,6 +7474,15 @@ var createChannel = function createChannel(channel) {
   return $.ajax({
     url: "/api/groups/".concat(channel.group_id, "/channels"),
     method: "POST",
+    data: {
+      channel: channel
+    }
+  });
+};
+var updateChannel = function updateChannel(channel) {
+  return $.ajax({
+    url: "/api/channels/".concat(channel.id),
+    method: "PATCH",
     data: {
       channel: channel
     }
@@ -7323,13 +7501,15 @@ var deleteChannel = function deleteChannel(channel) {
 /*!************************************************!*\
   !*** ./frontend/utils/channelship_api_util.js ***!
   \************************************************/
-/*! exports provided: fetchChannelships, createChannelship, deleteChannelship */
+/*! exports provided: fetchChannelships, fetchChannelshipsFromUser, createChannelship, updateChannelship, deleteChannelship */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannelships", function() { return fetchChannelships; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannelshipsFromUser", function() { return fetchChannelshipsFromUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannelship", function() { return createChannelship; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannelship", function() { return updateChannelship; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelship", function() { return deleteChannelship; });
 var fetchChannelships = function fetchChannelships(channel) {
   return $.ajax({
@@ -7337,10 +7517,25 @@ var fetchChannelships = function fetchChannelships(channel) {
     method: "GET"
   });
 };
+var fetchChannelshipsFromUser = function fetchChannelshipsFromUser() {
+  return $.ajax({
+    url: "/api/channelships",
+    method: "GET"
+  });
+};
 var createChannelship = function createChannelship(channelship) {
   return $.ajax({
     url: "/api/groups/".concat(channelship.group_id, "/channels/").concat(channelship.channel_id, "/channelships"),
     method: "POST",
+    data: {
+      channelship: channelship
+    }
+  });
+};
+var updateChannelship = function updateChannelship(channelship) {
+  return $.ajax({
+    url: "/api/channelships/".concat(channelship.channel_id),
+    method: "PATCH",
     data: {
       channelship: channelship
     }
@@ -7359,7 +7554,7 @@ var deleteChannelship = function deleteChannelship(channelship) {
 /*!*************************************!*\
   !*** ./frontend/utils/date_util.js ***!
   \*************************************/
-/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatTime, addWeek, addMonth, formatDateTime */
+/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatTime, addWeek, addMonth, formatDateTime, moreRecentOrEqualThanDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7371,6 +7566,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addWeek", function() { return addWeek; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMonth", function() { return addMonth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return formatDateTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moreRecentOrEqualThanDate", function() { return moreRecentOrEqualThanDate; });
 var formatDate = function formatDate(date) {
   var months = {
     0: 'January',
@@ -7463,7 +7659,7 @@ var formatDateWithDay = function formatDateWithDay(date) {
   var day = obj.getDate();
   var year = obj.getFullYear();
   var dayOfWeek = daysOfWeek[obj.getDay()];
-  return "".concat(dayOfWeek, ", ").concat(month, " ").concat(day, ", ").concat(year);
+  return "".concat(dayOfWeek, ", ").concat(month, " ").concat(day);
 };
 var formatTime = function formatTime(date) {
   var obj = new Date(date);
@@ -7488,6 +7684,11 @@ var addMonth = function addMonth(date, n) {
 };
 var formatDateTime = function formatDateTime(date) {
   return "".concat(formatDate(date), " ").concat(formatTime(date));
+};
+var moreRecentOrEqualThanDate = function moreRecentOrEqualThanDate(date1, date2) {
+  var d1 = new Date(date1);
+  var d2 = new Date(date2);
+  return d1 >= d2 ? true : false;
 };
 
 /***/ }),
