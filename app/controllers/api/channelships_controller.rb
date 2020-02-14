@@ -19,7 +19,7 @@ class Api::ChannelshipsController < ApplicationController
                 @user_channelships = current_user.channelships
             end
             @channel_channelships = Channel.find(params[:channel_id]).channelships
-            render "api/channelships/index"
+            render "api/channelships/channelindex"
         else
             render json: [@channelship.errors.full_messages], status: 401
         end

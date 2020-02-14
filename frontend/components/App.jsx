@@ -28,7 +28,7 @@ const App = () => (
         <AuthRoute exact path="/login" component={LogInFormContainer} />
         <AuthRoute exact path="/signup" component={SignUpFormContainer} />
         <Route path="/search" component={SearchContainer} />
-        <Route path="/chat" component={ChatContainer} />
+        <ProtectedRoute path="/chat" component={ChatContainer} />
         <Route exact path="/events" component={EventIndexContainer} />
         <Route exact path="/categories" component={CategoryIndexContainer} />
         <ProtectedRoute exact path="/events/form/:eventId/edit/" component={EditEventFormContainer} />

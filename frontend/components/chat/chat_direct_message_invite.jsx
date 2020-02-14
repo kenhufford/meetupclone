@@ -58,6 +58,8 @@ class ChatDirectMessageInvite extends React.Component{
         let channelName = '';
         let hashString = this.props.groupId;
         let users = [];
+        let channel_icon1;
+        let channel_icon2;
         users.push(currentUser);
         users = users.concat(Object.values(this.state.addedToChannel));
         users.sort();
@@ -69,9 +71,17 @@ class ChatDirectMessageInvite extends React.Component{
                 channelName += `, ${user.name}`
             }
         })
+        if(users.length<3){
+            channel_icon1 = users[0].imageUrl;
+            channel_icon2 = users[1].imageUrl;
+        } else {
+            channel_icon1 = users[1].imageUrl;
+            channel_icon2 = users[2].imageUrl;
+        }
         this.props.createChannel({
             name: channelName,
-            channel_icon: currentUser.imageUrl,
+            channel_icon: channel_icon1,
+            channel_icon2: channel_icon2,
             group_id: this.props.groupId,
             dm: true,
             hash_string: hashString
@@ -92,7 +102,19 @@ class ChatDirectMessageInvite extends React.Component{
                     this.props.selectAfterCreateChannel(data.channel.oldChannel)
                 } 
             })
-        this.props.closeModal();
+        this.props.toggleModal("dm");
+        this.setState({
+            filteredUsers: [],
+            searchTerm: '',
+            users: this.props.groupUsers,
+            dmChannels: [],
+            addedToChannel: {},
+        })
+    }
+
+    selectChannel(channel){
+        this.props.selectChannel(channel);
+        this.props.toggleModal(dm);
         this.setState({
             filteredUsers: [],
             searchTerm: '',
@@ -105,30 +127,60 @@ class ChatDirectMessageInvite extends React.Component{
     render(){
         if (this.props.show){
             let index;
-            if (this.state.filteredUsers.length===0){
+            let dmChannelsToggle = false;
+            let addedToChannelToggle = this.state.addedToChannel.length !== 0;
+
+            if (this.state.filteredUsers.length===0 || this.state.searchTerm === ''){
                 if (this.state.dmChannels.length === 0){
                     index = <li>No recent messages</li>
                 } else {
+                    dmChannelsToggle = true;
                     index = this.state.dmChannels.map((channel, i) => (
-                        <li key={i} onClick={() => this.selectChannel(channel, "user")}>
-                            {channel.name}
-                        </li>
+                        <div key={channel.id}
+                            className="chat-modal-list-item"
+                            onClick={()=>this.selectChannel(channel)}>
+                            <img src={window[channel.channelIcon]}
+                                className="chat-message-img">
+                            </img>
+                            <img src={window[channel.channelIcon2]}
+                                className="chat-message-img2">
+                            </img>
+                            <p> {channel.name} </p>
+                        </div>
                     ))
                 }
             } else {
-                index = this.state.filteredUsers.map((user) => (
-                        <li key={user.id} onClick={() => this.addToChannel(user)}>
-                            {user.name}
-                        </li>
+                    index = this.state.filteredUsers.map((user) => (
+                        <div key={user.id}
+                            className="chat-modal-list-item"
+                            onClick={() => this.addToChannel(user)}>
+                            <img src={window[user.imageUrl]}
+                                className="chat-message-img">
+                            </img>
+                            <p> {user.name} </p>
+                        </div>
+
                     ))
             }
             return (
                 <div className="chat-dm-modal">
                     <div className="chat-dm-actions">
-                        <i onClick={this.props.closeModal} className="fas fa-times"></i>
+                        <i onClick={()=>this.props.toggleModal("dm")} className="fas fa-times"></i>
                     </div>
                     <div className="chat-dm-content">
                         <p>Direct Messages</p>
+                        {addedToChannelToggle ?
+                            (<ul className="chat-horiz-list">
+                                {Object.values(this.state.addedToChannel).map((user) => (
+                                    <div className="chat-horiz-list-item" key={user.id}>
+                                        <img className="chat-message-img"
+                                            src={window[user.imageUrl]}></img>
+                                        <p> {user.name} </p>
+                                        <i onClick={() => this.removeFromChannel(user.id)}
+                                            className="fas fa-times"></i>
+                                    </div>
+                                ))})
+                        </ul>) : <div></div>}
                         <div className="chat-dm-search-container">
                             <input
                                 onChange={this.update}
@@ -142,16 +194,11 @@ class ChatDirectMessageInvite extends React.Component{
                             </div>
                         </div>
 
-                        <ul> 
+                        <ul className="chat-modal-list"> 
+                            {dmChannelsToggle ? <div>Recent Conversations</div> : <div></div>}
                             {index}
                         </ul>
-                        <ul> Added To Channel
-                            {Object.values(this.state.addedToChannel).map((user) => (
-                                <li key={user.id} onClick={()=>this.removeFromChannel(user.id)}>
-                                    {user.name}
-                                </li>
-                            ))}
-                        </ul>
+
                     </div>
                 </div>
             )

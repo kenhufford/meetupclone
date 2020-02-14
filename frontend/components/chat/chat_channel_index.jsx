@@ -1,18 +1,20 @@
 
 import React from "react";
 import ChatDirectMessageInvite from './chat_direct_message_invite';
+import ChatCreateChannel from './chat_create_channel';
 import {moreRecentOrEqualThanDate} from '../../utils/date_util';
 
 class ChatChannelIndex extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: false,
+            showDmModal: false,
+            showChannelModal: false,
             userChannels: {},
             groupChannels: {},
             loaded: false
         }
-        this.closeModal = this.closeModal.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
         this.clearNotify = this.clearNotify.bind(this);
     }
 
@@ -63,22 +65,23 @@ class ChatChannelIndex extends React.Component {
         })
     }
 
-    showModal(){
-        this.setState({
-            show: true
-        });
-    };
-
-    closeModal(){
-        this.setState({
-            show: false
-        });
-    };
+    toggleModal(type){
+        if (type === "dm"){
+            let showDmModal = !this.state.showDmModal;
+            this.setState({
+                showDmModal
+            });
+        } else if (type === "channel"){
+            let showChannelModal = !this.state.showDmModal;
+            this.setState({
+                showChannelModal
+            });
+        }
+    }
 
     render() {
         if (!this.state.loaded) return null
         let userChannelships = this.state.channelships.userChannelships;
-        let groupChannelships = this.state.channelships.groupChannelships;
         let channelToChannelshipHash = {};
         Object.values(userChannelships).forEach(channelship => {
             channelToChannelshipHash[channelship.channelId] = {lastVisited: channelship.lastVisited}
@@ -90,15 +93,11 @@ class ChatChannelIndex extends React.Component {
         if (groupChannels.length !== 0) {
             groupChannelList = groupChannels.map((channel, i) =>{
                 let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt); 
-                console.log(channelToChannelshipHash[channel.id].lastVisited)
-                console.log(channel.updatedAt)
-                console.log(notify)
-                debugger
                 return (<div key={i} className="chat-channel-dm-container">
                         <i className="far fa-circle"></i>
                     <li 
                         onClick={(e) => {
-                            this.props.selectChannel(channel.id, "group");
+                            this.props.selectChannel(channel);
                             this.clearNotify(e)
                         }}
 
@@ -118,7 +117,7 @@ class ChatChannelIndex extends React.Component {
                     <li 
                         value={channel.id}
                         className="chat-channel-index-item"
-                        onClick={() => this.props.selectChannel(channel.id, "user")}>
+                        onClick={() => this.props.selectChannel(channel)}>
                         {channel.name}
                     </li>
                 </div>))
@@ -129,12 +128,23 @@ class ChatChannelIndex extends React.Component {
         
         return (
             <div className="chat-channel-index">
+                <p>{this.props.groupName}</p>
                 <div className="chat-channel-dm-div">
                     <p>Add Channel</p>
                     <i className="fas fa-plus-circle"
-                        // onClick={(e) => this.showModal()}  add channel modal
+                        onClick={(e) => this.toggleModal("channel")} 
                         >
                     </i>
+                    <ChatCreateChannel
+                        show={this.state.showChannelModal}
+                        toggleModal={this.toggleModal}s
+                        groupId={this.props.groupId}
+                        groupUsers={this.props.groupUsers}
+                        createChannel={this.props.createChannel}
+                        createChannelship={this.props.createChannelship}
+                        selectAfterCreateChannel={this.props.selectAfterCreateChannel}
+                        currentUser={this.props.currentUser}
+                    />
                 </div>
                 <ul className="chat-channel-list">
                     {groupChannelList}
@@ -143,15 +153,15 @@ class ChatChannelIndex extends React.Component {
                     <div className="chat-channel-dm-div">
                         <p>Direct Messages</p>
                         <i className="fas fa-plus-circle"
-                             onClick={(e) => this.showModal()}>
+                            onClick={(e) => this.toggleModal("dm")}>
                         </i>
                     </div>
                     
                     {userChannelList}
                     <ChatDirectMessageInvite 
-                        show={this.state.show} 
-                        closeModal={this.closeModal} 
-                        userChannels={this.props.userChannels}
+                        show={this.state.showDmModal} 
+                        toggleModal={this.toggleModal} 
+                        userChannels={this.state.userChannels}
                         groupId={this.props.groupId}
                         groupUsers={this.props.groupUsers}
                         createChannel={this.props.createChannel}

@@ -19,7 +19,6 @@ class Chat extends React.Component {
             channelUsers: {},
             selectedChannel:{}
         }
-
         this.selectGroup = this.selectGroup.bind(this);
         this.selectChannel = this.selectChannel.bind(this);
         this.selectAfterCreateChannel = this.selectAfterCreateChannel.bind(this);
@@ -66,25 +65,22 @@ class Chat extends React.Component {
             })
     }
 
-    selectChannel(channelId, type){
-        let selectedChannel = type === "group" ? this.state.channels.groupChannels[channelId]
-            : this.state.channels.userChannels[channelId] 
-         
-        let fetchChannelships = this.props.fetchChannelships(selectedChannel);
-        let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channelId);
+    selectChannel(channel){
+        channel["groupId"] = this.state.selectedGroupId;
+        let fetchChannelships = this.props.fetchChannelships(channel);
+        let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
         let channelships = Object.assign({},this.state.channelships)
         this.props.updateChannelship({
-            channel_id: channelId
+            channel_id: channel.id
         })
             .then( ()=>
                 Promise.all([fetchChannelships, fetchUsersFromChannel])
                     .then((data) => {
-                    
                         let channelChannelships = data[0].channelships.channelChannelships;
                         channelships[channelChannelships] = channelChannelships
                         let channelUsers = data[1].users;
                         this.setState({
-                            selectedChannel: selectedChannel,
+                            selectedChannel: channel,
                             loaded: true,
                             channelships,
                             channelUsers,
@@ -127,6 +123,7 @@ class Chat extends React.Component {
                             <ChatChannelIndex 
                                 currentUser={this.props.currentUser}
                                 groupId={this.state.selectedGroupId}
+                                groupName={this.state.groups[this.state.selectedGroupId].name}
                                 groupUsers={this.state.groupUsers}
                                 // selectedChannel={this.state.selectedChannel}
                                 selectChannel={this.selectChannel}

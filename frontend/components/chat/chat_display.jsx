@@ -57,9 +57,10 @@ class ChatDisplay extends React.Component {
     }
 
     setupSocket(){
+
         let channelId = this.props.selectedChannel.id
         if (channelId === undefined) return null
-        debugger
+
         if (App.currentChannel) {
             App.currentChannel.unsubscribe();
         }
@@ -88,9 +89,15 @@ class ChatDisplay extends React.Component {
             lastDay = thisDay;
             return (
                 <li key={idx}>
-                    {diffDay ? (<div>{thisDay}</div>) : <div> </div>}
+                    {diffDay ? (<div className="chat-message-datedivider">
+                                    <span>{thisDay}</span>
+                                </div>) : 
+                    <div> </div>}
+
                     <div className="chat-message">
-                        <img src={window[this.props.channelUsers[message.userId].imageUrl]}/>
+                        <img 
+                            className="chat-message-img"
+                            src={window[this.props.channelUsers[message.userId].imageUrl]}/>
                         <div className="chat-message-right">
                             <div className="chat-message-info">
                                 <p className="chat-message-name">{this.props.channelUsers[message.userId].name}</p>

@@ -20,7 +20,8 @@ class Header extends React.Component{
   
     const sessionLinks = () => (
       <nav className="navbar-right">
-        <a href="#/groups" className="navbar-explore-link">Explore</a>
+        <Link className="navbar-explore-link" to="/groups">Explore</Link>
+        {/* <a href="#/groups" className="navbar-explore-link">Explore</a> */}
         <HeaderSearchWithRouter />
         <Link className="navbar-login-signup-link" to="/login">Log in</Link>
         <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
@@ -29,10 +30,14 @@ class Header extends React.Component{
   
     const signedIn = () => (
       <nav className="navbar-right">
-        <a href="#/groups/form/new" className="navbar-group-link">Start a New Squad</a>
+        <Link to="/groups/form/new">Start a New Squad</Link>
+        <Link to="/chat">Messenger</Link>
+        {/* <a href="#/groups/form/new" className="navbar-group-link">Start a New Squad</a> */}
+        <Link to="/groups">Explore</Link>
         <HeaderSearchWithRouter />
-        <a href="#/groups" className="navbar-explore-link">Explore</a>
-        <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a>
+        <Link onClick={logout} to="/login">Logout</Link>
+        {/* <a href="#/groups" className="navbar-explore-link">Explore</a> */}
+        {/* <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a> */}
       </nav>
     );
       

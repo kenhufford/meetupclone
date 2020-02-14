@@ -66,6 +66,7 @@ before_action :require_logged_in, only: [:index, :create, :update, :destroy]
         :name,
         :group_id,
         :channel_icon,
+        :channel_icon2,
         :dm,
         :hash_string)
     end

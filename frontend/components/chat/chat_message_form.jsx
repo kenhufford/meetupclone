@@ -7,33 +7,33 @@ class MessageForm extends React.Component {
             body: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.update = this.update.bind(this);
     }
 
-    update(field) {
-        return e =>
-            this.setState({ [field]: e.currentTarget.value });
+    update(e) {
+        this.setState({ body: e.currentTarget.value });
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-        App.cable.subscriptions.subscriptions[0].speak({ 
-            message: this.state.body, 
-            user_id: this.props.userId, 
-            channel_id: this.props.selectedChannelId });
-        this.setState({ body: "" });
+        if (e.keyCode == 13 && e.shiftKey == false) {
+            App.cable.subscriptions.subscriptions[0].speak({ 
+                message: this.state.body, 
+                user_id: this.props.userId, 
+                channel_id: this.props.selectedChannelId });
+            this.setState({ body: "" });
+        }
     }
 
     render() {
         return (
             <div className="chat-message-form">
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <input
-                        type="text"
+                <form>
+                    <textarea
                         value={this.state.body}
-                        onChange={this.update("body")}
+                        onChange={this.update}
                         placeholder="Type message here"
+                        onKeyDown={this.handleSubmit.bind(this)}
                     />
-                    <input type="submit" />
                 </form>
             </div>
         );
