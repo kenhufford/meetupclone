@@ -11,13 +11,6 @@ class SearchBar extends React.Component{
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.update = this.update.bind(this)
-        this.deleteQuery = this.deleteQuery.bind(this)
-    }
-
-    deleteQuery(e){
-        this.setState({
-            query: ""
-        })
     }
 
     update(e) {
@@ -60,7 +53,6 @@ class SearchBar extends React.Component{
                 <form className="search-bar-form" onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.query} onChange={this.update} 
                     placeholder="Find your fight club" className="search-bar-input"/>
-                    <i  onClick={this.deleteQuery} className="fas fa-backspace"></i>
                 </form>
                 <button className="search-bar-button" onClick={this.handleSubmit}>Search</button>
             </div>

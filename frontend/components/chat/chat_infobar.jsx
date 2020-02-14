@@ -11,7 +11,6 @@ class ChatInfoBar extends React.Component {
     }
 
     toggleDropdown(){
-        debugger
         let userDropdown = !this.state.userDropdown
         this.setState({
             userDropdown

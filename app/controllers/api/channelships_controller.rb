@@ -34,10 +34,9 @@ class Api::ChannelshipsController < ApplicationController
             .first
         @channelship = Channelship.find(channelshipId)
         @channelship.last_visited = Time.now
-        if @channelship
+        if @channelship.save
             render "api/channelships/show"
         else
-            debugger
             render json: [@channelship.errors.full_messages], status: 401
         end
     end

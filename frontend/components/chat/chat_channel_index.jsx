@@ -37,7 +37,7 @@ class ChatChannelIndex extends React.Component {
 
     componentDidUpdate(prevProps){
         if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel ){
-            
+            debugger
             console.log('index updated')
             let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
             let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
@@ -132,11 +132,7 @@ class ChatChannelIndex extends React.Component {
             <div className="chat-channel-index">
                 <p>{this.props.groupName}</p>
                 <div className="chat-channel-dm-div">
-                    <p>Add Channel</p>
-                    <i className="fas fa-plus-circle"
-                        onClick={(e) => this.toggleModal("channel")} 
-                        >
-                    </i>
+                    <p>Add New Channel</p>
                     <ChatCreateChannel
                         show={this.state.showChannelModal}
                         toggleModal={this.toggleModal}
@@ -147,6 +143,11 @@ class ChatChannelIndex extends React.Component {
                         selectAfterCreateChannel={this.props.selectAfterCreateChannel}
                         currentUser={this.props.currentUser}
                     />
+                    <i className="fas fa-plus-circle"
+                        onClick={(e) => this.toggleModal("channel")} 
+                        >
+                    </i>
+                  
                 </div>
                 <ul className="chat-channel-list">
                     {groupChannelList}

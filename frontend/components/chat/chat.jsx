@@ -52,9 +52,9 @@ class Chat extends React.Component {
     selectGroup(e){
         let groupId = e.currentTarget.getAttribute('value');
         let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
-        Promise.all([fetchGroupChannels, fetchUsersFromGroup])
+        Promise.all([fetchUsersFromGroup])
             .then((data) => {
-                let groupUsers = data[1].users;
+                let groupUsers = data[0].users;
                 this.setState({
                     selectedGroupId: groupId,
                     groupUsers

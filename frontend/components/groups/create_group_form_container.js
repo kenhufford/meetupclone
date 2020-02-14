@@ -15,7 +15,7 @@ const mstp = (state) => {
             description: '',
             lat: '',
             long: '',
-            imageUrl: 'defaultg1URL',
+            imageUrl: '',
             selectedLocationId: '',
             selectedLocation: "Select Location"
         },

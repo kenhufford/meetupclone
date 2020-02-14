@@ -44,8 +44,8 @@ end
 
 total_users = 18;
 
-location_names = ["San Francisco", "The Shadow Realm", "A Dank Basement", "The Future", "Namek", "Kanto Region"]
-location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311], [40.7128, 74.0060] ]
+location_names = ["San Francisco", "The Shadow Realm", "A Dank Basement", "The Future", "Namek"]
+location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311]]
 location_ids = []
 location_names.length.times do |i|
     location = Location.create!(
@@ -104,12 +104,14 @@ end
 
     group_ids = []
     group_names.each_with_index do |name, i|
+        index = i % location_ids.length
+        location_id = location_ids[index]
         group = Group.create!(
             name: name,
             description: description[i],
             image_url: group_images[i],
             icon_url: group_icons[i],
-            location_id: location_ids.sample
+            location_id: location_id
         )
         group_ids << group.id
     end

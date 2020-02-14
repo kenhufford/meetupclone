@@ -114,7 +114,7 @@ class ChatDirectMessageInvite extends React.Component{
 
     selectChannel(channel){
         this.props.selectChannel(channel);
-        this.props.toggleModal(dm);
+        this.props.toggleModal("dm");
         this.setState({
             filteredUsers: [],
             searchTerm: '',

@@ -1316,8 +1316,8 @@ function (_React$Component) {
 
       var groupId = e.currentTarget.getAttribute('value');
       var fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
-      Promise.all([fetchGroupChannels, fetchUsersFromGroup]).then(function (data) {
-        var groupUsers = data[1].users;
+      Promise.all([fetchUsersFromGroup]).then(function (data) {
+        var groupUsers = data[0].users;
 
         _this3.setState({
           selectedGroupId: groupId,
@@ -1513,6 +1513,7 @@ function (_React$Component) {
       var _this3 = this;
 
       if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel) {
+        debugger;
         console.log('index updated');
         var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
         var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
@@ -1622,12 +1623,7 @@ function (_React$Component) {
         className: "chat-channel-index"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.groupName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-channel-dm-div"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add Channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-plus-circle",
-        onClick: function onClick(e) {
-          return _this4.toggleModal("channel");
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add New Channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.showChannelModal,
         toggleModal: this.toggleModal,
         groupId: this.props.groupId,
@@ -1636,6 +1632,11 @@ function (_React$Component) {
         createChannelship: this.props.createChannelship,
         selectAfterCreateChannel: this.props.selectAfterCreateChannel,
         currentUser: this.props.currentUser
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-plus-circle",
+        onClick: function onClick(e) {
+          return _this4.toggleModal("channel");
+        }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "chat-channel-list"
       }, groupChannelList), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -2097,7 +2098,7 @@ function (_React$Component) {
     key: "selectChannel",
     value: function selectChannel(channel) {
       this.props.selectChannel(channel);
-      this.props.toggleModal(dm);
+      this.props.toggleModal("dm");
       this.setState({
         filteredUsers: [],
         searchTerm: '',
@@ -2532,7 +2533,6 @@ function (_React$Component) {
   _createClass(ChatInfoBar, [{
     key: "toggleDropdown",
     value: function toggleDropdown() {
-      debugger;
       var userDropdown = !this.state.userDropdown;
       this.setState({
         userDropdown: userDropdown
@@ -3255,7 +3255,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index_item.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3273,6 +3274,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -3313,8 +3315,9 @@ function (_React$Component) {
 
       var fetchEvents = this.props.fetchEvents();
       var fetchGroups = this.props.fetchGroups();
+      var fetchLocations = this.props.fetchLocations();
       var fetchReservations = this.props.fetchReservations(0);
-      Promise.all([fetchEvents, fetchGroups, fetchReservations]).then(function () {
+      Promise.all([fetchEvents, fetchGroups, fetchReservations, fetchLocations]).then(function () {
         return _this2.setState({
           loaded: true
         });
@@ -3326,53 +3329,166 @@ function (_React$Component) {
       if (this.state.loaded) {
         var _this$props = this.props,
             events = _this$props.events,
-            reservations = _this$props.reservations;
-        var yourEventsDiv;
-        var userReservations = reservations.userReservations;
-        var allEvents = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "groups-div"
-        }, Object.values(events).map(function (event) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            key: event.id,
-            event: event
-          });
+            locations = _this$props.locations;
+        var allBrawls = [];
+        var userBrawls = [];
+        var userEventIds = this.props.reservations.userReservations.map(function (reservation) {
+          return reservation.eventId;
+        });
+        Object.values(events).map(function (brawl) {
+          switch (brawl.recurringType) {
+            case "Weekly":
+              for (var i = 1; i < 8; i++) {
+                var brawl1 = Object.assign({}, brawl);
+                brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addWeek"])(brawl.startTime, i);
+                brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addWeek"])(brawl.endTime, i);
+                allBrawls.push(brawl1);
+                if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
+              }
+
+              break;
+
+            case "Monthly":
+              for (var _i = 1; _i < 4; _i++) {
+                var _brawl = Object.assign({}, brawl);
+
+                _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addMonth"])(brawl.startTime, _i);
+                _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addMonth"])(brawl.endTime, _i);
+                allBrawls.push(_brawl);
+                if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
+              }
+
+            default:
+              allBrawls.push(brawl);
+              if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
+              break;
+          }
+        });
+        var lastMonth;
+        allBrawls.sort(function (a, b) {
+          return new Date(a.startTime) - new Date(b.startTime);
+        });
+        userBrawls.sort(function (a, b) {
+          return new Date(a.startTime) - new Date(b.startTime);
+        });
+        var userlist = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "group-show-events-list"
+        }, userBrawls.map(function (brawl, i) {
+          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithMonth"])(brawl.startTime);
+          var diffMonth = thisMonth !== lastMonth;
+          lastMonth = thisMonth;
+          var title = brawl.title,
+              locationId = brawl.locationId,
+              groupId = brawl.groupId,
+              imageUrl = brawl.imageUrl,
+              startTime = brawl.startTime,
+              endTime = brawl.endTime,
+              address = brawl.address,
+              id = brawl.id,
+              reservationIds = brawl.reservationIds,
+              recurringType = brawl.recurringType;
+          var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: i
+          }, diffMonth ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-event-datedivider"
+          }, thisMonth) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            className: "group-show-events-li"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-div"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-div-top"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-div-bottom"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-info"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "group-show-events-event-title"
+          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+            to: "/search/?location%20".concat(locationId)
+          }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-link"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+            to: "/groups/".concat(groupId, "/events/").concat(id)
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: window[imageUrl],
+            alt: "event-img",
+            className: "group-show-events-img"
+          })))))));
         }));
-        yourEventsDiv = userReservations.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "index-signup"
-        }, "No brawls scheduled") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "events-div"
-        }, userReservations.map(function (reservation) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            key: reservation.id,
-            event: events[reservation.eventId]
-          });
+        var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "group-show-events-list"
+        }, allBrawls.map(function (brawl, i) {
+          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithMonth"])(brawl.startTime);
+          var diffMonth = thisMonth !== lastMonth;
+          lastMonth = thisMonth;
+          var title = brawl.title,
+              locationId = brawl.locationId,
+              groupId = brawl.groupId,
+              imageUrl = brawl.imageUrl,
+              startTime = brawl.startTime,
+              endTime = brawl.endTime,
+              address = brawl.address,
+              id = brawl.id,
+              reservationIds = brawl.reservationIds,
+              recurringType = brawl.recurringType;
+          var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: i
+          }, diffMonth ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-event-datedivider"
+          }, thisMonth) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            className: "group-show-events-li"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-div"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-div-top"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-div-bottom"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-info"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "group-show-events-event-title"
+          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+            to: "/search/?location%20".concat(locationId)
+          }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-events-event-link"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+            to: "/groups/".concat(groupId, "/events/").concat(id)
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: window[imageUrl],
+            alt: "event-img",
+            className: "group-show-events-img"
+          })))))));
         }));
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "index-div"
+          className: "event-index-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "index-header"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "index-div-titles"
-        }, "YOUR BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "event-index-header"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-not"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
           className: "index-switch-text-not",
           to: "/groups"
         }, "SQUADS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-selected"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
           className: "index-switch-text-selected",
           to: "/events"
         }, "BRAWLS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-not"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
           className: "index-switch-text-not",
           to: "/categories"
-        }, "STYLES")))), yourEventsDiv, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "STYLES")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-events-main"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles"
-        }, "ALL BRAWLS"), allEvents);
+        }, "YOUR BRAWLS"), userlist, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "index-div-titles"
+        }, "UPCOMING BRAWLS"), list));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -3399,7 +3515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _event_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index */ "./frontend/components/events/event_index.jsx");
 /* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
 /* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
 
 
@@ -3412,7 +3528,8 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     groups: state.entities.groups,
     reservations: state.entities.reservations,
-    events: state.entities.events
+    events: state.entities.events,
+    locations: state.entities.locations
   };
 };
 
@@ -3426,6 +3543,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchReservations: function fetchReservations(eventId) {
       return dispatch(Object(_actions_reservation_actions__WEBPACK_IMPORTED_MODULE_5__["fetchReservations"])(eventId));
+    },
+    fetchLocations: function fetchLocations(eventId) {
+      return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_4__["fetchLocations"])(eventId));
     }
   };
 };
@@ -4056,14 +4176,14 @@ function (_React$Component) {
     }
   }, {
     key: "handleClickPic",
-    value: function handleClickPic(key) {
+    value: function handleClickPic(url) {
       var _this5 = this;
 
       return function (e) {
         e.preventDefault();
 
         _this5.setState({
-          imageUrl: "defaultg".concat(key + 1, "URL")
+          imageUrl: url
         });
       };
     }
@@ -4158,7 +4278,15 @@ function (_React$Component) {
           placeholder: "Please enter at least 20 characters",
           onChange: this.update('description')
         })));
-        var urls = ["defaultg1URL", "defaultg2URL", "defaultg3URL", "defaultg4URL", "defaultg5URL", "defaultg6URL"];
+        var defaultURL;
+
+        if (this.state.imageUrl !== '') {
+          defaultURL = this.state.imageUrl;
+        } else {
+          defaultURL = "defaultg1URL";
+        }
+
+        var urls = [defaultURL, "defaultg5URL", "defaultg6URL", "defaultg4URL", "defaultg2URL", "defaultg3URL"];
         var slide4 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -4169,7 +4297,7 @@ function (_React$Component) {
           className: "create-event-images"
         }, urls.map(function (url, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            onClick: _this6.handleClickPic(i),
+            onClick: _this6.handleClickPic(url),
             key: i
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
             className: _this6.state.imageUrl === url ? "create-event-image-selected" : "create-event-image",
@@ -4257,7 +4385,7 @@ var mstp = function mstp(state) {
       description: '',
       lat: '',
       "long": '',
-      imageUrl: 'defaultg1URL',
+      imageUrl: '',
       selectedLocationId: '',
       selectedLocation: "Select Location"
     },
@@ -5734,12 +5862,16 @@ function (_React$Component) {
             break;
         }
       });
+      var lastMonth;
       allBrawls.sort(function (a, b) {
         return new Date(a.startTime) - new Date(b.startTime);
       });
       var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-events-list"
       }, allBrawls.map(function (brawl, i) {
+        var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithMonth"])(brawl.startTime);
+        var diffMonth = thisMonth !== lastMonth;
+        lastMonth = thisMonth;
         var title = brawl.title,
             locationId = brawl.locationId,
             groupId = brawl.groupId,
@@ -5751,8 +5883,11 @@ function (_React$Component) {
             reservationIds = brawl.reservationIds,
             recurringType = brawl.recurringType;
         var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i,
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: i
+        }, diffMonth ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "group-show-event-datedivider"
+        }, thisMonth) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "group-show-events-li"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-event-div"
@@ -5774,7 +5909,7 @@ function (_React$Component) {
           src: window[imageUrl],
           alt: "event-img",
           className: "group-show-events-img"
-        }))))));
+        })))))));
       }));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events"
@@ -5838,8 +5973,10 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupShowMembers).call(this, props));
     _this.state = {
-      currentPage: "All members"
+      currentPage: "All members",
+      searchQuery: ''
     };
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.switchPage = _this.switchPage.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -5856,8 +5993,16 @@ function (_React$Component) {
       };
     }
   }, {
+    key: "update",
+    value: function update(e) {
+      this.setState({
+        searchQuery: e.currentTarget.value
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var searchQuery = this.state.searchQuery;
       var icons = {
         "Initiate": "initiateURL",
         "Squad Leader": "squadleaderURL",
@@ -5874,25 +6019,28 @@ function (_React$Component) {
             imageUrl = _users$membership$use.imageUrl,
             name = _users$membership$use.name,
             createdAt = _users$membership$use.createdAt;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i,
-          className: "group-show-members-right-member-li"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-members-right-member"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window[imageUrl],
-          className: "group-show-members-right-member-img"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-members-right-member-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-members-right-member-info-left"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-members-right-member-info-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, membership.memberType), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          className: "group-show-member-picture-square",
-          src: window[icons[membership.memberType]],
-          alt: ""
-        })))));
+
+        if (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase())) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: i,
+            className: "group-show-members-right-member-li"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-members-right-member"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: window[imageUrl],
+            className: "group-show-members-right-member-img"
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-members-right-member-info"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-members-right-member-info-left"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-members-right-member-info-right"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, membership.memberType), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            className: "group-show-member-picture-square",
+            src: window[icons[membership.memberType]],
+            alt: ""
+          })))));
+        }
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
       }, captainIds.map(function (id, i) {
@@ -5900,17 +6048,20 @@ function (_React$Component) {
             imageUrl = _users$id.imageUrl,
             name = _users$id.name,
             createdAt = _users$id.createdAt;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i,
-          className: "group-show-members-right-member-li"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-members-right-member"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window[imageUrl],
-          className: "group-show-members-right-member-img"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-members-right-member-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt)))));
+
+        if (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase())) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: i,
+            className: "group-show-members-right-member-li"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-members-right-member"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: window[imageUrl],
+            className: "group-show-members-right-member-img"
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "group-show-members-right-member-info"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt)))));
+        }
       }));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members"
@@ -5919,14 +6070,30 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-left-tab",
         onClick: this.switchPage("All members")
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "All Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", this.props.memberships.length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: this.state.currentPage === "All members" ? "group-show-members-selected" : "group-show-members-notselected"
+      }, "All Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "group-show-members-length"
+      }, " ", this.props.memberships.length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-left-tab",
         onClick: this.switchPage("Leadership team")
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.captainIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: this.state.currentPage !== "All members" ? "group-show-members-selected" : "group-show-members-notselected"
+      }, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "group-show-members-length"
+      }, this.props.captainIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.currentPage)), list));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.currentPage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "group-show-filter-input",
+        placeholder: "Search members",
+        value: this.state.searchQuery,
+        onChange: this.update
+      }))), list));
     }
   }]);
 
@@ -6531,18 +6698,10 @@ function (_React$Component) {
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
-    _this.deleteQuery = _this.deleteQuery.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(SearchBar, [{
-    key: "deleteQuery",
-    value: function deleteQuery(e) {
-      this.setState({
-        query: ""
-      });
-    }
-  }, {
     key: "update",
     value: function update(e) {
       var _this2 = this;
@@ -6597,9 +6756,6 @@ function (_React$Component) {
         onChange: this.update,
         placeholder: "Find your fight club",
         className: "search-bar-input"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        onClick: this.deleteQuery,
-        className: "fas fa-backspace"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "search-bar-button",
         onClick: this.handleSubmit
@@ -7825,7 +7981,7 @@ var deleteChannelship = function deleteChannelship(channelship) {
 /*!*************************************!*\
   !*** ./frontend/utils/date_util.js ***!
   \*************************************/
-/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatTime, addWeek, addMonth, formatDateTime, moreRecentOrEqualThanDate */
+/*! exports provided: formatDate, formatDateInput, formatDateWithDay, formatDateWithMonth, formatTime, addWeek, addMonth, formatDateTime, moreRecentOrEqualThanDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7833,6 +7989,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateInput", function() { return formatDateInput; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateWithDay", function() { return formatDateWithDay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateWithMonth", function() { return formatDateWithMonth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return formatTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addWeek", function() { return addWeek; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMonth", function() { return addMonth; });
@@ -7931,6 +8088,25 @@ var formatDateWithDay = function formatDateWithDay(date) {
   var year = obj.getFullYear();
   var dayOfWeek = daysOfWeek[obj.getDay()];
   return "".concat(dayOfWeek, ", ").concat(month, " ").concat(day);
+};
+var formatDateWithMonth = function formatDateWithMonth(date) {
+  var months = {
+    0: 'January',
+    1: 'February',
+    2: 'March',
+    3: 'April',
+    4: 'May',
+    5: 'June',
+    6: 'July',
+    7: 'August',
+    8: 'September',
+    9: 'October',
+    10: 'November',
+    11: 'December'
+  };
+  var obj = new Date(date);
+  var month = months[obj.getMonth()];
+  return "".concat(month);
 };
 var formatTime = function formatTime(date) {
   var obj = new Date(date);
