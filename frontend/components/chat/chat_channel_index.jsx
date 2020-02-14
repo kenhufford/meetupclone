@@ -2,6 +2,8 @@
 import React from "react";
 import ChatDirectMessageInvite from './chat_direct_message_invite';
 import ChatCreateChannel from './chat_create_channel';
+import ChatJoinChannel from './chat_join_channel';
+import ChatChannelIndexItem from './chat_channel_index_item';
 import {moreRecentOrEqualThanDate} from '../../utils/date_util';
 
 class ChatChannelIndex extends React.Component {
@@ -10,12 +12,13 @@ class ChatChannelIndex extends React.Component {
         this.state = {
             showDmModal: false,
             showChannelModal: false,
+            showJoinChannelModal: false,
             userChannels: {},
             groupChannels: {},
-            loaded: false
+            loaded: false,
         }
         this.toggleModal = this.toggleModal.bind(this);
-        this.clearNotify = this.clearNotify.bind(this);
+        
     }
 
     componentDidMount(){
@@ -37,7 +40,6 @@ class ChatChannelIndex extends React.Component {
 
     componentDidUpdate(prevProps){
         if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel ){
-            debugger
             console.log('index updated')
             let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
             let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
@@ -55,10 +57,6 @@ class ChatChannelIndex extends React.Component {
         }
     }
 
-    clearNotify(e){
-        e.currentTarget.className = "chat-channel-index-item";
-    }
-
     directMessage(){
         this.props.createChannel({
             name: "new channel",
@@ -73,10 +71,15 @@ class ChatChannelIndex extends React.Component {
             this.setState({
                 showDmModal
             });
-        } else if (type === "channel"){
+        } else if (type === "createChannel"){
             let showChannelModal = !this.state.showChannelModal;
             this.setState({
                 showChannelModal
+            });
+        } else if (type === "joinChannel"){
+            let showJoinChannelModal = !this.state.showJoinChannelModal;
+            this.setState({
+                showJoinChannelModal
             });
         }
     }
@@ -85,49 +88,47 @@ class ChatChannelIndex extends React.Component {
         if (!this.state.loaded) return null
         let userChannelships = this.state.channelships.userChannelships;
         let channelToChannelshipHash = {};
+ 
         Object.values(userChannelships).forEach(channelship => {
             channelToChannelshipHash[channelship.channelId] = {lastVisited: channelship.lastVisited}
         })
-        let groupChannels = this.state.groupChannels !== undefined ? Object.values(this.state.groupChannels ) : [];
-        let userChannels = this.state.userChannels !== undefined ? Object.values(this.state.userChannels) : [];
+        let groupChannels = Object.values(this.state.userChannels).filter(channel => !channel.dm);
+        let userChannels = Object.values(this.state.userChannels).filter(channel => channel.dm);
         let groupChannelList;
         let userChannelList;
+
+
+       
         if (groupChannels.length !== 0) {
             groupChannelList = groupChannels.map((channel, i) =>{
-                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt); 
-                return (<div key={i} className="chat-channel-dm-container">
-                        <i className="far fa-circle"></i>
-                    <li 
-                        onClick={(e) => {
-                            this.props.selectChannel(channel);
-                            this.clearNotify(e)
-                        }}
-
-                        className={notify ? ("chat-channel-index-item-notify") : ("chat-channel-index-item")}>
-                        {channel.name}
-                    </li>
-                    </div>)})
+                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+                return (<ChatChannelIndexItem  
+                            notify={notify}
+                            dm={false}
+                            key={i}
+                            removeChannelship={this.props.removeChannelship}
+                            selectChannel={this.props.selectChannel}
+                            channel={channel} />)
+            })
         } else {
-            groupChannelList = <p>Pick a group</p>
+            groupChannelList = <p></p>
         }
 
         if (userChannels.length !== 0) {
-            userChannelList = userChannels.map((channel, i) =>
-                (
-                    <div key={i} className="chat-channel-dm-container">
-                    <i className="far fa-circle"></i>
-                    <li 
-                        value={channel.id}
-                        className="chat-channel-index-item"
-                        onClick={() => this.props.selectChannel(channel)}>
-                        {channel.name}
-                    </li>
-                </div>))
+            userChannelList = userChannels.map((channel, i) =>{
+                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+                return (<ChatChannelIndexItem
+                    notify={notify}
+                    dm={true}
+                    key={i}
+                    removeChannelship={this.props.removeChannelship}
+                    selectChannel={this.props.selectChannel}
+                    channel={channel} />)
+            })
         } else {
-            userChannelList = <p>Pick a group</p>
+            userChannelList = <p></p>
         }
 
-        
         return (
             <div className="chat-channel-index">
                 <p>{this.props.groupName}</p>
@@ -138,16 +139,33 @@ class ChatChannelIndex extends React.Component {
                         toggleModal={this.toggleModal}
                         groupId={this.props.groupId}
                         groupUsers={this.props.groupUsers}
+                        groupChannels={this.state.groupChannels}
                         createChannel={this.props.createChannel}
                         createChannelship={this.props.createChannelship}
                         selectAfterCreateChannel={this.props.selectAfterCreateChannel}
                         currentUser={this.props.currentUser}
                     />
                     <i className="fas fa-plus-circle"
-                        onClick={(e) => this.toggleModal("channel")} 
+                        onClick={(e) => this.toggleModal("createChannel")} 
                         >
                     </i>
-                  
+                </div>
+                <div className="chat-channel-dm-div">
+                    <p>Join Channel</p>
+                    <ChatJoinChannel
+                        show={this.state.showJoinChannelModal}
+                        toggleModal={this.toggleModal}
+                        groupId={this.props.groupId}
+                        userChannels={this.state.userChannels}
+                        groupChannels={this.state.groupChannels}
+                        createChannelship={this.props.createChannelship}
+                        currentUser={this.props.currentUser}
+                        selectChannel={this.props.selectChannel}
+                    />
+                    <i className="fas fa-plus-circle"
+                        onClick={(e) => this.toggleModal("joinChannel")} 
+                        >
+                    </i>
                 </div>
                 <ul className="chat-channel-list">
                     {groupChannelList}

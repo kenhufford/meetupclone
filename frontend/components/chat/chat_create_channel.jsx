@@ -4,21 +4,37 @@ class ChatCreateChannel extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            filteredUsers: [],
+            searchTerm: '',
+            addedToChannel: {},
             channelName: '',
             errors: [],
             channelIcon: '',
         };
         this.update = this.update.bind(this);
+        this.addToChannel = this.addToChannel.bind(this);
+        this.removeFromChannel = this.removeFromChannel.bind(this);
         this.selectIcon = this.selectIcon.bind(this);
         this.createChannel = this.createChannel.bind(this);
         this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL",
             "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL"]
     }
 
-    update(e){
-        this.setState({
-            channelName: e.currentTarget.value
-        })
+    update(e, field){
+        if (field === "searchTerm"){
+            let filteredUsers = Object.values(this.props.groupUsers).filter(user =>
+                user.name.toLowerCase().includes(e.currentTarget.value.toLowerCase())
+                && user.name !== this.props.currentUser.name)
+            this.setState({
+                [field]: e.currentTarget.value,
+                filteredUsers
+            })
+        } else {
+            this.setState({
+                [field]: e.currentTarget.value,
+            })
+        }
+
     }
 
     selectIcon(icon){
@@ -27,33 +43,51 @@ class ChatCreateChannel extends React.Component{
         })
     }
 
+    addToChannel(user) {
+        let addedToChannel = Object.assign({}, this.state.addedToChannel);
+        addedToChannel[user.id] = user;
+        this.setState({
+            addedToChannel,
+            searchTerm: ''
+        })
+    }
+
+    removeFromChannel(userId) {
+        let addedToChannel = Object.assign({}, this.state.addedToChannel);
+        delete addedToChannel[userId];
+        this.setState({
+            addedToChannel
+        })
+    }
+
     createChannel(){
         if (this.state.channelIcon !== '' && this.state.channelName.length >= 6){
             let channelName = this.state.channelName;
-            let users = Object.values(this.props.groupUsers);
+            let users = [];
+            users.push(this.props.currentUser);
+            users = users.concat(Object.values(this.state.addedToChannel));
             this.props.createChannel({
                 name: channelName,
-                channel_icon: "defaultchannelURL",
+                channel_icon: this.state.channelIcon,
                 group_id: this.props.groupId,
                 dm: false,
             })
                 .then(data => {
-                    if (data.channel.oldChannel === undefined) {
-                        users.forEach((user, i) => {
-                            this.props.createChannelship({
-                                channel_id: data.channel.id,
-                                user_id: user.id,
-                                moderator: true,
-                                group_id: this.props.groupId
-                            });
-                        })
-                        this.props.selectAfterCreateChannel(data.channel)
-                    } else if (data.oldChannel !== undefined) {
-                        this.props.selectAfterCreateChannel(data.channel.oldChannel)
-                    }
+                    users.forEach((user, i) => {
+                        this.props.createChannelship({
+                            channel_id: data.channel.id,
+                            user_id: user.id,
+                            moderator: true,
+                            group_id: this.props.groupId
+                        });
+                    })
+                    this.props.selectAfterCreateChannel(data.channel)
                 })
-            this.props.toggleModal("channel");
+            this.props.toggleModal("createChannel");
             this.setState({
+                filteredUsers: [],
+                searchTerm: '',
+                addedToChannel: {},
                 channelName: '',
                 errors: [],
                 channelIcon: '',
@@ -74,24 +108,57 @@ class ChatCreateChannel extends React.Component{
 
     render(){
         if (this.props.show){
+            let addedToChannelToggle = this.state.addedToChannel.length !== 0;
+            let index = this.state.filteredUsers.map((user) => (
+                <div key={user.id}
+                    className="chat-modal-list-item"
+                    onClick={() => this.addToChannel(user)}>
+                    <img src={window[user.imageUrl]}
+                        className="chat-message-img">
+                    </img>
+                    <p> {user.name} </p>
+                </div>
+            ))
             return (
                 <div className="chat-dm-modal">
                     <div className="chat-dm-actions">
-                        <i onClick={()=>this.props.toggleModal("channel")} className="fas fa-times"></i>
+                        <i onClick={()=>this.props.toggleModal("createChannel")} className="fas fa-times"></i>
                     </div>
                     <div className="chat-dm-content">
+                        <p>Create Channel</p>
                         <div className="chat-dm-search-container">
                             <input
-                                onChange={this.update}
+                                onChange={(e) => this.update(e, "channelName")}
                                 value={this.state.channelName}
                                 placeholder="Name the channel"
                                 className="chat-dm-search" />
-                            <div 
+                        </div>
+                        <p>Add members</p>
+                        {addedToChannelToggle ?
+                            (<ul className="chat-horiz-list">
+                                {Object.values(this.state.addedToChannel).map((user) => (
+                                    <div className="chat-horiz-list-item" key={user.id}>
+                                        <img className="chat-message-img"
+                                            src={window[user.imageUrl]}></img>
+                                        <p> {user.name} </p>
+                                        <i onClick={() => this.removeFromChannel(user.id)}
+                                            className="fas fa-times"></i>
+                                    </div>
+                                ))}
+                        </ul>) : <div></div>}
+                        <div className="chat-dm-search-container">
+                            <input
+                                onChange={(e) => this.update(e, "searchTerm")}
+                                value={this.state.searchTerm}
+                                placeholder="Search for members"
+                                className="chat-dm-search" />
+                            <div
                                 onClick={this.createChannel}
                                 className="chat-dm-search-go">
-                                GO
+                                CREATE
                             </div>
                         </div>
+                        {index}
                         <div className="chat-dm-errors">
                             {this.state.errors.map((error, i) => (
                                 <li
@@ -101,7 +168,9 @@ class ChatCreateChannel extends React.Component{
                                 </li>
                             ))}
                         </div>
+                        <p>Select an icon for the channel</p>
                         <div className="chat-dm-icon-index">
+                            
                             {this.images.map( (icon,i)=>(
                                 <img 
                                     key={i}

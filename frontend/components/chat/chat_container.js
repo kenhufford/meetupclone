@@ -1,7 +1,7 @@
 import { fetchUsersFromGroup, fetchUsersFromChannel } from '../../actions/user_actions';
 import { fetchGroupChannels, createChannel, updateChannel} from '../../actions/channel_actions';
 import { fetchChannelMessages, receiveMessage } from '../../actions/message_actions';
-import { fetchChannelships, createChannelship, updateChannelship, fetchChannelshipsFromUser } from '../../actions/channelship_actions';
+import { fetchChannelships, createChannelship, updateChannelship, fetchChannelshipsFromUser, deleteChannelship } from '../../actions/channelship_actions';
 import { fetchGroupsFromUser } from '../../actions/group_actions';
 import { connect } from 'react-redux';
 import Chat from './chat';
@@ -24,6 +24,7 @@ const mapDispatchToProps = dispatch => ({
     updateChannel: channel => dispatch(updateChannel(channel)),
     updateChannelship: channel => dispatch(updateChannelship(channel)),
     createChannelship: channelship => dispatch(createChannelship(channelship)),
+    deleteChannelship: channelship => dispatch(deleteChannelship(channelship)),
     receiveMessage: message=> dispatch(receiveMessage(message))
 });
 

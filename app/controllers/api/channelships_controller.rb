@@ -9,11 +9,11 @@ class Api::ChannelshipsController < ApplicationController
         @channel_channelships = Channel.find(params[:channel_id]).channelships
         render "api/channelships/channelindex"
       end
-      
     end
 
     def create
         @channelship = Channelship.new(channelship_params)
+        @channelship.last_visited = Time.now
         if @channelship.save
             if current_user
                 @user_channelships = current_user.channelships
@@ -33,8 +33,7 @@ class Api::ChannelshipsController < ApplicationController
             .pluck("id")
             .first
         @channelship = Channelship.find(channelshipId)
-        @channelship.last_visited = Time.now
-        if @channelship.save
+        if @channelship.update(last_visited: Time.now)
             render "api/channelships/show"
         else
             render json: [@channelship.errors.full_messages], status: 401
@@ -49,8 +48,8 @@ class Api::ChannelshipsController < ApplicationController
         if current_user
             @user_channelships = current_user.channelships
         end
-        @channel_channelships = Channel.find(params[:channel_id]).channelships
-        render "api/channelships/index"
+        # @channel_channelships = Channel.find(params[:channel_id]).channelships
+        render "api/channelships/userindex"
     end
 
     def channelship_params

@@ -9,7 +9,6 @@ before_action :require_logged_in, only: [:index, :create, :update, :destroy]
         @user_channels = Group.find(params[:group_id])
                         .channels
                         .includes(:channelships)
-                        .where(:dm => true)
                         .where(:channelships => {:user_id => current_user.id})
                         .order(name: :desc)
         render "api/channels/index"

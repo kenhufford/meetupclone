@@ -18,7 +18,6 @@ class ChatInfoBar extends React.Component {
     }
 
     render() {
-        
         let users = Object.values(this.props.channelUsers);
         let userDropdown = this.state.userDropdown ? (
             <div className="chat-info-dropdown">
@@ -52,6 +51,7 @@ class ChatInfoBar extends React.Component {
                 :
             (<div className="chat-info-bar">
                 <p>{this.props.selectedChannel.name}</p>
+                
                 <div className="chat-info-bar-users">
                     <i className="fas fa-users"
                         onClick={this.toggleDropdown}></i>

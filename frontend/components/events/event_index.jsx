@@ -33,7 +33,7 @@ class EventIndex extends React.Component{
 
     render(){
         if(this.state.loaded){
-
+            let noUserBrawls = true;
             let { events, locations } = this.props;
             let allBrawls = [];
             let userBrawls = [];
@@ -65,6 +65,7 @@ class EventIndex extends React.Component{
                         break;
                 }
             })
+            if (userBrawls.length >0) noUserBrawls = false;
             let lastMonth;
             allBrawls.sort(function (a, b) {
                 return new Date(a.startTime) - new Date(b.startTime)
@@ -175,7 +176,7 @@ class EventIndex extends React.Component{
                     </div>
                     
                     <div className="group-show-events-main">
-                        <p className="index-div-titles">YOUR BRAWLS</p>
+                        {noUserBrawls ? <p className="index-div-titles">GO SIGN UP FOR A BRAWL</p> : <p className="index-div-titles">YOUR BRAWLS</p>}
                         {userlist}
                         <p className="index-div-titles">UPCOMING BRAWLS</p>
                         {list}

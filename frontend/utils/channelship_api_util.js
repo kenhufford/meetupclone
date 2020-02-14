@@ -30,7 +30,7 @@ export const updateChannelship = (channelship) => (
 
 export const deleteChannelship = (channelship) => (
     $.ajax({
-        url: `/api/groups/${channelship.group_id}/channels/${channelship.channel_id}/channelships/${channelship.id}`,
+        url: `/api/groups/${channelship.groupId}/channels/${channelship.channelId}/channelships/${channelship.id}`,
         method: "DELETE",
     })
 )
