@@ -12,7 +12,7 @@ class ChatCreateChannel extends React.Component{
         this.selectIcon = this.selectIcon.bind(this);
         this.createChannel = this.createChannel.bind(this);
         this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL",
-            "defaultchanne51URL", "defaultchannel6URL", "defaultchanne73URL", "defaultchannel8URL"]
+            "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL"]
     }
 
     update(e){
@@ -29,10 +29,8 @@ class ChatCreateChannel extends React.Component{
 
     createChannel(){
         if (this.state.channelIcon !== '' && this.state.channelName.length >= 6){
-            let currentUser = this.props.currentUser;
             let channelName = this.state.channelName;
             let users = Object.values(this.props.groupUsers);
-            users.push(currentUser);
             this.props.createChannel({
                 name: channelName,
                 channel_icon: "defaultchannelURL",
@@ -79,7 +77,7 @@ class ChatCreateChannel extends React.Component{
             return (
                 <div className="chat-dm-modal">
                     <div className="chat-dm-actions">
-                        <i onClick={this.props.closeModal} className="fas fa-times"></i>
+                        <i onClick={()=>this.props.toggleModal("channel")} className="fas fa-times"></i>
                     </div>
                     <div className="chat-dm-content">
                         <div className="chat-dm-search-container">

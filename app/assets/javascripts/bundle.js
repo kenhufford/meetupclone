@@ -1298,13 +1298,12 @@ function (_React$Component) {
         var fetchUsersFromGroup = _this2.props.fetchUsersFromGroup(groupId);
 
         Promise.all([fetchUsersFromGroup, fetchGroupChannels]).then(function (data) {
-          var groupUsers = data[0].users;
-          var channels = data[1].channels;
+          var groupUsers = data[0].users; // let channels = data[1].channels;
 
           _this2.setState({
             selectedGroupId: groupId,
             loaded: true,
-            channels: channels,
+            // channels,
             groupUsers: groupUsers
           });
         });
@@ -1316,15 +1315,12 @@ function (_React$Component) {
       var _this3 = this;
 
       var groupId = e.currentTarget.getAttribute('value');
-      var fetchGroupChannels = this.props.fetchGroupChannels(groupId);
       var fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
       Promise.all([fetchGroupChannels, fetchUsersFromGroup]).then(function (data) {
-        var channels = data[0].channels;
         var groupUsers = data[1].users;
 
         _this3.setState({
           selectedGroupId: groupId,
-          channels: channels,
           groupUsers: groupUsers
         });
       });
@@ -1364,15 +1360,12 @@ function (_React$Component) {
       var selectedChannel = channel;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-      var fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
-      Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels]).then(function (data) {
+      Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
         var channelships = data[0].channelships;
         var channelUsers = data[1].users;
-        var channels = data[2].channels;
 
         _this5.setState({
           selectedChannel: selectedChannel,
-          channels: channels,
           loaded: true,
           channelships: channelships,
           channelUsers: channelUsers,
@@ -1395,8 +1388,8 @@ function (_React$Component) {
           currentUser: this.props.currentUser,
           groupId: this.state.selectedGroupId,
           groupName: this.state.groups[this.state.selectedGroupId].name,
-          groupUsers: this.state.groupUsers // selectedChannel={this.state.selectedChannel}
-          ,
+          selectedChannel: this.state.selectedChannel,
+          groupUsers: this.state.groupUsers,
           selectChannel: this.selectChannel,
           createChannel: this.props.createChannel,
           fetchGroupChannels: this.props.fetchGroupChannels,
@@ -1519,7 +1512,8 @@ function (_React$Component) {
     value: function componentDidUpdate(prevProps) {
       var _this3 = this;
 
-      if (this.props.groupId !== prevProps.groupId) {
+      if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel) {
+        console.log('index updated');
         var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
         var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
         Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function (data) {
@@ -1560,7 +1554,7 @@ function (_React$Component) {
           showDmModal: showDmModal
         });
       } else if (type === "channel") {
-        var showChannelModal = !this.state.showDmModal;
+        var showChannelModal = !this.state.showChannelModal;
         this.setState({
           showChannelModal: showChannelModal
         });
@@ -1636,7 +1630,6 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.showChannelModal,
         toggleModal: this.toggleModal,
-        s: true,
         groupId: this.props.groupId,
         groupUsers: this.props.groupUsers,
         createChannel: this.props.createChannel,
@@ -1801,7 +1794,7 @@ function (_React$Component) {
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.selectIcon = _this.selectIcon.bind(_assertThisInitialized(_this));
     _this.createChannel = _this.createChannel.bind(_assertThisInitialized(_this));
-    _this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL", "defaultchanne51URL", "defaultchannel6URL", "defaultchanne73URL", "defaultchannel8URL"];
+    _this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL", "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL"];
     return _this;
   }
 
@@ -1825,10 +1818,8 @@ function (_React$Component) {
       var _this2 = this;
 
       if (this.state.channelIcon !== '' && this.state.channelName.length >= 6) {
-        var currentUser = this.props.currentUser;
         var channelName = this.state.channelName;
         var users = Object.values(this.props.groupUsers);
-        users.push(currentUser);
         this.props.createChannel({
           name: channelName,
           channel_icon: "defaultchannelURL",
@@ -1887,7 +1878,9 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-actions"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          onClick: this.props.closeModal,
+          onClick: function onClick() {
+            return _this3.props.toggleModal("channel");
+          },
           className: "fas fa-times"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-content"

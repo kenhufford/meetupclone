@@ -36,7 +36,9 @@ class ChatChannelIndex extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-        if (this.props.groupId !== prevProps.groupId){
+        if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel ){
+            
+            console.log('index updated')
             let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
             let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
             Promise.all([fetchGroupChannels, fetchChannelshipsFromUser])
@@ -72,7 +74,7 @@ class ChatChannelIndex extends React.Component {
                 showDmModal
             });
         } else if (type === "channel"){
-            let showChannelModal = !this.state.showDmModal;
+            let showChannelModal = !this.state.showChannelModal;
             this.setState({
                 showChannelModal
             });
@@ -137,7 +139,7 @@ class ChatChannelIndex extends React.Component {
                     </i>
                     <ChatCreateChannel
                         show={this.state.showChannelModal}
-                        toggleModal={this.toggleModal}s
+                        toggleModal={this.toggleModal}
                         groupId={this.props.groupId}
                         groupUsers={this.props.groupUsers}
                         createChannel={this.props.createChannel}
