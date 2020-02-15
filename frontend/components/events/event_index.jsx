@@ -1,4 +1,6 @@
 import React from 'react';
+import request from "superagent";
+import debounce from "lodash.debounce";
 import EventIndexItem from './event_index_item'
 import {Link} from 'react-router-dom'
 
@@ -6,10 +8,34 @@ class EventIndex extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            loaded: false
+            loaded: false,
+            error: false,
+            hasMore: true,
+            isLoading: false,
+            userEvents: [],
+            allEvents: []
         }
+        
     this.handleSignup = this.handleSignup.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
+
+    window.onscroll = debounce(() => {
+        const {
+            loadEvents,
+            state: {
+                error,
+                isLoading,
+                hasMore,
+            },
+        } = this;
+        if (error || isLoading || !hasMore) return;
+        if (
+            window.innerHeight + document.documentElement.scrollTop
+            === document.documentElement.offsetHeight
+        ) {
+            loadEvents();
+        }
+    }, 100);
 }
 
     handleSignup(){
@@ -26,7 +52,12 @@ class EventIndex extends React.Component{
         const fetchGroups = this.props.fetchGroups();
         const fetchReservations = this.props.fetchReservations(0);
         Promise.all([fetchEvents, fetchGroups, fetchReservations])
-            .then( () => this.setState({loaded:true}))
+            .then( (data) => {
+                let userEvents = data[2].reservations.userReservations.map( (reservation) => (
+                     data[0].events[reservation.id]));
+                let allEvents = Object.values(data[0].events);
+                this.setState({loaded:true});
+            })
     }
 
     render(){
