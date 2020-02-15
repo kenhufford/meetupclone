@@ -7,6 +7,9 @@ class Api::ChannelshipsController < ApplicationController
       end
       if params[:channel_id]
         @channel_channelships = Channel.find(params[:channel_id]).channelships
+        # @users_channelship_id = @channel_channelships
+        #                             .where(:channelships => {:user_id => current_user.id})
+        #                             .pluck("id")
         render "api/channelships/channelindex"
       end
     end

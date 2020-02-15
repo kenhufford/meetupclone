@@ -13,31 +13,57 @@ class EventIndex extends React.Component{
             error: false,
             hasMore: true,
             isLoading: false,
-            userEvents: [],
-            allEvents: []
+            userBrawls: [],
+            allBrawls: [],
+            displayedBrawls: [],
+            noUserBrawls: true,
+            eventIndex: 10
         }
         
     this.handleSignup = this.handleSignup.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
-
+    this.loadEvents = this.loadEvents.bind(this)
     window.onscroll = debounce(() => {
         const {
-            loadEvents,
+            loadEvents, 
             state: {
                 error,
                 isLoading,
                 hasMore,
-            },
+            }
         } = this;
         if (error || isLoading || !hasMore) return;
-        if (
-            window.innerHeight + document.documentElement.scrollTop
-            === document.documentElement.offsetHeight
-        ) {
-            loadEvents();
-        }
-    }, 100);
-}
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 100){
+                loadEvents();
+            }
+        }, 200);
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('onscroll', debounce);
+    }
+
+    loadEvents(){
+        this.setState({
+            isLoading: true}, ()=>{
+                let allBrawls = this.state.allBrawls;
+                let eventIndex = this.state.eventIndex + 10;
+                let hasMore = this.state.hasMore;
+                if (eventIndex > allBrawls.length) {
+                    eventIndex = allBrawls.length;
+                    hasMore = false;
+                };
+                console.log(`setting eventindex ${eventIndex}`)
+                this.setState({
+                    displayedBrawls: allBrawls.slice(0, eventIndex),
+                    eventIndex,
+                    hasMore
+                }, () => {
+                    this.setState({ isLoading: false })
+                })
+            }
+        )
+    }
 
     handleSignup(){
         if (this.props.currentUserId === ""){
@@ -45,7 +71,6 @@ class EventIndex extends React.Component{
         } else {
             return null
         }
-        
     }
 
     componentDidMount(){
@@ -54,55 +79,66 @@ class EventIndex extends React.Component{
         const fetchLocations = this.props.fetchLocations();
         const fetchReservations = this.props.fetchReservations(0);
         Promise.all([fetchEvents, fetchGroups, fetchReservations, fetchLocations])
-            .then( () => this.setState({loaded:true}))
-    }
+            .then( (data) => {
+                let userEventIds = data[2].reservations.userReservations.map(reservation => {
+                    return reservation.eventId
+                })
+                let noUserBrawls = true;
+                let events= data[0].events;
+                let allBrawls = [];
+                let userBrawls = [];
+                Object.values(events).map(brawl => {
+                    switch (brawl.recurringType) {
+                        case "Weekly":
+                            for (let i = 1; i < 16; i++) {
+                                let brawl1 = Object.assign({}, brawl);
+                                brawl1.startTime = addWeek(brawl.startTime, i);
+                                brawl1.endTime = addWeek(brawl.endTime, i);
+                                allBrawls.push(brawl1);
+                                if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
+                            }
+                            break
+                        case "Monthly":
+                            for (let i = 1; i < 4; i++) {
+                                let brawl1 = Object.assign({}, brawl);
+                                brawl1.startTime = addMonth(brawl.startTime, i);
+                                brawl1.endTime = addMonth(brawl.endTime, i);
+                                allBrawls.push(brawl1);
+                                if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
+                            }
+                        default:
+                            allBrawls.push(brawl);
+                            if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
+                            break;
+                    }
+                })
+                if (userBrawls.length > 0) noUserBrawls = false;
+                
+                allBrawls.sort(function (a, b) {
+                    return new Date(a.startTime) - new Date(b.startTime)
+                })
+                userBrawls.sort(function (a, b) {
+                    return new Date(a.startTime) - new Date(b.startTime)
+                })
+                this.setState({
+                    loaded:true,
+                    noUserBrawls,
+                    allBrawls,
+                    displayedBrawls: allBrawls.slice(0,this.state.eventIndex),
+                    userBrawls,
+                    eventIndex:10
+                })
+            })
+        }
 
     render(){
         if(this.state.loaded){
-            let noUserBrawls = true;
-            let { events, locations } = this.props;
-            let allBrawls = [];
-            let userBrawls = [];
-            let userEventIds = this.props.reservations.userReservations.map(reservation => {
-                return reservation.eventId
-            })
-            Object.values(events).map(brawl => {
-                switch (brawl.recurringType) {
-                    case "Weekly":
-                        for (let i = 1; i < 8; i++) {
-                            let brawl1 = Object.assign({}, brawl);
-                            brawl1.startTime = addWeek(brawl.startTime, i);
-                            brawl1.endTime = addWeek(brawl.endTime, i);
-                            allBrawls.push(brawl1);
-                            if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
-                        }
-                        break
-                    case "Monthly":
-                        for (let i = 1; i < 4; i++) {
-                            let brawl1 = Object.assign({}, brawl);
-                            brawl1.startTime = addMonth(brawl.startTime, i);
-                            brawl1.endTime = addMonth(brawl.endTime, i);
-                            allBrawls.push(brawl1);
-                            if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
-                        }
-                    default:
-                        allBrawls.push(brawl);
-                        if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
-                        break;
-                }
-            })
-            if (userBrawls.length >0) noUserBrawls = false;
+            let {locations } = this.props;
+            let {userBrawls, displayedBrawls, noUserBrawls, isLoading} = this.state;
             let lastMonth;
-            allBrawls.sort(function (a, b) {
-                return new Date(a.startTime) - new Date(b.startTime)
-            })
-            userBrawls.sort(function (a, b) {
-                return new Date(a.startTime) - new Date(b.startTime)
-            })
 
             let userlist = (
                 (<ul className="group-show-events-list">
-
                     {userBrawls.map((brawl, i) => {
                         let thisMonth = formatDateWithMonth(brawl.startTime);
                         let diffMonth = thisMonth !== lastMonth;
@@ -145,7 +181,7 @@ class EventIndex extends React.Component{
             let list =
                 (<ul className="group-show-events-list">
 
-                    {allBrawls.map((brawl, i) => {
+                    {displayedBrawls.map((brawl, i) => {
                         let thisMonth = formatDateWithMonth(brawl.startTime);
                         let diffMonth = thisMonth !== lastMonth;
                         lastMonth = thisMonth;
@@ -206,6 +242,9 @@ class EventIndex extends React.Component{
                         {userlist}
                         <p className="index-div-titles">UPCOMING BRAWLS</p>
                         {list}
+                        {isLoading &&
+                            <div>Loading...</div>
+                        }
                     </div>
                 </div>
 

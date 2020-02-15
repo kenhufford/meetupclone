@@ -1,6 +1,6 @@
 
-json.extract! channel, :id, :name, :channel_icon, :channel_icon2, :group_id, :hash_string, :updated_at, :dm
+json.extract! channel, :id, :name, :channel_icon, :channel_icon2, :group_id, :hash_string, :dm
 
-json.memberIds do
-    json.array! channel.users.pluck(:id)
+json.channelshipId do
+    json.array! channel.channelships.where(:channelships => {:user_id => current_user.id}).pluck(:id)
 end

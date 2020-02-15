@@ -28,9 +28,9 @@ export const updateChannelship = (channelship) => (
     })
 )
 
-export const deleteChannelship = (channelship) => (
+export const deleteChannelship = (channelshipId) => (
     $.ajax({
-        url: `/api/groups/${channelship.groupId}/channels/${channelship.channelId}/channelships/${channelship.id}`,
+        url: `/api/channelships/${channelshipId}`,
         method: "DELETE",
     })
 )

@@ -2167,6 +2167,10 @@ padding-left: 15px;
     align-items: center;
 }
 
+.chat-info-bar-users-item:hover{
+   background-color: rgb(92, 92, 92);
+}
+
 .chat-info-bar-users-item p{
     padding-left: 10px;
     font-size: 22px;

@@ -39,7 +39,6 @@ class ChatChannelIndex extends React.Component {
 
     componentDidUpdate(prevProps){
         if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel ){
-            console.log('index updated')
             let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
             let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
             Promise.all([fetchGroupChannels, fetchChannelshipsFromUser])
@@ -161,6 +160,7 @@ class ChatChannelIndex extends React.Component {
                         createChannelship={this.props.createChannelship}
                         currentUser={this.props.currentUser}
                         selectChannel={this.props.selectChannel}
+                        selectedChannel={this.props.selectedChannel}
                     />
                     <i className="fas fa-plus-circle"
                         onClick={(e) => this.toggleModal("joinChannel")} 
@@ -190,6 +190,7 @@ class ChatChannelIndex extends React.Component {
                         createChannelship={this.props.createChannelship}
                         selectAfterCreateChannel={this.props.selectAfterCreateChannel}
                         currentUser={this.props.currentUser}
+                        selectedChannel={this.props.selectedChannel}
                         />
                 </ul>
             </div>

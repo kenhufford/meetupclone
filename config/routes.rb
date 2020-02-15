@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
       resources :channels, only: [:index, :create, :destroy] do
         resources :messages, only: [:index, :create, :destroy]
-        resources :channelships, only: [:index, :create, :destroy]
+        resources :channelships, only: [:index, :create]
       end
       
       collection do
@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
     end
 
-    resources :channelships, only: [:index, :update] 
+    resources :channelships, only: [:index, :update, :destroy] 
     
   end
 

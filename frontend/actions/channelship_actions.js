@@ -27,7 +27,7 @@ export const updateChannelship = (channelship) => dispatch => (
         .then(channelships => dispatch(receiveChannelships(channelships)))
 )
 
-export const deleteChannelship = (channelship) => dispatch => (
-    APIUtils.deleteChannelship(channelship)
+export const deleteChannelship = (channelshipId) => dispatch => (
+    APIUtils.deleteChannelship(channelshipId)
         .then(channelships => dispatch(receiveChannelships(channelships)))
 )

@@ -13,7 +13,6 @@ class Chat extends React.Component {
             loadInfoBar: false,
             groups: {},
             selectedGroupId: '',
-            selectedChannelship: {},
             channels: {},
             channelships: {},
             groupUsers: {},
@@ -49,9 +48,8 @@ class Chat extends React.Component {
             })
     }
 
-    removeChannelship(channelship){
-        debugger
-        this.props.deleteChannelship(channelship)
+    removeChannelship(channelshipId){
+        this.props.deleteChannelship(channelshipId)
             .then( () => {
                 let groupId = Object.values(this.state.groups)[0].id;
                 let fetchGroupChannels = this.props.fetchGroupChannels(groupId);
@@ -98,7 +96,6 @@ class Chat extends React.Component {
                         channelships[channelChannelships] = channelChannelships
                         let channelUsers = data[1].users;
                         this.setState({
-                            selectedChannelship: channelship.channelships,
                             selectedChannel: channel,
                             loaded: true,
                             channelships,
@@ -122,7 +119,6 @@ class Chat extends React.Component {
                         let channelships = data[0].channelships;
                         let channelUsers = data[1].users;
                         this.setState({
-                            selectedChannelship: channelship.channelships,
                             selectedChannel,
                             loaded: true,
                             channelships,
@@ -154,7 +150,6 @@ class Chat extends React.Component {
                                 fetchChannelshipsFromUser={this.props.fetchChannelshipsFromUser}
                                 selectAfterCreateChannel={this.selectAfterCreateChannel}
                                 createChannelship={this.props.createChannelship}
-                                selectedChannelship={this.state.selectedChannelship} 
                                 removeChannelship={this.removeChannelship}/>
                         </div>
                         <div className="chat-main-right">

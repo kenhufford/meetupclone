@@ -23,7 +23,7 @@ class ChatChannelIndexItem extends React.Component{
         let channel = this.props.channel;
         let removeChannelshipEle = (this.state.hovering && !this.props.dm) ? 
             <i className="fas fa-ban remove-button"
-                onClick={() => this.props.removeChannelship(this.props.selectedChannelship)}></i> : 
+                onClick={() => this.props.removeChannelship(this.props.channel.channelshipId[0])}></i> : 
             <i className="hidden"></i>
 
         return (

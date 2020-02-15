@@ -26,6 +26,15 @@ class ChatDirectMessageInvite extends React.Component{
         })
     }
 
+    componentDidUpdate(prevProps){
+        if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
+            let dmChannels = Object.values(this.props.userChannels).map(channel => (channel));
+            this.setState({
+                dmChannels
+            })
+        }
+    }
+
     update(e){
         let filteredUsers = Object.values(this.props.groupUsers).filter(user => 
             user.name.toLowerCase().includes(e.currentTarget.value.toLowerCase())
@@ -107,7 +116,6 @@ class ChatDirectMessageInvite extends React.Component{
             filteredUsers: [],
             searchTerm: '',
             users: this.props.groupUsers,
-            dmChannels: [],
             addedToChannel: {},
         })
     }
@@ -119,7 +127,6 @@ class ChatDirectMessageInvite extends React.Component{
             filteredUsers: [],
             searchTerm: '',
             users: this.props.groupUsers,
-            dmChannels: [],
             addedToChannel: {},
         })
     }
@@ -137,7 +144,9 @@ class ChatDirectMessageInvite extends React.Component{
                     dmChannelsToggle = true;
                     let dmChannels = this.state.dmChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
                     index = dmChannels.map((channel, i) => {
+                        
                         if (channel.dm){
+                            
                             return (
                                 <div key={channel.id}
                                     className="chat-modal-list-item"

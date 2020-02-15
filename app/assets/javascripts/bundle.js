@@ -237,9 +237,9 @@ var updateChannelship = function updateChannelship(channelship) {
     });
   };
 };
-var deleteChannelship = function deleteChannelship(channelship) {
+var deleteChannelship = function deleteChannelship(channelshipId) {
   return function (dispatch) {
-    return _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteChannelship"](channelship).then(function (channelships) {
+    return _utils_channelship_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteChannelship"](channelshipId).then(function (channelships) {
       return dispatch(receiveChannelships(channelships));
     });
   };
@@ -1266,7 +1266,6 @@ function (_React$Component) {
       loadInfoBar: false,
       groups: {},
       selectedGroupId: '',
-      selectedChannelship: {},
       channels: {},
       channelships: {},
       groupUsers: {},
@@ -1312,11 +1311,10 @@ function (_React$Component) {
     }
   }, {
     key: "removeChannelship",
-    value: function removeChannelship(channelship) {
+    value: function removeChannelship(channelshipId) {
       var _this3 = this;
 
-      debugger;
-      this.props.deleteChannelship(channelship).then(function () {
+      this.props.deleteChannelship(channelshipId).then(function () {
         var groupId = Object.values(_this3.state.groups)[0].id;
 
         var fetchGroupChannels = _this3.props.fetchGroupChannels(groupId);
@@ -1370,7 +1368,6 @@ function (_React$Component) {
           var channelUsers = data[1].users;
 
           _this5.setState({
-            selectedChannelship: channelship.channelships,
             selectedChannel: channel,
             loaded: true,
             channelships: channelships,
@@ -1396,7 +1393,6 @@ function (_React$Component) {
           var channelUsers = data[1].users;
 
           _this6.setState({
-            selectedChannelship: channelship.channelships,
             selectedChannel: selectedChannel,
             loaded: true,
             channelships: channelships,
@@ -1429,7 +1425,6 @@ function (_React$Component) {
           fetchChannelshipsFromUser: this.props.fetchChannelshipsFromUser,
           selectAfterCreateChannel: this.selectAfterCreateChannel,
           createChannelship: this.props.createChannelship,
-          selectedChannelship: this.state.selectedChannelship,
           removeChannelship: this.removeChannelship
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-right"
@@ -1552,7 +1547,6 @@ function (_React$Component) {
       var _this3 = this;
 
       if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel) {
-        console.log('index updated');
         var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
         var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
         Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function (data) {
@@ -1688,7 +1682,8 @@ function (_React$Component) {
         groupChannels: this.state.groupChannels,
         createChannelship: this.props.createChannelship,
         currentUser: this.props.currentUser,
-        selectChannel: this.props.selectChannel
+        selectChannel: this.props.selectChannel,
+        selectedChannel: this.props.selectedChannel
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-plus-circle",
         onClick: function onClick(e) {
@@ -1715,7 +1710,8 @@ function (_React$Component) {
         selectChannel: this.props.selectChannel,
         createChannelship: this.props.createChannelship,
         selectAfterCreateChannel: this.props.selectAfterCreateChannel,
-        currentUser: this.props.currentUser
+        currentUser: this.props.currentUser,
+        selectedChannel: this.props.selectedChannel
       })));
     }
   }]);
@@ -1797,7 +1793,7 @@ function (_React$Component) {
       var removeChannelshipEle = this.state.hovering && !this.props.dm ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-ban remove-button",
         onClick: function onClick() {
-          return _this2.props.removeChannelship(_this2.props.selectedChannelship);
+          return _this2.props.removeChannelship(_this2.props.channel.channelshipId[0]);
         }
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "hidden"
@@ -2239,6 +2235,18 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
+        var dmChannels = Object.values(this.props.userChannels).map(function (channel) {
+          return channel;
+        });
+        this.setState({
+          dmChannels: dmChannels
+        });
+      }
+    }
+  }, {
     key: "update",
     value: function update(e) {
       var _this2 = this;
@@ -2330,7 +2338,6 @@ function (_React$Component) {
         filteredUsers: [],
         searchTerm: '',
         users: this.props.groupUsers,
-        dmChannels: [],
         addedToChannel: {}
       });
     }
@@ -2343,7 +2350,6 @@ function (_React$Component) {
         filteredUsers: [],
         searchTerm: '',
         users: this.props.groupUsers,
-        dmChannels: [],
         addedToChannel: {}
       });
     }
@@ -3685,18 +3691,13 @@ var mdtp = function mdtp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-<<<<<<< HEAD
 /* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
 /* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index_item.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-=======
-/* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index_item.jsx");
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3720,10 +3721,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
+
 var EventIndex =
 /*#__PURE__*/
 function (_React$Component) {
@@ -3740,11 +3739,15 @@ function (_React$Component) {
       error: false,
       hasMore: true,
       isLoading: false,
-      userEvents: [],
-      allEvents: []
+      userBrawls: [],
+      allBrawls: [],
+      displayedBrawls: [],
+      noUserBrawls: true,
+      eventIndex: 10
     };
     _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
     _this.componentDidMount = _this.componentDidMount.bind(_assertThisInitialized(_this));
+    _this.loadEvents = _this.loadEvents.bind(_assertThisInitialized(_this));
     window.onscroll = lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default()(function () {
       var _assertThisInitialize = _assertThisInitialized(_this),
           loadEvents = _assertThisInitialize.loadEvents,
@@ -3755,14 +3758,50 @@ function (_React$Component) {
 
       if (error || isLoading || !hasMore) return;
 
-      if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 100) {
         loadEvents();
       }
-    }, 100);
+    }, 200);
     return _this;
   }
 
   _createClass(EventIndex, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener('onscroll', lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default.a);
+    }
+  }, {
+    key: "loadEvents",
+    value: function loadEvents() {
+      var _this2 = this;
+
+      this.setState({
+        isLoading: true
+      }, function () {
+        var allBrawls = _this2.state.allBrawls;
+        var eventIndex = _this2.state.eventIndex + 10;
+        var hasMore = _this2.state.hasMore;
+
+        if (eventIndex > allBrawls.length) {
+          eventIndex = allBrawls.length;
+          hasMore = false;
+        }
+
+        ;
+        console.log("setting eventindex ".concat(eventIndex));
+
+        _this2.setState({
+          displayedBrawls: allBrawls.slice(0, eventIndex),
+          eventIndex: eventIndex,
+          hasMore: hasMore
+        }, function () {
+          _this2.setState({
+            isLoading: false
+          });
+        });
+      });
+    }
+  }, {
     key: "handleSignup",
     value: function handleSignup() {
       if (this.props.currentUserId === "") {
@@ -3774,70 +3813,27 @@ function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       var fetchEvents = this.props.fetchEvents();
       var fetchGroups = this.props.fetchGroups();
       var fetchLocations = this.props.fetchLocations();
       var fetchReservations = this.props.fetchReservations(0);
-<<<<<<< HEAD
-      Promise.all([fetchEvents, fetchGroups, fetchReservations]).then(function (data) {
-        var userEvents = data[2].reservations.userReservations.map(function (reservation) {
-          return data[0].events[reservation.id];
-        });
-        var allEvents = Object.values(data[0].events);
-
-        _this2.setState({
-=======
-      Promise.all([fetchEvents, fetchGroups, fetchReservations, fetchLocations]).then(function () {
-        return _this2.setState({
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
-          loaded: true
-        });
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.loaded) {
-        var noUserBrawls = true;
-        var _this$props = this.props,
-            events = _this$props.events,
-<<<<<<< HEAD
-            reservations = _this$props.reservations;
-        var yourEventsDiv;
-        var userReservations = reservations.userReservations;
-        var allEvents = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "groups-div"
-        }, Object.values(events).map(function (event) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            key: event.id,
-            event: event
-          });
-        }));
-        yourEventsDiv = userReservations.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "index-signup"
-        }, "No brawls scheduled") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "events-div"
-        }, userReservations.map(function (reservation) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            key: reservation.id,
-            event: events[reservation.eventId]
-          });
-=======
-            locations = _this$props.locations;
-        var allBrawls = [];
-        var userBrawls = [];
-        var userEventIds = this.props.reservations.userReservations.map(function (reservation) {
+      Promise.all([fetchEvents, fetchGroups, fetchReservations, fetchLocations]).then(function (data) {
+        var userEventIds = data[2].reservations.userReservations.map(function (reservation) {
           return reservation.eventId;
         });
+        var noUserBrawls = true;
+        var events = data[0].events;
+        var allBrawls = [];
+        var userBrawls = [];
         Object.values(events).map(function (brawl) {
           switch (brawl.recurringType) {
             case "Weekly":
-              for (var i = 1; i < 8; i++) {
+              for (var i = 1; i < 16; i++) {
                 var brawl1 = Object.assign({}, brawl);
-                brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addWeek"])(brawl.startTime, i);
-                brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addWeek"])(brawl.endTime, i);
+                brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addWeek"])(brawl.startTime, i);
+                brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addWeek"])(brawl.endTime, i);
                 allBrawls.push(brawl1);
                 if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
               }
@@ -3848,8 +3844,8 @@ function (_React$Component) {
               for (var _i = 1; _i < 4; _i++) {
                 var _brawl = Object.assign({}, brawl);
 
-                _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addMonth"])(brawl.startTime, _i);
-                _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["addMonth"])(brawl.endTime, _i);
+                _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addMonth"])(brawl.startTime, _i);
+                _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addMonth"])(brawl.endTime, _i);
                 allBrawls.push(_brawl);
                 if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
               }
@@ -3861,17 +3857,38 @@ function (_React$Component) {
           }
         });
         if (userBrawls.length > 0) noUserBrawls = false;
-        var lastMonth;
         allBrawls.sort(function (a, b) {
           return new Date(a.startTime) - new Date(b.startTime);
         });
         userBrawls.sort(function (a, b) {
           return new Date(a.startTime) - new Date(b.startTime);
         });
+
+        _this3.setState({
+          loaded: true,
+          noUserBrawls: noUserBrawls,
+          allBrawls: allBrawls,
+          displayedBrawls: allBrawls.slice(0, _this3.state.eventIndex),
+          userBrawls: userBrawls,
+          eventIndex: 10
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.state.loaded) {
+        var locations = this.props.locations;
+        var _this$state = this.state,
+            userBrawls = _this$state.userBrawls,
+            displayedBrawls = _this$state.displayedBrawls,
+            noUserBrawls = _this$state.noUserBrawls,
+            isLoading = _this$state.isLoading;
+        var lastMonth;
         var userlist = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "group-show-events-list"
         }, userBrawls.map(function (brawl, i) {
-          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithMonth"])(brawl.startTime);
+          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDateWithMonth"])(brawl.startTime);
           var diffMonth = thisMonth !== lastMonth;
           lastMonth = thisMonth;
           var title = brawl.title,
@@ -3895,17 +3912,17 @@ function (_React$Component) {
             className: "group-show-events-event-div"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-top"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-bottom"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-info"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "group-show-events-event-title"
-          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
             to: "/search/?location%20".concat(locationId)
           }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-link"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
             to: "/groups/".concat(groupId, "/events/").concat(id)
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
             src: window[imageUrl],
@@ -3915,8 +3932,8 @@ function (_React$Component) {
         }));
         var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "group-show-events-list"
-        }, allBrawls.map(function (brawl, i) {
-          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithMonth"])(brawl.startTime);
+        }, displayedBrawls.map(function (brawl, i) {
+          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDateWithMonth"])(brawl.startTime);
           var diffMonth = thisMonth !== lastMonth;
           lastMonth = thisMonth;
           var title = brawl.title,
@@ -3940,24 +3957,23 @@ function (_React$Component) {
             className: "group-show-events-event-div"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-top"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-bottom"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-info"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "group-show-events-event-title"
-          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
             to: "/search/?location%20".concat(locationId)
           }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-link"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
             to: "/groups/".concat(groupId, "/events/").concat(id)
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
             src: window[imageUrl],
             alt: "event-img",
             className: "group-show-events-img"
           })))))));
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
         }));
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-index-div"
@@ -3967,29 +3983,17 @@ function (_React$Component) {
           className: "index-switch-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-not"
-<<<<<<< HEAD
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-=======
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
           className: "index-switch-text-not",
           to: "/groups"
         }, "SQUADS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-selected"
-<<<<<<< HEAD
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-=======
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
           className: "index-switch-text-selected",
           to: "/events"
         }, "BRAWLS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-not"
-<<<<<<< HEAD
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-=======
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
->>>>>>> b9bde987f9944f4a0bbfaee21c54a58039e2793b
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
           className: "index-switch-text-not",
           to: "/categories"
         }, "STYLES")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4000,7 +4004,7 @@ function (_React$Component) {
           className: "index-div-titles"
         }, "YOUR BRAWLS"), userlist, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles"
-        }, "UPCOMING BRAWLS"), list));
+        }, "UPCOMING BRAWLS"), list, isLoading && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading...")));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -4632,7 +4636,8 @@ function (_React$Component) {
             "long": _this3.state["long"],
             image_url: _this3.state.imageUrl,
             location_id: _this3.state.selectedLocationId,
-            category_ids: catArray
+            category_ids: catArray,
+            icon_url: "defaultchannel8URL"
           };
 
           _this3.props.action(groupInfo).then(function (payload) {
@@ -8499,9 +8504,9 @@ var updateChannelship = function updateChannelship(channelship) {
     }
   });
 };
-var deleteChannelship = function deleteChannelship(channelship) {
+var deleteChannelship = function deleteChannelship(channelshipId) {
   return $.ajax({
-    url: "/api/groups/".concat(channelship.groupId, "/channels/").concat(channelship.channelId, "/channelships/").concat(channelship.id),
+    url: "/api/channelships/".concat(channelshipId),
     method: "DELETE"
   });
 };

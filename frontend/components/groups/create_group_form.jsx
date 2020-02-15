@@ -67,7 +67,8 @@ class CreateGroupForm extends React.Component{
                 long: this.state.long,
                 image_url: this.state.imageUrl,
                 location_id: this.state.selectedLocationId,
-                category_ids: catArray
+                category_ids: catArray,
+                icon_url: "defaultchannel8URL"
             }
             this.props.action(groupInfo)
                 .then( (payload) => {
