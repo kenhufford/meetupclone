@@ -52,9 +52,9 @@ class ChatInfoBar extends React.Component {
             (<div className="chat-info-bar">
                 <p>{this.props.selectedChannel.name}</p>
                 
-                <div className="chat-info-bar-users">
-                    <i className="fas fa-users"
-                        onClick={this.toggleDropdown}></i>
+                <div className="chat-info-bar-users"
+                    onClick={this.toggleDropdown}>
+                    <i className="fas fa-users"></i>
                     {users.length} 
                 </div>
                 

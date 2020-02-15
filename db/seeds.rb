@@ -10,7 +10,7 @@ Category.destroy_all
 Reservation.destroy_all
 Channel.destroy_all
 Channelship.destroy_all
-Messages.destroy_all
+Message.destroy_all
 
 
 def pair_generator(range1, range2)

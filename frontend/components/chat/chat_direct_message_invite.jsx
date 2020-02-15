@@ -135,22 +135,37 @@ class ChatDirectMessageInvite extends React.Component{
                     index = <li>No recent messages</li>
                 } else {
                     dmChannelsToggle = true;
-                    index = this.state.dmChannels.map((channel, i) => (
-                        <div key={channel.id}
-                            className="chat-modal-list-item"
-                            onClick={()=>this.selectChannel(channel)}>
-                            <img src={window[channel.channelIcon]}
-                                className="chat-message-img">
-                            </img>
-                            <img src={window[channel.channelIcon2]}
-                                className="chat-message-img2">
-                            </img>
-                            <p> {channel.name} </p>
-                        </div>
-                    ))
+                    let dmChannels = this.state.dmChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
+                    index = dmChannels.map((channel, i) => {
+                        if (channel.dm){
+                            return (
+                                <div key={channel.id}
+                                    className="chat-modal-list-item"
+                                    onClick={() => this.selectChannel(channel)}>
+                                    <img src={window[channel.channelIcon]}
+                                        className="chat-message-img">
+                                    </img>
+                                    <img src={window[channel.channelIcon2]}
+                                        className="chat-message-img2">
+                                    </img>
+                                    <p> {channel.name} </p>
+                                </div>)
+                        } else {
+                            return (
+                                <div key={channel.id}
+                                    className="chat-modal-list-item"
+                                    onClick={() => this.selectChannel(channel)}>
+                                    <img src={window[channel.channelIcon]}
+                                        className="chat-message-img">
+                                    </img>
+                                    <p> {channel.name} </p>
+                                </div>)
+                        }
+                    })
                 }
             } else {
-                    index = this.state.filteredUsers.map((user) => (
+                    let filteredUsers = this.state.filteredUsers.sort((a, b) => { return a.name < b.name ? -1 : 1 });
+                    index = filteredUsers.map((user) => (
                         <div key={user.id}
                             className="chat-modal-list-item"
                             onClick={() => this.addToChannel(user)}>

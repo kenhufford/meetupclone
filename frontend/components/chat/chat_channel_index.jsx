@@ -18,7 +18,6 @@ class ChatChannelIndex extends React.Component {
             loaded: false,
         }
         this.toggleModal = this.toggleModal.bind(this);
-        
     }
 
     componentDidMount(){
@@ -97,7 +96,8 @@ class ChatChannelIndex extends React.Component {
         let groupChannelList;
         let userChannelList;
 
-
+        userChannels = userChannels.sort( (a, b) => {return a.name < b.name  ? -1 : 1});
+        groupChannels = groupChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
        
         if (groupChannels.length !== 0) {
             groupChannelList = groupChannels.map((channel, i) =>{

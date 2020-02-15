@@ -1620,6 +1620,12 @@ function (_React$Component) {
       });
       var groupChannelList;
       var userChannelList;
+      userChannels = userChannels.sort(function (a, b) {
+        return a.name < b.name ? -1 : 1;
+      });
+      groupChannels = groupChannels.sort(function (a, b) {
+        return a.name < b.name ? -1 : 1;
+      });
 
       if (groupChannels.length !== 0) {
         groupChannelList = groupChannels.map(function (channel, i) {
@@ -2356,24 +2362,43 @@ function (_React$Component) {
             index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "No recent messages");
           } else {
             dmChannelsToggle = true;
-            index = this.state.dmChannels.map(function (channel, i) {
-              return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-                key: channel.id,
-                className: "chat-modal-list-item",
-                onClick: function onClick() {
-                  return _this4.selectChannel(channel);
-                }
-              }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-                src: window[channel.channelIcon],
-                className: "chat-message-img"
-              }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-                src: window[channel.channelIcon2],
-                className: "chat-message-img2"
-              }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", channel.name, " "));
+            var dmChannels = this.state.dmChannels.sort(function (a, b) {
+              return a.name < b.name ? -1 : 1;
+            });
+            index = dmChannels.map(function (channel, i) {
+              if (channel.dm) {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+                  key: channel.id,
+                  className: "chat-modal-list-item",
+                  onClick: function onClick() {
+                    return _this4.selectChannel(channel);
+                  }
+                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+                  src: window[channel.channelIcon],
+                  className: "chat-message-img"
+                }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+                  src: window[channel.channelIcon2],
+                  className: "chat-message-img2"
+                }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", channel.name, " "));
+              } else {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+                  key: channel.id,
+                  className: "chat-modal-list-item",
+                  onClick: function onClick() {
+                    return _this4.selectChannel(channel);
+                  }
+                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+                  src: window[channel.channelIcon],
+                  className: "chat-message-img"
+                }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", channel.name, " "));
+              }
             });
           }
         } else {
-          index = this.state.filteredUsers.map(function (user) {
+          var filteredUsers = this.state.filteredUsers.sort(function (a, b) {
+            return a.name < b.name ? -1 : 1;
+          });
+          index = filteredUsers.map(function (user) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               key: user.id,
               className: "chat-modal-list-item",
@@ -2799,10 +2824,10 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select a channel")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-info-bar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.selectedChannel.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-info-bar-users"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-users",
+        className: "chat-info-bar-users",
         onClick: this.toggleDropdown
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-users"
       }), users.length));
 
       if (this.props.loadInfoBar) {
@@ -5058,7 +5083,8 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupIndex).call(this, props));
     _this.state = {
-      loaded: false
+      loaded: false,
+      userGroups: {}
     };
     _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
     _this.componentDidMount = _this.componentDidMount.bind(_assertThisInitialized(_this));
@@ -5079,14 +5105,29 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var fetchGroups = this.props.fetchGroups(); // const fetchMemberships = this.props.fetchMemberships(0);
+      if (this.props.currentUserId !== undefined) {
+        var fetchGroups = this.props.fetchGroups();
+        var fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUserId);
+        var fetchCategories = this.props.fetchCategories();
+        Promise.all([fetchCategories, fetchGroups, fetchGroupsFromUser]).then(function (data) {
+          var userGroups = data[2].groups;
 
-      var fetchCategories = this.props.fetchCategories();
-      Promise.all([fetchCategories, fetchGroups]).then(function () {
-        return _this2.setState({
-          loaded: true
+          _this2.setState({
+            loaded: true,
+            userGroups: userGroups
+          });
         });
-      });
+      } else {
+        var _fetchGroups = this.props.fetchGroups();
+
+        var _fetchCategories = this.props.fetchCategories();
+
+        Promise.all([_fetchCategories, _fetchGroups]).then(function () {
+          _this2.setState({
+            loaded: true
+          });
+        });
+      }
     }
   }, {
     key: "render",
@@ -5094,9 +5135,8 @@ function (_React$Component) {
       console.log(this.props);
 
       if (this.state.loaded) {
-        var _this$props = this.props,
-            currentUsersGroups = _this$props.currentUsersGroups,
-            groups = _this$props.groups;
+        var groups = this.props.groups;
+        var userGroups = Object.values(this.state.userGroups);
         var suggestedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
         }, Object.values(groups).map(function (group) {
@@ -5105,24 +5145,25 @@ function (_React$Component) {
             group: group
           });
         }));
-        var yourGroups = currentUsersGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        var yourGroups = userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
-        }, currentUsersGroups.map(function (group, i) {
+        }, userGroups.map(function (group, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
             key: i,
             group: group
           });
-        })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+        var yourTitle = !userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           onClick: this.handleSignup,
-          className: "index-signup"
-        }, "Join a squad!");
+          className: "index-div-titles"
+        }, "JOIN A SQUAD") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "index-div-titles"
+        }, "YOUR SQUADS");
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-header"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "index-div-titles"
-        }, "YOUR SQUADS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, yourTitle, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-selected"
@@ -5202,6 +5243,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchGroups: function fetchGroups(filter) {
       return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroups"])(filter));
+    },
+    fetchGroupsFromUser: function fetchGroupsFromUser(userId) {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_2__["fetchGroupsFromUser"])(userId));
     },
     fetchUser: function fetchUser(userId) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchUser"])(userId));
@@ -5426,7 +5470,7 @@ function (_React$Component) {
           className: "landing-main"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "landing-location-dropdown"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "landing-location-h4"
         }, "Squads in ", this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
           location: this.state.selectedLocation,
@@ -5439,7 +5483,7 @@ function (_React$Component) {
             key: group.id,
             group: group
           });
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "landing-location-h4"
         }, "Events in ", this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "landing-events-div"
@@ -8668,11 +8712,8 @@ var fetchGroupsFromCategory = function fetchGroupsFromCategory(categoryId) {
 };
 var fetchGroupsFromUser = function fetchGroupsFromUser(user_id) {
   return $.ajax({
-    url: "/api/groups/",
-    method: "GET",
-    data: {
-      user_id: user_id
-    }
+    url: "/api/users/".concat(user_id, "/groups"),
+    method: "GET"
   });
 };
 var fetchGroup = function fetchGroup(groupId) {

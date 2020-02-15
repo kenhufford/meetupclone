@@ -22,9 +22,8 @@ export const fetchGroupsFromCategory = (categoryId) => (
 
 export const fetchGroupsFromUser = (user_id) => (
     $.ajax({
-        url: `/api/groups/`,
+        url: `/api/users/${user_id}/groups`,
         method: "GET",
-        data: {user_id}
     })
 )
 
