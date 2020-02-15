@@ -32,9 +32,14 @@ class Api::EventsController < ApplicationController
         @reservation.user_id = current_user.id
         @reservation.is_organizer = true
         @reservation.save
+
+        @channel = Channel.new
+        @channel.name = @event.title
+        @channel.channel_icon = "defaultchannel1URL"
+        @channel.group_id = @event.group.id 
+        @channel.dm = false
         render "api/events/show"
     else
-      debugger
         render json: [@event.errors.full_messages], status: 401
     end
   end

@@ -1,0 +1,1 @@
+json.partial! '/api/channelships/channelship', channelship: @channelship

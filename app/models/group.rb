@@ -24,6 +24,11 @@ class Group < ApplicationRecord
 
     belongs_to :location
 
+    has_many :channels,
+    class_name: "Channel",
+    foreign_key: :group_id,
+    dependent: :destroy
+
     def self.in_bounds(bounds)
         self.where("lat < ?", bounds[:northEast][:lat])
           .where("lat > ?", bounds[:southWest][:lat])

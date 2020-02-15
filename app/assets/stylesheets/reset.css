@@ -10,11 +10,14 @@ span, article, footer, time, small {
   border: 0;
   outline: 0;
   font-family: 'Roboto', sans-serif;
+  color: #404040;
 }
 
 ul {
   list-style: none;
 }
+
+
 /* 
 
 a {

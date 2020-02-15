@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_201421) do
+ActiveRecord::Schema.define(version: 2020_02_13_195838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,29 @@ ActiveRecord::Schema.define(version: 2020_01_16_201421) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_url"
+  end
+
+  create_table "channels", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "channel_icon", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "group_id"
+    t.boolean "dm", null: false
+    t.string "hash_string"
+    t.string "channel_icon2"
+    t.index ["group_id"], name: "index_channels_on_group_id"
+  end
+
+  create_table "channelships", force: :cascade do |t|
+    t.bigint "channel_id"
+    t.bigint "user_id"
+    t.boolean "moderator", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "last_visited"
+    t.index ["channel_id"], name: "index_channelships_on_channel_id"
+    t.index ["user_id"], name: "index_channelships_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -49,6 +72,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_201421) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "location_id", null: false
+    t.string "icon_url"
     t.index ["name"], name: "index_groups_on_name"
   end
 
@@ -69,6 +93,16 @@ ActiveRecord::Schema.define(version: 2020_01_16_201421) do
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_memberships_on_group_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "channel_id"
+    t.bigint "user_id"
+    t.index ["channel_id"], name: "index_messages_on_channel_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -105,4 +139,9 @@ ActiveRecord::Schema.define(version: 2020_01_16_201421) do
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
   end
 
+  add_foreign_key "channels", "groups"
+  add_foreign_key "channelships", "channels"
+  add_foreign_key "channelships", "users"
+  add_foreign_key "messages", "channels"
+  add_foreign_key "messages", "users"
 end

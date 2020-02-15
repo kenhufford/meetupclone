@@ -9,6 +9,9 @@ class Api::UsersController < ApplicationController
       elsif params[:event_id]
         @users = Event.find(params[:event_id]).attendees
         render "api/users/index"
+      elsif params[:channel_id]
+        @users = Channel.find(params[:channel_id]).users
+        render "api/users/index"
       else 
         @users = User.all
         render "api/users/index"

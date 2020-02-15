@@ -7,6 +7,9 @@ import locationsReducer from "./locations_reducer";
 import categoriesReducer from "./categories_reducer";
 import membershipsReducer from "./memberships_reducer";
 import reservationsReducer from "./reservations_reducer";
+import channelsReducer from "./channels_reducer";
+import messagesReducer from "./messages_reducer";
+import channelshipsReducer from "./channelships_reducer";
 
 const entitiesReducer = combineReducers({
   users: usersReducer,
@@ -16,7 +19,10 @@ const entitiesReducer = combineReducers({
   locations: locationsReducer,
   categories: categoriesReducer,
   memberships: membershipsReducer,
-  reservations: reservationsReducer
+  reservations: reservationsReducer,
+  channels: channelsReducer,
+  channelships: channelshipsReducer,
+  messages: messagesReducer,
 });
 
 export default entitiesReducer;

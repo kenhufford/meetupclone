@@ -22,6 +22,15 @@ class Api::MembershipsController < ApplicationController
         @membership.member_type = "Initiate"
         if @membership.save
           @group = @membership.group
+          @group.channels.each do |channel|
+            if !channel.dm
+              channelship = Channelship.new
+              channelship.user_id = current_user.id
+              channelship.channel_id = channel.id
+              channelship.moderator = false
+              channelship.save
+            end
+          end
           @current_user_member = true
         else 
           render json: @membership.errors.full_messages, status: 401
