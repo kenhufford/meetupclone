@@ -63,7 +63,7 @@ class GroupLanding extends React.Component{
                     </div>
                     <div className="landing-main">
                         <div className="landing-location-dropdown">
-                            <h4 className="landing-location-h4">Squads in {this.state.selectedLocation}</h4>
+                            <div className="landing-location-h4">Squads in {this.state.selectedLocation}</div>
                             <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.location} toggleLocation={this.toggleSelected} />
                         </div>
                         <div className="landing-groups-div">
@@ -71,7 +71,7 @@ class GroupLanding extends React.Component{
                                 <GroupIndexItem key={group.id} group={group}/>
                             ))}
                         </div>
-                        <h4 className="landing-location-h4">Events in {this.state.selectedLocation}</h4>
+                        <div className="landing-location-h4">Events in {this.state.selectedLocation}</div>
                         <div className="landing-events-div">
                             {nearbyEvents.map(event => (
                                 <EventIndexItem key={event.id} event={event} groupName={event.name}/>

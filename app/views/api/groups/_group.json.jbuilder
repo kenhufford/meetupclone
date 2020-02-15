@@ -1,5 +1,5 @@
 
-    json.extract! group, :id, :name, :description, :location_id, :lat, :long, :image_url
+    json.extract! group, :id, :name, :description, :location_id, :lat, :long, :image_url, :icon_url
 
     json.membershipIds do
         json.array! group.memberships.pluck(:id)

@@ -93,8 +93,29 @@ export const formatDateWithDay = date => {
     const day = obj.getDate();
     const year = obj.getFullYear();
     const dayOfWeek = daysOfWeek[obj.getDay()];
-    return `${dayOfWeek}, ${month} ${day}, ${year}`;
+    return `${dayOfWeek}, ${month} ${day}`;
   };
+
+export const formatDateWithMonth = date => {
+    const months = {
+      0: 'January',
+      1: 'February',
+      2: 'March',
+      3: 'April',
+      4: 'May',
+      5: 'June',
+      6: 'July',
+      7: 'August',
+      8: 'September',
+      9: 'October',
+      10: 'November',
+      11: 'December',
+    };
+    const obj = new Date(date);
+    const month = months[obj.getMonth()];
+    return `${month}`;
+  };
+
   
   export const formatTime = date => {
     const obj = new Date(date);
@@ -104,8 +125,8 @@ export const formatDateWithDay = date => {
     const minutes = obj.getMinutes();
     const tmp = `0${minutes}`;
     const paddedMinutes = tmp.slice(tmp.length - 2);
-    const ampm = fullHours < 12 || fullHours === 0 ? 'am' : 'pm';
-    return `${hours}:${paddedMinutes}${ampm}`;
+    const ampm = fullHours < 12 || fullHours === 0 ? 'AM' : 'PM';
+    return `${hours}:${paddedMinutes} ${ampm}`;
   };
 
   export const addWeek = (date, n) => {
@@ -124,3 +145,8 @@ export const formatDateWithDay = date => {
     `${formatDate(date)} ${formatTime(date)}`
   );
   
+  export const moreRecentOrEqualThanDate = (date1, date2) =>{
+    let d1 = new Date(date1);
+    let d2 = new Date(date2);
+    return (d1 >= d2) ? true : false
+  }

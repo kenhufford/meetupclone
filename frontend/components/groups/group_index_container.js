@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import GroupIndex from './group_index';
-import {fetchGroups} from '../../actions/group_actions'
+import {fetchGroups, fetchGroupsFromUser} from '../../actions/group_actions'
 import {fetchUser} from '../../actions/user_actions'
 import {fetchCategories} from '../../actions/category_actions'
+import {fetchMemberships} from '../../actions/membership_actions'
 
 const mapStateToProps = (state) => {
     let userId = state.session.id
@@ -24,6 +25,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
     fetchGroups: (filter) => dispatch(fetchGroups(filter)),
+    fetchGroupsFromUser: (userId) => dispatch(fetchGroupsFromUser(userId)),
     fetchUser: (userId) => dispatch(fetchUser(userId)),
     fetchCategories: () => dispatch(fetchCategories()),
     fetchMemberships: (groupId) => dispatch(fetchMemberships(groupId))

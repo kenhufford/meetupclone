@@ -8,6 +8,9 @@ Location.destroy_all
 Type.destroy_all
 Category.destroy_all
 Reservation.destroy_all
+Channel.destroy_all
+Channelship.destroy_all
+Message.destroy_all
 
 
 def pair_generator(range1, range2)
@@ -41,8 +44,8 @@ end
 
 total_users = 18;
 
-location_names = ["San Francisco", "The Shadow Realm", "A Dank Basement", "The Future", "Namek", "Kanto Region"]
-location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311], [40.7128, 74.0060] ]
+location_names = ["San Francisco", "The Shadow Realm", "A Dank Basement", "The Future", "Namek"]
+location_lat_long = [ [37.7749, 122.4194], [37.8044, 122.2712], [ 37.3382, 121.8863], [34.0522,118.2437], [33.7175,117.8311]]
 location_ids = []
 location_names.length.times do |i|
     location = Location.create!(
@@ -61,6 +64,8 @@ end
     total_groups = group_names.length;
     group_images = ["streetfighterURL","mortalkombatURL","soulcaliburURL","smashbrothersURL",
     "tekkenURL","arnoldsURL","myheroURL","zfightersURL","bestteamURL","badguysURL", "tightsURL", "historyURL", "rapperURL"]
+    group_icons = ["streetfightericonURL","mortalkombaticonURL","soulcaliburiconURL","smashbrothersiconURL",
+    "tekkeniconURL","arnoldsiconURL","myheroiconURL","zfightersiconURL","bestteamiconURL","badguysiconURL", "tightsiconURL", "historyiconURL", "rappericonURL"]
     description = ["Imagine yourself on mean city streets. The Guile theme is playing.  I'm holding back for two seconds and pressing forward + fierce.  If your heartrate is about 200 BPM, join us today.",
     "Kan handle extreme kombat with brutal, photorealistic karacters? Kan you believe they cast Christopher Lambert as Raiden? Kome to the Kombatants for a flawless victory",
     "When you were partying, we studied the blade. When you were coding, we mastered the blockchain. While you wasted your days at the gym in pursuit of vanity, we cultivated inner strength. And now that the world is on fire and the barbarians are at the gate you have the audacity to come to us for help.",
@@ -97,14 +102,16 @@ end
     And I love you like Kanye loves Kanye, hahaha"
 ]
 
-
     group_ids = []
     group_names.each_with_index do |name, i|
+        index = i % location_ids.length
+        location_id = location_ids[index]
         group = Group.create!(
             name: name,
             description: description[i],
             image_url: group_images[i],
-            location_id: location_ids.sample
+            icon_url: group_icons[i],
+            location_id: location_id
         )
         group_ids << group.id
     end
@@ -120,9 +127,9 @@ end
     dbz_user_names = ["Goku", "Vegeta", "Piccolo", "Trunks"]
     best_user_names = ["Krillin"]
     badguys_user_names = ["Isabelle", "Sebastian", "Howard Langston", "Sakura"]
-    tights_user_names = ["Robin Hood", "Lil' Jon", "Dave Chapelle", "Blinkin"]
+    tights_user_names = ["Robin Hood", "Lil Jon", "Dave Chapelle", "Blinkin"]
     history_user_names = ["Teddy", "Lincoln", "Caesar", "Joan of Arc"]
-    rapper_user_names =["Kanye", "Kanye", "Kanye","Kanye"]
+    rapper_user_names =["Kanye", "Yeezy", "Louis Vuitton Don","Ye"]
     
     user_names = [streetfighter_user_names, mortalkombat_user_names, soulcalibur_user_names, smashbrothers_user_names, tekken_user_names, 
     arnolds_user_names, aa_user_names, dbz_user_names, best_user_names, badguys_user_names, tights_user_names, history_user_names, rapper_user_names]
@@ -167,14 +174,15 @@ end
     group_captains = []
     user_names.each_with_index do |group_names, i|
         group_names.each_with_index do |name, j|
+            email = name.split(" ").join("") + "@gmail.com"
+
             user = User.create!(
                 name: name,
-                email: Faker::Internet.unique.email,
+                email: email,
                 password: '123456',
                 location_id: location_ids.sample,
                 image_url: image_urls[i][j]
                 )
-            
 
             if j == 0 
                 member_type = "Captain" 
@@ -326,9 +334,25 @@ end
             image_url: event_image_urls[i][j],
             recurring_type: recurring_type.sample)
 
+            channel = Channel.create!(
+                name: event_titles[i][j],
+                channel_icon: "defaultchannelURL",
+                group_id: i+1,
+                dm: false,
+            )
+
+            channel_users = Group.find(i+1).members
+            channel_users.each do |user|
+                Channelship.create!(
+                    channel_id: channel.id,
+                    user_id: user.id,
+                    moderator: true
+                )
+            end
+
             Reservation.create!(
                 event_id: event.id,
-                user_id: group_captains[j],
+                user_id: group_captains[i],
                 is_organizer: true
             )
             
@@ -344,4 +368,6 @@ end
         end
 
     end
+
+
 

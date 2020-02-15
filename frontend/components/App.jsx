@@ -13,6 +13,7 @@ import CreateGroupFormContainer from './groups/create_group_form_container';
 import CreateEventFormContainer from './events/create_event_form_container';
 import EditEventFormContainer from './events/edit_event_form_container';
 import EditGroupFormContainer from './groups/edit_group_form_container';
+import ChatContainer from './chat/chat_container';
 import {Route, Redirect, Switch} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
@@ -27,6 +28,7 @@ const App = () => (
         <AuthRoute exact path="/login" component={LogInFormContainer} />
         <AuthRoute exact path="/signup" component={SignUpFormContainer} />
         <Route path="/search" component={SearchContainer} />
+        <ProtectedRoute path="/chat" component={ChatContainer} />
         <Route exact path="/events" component={EventIndexContainer} />
         <Route exact path="/categories" component={CategoryIndexContainer} />
         <ProtectedRoute exact path="/events/form/:eventId/edit/" component={EditEventFormContainer} />

@@ -6,7 +6,6 @@ class CreateGroupForm extends React.Component{
         super(props)
         let {name, description, lat, long, imageUrl, selectedLocationId, selectedLocation} = this.props.group
         let {categorySelected} = this.props
-        debugger
         this.state = {
             loaded: false,
             name: name,
@@ -117,11 +116,11 @@ class CreateGroupForm extends React.Component{
         })
     }
 
-    handleClickPic(key){
+    handleClickPic(url){
         return e =>{
             e.preventDefault();
             this.setState({
-                imageUrl: `defaultg${key+1}URL`
+                imageUrl: url
             })
         }
     }
@@ -193,15 +192,21 @@ class CreateGroupForm extends React.Component{
                     </div>
                 </div>
             )
-    
-            let urls = ["defaultg1URL", "defaultg2URL", "defaultg3URL", "defaultg4URL", "defaultg5URL", "defaultg6URL"]
+            let defaultURL;
+            if (this.state.imageUrl !== '') {
+                defaultURL = this.state.imageUrl;
+            } else {
+                defaultURL = "defaultg1URL";
+            }
+            let urls = [defaultURL, "defaultg5URL", "defaultg6URL", "defaultg4URL", "defaultg2URL", "defaultg3URL"]
+
             let slide4 = (
                 <div className="create-group-card-body">
                     <h3 className="create-group-card-title">Final step before forming your own squad.</h3>
                     <p className="create-group-card-description">Select an image to proudly represents the spirit of your squad.</p>
                     <div className="create-event-images">
                         {urls.map( (url, i) => {
-                            return (<div onClick={this.handleClickPic(i)} key={i}>
+                            return (<div onClick={this.handleClickPic(url)} key={i}>
                                 <img  className={this.state.imageUrl===url ? "create-event-image-selected" : "create-event-image"} 
                                     value="i" src={window[url]} alt=""/>
                             </div>)

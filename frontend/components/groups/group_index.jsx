@@ -6,7 +6,8 @@ class GroupIndex extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            loaded: false
+            loaded: false,
+            userGroups: {}
         }
     this.handleSignup = this.handleSignup.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
@@ -22,20 +23,33 @@ class GroupIndex extends React.Component{
     }
 
     componentDidMount(){
-        const fetchGroups = this.props.fetchGroups();
-        const fetchMemberships = this.props.fetchMemberships(0);
-        const fetchCategories = this.props.fetchCategories();
+        if (this.props.currentUserId !== undefined){
+            const fetchGroups = this.props.fetchGroups();
+            const fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUserId);
+            const fetchCategories = this.props.fetchCategories();
 
-        Promise.all([fetchCategories, fetchMemberships, fetchGroups])
-        .then( () => this.setState({loaded:true}))
-        
+            Promise.all([fetchCategories, fetchGroups, fetchGroupsFromUser])
+                .then((data) => {
+                    let userGroups = data[2].groups;
+                    this.setState({ loaded: true, userGroups });
+                })
+        } else {
+            const fetchGroups = this.props.fetchGroups();
+            const fetchCategories = this.props.fetchCategories();
+
+            Promise.all([fetchCategories, fetchGroups])
+                .then(() => {
+                    this.setState({ loaded: true });
+            })
+        }
     }
 
 
     render(){
         console.log(this.props)
         if(this.state.loaded){
-            let {currentUsersGroups, groups} = this.props
+            let {groups} = this.props
+            let userGroups = Object.values(this.state.userGroups)
             let suggestedGroups = (
                 <div className="groups-div">
                     {Object.values(groups).map( (group) => (
@@ -43,19 +57,20 @@ class GroupIndex extends React.Component{
                     ))}
                 </div>
             )
-            let yourGroups = currentUsersGroups.length ? (
+            let yourGroups = userGroups.length ? (
                 <div className="groups-div">
-                    {currentUsersGroups.map( (group, i) => (
+                    {userGroups.map( (group, i) => (
                         <GroupIndexItem key={i} group={group}/>
                     ))}
                 </div>
-            ) :  
-            (<div onClick={this.handleSignup} className="index-signup">Join a squad!</div>)
-
+            ) :  (<div></div>)
+            let yourTitle = !userGroups.length ?
+             (<div onClick={this.handleSignup} className="index-div-titles">JOIN A SQUAD</div>) : 
+            (<p className="index-div-titles">YOUR SQUADS</p>)
             return(
                 <div className="index-div">
                     <div className="index-header">
-                        <p className="index-div-titles">YOUR SQUADS</p>
+                        {yourTitle}
                         <div className="index-switch-div">
                             <div className="index-switch-selected">
                                 <Link className="index-switch-text-selected" to="/groups">SQUADS</Link>
