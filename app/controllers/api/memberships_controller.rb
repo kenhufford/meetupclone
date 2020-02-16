@@ -3,8 +3,14 @@ class Api::MembershipsController < ApplicationController
     def index
       if current_user
         @user_memberships = current_user.memberships
+          if @user_memberships.length != 0
+            @user_has_memberships = true
+          else 
+            @user_has_memberships = false
+          end
       else
         @user_memberships = {}
+        @user_has_memberships = false
       end
       if params[:group_id] == "0"
         @group_memberships = {}

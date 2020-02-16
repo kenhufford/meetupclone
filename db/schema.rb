@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_195838) do
+ActiveRecord::Schema.define(version: 2020_02_16_043609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_195838) do
     t.boolean "dm", null: false
     t.string "hash_string"
     t.string "channel_icon2"
+    t.integer "event_id"
     t.index ["group_id"], name: "index_channels_on_group_id"
   end
 

@@ -21,17 +21,19 @@ class ChatChannelIndexItem extends React.Component{
 
     render(){
         let channel = this.props.channel;
+        let selected = this.props.selected;
         let removeChannelshipEle = (this.state.hovering && !this.props.dm) ? 
             <i className="fas fa-ban remove-button"
                 onClick={() => this.props.removeChannelship(this.props.channel.channelshipId[0])}></i> : 
             <i className="hidden"></i>
 
         return (
-            <div className="chat-channel-dm-container"
+            <div className={selected ? "chat-channel-dm-container-selected" : "chat-channel-dm-container"}
                 onMouseEnter={() => this.hover(true)}
                 onMouseLeave={() => this.hover(false)}>
                 <div className="chat-channel-index-item-left">
-                    <i className="far fa-circle"></i>
+                    
+                    <i className={selected ? "fas fa-circle circle-selected" : "far fa-circle"}></i>
                     <li onClick={(e) => {
                             this.props.selectChannel(channel);
                             this.clearNotify(e)

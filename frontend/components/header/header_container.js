@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { logout } from '../../actions/session_actions';
+import { fetchMemberships} from '../../actions/membership_actions';
 import Header from './header';
 
 const mapStateToProps = (state) => {
@@ -10,7 +11,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  fetchMemberships: (groupId) => dispatch(fetchMemberships(groupId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,7 +1,6 @@
 import React from 'react';
 import request from "superagent";
 import debounce from "lodash.debounce";
-import EventIndexItem from './event_index_item'
 import { formatDate, addWeek, addMonth, formatDateWithMonth } from '../../utils/date_util'
 import {Link} from 'react-router-dom'
 
@@ -132,6 +131,7 @@ class EventIndex extends React.Component{
         }
 
     render(){
+        debugger
         if(this.state.loaded){
             let {locations } = this.props;
             let {userBrawls, displayedBrawls, noUserBrawls, isLoading} = this.state;

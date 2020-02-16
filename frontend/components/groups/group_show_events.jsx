@@ -18,7 +18,7 @@ class GroupShowEvents extends React.Component{
     }
 
     render(){
-        let {events, locations} = this.props;
+        let { events, locations, currentUserCaptain, groupId} = this.props;
         let allBrawls = []
         events.map( brawl => {
             switch (brawl.recurringType) {
@@ -46,17 +46,20 @@ class GroupShowEvents extends React.Component{
         allBrawls.sort(function(a,b){
             return new Date(a.startTime) - new Date(b.startTime)
           })
+
+        
         let list = 
         (<ul className="group-show-events-list">
-
+            {currentUserCaptain ? (<Link to={`/events/new/${groupId}/`} className="group-show-create-event-button">Create a Brawl</Link>) : <div></div>}
             {allBrawls.map ((brawl, i) => {
                 let thisMonth = formatDateWithMonth(brawl.startTime);
                 let diffMonth = thisMonth !== lastMonth;
                 lastMonth = thisMonth;
-                let {title, locationId, groupId, imageUrl, startTime, endTime, address,id, reservationIds, recurringType} = brawl
+                let {title, locationId, groupId, imageUrl, startTime, id, reservationIds, recurringType} = brawl
                 let recurring = (recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {recurringType}</p>)
                 return (
-                    <div key={i} >
+                    <div key={i} className="group-show-event-index-item" >
+                        
                         {diffMonth ? (<div className="group-show-event-datedivider">
                             {thisMonth}
                         </div>) :
@@ -86,14 +89,14 @@ class GroupShowEvents extends React.Component{
                     
                 )
             })}
-        </ul>) 
+            </ul>)
 
         return (
             
             <div className="group-show-events">
                 <div className="group-show-events-main">
                     <div className="group-show-events-header">
-                        <p>{this.state.currentPage}</p>
+                        {/* <p>{this.state.currentPage}</p> */}
                     </div>
                     {list}
                 </div>

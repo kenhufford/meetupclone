@@ -8,9 +8,30 @@ const HeaderSearchWithRouter = withRouter(HeaderSearch)
 class Header extends React.Component{
   constructor(props){
     super(props)
+    this.state = {
+      userHasMemberships: false
+    }
   }
 
+  componentDidMount(){
+    this.props.fetchMemberships(0)
+      .then( data => {
+        if (data.memberships.userHasMemberships){
+          this.setState({ userHasMemberships: true})
+        }
+      })
+  }
 
+  componentDidUpdate(prevProps){
+    if (this.props.currentUser !== prevProps.currentUser){
+      this.props.fetchMemberships(0)
+        .then(data => {
+          if (data.memberships.userHasMemberships) {
+            this.setState({ userHasMemberships: true })
+          }
+        })
+    }
+  }
 
   render(){
     let { currentUser, logout } = this.props
@@ -31,7 +52,14 @@ class Header extends React.Component{
     const signedIn = () => (
       <nav className="navbar-right">
         <Link to="/groups/form/new">Start a New Squad</Link>
-        <Link to="/chat">Messenger</Link>
+        {this.state.userHasMemberships ? <Link to="/chat">Messenger</Link> : 
+          <Link 
+            className="on-hover-messenger"
+            to="/groups">
+          Messenger
+          <span className="on-hover-messenger-tooltip">Join a group to use messenger</span>
+          </Link>}
+        
         {/* <a href="#/groups/form/new" className="navbar-group-link">Start a New Squad</a> */}
         <Link to="/groups">Explore</Link>
         <HeaderSearchWithRouter />

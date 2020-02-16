@@ -122,7 +122,7 @@ class SessionForm extends React.Component {
         </div>
       ) : (
         <div className="signup-form-container">
-          <h3>Sign Up</h3>
+          <div>Sign Up</div>
           <form onSubmit={this.handleSubmit} className="signup-box">
             {this.renderErrors()}
             <div className="signup">
@@ -158,7 +158,7 @@ class SessionForm extends React.Component {
                 <p className="signup-selected-location">{this.state.selectedLocation}</p>                  
                 <CreateGroupFormDropdown  location={this.state.selectedLocation} list={this.props.locations} toggleLocation={this.toggleSelected} />
               </div>
-              <p className="signup-terms">Your name is public. We'll use your email address to send you updates, and your location to find Meetups near you. When you "Continue", you agree to Meetup's Terms of Service. We will manage information about you as described in our Privacy Policy, and Cookie Policy.</p>
+              <p className="signup-terms">Your name is public. You don't really have to use a real one so pick something adventurous and heroic.  We will only share the information provided to other Squads and Brawlers on Beatup so don't worry about it too much but maybe don't put your location because sometimes our Brawlers get a little overzealous!</p>
               <input className="signup-submit" type="submit" value="Continue" />
             </div>
           </form>

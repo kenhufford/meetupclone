@@ -13,6 +13,7 @@ class GroupLanding extends React.Component{
             location: this.props.locations,
             loaded: false
         }
+        debugger
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
@@ -35,7 +36,19 @@ class GroupLanding extends React.Component{
             });
 
         Promise.all([fetchEvents, fetchGroups, fetchLocations])
-        .then( () => this.setState({loaded:true}))
+        .then( () => {
+            if (this.props.currentUser.locationId !== undefined){
+                this.setState({
+                    loaded: true,
+                    selectedLocation: this.state.location[this.props.currentUser.locationId].name,
+                    selectedLocationId: this.props.currentUser.locationId
+                });
+            }
+            
+            this.setState({
+                loaded:true
+            });
+        })
     }
 
 

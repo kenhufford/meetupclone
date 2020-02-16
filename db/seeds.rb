@@ -60,12 +60,12 @@ end
 
     group_names = ["Street Fighters", "Mortal Kombatants", "Soul Calibur Online", "Smash Siblings", 
     "Tekkies", "Only Arnolds", "My Hero AppAcademia", "Z Fighters", "The BEST Team", "The Bad Guys", 
-    "The Men In Tights", "History Buffs", "Rap Gods"]
+    "The Men In Tights", "History Buffs", "Rap Gods", "The Division"]
     total_groups = group_names.length;
     group_images = ["streetfighterURL","mortalkombatURL","soulcaliburURL","smashbrothersURL",
-    "tekkenURL","arnoldsURL","myheroURL","zfightersURL","bestteamURL","badguysURL", "tightsURL", "historyURL", "rapperURL"]
+    "tekkenURL","arnoldsURL","myheroURL","zfightersURL","bestteamURL","badguysURL", "tightsURL", "historyURL", "rapperURL", "divisionURL"]
     group_icons = ["streetfightericonURL","mortalkombaticonURL","soulcaliburiconURL","smashbrothersiconURL",
-    "tekkeniconURL","arnoldsiconURL","myheroiconURL","zfightersiconURL","bestteamiconURL","badguysiconURL", "tightsiconURL", "historyiconURL", "rappericonURL"]
+    "tekkeniconURL","arnoldsiconURL","myheroiconURL","zfightersiconURL","bestteamiconURL","badguysiconURL", "tightsiconURL", "historyiconURL", "rappericonURL",  "divisioniconURL"]
     description = ["Imagine yourself on mean city streets. The Guile theme is playing.  I'm holding back for two seconds and pressing forward + fierce.  If your heartrate is about 200 BPM, join us today.",
     "Kan handle extreme kombat with brutal, photorealistic karacters? Kan you believe they cast Christopher Lambert as Raiden? Kome to the Kombatants for a flawless victory",
     "When you were partying, we studied the blade. When you were coding, we mastered the blockchain. While you wasted your days at the gym in pursuit of vanity, we cultivated inner strength. And now that the world is on fire and the barbarians are at the gate you have the audacity to come to us for help.",
@@ -99,7 +99,10 @@ end
     What if Kanye made a song about Kanye
     Called 'I Miss The Old Kanye, ' man that would be so Kanye
     That's all it was Kanye, we still love Kanye
-    And I love you like Kanye loves Kanye, hahaha"
+    And I love you like Kanye loves Kanye, hahaha",
+    "Introducing first, fighting out of the red corner, a kickboxing specialist from Brazil, holding a record of 19 wins and 4 losses, weighing in at 135 pounds, the reigning, defending, unnnnndispuutteeeddd champion of the world, AMANDA THE LIONNESS NUUUUUNNNEESSSSS!!!
+    
+    We take fighting more seriously than anyone on Beatup and we have the championship belts to prove it.  If you really want to test your might, come brawl with us."
 ]
 
     group_ids = []
@@ -130,9 +133,10 @@ end
     tights_user_names = ["Robin Hood", "Lil Jon", "Dave Chapelle", "Blinkin"]
     history_user_names = ["Teddy", "Lincoln", "Caesar", "Joan of Arc"]
     rapper_user_names =["Kanye", "Yeezy", "Louis Vuitton Don","Ye"]
+    division_user_names =["Amanda", "Weili", "Thug Rose", "JJ", "Holly", "Michelle"]
     
     user_names = [streetfighter_user_names, mortalkombat_user_names, soulcalibur_user_names, smashbrothers_user_names, tekken_user_names, 
-    arnolds_user_names, aa_user_names, dbz_user_names, best_user_names, badguys_user_names, tights_user_names, history_user_names, rapper_user_names]
+    arnolds_user_names, aa_user_names, dbz_user_names, best_user_names, badguys_user_names, tights_user_names, history_user_names, rapper_user_names, division_user_names]
     
     streetfighter_image_url = ["kenURL", "guileURL", "blankaURL", "mbisonURL"] 
     mortalkombat_image_url = ["subzeroURL", "shangtsungURL", "scorpionURL", "liukangURL"]
@@ -148,9 +152,10 @@ end
     tights_image_url = ["robinhoodURL", "liljonURL", "davechapelleURL", "blinkinURL"]
     history_image_url = ["teddyURL", "lincolnURL", "caesarURL", "joanofarcURL"]
     rapper_image_url = ["kanyeURL","kanye2URL", "kanye3URL", "kanye4URL"]
+    division_image_url =["AmandaURL", "WeiliURL", "ThugRoseURL", "JJURL", "HollyURL", "MichelleURL"]
     
     image_urls = [streetfighter_image_url, mortalkombat_image_url, soulcalibur_image_url, smashbrothers_image_url, tekken_image_url, 
-    arnolds_image_url, aa_image_url, dbz_image_url, best_image_url, badguys_image_url, tights_image_url, history_image_url, rapper_image_url]
+    arnolds_image_url, aa_image_url, dbz_image_url, best_image_url, badguys_image_url, tights_image_url, history_image_url, rapper_image_url, division_image_url]
   
 
     streetfighter_event_orgs = []
@@ -166,9 +171,10 @@ end
     tights_event_orgs = []
     history_event_orgs = []
     rapper_event_orgs = []
+    division_event_orgs = []
     
     event_orgs = [streetfighter_event_orgs, mortalkombat_event_orgs, soulcalibur_event_orgs, smashbrothers_event_orgs, tekken_event_orgs, 
-    arnolds_event_orgs, aa_event_orgs, dbz_event_orgs, best_event_orgs, badguys_event_orgs, tights_event_orgs, history_event_orgs, rapper_event_orgs]
+    arnolds_event_orgs, aa_event_orgs, dbz_event_orgs, best_event_orgs, badguys_event_orgs, tights_event_orgs, history_event_orgs, rapper_event_orgs, division_event_orgs]
     
     user_ids = []
     group_captains = []
@@ -229,11 +235,11 @@ end
         member_type: "Member"    
     )
     
-    sf_event_titles = ["Limb strength training", "A fun trip to wine country!"]
-    mk_event_titles  = ["A night of broken limbs", "Final Kombat"]
-    sc_event_titles = ["A Study of Blades", "Civilized Weapons Only"]
+    sf_event_titles = ["Limb strength training", "A fun trip to wine country!", "Fuego Friday"]
+    mk_event_titles  = ["A night of broken limbs", "Final Kombat", "BBQ Brawl"]
+    sc_event_titles = ["A Study of Blades", "Civilized Weapons Only" ]
     sb_event_titles = ["BRAWLIDAY", "Casual Friday!"] 
-    tekken_event_titles = ["Tek Tuesday", "Teknical Hit!"] 
+    tekken_event_titles = ["Tek Tuesday", "Teknical Hit!", "Teknique Tuneup"] 
     arnold_event_titles = [ "Mr. Universe", "Pumpin' Iron"]
     aa_event_titles = ["Winner gets a USB-C-HDMI Adapter!", "HackerBrawl"]
     dbz_event_titles = ["World Martial Arts Tournament", "Hell in a Cell Games", "Vegeta's driving lessons!"]
@@ -242,21 +248,27 @@ end
     tights_event_titles = ["Castle Siege VI", "A Song of Silk and Spandex"]
     history_event_titles = ["Ancient Martial Arts", "Avoiding Asssassination"]
     rapper_event_titles = ["An Epic Rap Battle with the GOAT", "Fishsticks"]
+    division_event_titles = ["Fight Night", "5 Rounds in the Cage", "Acai, Sugar and Water"]
 
     event_titles = [sf_event_titles, mk_event_titles, sc_event_titles, sb_event_titles, tekken_event_titles, arnold_event_titles,
     aa_event_titles, dbz_event_titles, krillin_event_titles, badguys_event_titles, tights_event_titles, history_event_titles,
-    rapper_event_titles]
+    rapper_event_titles, division_event_titles]
 
     sf_event_desc = ["Meet us out at the pier around sunset for some stress relief and strength training.  
     We will provide water and food but please make sure to bring your car since we don't have any cars 
     anymore and Blanka isn't legally allowed to drive.", "Come join us on a relaxing trip to Sonoma! We'll start
     with a light pairing of whites and cheeses followed by some full-bodied reds.  Then we'll likely carry out
-    our tradition of having some light sparring in the winery warehouse until we're thrown out or carried out."]
+    our tradition of having some light sparring in the winery warehouse until we're thrown out or carried out.",
+    "Make sure you show up early to Fuego Friday! We can only hold this event every so often, or really as often
+    as the city fire department forgets to check down by the docks so we can stacks barrels full of fuel about 15 feet
+    high, light them on fire and take turns kicking them, playing the most lethal version of Jenga known to man."]
     mk_event_desc  = ["Kome test your might.  We will be inkluding a variety of materials for you, our
     kontestants, to find the mightiest warriors who are kapable of joining our squad.  We suggest wearing
     long sleeve shirts (no tanktops for you show offs out there", "Final Kombat XVII.  It's like it says.  This is 
     our final, final, final, final, final, final, final, final, final, final, final, final, final
-    , final, final, final, final event.  We are Mortal Kombantants.  We know how to finish."]
+    , final, final, final, final event.  We are Mortal Kombantants.  We know how to finish.", "It's our most
+    kasual kompetition of the year so bring your best meat or become it at the Kombatant's BBQ Brawl.  Special
+    guest chef Scorpion will be at the grill all night so bring your appetite and we'll be kooking up a feast."]
     sc_event_desc = ["Come join us at Nightmare's house where we plan to watch seminal sword film and study 
     the blade.  We plan to watch Sword Art Online, Samurai Champloo, Kenshin and whatever else Nightmare's mom
     will allow us to watch before she yells at us to 'Go home and get a life'.  She will also likely be baking
@@ -274,7 +286,8 @@ end
     all in attendance!"] 
 
     tekken_event_desc = ["Join us for another night huddled in a dark room, only lit by VSCode dark mode, as we dive down rabbit holes so deep, you'll wonder if we will emerge in the motherland, Japan itself", 
-    "We're hosting a coding brawl, where the victor will be declared by the amount of Codewars problems solved or amount of coffee one can consume before keeling over.  Only one will emerge victorious."] 
+    "We're hosting a coding brawl, where the victor will be declared by the amount of Codewars problems solved or amount of coffee one can consume before keeling over.  Only one will emerge victorious.",
+    "It's gonna be a night of level ups with the Tek Crew so bring the Dew and we'll be up all night sharing our best Tekniques for Teknical interviews.  This time we'll beat OurHeroAppAcademia!"] 
     arnold_event_desc = ["I don't have any weak points. I had weak points three years ago, but my main thing in mind is, my goal always was, to even out everything to the point... that everything is perfect. Which means if I want to increase one muscle a half inch, the rest of the body has to increase. I would never make one muscle increase or decrease, because everything fits together now, and all I have to do is get my posing routine down more perfect, which is almost impossible to do, you know. It's perfect already",
     "The greatest feeling you can get in a gym, or the most satisfying feeling you can get in the gym is... The Pump. Let's say you train your biceps. Blood is rushing into your muscles and that's what we call The Pump. You muscles get a really tight feeling, like your skin is going to explode any minute, and it's really tight - it's like somebody blowing air into it, into your muscle. It just blows up, and it feels really different. It feels fantastic."]
     aa_event_desc = ["Bring your best to 825 Battery St.  We are offering to the winner, a highly prized, oft-contested HDMI-USB-C adapter for all your dual-screen needs.",
@@ -293,16 +306,19 @@ end
     "We host another lecture to discuss the pros and cons of bodyguards, body armor and public spaces.  Use our knowledge, we beg of you."]
     rapper_event_desc = ["I think I do myself a disservice by comparing myself to Steve Jobs and Walt Disney and human beings that we've seen before. It should be more like Willy Wonka... and welcome to my chocolate factory.", 
     "I would hear stories about Steve Jobs and feel like he was at 100 percent exactly what he wanted to do, but I'm sure even a Steve Jobs has compromised. Even a Rick Owens has compromised. You know, even a Kanye West has compromised. Sometimes you don't even know when you're being compromised till after the fact, and that's what you regret."]
+    division_event_desc = ["Come out to our Fight Night where we go 1v1 to shake up the power rankings!  Bring your best and try to move up to Squad Leader if you can beat any of our current members.  Only fists, knees, elbows and feet allowed here!!",
+    "It's our title fight night so come out and see the best of the best! Like we said last time ONLY knees, elbows, feet and fists!!  No hadoukens, spirit bombs, freezing, bows and arrows, or rapping allowed!",
+    "It's time for a little recovery time so we are going to all work out and recover with some acai, sugar and water.  Everyone knows that acai has mystical healing powers, as well as sugar and water, which helps us recover faster and fight harder.  Bring your own acai and we'll show you what to do with it."]
 
     event_descriptions = [sf_event_desc, mk_event_desc, sc_event_desc, sb_event_desc, tekken_event_desc, arnold_event_desc,
     aa_event_desc, dbz_event_desc, krillin_event_desc, badguys_event_desc, tights_event_desc, history_event_desc,
-    rapper_event_desc]
+    rapper_event_desc, division_event_desc]
 
-    sf_image_url = ["sfevent1URL", "sfevent2URL"]
-    mk_image_url  = ["mkevent1URL", "mkevent2URL"]
+    sf_image_url = ["sfevent1URL", "sfevent2URL", "sfevent3URL"]
+    mk_image_url  = ["mkevent1URL", "mkevent2URL", "mkevent3URL"]
     sc_image_url = ["scevent1URL", "scevent2URL"]
     sb_image_url = ["sbevent1URL", "sbevent2URL"] 
-    tekken_image_url = ["tekkenevent1URL", "tekkenevent2URL"] 
+    tekken_image_url = ["tekkenevent1URL", "tekkenevent2URL", "tekkenevent3URL"] 
     arnold_image_url = [ "arnoldevent1URL", "arnoldevent2URL"]
     aa_image_url = ["aaevent1URL", "aaevent2URL"]
     dbz_image_url = ["dbzevent1URL", "dbzevent2URL", "dbzevent3URL"]
@@ -311,10 +327,11 @@ end
     tights_image_url = ["tightsevent1URL", "tightsevent2URL"]
     history_image_url = ["historyevent1URL", "historyevent2URL"]
     rapper_image_url = ["rapperevent1URL", "rapperevent2URL"]
+    division_image_url = ["divisionevent1URL", "divisionevent2URL","divisionevent3URL" ]
 
     event_image_urls = [sf_image_url, mk_image_url, sc_image_url, sb_image_url, tekken_image_url, arnold_image_url,
     aa_image_url, dbz_image_url, krillin_image_url, badguys_image_url, tights_image_url, history_image_url,
-    rapper_image_url]
+    rapper_image_url, division_image_url]
 
     max_attendance = [100, 20, 5]
     recurring_type = ["Weekly", "Monthly", "None"]
@@ -336,6 +353,7 @@ end
 
             channel = Channel.create!(
                 name: event_titles[i][j],
+                event_id: event.id,
                 channel_icon: "defaultchannelURL",
                 group_id: i+1,
                 dm: false,

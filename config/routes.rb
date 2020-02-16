@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resources :events, only: [:index]
     end
     resource :session, only: [:create, :destroy]
-    resources :memberships, only: [:update]
+    resources :memberships, only: [:update, :index]
     resources :events, only: [:create, :destroy, :show, :update, :index] do
       resources :reservations, only: [:index, :create, :destroy]
       resources :users, only:[:index]

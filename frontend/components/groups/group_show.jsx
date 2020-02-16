@@ -48,12 +48,16 @@ class GroupShow extends React.Component{
             let {name, locationId, imageUrl} = this.props.group
             let currentUserCaptain;
             let currentUserMember = false;
-            let captainIds = []
-            let memberIds = []
+            let captainIds = [];
+            let leaderIds = [];
+            let memberIds = [];
             memberships.groupMemberships.map(membership => {
                 memberIds.push(membership.userId)
                 if (membership.memberType==="Captain") {
                     captainIds.push(membership.userId)
+                    leaderIds.push(membership.userId)
+                } else if(membership.memberType==="Squad Leader"){
+                    leaderIds.push(membership.userId)
                 }
                 if (membership.userId===session.id){
                     currentUserMember = true
@@ -78,29 +82,39 @@ class GroupShow extends React.Component{
                     case "members":
                         currentTab = <GroupShowMembers 
                                         currentUserCaptain={currentUserCaptain} 
-                                        captainIds={captainIds} users={users} 
+                                        leaderIds={leaderIds}
+                                        users={users} 
                                         memberships={memberships.groupMemberships}
                                         updateMembership={this.props.updateMembership}/>
                         break;
                     case "events":
-                        currentTab = <GroupShowEvents events={eventsArray} group={group} locations={locations}/>
+                        currentTab = <GroupShowEvents 
+                                        currentUserCaptain={currentUserCaptain} 
+                                        events={eventsArray} 
+                                        group={group} 
+                                        locations={locations}
+                                        groupId={group.id}/>
                         break;
                     default:
-                        currentTab = (<GroupShowAbout captainsNum={captainsNum} membership={memberships} users={users} captains={captains} captainIds={captainIds} props={this.props} />)
+                        currentTab = (<GroupShowAbout 
+                                        captainsNum={captainsNum} 
+                                        membership={memberships} 
+                                        users={users} 
+                                        captains={captains} 
+                                        captainIds={captainIds} 
+                                        props={this.props} />)
                         break;
             }
-            let groupDropdown = <div className="group-show-stripe-right">
-                <GroupOptionsDropdownWithRouter 
-                    createMembership={this.props.createMembership} 
-                    deleteMembership={this.props.deleteMembership} 
-                    deleteGroup={this.props.deleteGroup}
-                    currentUserCaptain={currentUserCaptain} 
-                    currentUserMember={currentUserMember} 
-                    groupId={group.id}
-                    currentUser= {currentUser}
-                    totalMembers={memberIds.length}
-                />
-            </div>
+            let groupDropdown =  <GroupOptionsDropdownWithRouter 
+                                    createMembership={this.props.createMembership} 
+                                    deleteMembership={this.props.deleteMembership} 
+                                    deleteGroup={this.props.deleteGroup}
+                                    currentUserCaptain={currentUserCaptain} 
+                                    currentUserMember={currentUserMember} 
+                                    groupId={group.id}
+                                    currentUser= {currentUser}
+                                    totalMembers={memberIds.length}
+                                />
             return(
                 <div>
                     <div className="group-show-div">
@@ -128,11 +142,14 @@ class GroupShow extends React.Component{
                         
                         <div className="group-show-stripe">
                             <div className="group-show-stripe-left">
-                                <li className="group-show-inline-list-item" onClick={this.switchPage('about')}>About</li>
-                                <li className="group-show-inline-list-item" onClick={this.switchPage('events')}>Brawls</li>
-                                <li className="group-show-inline-list-item" onClick={this.switchPage('members')}>Members</li>
-                            </div>
+                                <li className={this.state.currentPage === "about" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item" }
+                                    onClick={this.switchPage('about')}>About</li>
+                                <li className={this.state.currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item" }
+                                    onClick={this.switchPage('events')}>Brawls</li>
+                                <li className={this.state.currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item" }
+                                    onClick={this.switchPage('members')}>Members</li>
                             {groupDropdown}
+                            </div>
                         </div>
                         {currentTab}
                     </div>

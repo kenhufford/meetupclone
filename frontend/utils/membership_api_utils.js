@@ -6,6 +6,13 @@ export const fetchMemberships = (groupId) => (
     })
 )
 
+// export const fetchMembershipsFromUser = () => (
+//     $.ajax({
+//         url: `/api/memberships`,
+//         method: "GET"
+//     })
+// )
+
 export const createMembership = (groupId) => (
     $.ajax({
         url: `/api/groups/${groupId}/memberships`,

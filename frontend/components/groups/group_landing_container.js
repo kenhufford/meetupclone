@@ -7,7 +7,8 @@ import {fetchEvents} from '../../actions/event_actions'
 const mapStateToProps = (state) => ({
     groups: Object.values(state.entities.groups),
     locations: Object.values(state.entities.locations),
-    events: Object.values(state.entities.events)
+    events: Object.values(state.entities.events),
+    currentUser: state.session
 })
 
 const mapDispatchToProps = dispatch => ({

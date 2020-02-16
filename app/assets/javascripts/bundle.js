@@ -616,7 +616,10 @@ var fetchMemberships = function fetchMemberships(groupId) {
       return dispatch(receiveMemberships(memberships));
     });
   };
-};
+}; // export const fetchMembershipsFromUser = () => dispatch => (
+//     APIUtils.fetchMembershipsFromUser()
+//         .then( (memberships) => dispatch(receiveMemberships(memberships)))
+// )
 
 /***/ }),
 
@@ -1361,8 +1364,9 @@ function (_React$Component) {
       var channelships = Object.assign({}, this.state.channelships);
       this.props.updateChannelship({
         channel_id: channel.id
-      }).then(function (channelship) {
+      }).then(function () {
         return Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
+          debugger;
           var channelChannelships = data[0].channelships.channelChannelships;
           channelships[channelChannelships] = channelChannelships;
           var channelUsers = data[1].users;
@@ -1382,12 +1386,13 @@ function (_React$Component) {
     value: function selectAfterCreateChannel(channel) {
       var _this6 = this;
 
+      debugger;
       var selectedChannel = channel;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
       this.props.updateChannelship({
         channel_id: channel.id
-      }).then(function (channelship) {
+      }).then(function () {
         return Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
           var channelships = data[0].channelships;
           var channelUsers = data[1].users;
@@ -1601,6 +1606,7 @@ function (_React$Component) {
       if (!this.state.loaded) return null;
       var userChannelships = this.state.channelships.userChannelships;
       var channelToChannelshipHash = {};
+      var selectedId = this.props.selectedChannel.id;
       Object.values(userChannelships).forEach(function (channelship) {
         channelToChannelshipHash[channelship.channelId] = {
           lastVisited: channelship.lastVisited
@@ -1623,8 +1629,10 @@ function (_React$Component) {
 
       if (groupChannels.length !== 0) {
         groupChannelList = groupChannels.map(function (channel, i) {
+          var selected = channel.id === selectedId;
           var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_5__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_item__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            selected: selected,
             notify: notify,
             dm: false,
             key: i,
@@ -1640,7 +1648,9 @@ function (_React$Component) {
       if (userChannels.length !== 0) {
         userChannelList = userChannels.map(function (channel, i) {
           var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_5__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+          var selected = channel.id === selectedId;
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_item__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            selected: selected,
             notify: notify,
             dm: true,
             key: i,
@@ -1790,6 +1800,7 @@ function (_React$Component) {
       var _this2 = this;
 
       var channel = this.props.channel;
+      var selected = this.props.selected;
       var removeChannelshipEle = this.state.hovering && !this.props.dm ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-ban remove-button",
         onClick: function onClick() {
@@ -1799,7 +1810,7 @@ function (_React$Component) {
         className: "hidden"
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-channel-dm-container",
+        className: selected ? "chat-channel-dm-container-selected" : "chat-channel-dm-container",
         onMouseEnter: function onMouseEnter() {
           return _this2.hover(true);
         },
@@ -1809,7 +1820,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-channel-index-item-left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-circle"
+        className: selected ? "fas fa-circle circle-selected" : "far fa-circle"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick(e) {
           _this2.props.selectChannel(channel);
@@ -2048,7 +2059,11 @@ function (_React$Component) {
       } else if (this.state.channelName.length < 6 || this.state.channelIcon === '') {
         if (this.state.channelName.length < 6) {
           var errors = this.state.errors;
-          errors.push("Channel name must be at least 6 characters");
+
+          if (!errors.includes("Channel name must be at least 6 characters")) {
+            errors.push("Channel name must be at least 6 characters");
+          }
+
           this.setState({
             errors: errors
           });
@@ -2057,7 +2072,9 @@ function (_React$Component) {
         if (this.state.channelIcon === '') {
           var _errors = this.state.errors;
 
-          _errors.push("Channel must have an icon selected");
+          if (!_errors.includes("Channel must have an icon selected")) {
+            _errors.push("Channel must have an icon selected");
+          }
 
           this.setState({
             errors: _errors
@@ -2128,10 +2145,7 @@ function (_React$Component) {
           value: this.state.searchTerm,
           placeholder: "Search for members",
           className: "chat-dm-search"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          onClick: this.createChannel,
-          className: "chat-dm-search-go"
-        }, "CREATE")), index, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })), index, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-errors"
         }, this.state.errors.map(function (error, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -2149,7 +2163,10 @@ function (_React$Component) {
             },
             src: window[icon]
           });
-        }))));
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: this.createChannel,
+          className: "chat-channel-create"
+        }, "CREATE")));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -2289,6 +2306,7 @@ function (_React$Component) {
       var users = [];
       var channel_icon1;
       var channel_icon2;
+      var selectAfterCreateChannel = this.props.selectAfterCreateChannel;
       users.push(currentUser);
       users = users.concat(Object.values(this.state.addedToChannel));
       users.sort();
@@ -2327,10 +2345,9 @@ function (_React$Component) {
               group_id: _this3.props.groupId
             });
           });
-
-          _this3.props.selectAfterCreateChannel(data.channel);
-        } else if (data.oldChannel !== undefined) {
-          _this3.props.selectAfterCreateChannel(data.channel.oldChannel);
+          selectAfterCreateChannel(data.channel);
+        } else {
+          selectAfterCreateChannel(data.channel.oldChannel);
         }
       });
       this.props.toggleModal("dm");
@@ -2385,17 +2402,6 @@ function (_React$Component) {
                 }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
                   src: window[channel.channelIcon2],
                   className: "chat-message-img2"
-                }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", channel.name, " "));
-              } else {
-                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-                  key: channel.id,
-                  className: "chat-modal-list-item",
-                  onClick: function onClick() {
-                    return _this4.selectChannel(channel);
-                  }
-                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-                  src: window[channel.channelIcon],
-                  className: "chat-message-img"
                 }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", channel.name, " "));
               }
             });
@@ -2757,6 +2763,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2777,6 +2784,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ChatInfoBar =
 /*#__PURE__*/
 function (_React$Component) {
@@ -2789,7 +2797,8 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatInfoBar).call(this, props));
     _this.state = {
-      userDropdown: false
+      userDropdown: false,
+      channelUsers: _this.props.channelUsers
     };
     _this.toggleDropdown = _this.toggleDropdown.bind(_assertThisInitialized(_this));
     return _this;
@@ -2804,9 +2813,20 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.selectedChannel !== prevProps.selectedChannel) {
+        this.setState({
+          channelUsers: this.props.channelUsers
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var users = Object.values(this.props.channelUsers);
+      if (this.state.channelUsers === {}) return null;
+      var channel = this.props.selectedChannel;
+      var users = Object.values(this.state.channelUsers);
       var userDropdown = this.state.userDropdown ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-info-dropdown"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2825,11 +2845,13 @@ function (_React$Component) {
           className: "chat-message-img"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", user.name, " "));
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-      var infobar = !this.props.selectedChannel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var infobar = !channel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-info-bar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select a channel")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-info-bar"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.selectedChannel.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, channel.name), channel.eventId !== null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/groups/".concat(channel.groupId, "/events/").concat(channel.eventId)
+      }, "Event Page") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-info-bar-users",
         onClick: this.toggleDropdown
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -3695,9 +3717,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index_item.jsx");
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3715,7 +3736,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -3832,8 +3852,8 @@ function (_React$Component) {
             case "Weekly":
               for (var i = 1; i < 16; i++) {
                 var brawl1 = Object.assign({}, brawl);
-                brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addWeek"])(brawl.startTime, i);
-                brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addWeek"])(brawl.endTime, i);
+                brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addWeek"])(brawl.startTime, i);
+                brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addWeek"])(brawl.endTime, i);
                 allBrawls.push(brawl1);
                 if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
               }
@@ -3844,8 +3864,8 @@ function (_React$Component) {
               for (var _i = 1; _i < 4; _i++) {
                 var _brawl = Object.assign({}, brawl);
 
-                _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addMonth"])(brawl.startTime, _i);
-                _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["addMonth"])(brawl.endTime, _i);
+                _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addMonth"])(brawl.startTime, _i);
+                _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addMonth"])(brawl.endTime, _i);
                 allBrawls.push(_brawl);
                 if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
               }
@@ -3877,6 +3897,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      debugger;
+
       if (this.state.loaded) {
         var locations = this.props.locations;
         var _this$state = this.state,
@@ -3888,7 +3910,7 @@ function (_React$Component) {
         var userlist = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "group-show-events-list"
         }, userBrawls.map(function (brawl, i) {
-          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDateWithMonth"])(brawl.startTime);
+          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDateWithMonth"])(brawl.startTime);
           var diffMonth = thisMonth !== lastMonth;
           lastMonth = thisMonth;
           var title = brawl.title,
@@ -3912,17 +3934,17 @@ function (_React$Component) {
             className: "group-show-events-event-div"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-top"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-bottom"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-info"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "group-show-events-event-title"
-          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
             to: "/search/?location%20".concat(locationId)
           }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-link"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
             to: "/groups/".concat(groupId, "/events/").concat(id)
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
             src: window[imageUrl],
@@ -3933,7 +3955,7 @@ function (_React$Component) {
         var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "group-show-events-list"
         }, displayedBrawls.map(function (brawl, i) {
-          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDateWithMonth"])(brawl.startTime);
+          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDateWithMonth"])(brawl.startTime);
           var diffMonth = thisMonth !== lastMonth;
           lastMonth = thisMonth;
           var title = brawl.title,
@@ -3957,17 +3979,17 @@ function (_React$Component) {
             className: "group-show-events-event-div"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-top"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_4__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-div-bottom"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-info"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "group-show-events-event-title"
-          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+          }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
             to: "/search/?location%20".concat(locationId)
           }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "group-show-events-event-link"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
             to: "/groups/".concat(groupId, "/events/").concat(id)
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
             src: window[imageUrl],
@@ -3983,17 +4005,17 @@ function (_React$Component) {
           className: "index-switch-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-not"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
           className: "index-switch-text-not",
           to: "/groups"
         }, "SQUADS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-selected"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
           className: "index-switch-text-selected",
           to: "/events"
         }, "BRAWLS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-switch-not"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
           className: "index-switch-text-not",
           to: "/categories"
         }, "STYLES")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4824,13 +4846,13 @@ function (_React$Component) {
           }));
         })));
         var slides = [slide0, slide1, slide2, slide3, slide4];
-        var completion = "create-group-completion-".concat(this.state.currentSlide);
+        var completion = "progress-bar progress-bar-".concat(this.state.currentSlide);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-main-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
           className: completion
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "create-group-completion"
+          className: "progress"
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-completion-text"
         }, "Step ", this.state.currentSlide + 1, " of ", slides.length), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5485,6 +5507,7 @@ function (_React$Component) {
       location: _this.props.locations,
       loaded: false
     };
+    debugger;
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -5511,7 +5534,15 @@ function (_React$Component) {
         });
       });
       Promise.all([fetchEvents, fetchGroups, fetchLocations]).then(function () {
-        return _this2.setState({
+        if (_this2.props.currentUser.locationId !== undefined) {
+          _this2.setState({
+            loaded: true,
+            selectedLocation: _this2.state.location[_this2.props.currentUser.locationId].name,
+            selectedLocationId: _this2.props.currentUser.locationId
+          });
+        }
+
+        _this2.setState({
           loaded: true
         });
       });
@@ -5613,7 +5644,8 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     groups: Object.values(state.entities.groups),
     locations: Object.values(state.entities.locations),
-    events: Object.values(state.entities.events)
+    events: Object.values(state.entities.events),
+    currentUser: state.session
   };
 };
 
@@ -5979,12 +6011,16 @@ function (_React$Component) {
         var currentUserCaptain;
         var currentUserMember = false;
         var captainIds = [];
+        var leaderIds = [];
         var memberIds = [];
         memberships.groupMemberships.map(function (membership) {
           memberIds.push(membership.userId);
 
           if (membership.memberType === "Captain") {
             captainIds.push(membership.userId);
+            leaderIds.push(membership.userId);
+          } else if (membership.memberType === "Squad Leader") {
+            leaderIds.push(membership.userId);
           }
 
           if (membership.userId === session.id) {
@@ -6019,7 +6055,7 @@ function (_React$Component) {
           case "members":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members__WEBPACK_IMPORTED_MODULE_2__["default"], {
               currentUserCaptain: currentUserCaptain,
-              captainIds: captainIds,
+              leaderIds: leaderIds,
               users: users,
               memberships: memberships.groupMemberships,
               updateMembership: this.props.updateMembership
@@ -6028,9 +6064,11 @@ function (_React$Component) {
 
           case "events":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_events__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              currentUserCaptain: currentUserCaptain,
               events: eventsArray,
               group: group,
-              locations: locations
+              locations: locations,
+              groupId: group.id
             });
             break;
 
@@ -6046,9 +6084,7 @@ function (_React$Component) {
             break;
         }
 
-        var groupDropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-stripe-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupOptionsDropdownWithRouter, {
+        var groupDropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupOptionsDropdownWithRouter, {
           createMembership: this.props.createMembership,
           deleteMembership: this.props.deleteMembership,
           deleteGroup: this.props.deleteGroup,
@@ -6057,7 +6093,7 @@ function (_React$Component) {
           groupId: group.id,
           currentUser: currentUser,
           totalMembers: memberIds.length
-        }));
+        });
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6095,15 +6131,15 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-stripe-left"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "group-show-inline-list-item",
+          className: this.state.currentPage === "about" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
           onClick: this.switchPage('about')
         }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "group-show-inline-list-item",
+          className: this.state.currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
           onClick: this.switchPage('events')
         }, "Brawls"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "group-show-inline-list-item",
+          className: this.state.currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
           onClick: this.switchPage('members')
-        }, "Members")), groupDropdown), currentTab));
+        }, "Members"), groupDropdown)), currentTab));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -6370,7 +6406,9 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           events = _this$props.events,
-          locations = _this$props.locations;
+          locations = _this$props.locations,
+          currentUserCaptain = _this$props.currentUserCaptain,
+          groupId = _this$props.groupId;
       var allBrawls = [];
       events.map(function (brawl) {
         switch (brawl.recurringType) {
@@ -6404,7 +6442,10 @@ function (_React$Component) {
       });
       var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-events-list"
-      }, allBrawls.map(function (brawl, i) {
+      }, currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        to: "/events/new/".concat(groupId, "/"),
+        className: "group-show-create-event-button"
+      }, "Create a Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), allBrawls.map(function (brawl, i) {
         var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithMonth"])(brawl.startTime);
         var diffMonth = thisMonth !== lastMonth;
         lastMonth = thisMonth;
@@ -6413,14 +6454,13 @@ function (_React$Component) {
             groupId = brawl.groupId,
             imageUrl = brawl.imageUrl,
             startTime = brawl.startTime,
-            endTime = brawl.endTime,
-            address = brawl.address,
             id = brawl.id,
             reservationIds = brawl.reservationIds,
             recurringType = brawl.recurringType;
         var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: i
+          key: i,
+          className: "group-show-event-index-item"
         }, diffMonth ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-event-datedivider"
         }, thisMonth) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -6453,7 +6493,7 @@ function (_React$Component) {
         className: "group-show-events-main"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.currentPage)), list));
+      }), list));
     }
   }]);
 
@@ -6524,7 +6564,8 @@ function (_React$Component) {
 
       return function () {
         _this2.setState({
-          currentPage: page
+          currentPage: page,
+          searchQuery: ''
         });
       };
     }
@@ -6547,7 +6588,7 @@ function (_React$Component) {
       var _this$props = this.props,
           memberships = _this$props.memberships,
           users = _this$props.users,
-          captainIds = _this$props.captainIds;
+          leaderIds = _this$props.leaderIds;
       var list = this.state.currentPage === "All members" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
       }, memberships.map(function (membership, i) {
@@ -6579,7 +6620,7 @@ function (_React$Component) {
         }
       })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "group-show-members-right-list"
-      }, captainIds.map(function (id, i) {
+      }, leaderIds.map(function (id, i) {
         var _users$id = users[id],
             imageUrl = _users$id.imageUrl,
             name = _users$id.name,
@@ -6617,7 +6658,7 @@ function (_React$Component) {
         className: this.state.currentPage !== "All members" ? "group-show-members-selected" : "group-show-members-notselected"
       }, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "group-show-members-length"
-      }, this.props.captainIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.leaderIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right-header"
@@ -6684,14 +6725,50 @@ function (_React$Component) {
   _inherits(Header, _React$Component);
 
   function Header(props) {
+    var _this;
+
     _classCallCheck(this, Header);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
+    _this.state = {
+      userHasMemberships: false
+    };
+    return _this;
   }
 
   _createClass(Header, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.props.fetchMemberships(0).then(function (data) {
+        if (data.memberships.userHasMemberships) {
+          _this2.setState({
+            userHasMemberships: true
+          });
+        }
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var _this3 = this;
+
+      if (this.props.currentUser !== prevProps.currentUser) {
+        this.props.fetchMemberships(0).then(function (data) {
+          if (data.memberships.userHasMemberships) {
+            _this3.setState({
+              userHasMemberships: true
+            });
+          }
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       var _this$props = this.props,
           currentUser = _this$props.currentUser,
           logout = _this$props.logout;
@@ -6720,9 +6797,14 @@ function (_React$Component) {
           className: "navbar-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/groups/form/new"
-        }, "Start a New Squad"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        }, "Start a New Squad"), _this4.state.userHasMemberships ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/chat"
-        }, "Messenger"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        }, "Messenger") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          className: "on-hover-messenger",
+          to: "/groups"
+        }, "Messenger", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "on-hover-messenger-tooltip"
+        }, "Join a group to use messenger")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/groups"
         }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderSearchWithRouter, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           onClick: logout,
@@ -6770,7 +6852,9 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _header__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./header */ "./frontend/components/header/header.jsx");
+/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/membership_actions */ "./frontend/actions/membership_actions.js");
+/* harmony import */ var _header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header */ "./frontend/components/header/header.jsx");
+
 
 
 
@@ -6786,11 +6870,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     logout: function logout() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["logout"])());
+    },
+    fetchMemberships: function fetchMemberships(groupId) {
+      return dispatch(Object(_actions_membership_actions__WEBPACK_IMPORTED_MODULE_2__["fetchMemberships"])(groupId));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_header__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_header__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -6916,7 +7003,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App */ "./frontend/components/App.jsx");
+/* harmony import */ var _components_scrollToTop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/scrollToTop */ "./frontend/components/scrollToTop.jsx");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./App */ "./frontend/components/App.jsx");
+
 
 
 
@@ -6926,10 +7015,75 @@ var Root = function Root(_ref) {
   var store = _ref.store;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_1__["Provider"], {
     store: store
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_scrollToTop__WEBPACK_IMPORTED_MODULE_3__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_4__["default"], null))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Root);
+
+/***/ }),
+
+/***/ "./frontend/components/scrollToTop.jsx":
+/*!*********************************************!*\
+  !*** ./frontend/components/scrollToTop.jsx ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var ScrollToTop =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ScrollToTop, _React$Component);
+
+  function ScrollToTop() {
+    _classCallCheck(this, ScrollToTop);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ScrollToTop).apply(this, arguments));
+  }
+
+  _createClass(ScrollToTop, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        window.scrollTo(0, 0);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return this.props.children;
+    }
+  }]);
+
+  return ScrollToTop;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ScrollToTop));
 
 /***/ }),
 
@@ -7601,7 +7755,7 @@ function (_React$Component) {
         value: "Demo Sign In"
       }))))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "signup-form-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Sign Up"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Sign Up"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit,
         className: "signup-box"
       }, this.renderErrors(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7639,7 +7793,7 @@ function (_React$Component) {
         toggleLocation: this.toggleSelected
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "signup-terms"
-      }, "Your name is public. We'll use your email address to send you updates, and your location to find Meetups near you. When you \"Continue\", you agree to Meetup's Terms of Service. We will manage information about you as described in our Privacy Policy, and Cookie Policy."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Your name is public. You don't really have to use a real one so pick something adventurous and heroic.  We will only share the information provided to other Squads and Brawlers on Beatup so don't worry about it too much but maybe don't put your location because sometimes our Brawlers get a little overzealous!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "signup-submit",
         type: "submit",
         value: "Continue"
@@ -8895,7 +9049,13 @@ var fetchMemberships = function fetchMemberships(groupId) {
     url: "/api/groups/".concat(groupId, "/memberships"),
     method: "GET"
   });
-};
+}; // export const fetchMembershipsFromUser = () => (
+//     $.ajax({
+//         url: `/api/memberships`,
+//         method: "GET"
+//     })
+// )
+
 var createMembership = function createMembership(groupId) {
   return $.ajax({
     url: "/api/groups/".concat(groupId, "/memberships"),

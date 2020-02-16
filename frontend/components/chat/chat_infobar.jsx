@@ -1,11 +1,13 @@
 
 import React from "react";
+import { Link } from 'react-router-dom';
 
 class ChatInfoBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userDropdown: false
+            userDropdown: false,
+            channelUsers: this.props.channelUsers
         }
         this.toggleDropdown = this.toggleDropdown.bind(this);
     }
@@ -17,8 +19,18 @@ class ChatInfoBar extends React.Component {
         })
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.selectedChannel !== prevProps.selectedChannel ) {
+            this.setState({
+                channelUsers: this.props.channelUsers
+            })
+        }
+    }
+
     render() {
-        let users = Object.values(this.props.channelUsers);
+        if (this.state.channelUsers === {}) return null;
+        let channel = this.props.selectedChannel;
+        let users = Object.values(this.state.channelUsers);
         let userDropdown = this.state.userDropdown ? (
             <div className="chat-info-dropdown">
                 <div 
@@ -44,14 +56,14 @@ class ChatInfoBar extends React.Component {
                 </div> */}
             </div>
         ) : <div></div>
-        let infobar = !this.props.selectedChannel ? 
+        let infobar = !channel ? 
             (<div className="chat-info-bar">
                     <p>Select a channel</p>
                 </div>)
                 :
             (<div className="chat-info-bar">
-                <p>{this.props.selectedChannel.name}</p>
-                
+                <p>{channel.name}</p>
+                {channel.eventId!==null ? <Link to={`/groups/${channel.groupId}/events/${channel.eventId}`}>Event Page</Link> : <div></div>}
                 <div className="chat-info-bar-users"
                     onClick={this.toggleDropdown}>
                     <i className="fas fa-users"></i>

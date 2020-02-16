@@ -217,11 +217,11 @@ class CreateGroupForm extends React.Component{
             )
     
             let slides = [slide0, slide1, slide2, slide3, slide4]
-            let completion = `create-group-completion-${this.state.currentSlide}`
+            let completion = `progress-bar progress-bar-${this.state.currentSlide}`
             return(
                 <div className="create-group-main-div">
                     <span className={completion}></span>
-                    <span className="create-group-completion"></span>
+                    <span className="progress"></span>
                     <p className="create-group-completion-text">Step {this.state.currentSlide+1} of {slides.length}</p>
                     <div className="create-group-div">
                         {slides[this.state.currentSlide]}

@@ -95,12 +95,17 @@ class ChatCreateChannel extends React.Component{
         } else if (this.state.channelName.length < 6 || this.state.channelIcon === '' ) {
             if (this.state.channelName.length < 6){
                 let errors = this.state.errors;
-                errors.push("Channel name must be at least 6 characters")
+                if (!errors.includes("Channel name must be at least 6 characters")){
+                    errors.push("Channel name must be at least 6 characters")
+                }
+                
                 this.setState({ errors })
             }
             if (this.state.channelIcon === '') {
                 let errors = this.state.errors;
-                errors.push("Channel must have an icon selected")
+                if (!errors.includes("Channel must have an icon selected")) {
+                    errors.push("Channel must have an icon selected")
+                }
                 this.setState({ errors })
             } 
         }
@@ -152,11 +157,6 @@ class ChatCreateChannel extends React.Component{
                                 value={this.state.searchTerm}
                                 placeholder="Search for members"
                                 className="chat-dm-search" />
-                            <div
-                                onClick={this.createChannel}
-                                className="chat-dm-search-go">
-                                CREATE
-                            </div>
                         </div>
                         {index}
                         <div className="chat-dm-errors">
@@ -178,6 +178,11 @@ class ChatCreateChannel extends React.Component{
                                     onClick={()=>this.selectIcon(icon)}
                                     src={window[icon]}/>
                             ))}
+                        </div>
+                        <div
+                            onClick={this.createChannel}
+                            className="chat-channel-create">
+                            CREATE
                         </div>
                     </div>
                 </div>

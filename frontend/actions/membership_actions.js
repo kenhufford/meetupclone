@@ -26,3 +26,8 @@ export const fetchMemberships = (groupId) => dispatch => (
     APIUtils.fetchMemberships(groupId)
         .then( (memberships) => dispatch(receiveMemberships(memberships)))
 )
+
+// export const fetchMembershipsFromUser = () => dispatch => (
+//     APIUtils.fetchMembershipsFromUser()
+//         .then( (memberships) => dispatch(receiveMemberships(memberships)))
+// )

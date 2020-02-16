@@ -112,8 +112,35 @@
     text-decoration: none;
     color: white;
     font-weight: 500;
+    cursor: pointer;
   }
 
+  .on-hover-messenger{
+   font-size: 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .on-hover-messenger .on-hover-messenger-tooltip {
+   border: 2px solid white;
+  visibility: hidden;
+  width: 120px;
+  background-color: #ff350c;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 58%;
+}
+
+.on-hover-messenger:hover .on-hover-messenger-tooltip {
+  visibility: visible;
+}
 
  .navbar-group-link{
     text-decoration: none;
@@ -283,9 +310,9 @@
 
 
 .login-form-errors{
-   font-size: 14px;
-   padding: 5px 0px;
-
+    font-size: 18px;
+    padding: 10px 0px;
+    font-style: italic;
 }
 
  .login-form-container{
@@ -302,14 +329,15 @@
  }
 
  .login-not-reg{
-   font-size: 14px;
+   font-size: 18px;
    padding: 10px 0px;
  }
 
  .login-signup-link{
-   font-size: 14px;
+   font-size: 18px;
    padding-left: 6px;
    text-decoration: none;
+   color: #FF0C37;
  }
 
  .login-form{
@@ -319,7 +347,7 @@
 
  .login-form-label{
 
-   font-size: 13px;
+   font-size: 16px;
    font-weight: 700;
  }
 
@@ -348,7 +376,7 @@
     background-color: #FF0C37;
     color: white;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     height: 40px;
     width: 90px;
@@ -361,7 +389,7 @@
    background-color: #FF0C37;
    color: white;
    border-radius: 4px;
-   font-size: 16px;
+   font-size: 18px;
    font-weight: bold;
    height: 40px;
    width: 140px;
@@ -375,9 +403,11 @@
    margin: 0 auto;
 }
 
-.signup-form-container h3{
-   font-size: 28px;
-   text-align: center;;
+.signup-form-container > div{
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px 0px;
 }
 
 .signup-box{
@@ -393,9 +423,9 @@
 }
 
 .signup-selected-location{
-   font-size: 16px;
+   font-size: 22px;
    font-weight: 700;
-   padding-right: 10px
+   padding-right: 10px;
 }
 
 .signup-selected-location-error{
@@ -580,16 +610,16 @@
 }
 
 .index-item{
-   border: 1px solid rgb(206, 206, 206);
-   width:  250px;
-   height: 150px;
-   margin-bottom: 15px;
-   border-radius: 8px;
-   position: relative;
-   overflow: hidden;
-   color: white;
-   transition: box-shadow .3s;
-   cursor: pointer;
+border: 1px solid rgb(206, 206, 206);
+    width: 300px;
+    height: 200px;
+    margin: 20px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    transition: box-shadow .3s;
+    cursor: pointer;
 }
 
 .index-item:hover{
@@ -658,7 +688,7 @@
     align-items: center;
     color: #858585;
     padding: 0px 10px;
-    width: 90%;
+    width: 100%;
     flex-grow: 1;
     display: inline;
     border-radius: 8px;
@@ -676,7 +706,7 @@
 
 
 .search-bar-button{
-   font-size: 16px;
+   font-size: 18px;
    font-weight: 500;
    height: 48px;
    line-height: 1.45;
@@ -804,15 +834,15 @@ color: #404040;
    padding-top: 10px;
    padding-bottom: 10px;
    z-index: 5;
-   border-bottom: 1px lightgrey solid;
-   border-top: 1px lightgrey solid;
+   border-bottom: 1px rgb(206, 124, 124) solid;
+   border-top: 1px rgb(206, 124, 124) solid;
 }
 
 .group-show-stripe-left{
    display: flex;
    justify-content: space-between;
    align-items: center;
-   width: 65%;
+   width: 100%;
    list-style-type: none;
    color: rgb(46, 62, 72);
    font-size: 16px;
@@ -826,7 +856,14 @@ color: #404040;
    font-size: 20px;
    font-weight: 500;
    line-height: 24px;
-  
+}
+
+.group-show-inline-list-item-selected{
+   font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    color: rgba(255, 53, 12, 0.8);
+    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
 }
 
 .group-show-inline-list > li{
@@ -835,12 +872,6 @@ color: #404040;
    padding: 2px 10px;
 }
 
-.group-show-stripe-right{
-   display: flex;
-   justify-content: flex-end;
-   width: 43%;
-   list-style-type: none;
-}
 
 .group-show-join-button{
    cursor: pointer;
@@ -898,7 +929,7 @@ color: #404040;
 }
 
 .group-show-main-right{
-   margin-top: 20px;
+   margin-top: 10px;
    width: 45%;
    padding: 10px 20px;
 
@@ -1169,14 +1200,159 @@ color: #404040;
    margin-bottom: 80px;
 }
 
+
+
+
+
+.progress {
+   position: relative;
+   top: 0px;
+   width: 100%;
+   height: 16px;
+   z-index:-1;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar-0 {
+   position:absolute;
+   z-index: 1;
+   left: 0px;
+   width: 20%;
+  background-color: #f63a0f;
+  height: 21px;
+  border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  -webkit-transition: 0.4s linear;
+  -moz-transition: 0.4s linear;
+  -o-transition: 0.4s linear;
+  transition: 0.4s linear;
+  -webkit-transition-property: width, background-color;
+  -moz-transition-property: width, background-color;
+  -o-transition-property: width, background-color;
+  transition-property: width, background-color;
+  -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-1 {
+   position:absolute;
+   z-index: 1;
+   left: 0px;
+   width: 40%;
+  background-color: #f27011;
+  height: 21px;
+  border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  -webkit-transition: 0.4s linear;
+  -moz-transition: 0.4s linear;
+  -o-transition: 0.4s linear;
+  transition: 0.4s linear;
+  -webkit-transition-property: width, background-color;
+  -moz-transition-property: width, background-color;
+  -o-transition-property: width, background-color;
+  transition-property: width, background-color;
+  -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-2 {
+   position:absolute;
+   z-index: 1;
+   left: 0px;
+   width: 60%;
+  background-color: #f2b01e;
+  height: 21px;
+  border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  -webkit-transition: 0.4s linear;
+  -moz-transition: 0.4s linear;
+  -o-transition: 0.4s linear;
+  transition: 0.4s linear;
+  -webkit-transition-property: width, background-color;
+  -moz-transition-property: width, background-color;
+  -o-transition-property: width, background-color;
+  transition-property: width, background-color;
+  -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-3{
+   position:absolute;
+   z-index: 1;
+   left: 0px;
+   width: 80%;
+  background-color: #f2d31b;
+  height: 21px;
+  border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  -webkit-transition: 0.4s linear;
+  -moz-transition: 0.4s linear;
+  -o-transition: 0.4s linear;
+  transition: 0.4s linear;
+  -webkit-transition-property: width, background-color;
+  -moz-transition-property: width, background-color;
+  -o-transition-property: width, background-color;
+  transition-property: width, background-color;
+  -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-4{
+   position:absolute;
+   z-index: 1;
+   left: 0px;
+   width: 100%;
+  background-color: #86e01e;
+  height: 21px;
+  border-radius: 4px;
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  -webkit-transition: 0.4s linear;
+  -moz-transition: 0.4s linear;
+  -o-transition: 0.4s linear;
+  transition: 0.4s linear;
+  -webkit-transition-property: width, background-color;
+  -moz-transition-property: width, background-color;
+  -o-transition-property: width, background-color;
+  transition-property: width, background-color;
+  -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+
+
+
+
+
+
+
+
 .create-group-completion{
    position: relative;
    top: 0px;
    width: 100%;
-   background-color: rgb(155, 155, 155);
-   border-radius: 1px solid rgb(155, 155, 155);;
    height: 10px;
    z-index:-1;
+   background-color: rgb(155, 155, 155);
+   border-radius: 1px solid rgb(155, 155, 155);;
 }
 
 .create-group-completion-text{
@@ -1310,8 +1486,11 @@ color: #404040;
 
 
 .create-group-card-dropdown-header-title{
-   color: #ff350c;
-   font-size: 20px
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    color: rgba(255, 53, 12, 0.8);
+    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white
 }
 
 .create-group-card-dropdown-header-title-div{
@@ -1728,6 +1907,7 @@ padding-left: 15px;
     line-height: 25px;
     color: #ff350c;
     font-size: 18px;
+    font-weight: 700;
 }
 
 .event-show-main-right-eventinfo{
@@ -1791,6 +1971,25 @@ padding-left: 15px;
    display: flex
 }
 
+.group-show-event-index-item{
+   width:100%;
+}
+
+.group-show-create-event-button{
+    font-size: 28px;
+    font-weight: 500;
+    cursor: pointer;
+    color: rgba(255, 53, 12, 0.8);
+    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
+    text-decoration: none;
+    cursor:pointer;
+    height: 50px;
+}
+
+
+
+
+
 .group-show-events-main{
    margin: 10px;
    height: fit-content;
@@ -1823,6 +2022,9 @@ padding-left: 15px;
 
 .group-show-events-list{
    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .group-show-event-datedivider{
@@ -1852,6 +2054,7 @@ padding-left: 15px;
    justify-content: space-between;
    align-items: center;
    padding: 0px 15px;
+   font-size: 18px;
 }
 
 .group-show-events-event-div-top{
@@ -1862,10 +2065,10 @@ padding-left: 15px;
 }
 
 .group-show-events-event-div-top p{
-   padding: 8px 0px;
-    font-size: 24px;
-    font-weight: 500;
+   font-size: 22px;
+   font-weight: 700;
 }
+
 
 .group-show-events-event-div-bottom{
    display: flex;
@@ -1885,7 +2088,10 @@ padding-left: 15px;
    display: flex;
    flex-direction: column;
    align-items: flex-start;
-   
+}
+
+.group-show-events-event-info > *{
+   padding: 5px 0px;
 }
 
 .group-show-events-event-info > p{
@@ -2006,14 +2212,14 @@ padding-left: 15px;
 }
 
 .chat-main i{
-   color: #ff350c;
+   color: rgb(226, 156, 76);
    cursor:pointer;
 }
 
 .chat-main-left{
    display: flex;
    flex-direction: row;
-   width: 35%;
+   width: 40%;
    max-width: 400px;
    border-radius: 8px;
 }
@@ -2069,7 +2275,7 @@ padding-left: 15px;
 
 .chat-channel-index > p{
    font-weight: 700;
-    color: red;
+    color: rgb(226, 156, 76);
     font-size: 26px;
 }
 
@@ -2083,6 +2289,7 @@ padding-left: 15px;
    font-size: 18px;
    color: white;
    padding: 5px 0px;
+       cursor: pointer;
 }
 
 .chat-channel-dm-div{
@@ -2097,7 +2304,19 @@ padding-left: 15px;
    color: white;
 }
 
-
+.chat-channel-create{
+   position: relative;
+   left: 38%;
+   width: 16%;
+    border-radius: 10px;
+    background-color: rgb(226, 156, 76);
+    color: #404040;
+    text-align: center;
+    padding: 20px;
+    font-weight: 700;
+    font-size: 24px;
+    margin: 20px;
+}
 
 .chat-channel-list p{
    margin: 8px 0px;
@@ -2120,6 +2339,12 @@ padding-left: 15px;
     width: 100%;
     border-bottom: 1px solid darkslategray;
     align-items: center;
+}
+
+.chat-info-bar a{
+       color: rgb(226, 156, 76);
+    font-size: 20px;
+    text-decoration: none;
 }
 
 .chat-info-dropdown{
@@ -2155,7 +2380,7 @@ padding-left: 15px;
 }
 
 .chat-info-bar-users i{
-   color: #ff350c;
+   color: rgb(226, 156, 76);
    cursor: pointer;
    padding-right: 10px;
    font-size:24px;
@@ -2357,7 +2582,7 @@ padding-left: 15px;
 }
 
 .chat-dm-content > p{
-   font-size: 32px;
+   font-size: 28px;
    font-weight: 500;
    padding: 15px 0px;
 }
@@ -2407,6 +2632,19 @@ padding-left: 15px;
     align-items: center;
     justify-content: space-between;
     padding: 0px 5px;
+}
+
+.chat-channel-dm-container-selected{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 5px;
+    background-color: rgb(92, 92, 92);
+}
+
+.circle-selected{
+   color: green;
 }
 
 .chat-channel-dm-container:hover{

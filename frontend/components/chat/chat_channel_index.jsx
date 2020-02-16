@@ -86,6 +86,7 @@ class ChatChannelIndex extends React.Component {
         if (!this.state.loaded) return null
         let userChannelships = this.state.channelships.userChannelships;
         let channelToChannelshipHash = {};
+        let selectedId = this.props.selectedChannel.id
  
         Object.values(userChannelships).forEach(channelship => {
             channelToChannelshipHash[channelship.channelId] = {lastVisited: channelship.lastVisited}
@@ -100,8 +101,10 @@ class ChatChannelIndex extends React.Component {
        
         if (groupChannels.length !== 0) {
             groupChannelList = groupChannels.map((channel, i) =>{
+                let selected = channel.id === selectedId;
                 let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
                 return (<ChatChannelIndexItem  
+                            selected={selected}
                             notify={notify}
                             dm={false}
                             key={i}
@@ -116,7 +119,9 @@ class ChatChannelIndex extends React.Component {
         if (userChannels.length !== 0) {
             userChannelList = userChannels.map((channel, i) =>{
                 let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+                let selected = channel.id === selectedId;
                 return (<ChatChannelIndexItem
+                    selected={selected}
                     notify={notify}
                     dm={true}
                     key={i}
