@@ -1283,7 +1283,8 @@ function (_React$Component) {
       var _this3 = this;
 
       this.props.deleteChannelship(channelshipId).then(function () {
-        var groupId = Object.values(_this3.state.groups)[0].id;
+        // let groupId = Object.values(this.state.groups)[0].id;
+        var groupId = _this3.state.selectedGroupId;
 
         var fetchGroupChannels = _this3.props.fetchGroupChannels(groupId);
 
@@ -1293,7 +1294,7 @@ function (_React$Component) {
           var groupUsers = data[0].users;
 
           _this3.setState({
-            selectedGroupId: groupId,
+            // selectedGroupId: groupId,
             loaded: true,
             groupUsers: groupUsers,
             selectedChannel: {},
@@ -2908,27 +2909,59 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatJoinChannel).call(this, props));
     _this.state = {
       searchTerm: '',
-      filteredChannels: []
+      filteredChannels: [],
+      unjoinedGroups: []
     };
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.createChannelship = _this.createChannelship.bind(_assertThisInitialized(_this));
-    _this.unjoinedGroups = [];
-    Object.keys(_this.props.groupChannels).forEach(function (channelId) {
-      var userChannels = _this.props.userChannels;
-      var groupChannel = _this.props.groupChannels[channelId];
 
-      if (!Object.keys(userChannels).includes(channelId)) {
-        _this.unjoinedGroups.push(groupChannel);
-      }
-    });
+    _assertThisInitialized(_this);
+
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChatJoinChannel, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var userChannels = this.props.userChannels;
+      var groupChannels = this.props.groupChannels;
+      var unjoinedGroups = [];
+      Object.keys(this.props.groupChannels).forEach(function (channelId) {
+        var groupChannel = groupChannels[channelId];
+
+        if (!Object.keys(userChannels).includes(channelId)) {
+          unjoinedGroups.push(groupChannel);
+        }
+      });
+      this.setState({
+        unjoinedGroups: unjoinedGroups
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var userChannels = this.props.userChannels;
+      var groupChannels = this.props.groupChannels;
+      var unjoinedGroups = [];
+
+      if (prevProps.userChannels !== this.props.userChannels) {
+        Object.keys(this.props.groupChannels).forEach(function (channelId) {
+          var groupChannel = groupChannels[channelId];
+
+          if (!Object.keys(userChannels).includes(channelId)) {
+            unjoinedGroups.push(groupChannel);
+          }
+        });
+        this.setState({
+          unjoinedGroups: unjoinedGroups
+        });
+      }
+    }
+  }, {
     key: "update",
     value: function update(e) {
-      var filteredChannels = this.unjoinedGroups.filter(function (channel) {
+      var filteredChannels = this.state.unjoinedGroups.filter(function (channel) {
         return channel.name.toLowerCase().includes(e.currentTarget.value.toLowerCase());
       });
       this.setState({
@@ -2963,12 +2996,12 @@ function (_React$Component) {
         var index;
 
         if (this.state.searchTerm === '' || this.state.filteredChannels.length === 0) {
-          if (this.unjoinedGroups.length === 0) {
+          if (this.state.unjoinedGroups.length === 0) {
             index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "chat-modal-msg"
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "You've joined all the channels"));
           } else {
-            index = this.unjoinedGroups.map(function (channel, i) {
+            index = this.state.unjoinedGroups.map(function (channel, i) {
               return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
                 key: i,
                 className: "chat-modal-list-item",

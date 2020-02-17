@@ -5,23 +5,45 @@ class ChatJoinChannel extends React.Component{
         super(props);
         this.state = {
             searchTerm: '',
-            filteredChannels: []
+            filteredChannels: [],
+            unjoinedGroups: []
         };
         this.update = this.update.bind(this);
         this.createChannelship = this.createChannelship.bind(this);
-        this.unjoinedGroups = [];
-        Object.keys(this.props.groupChannels).forEach( (channelId) => {
-            let userChannels = this.props.userChannels;
-            let groupChannel = this.props.groupChannels[channelId];
-            if (!Object.keys(userChannels).includes(channelId)){
-                this.unjoinedGroups.push(groupChannel);
-            }
-        });
+        this
         this.update = this.update.bind(this);
     }
 
+    componentDidMount(){
+        let userChannels = this.props.userChannels;
+        let groupChannels = this.props.groupChannels;
+        let unjoinedGroups = [];
+        Object.keys(this.props.groupChannels).forEach((channelId) => {
+            let groupChannel = groupChannels[channelId];
+            if (!Object.keys(userChannels).includes(channelId)) {
+                unjoinedGroups.push(groupChannel);
+            }
+        });
+        this.setState({ unjoinedGroups });
+    }
+
+    componentDidUpdate(prevProps){
+        let userChannels = this.props.userChannels;
+        let groupChannels = this.props.groupChannels;
+        let unjoinedGroups = [];
+        if (prevProps.userChannels !== this.props.userChannels){
+            Object.keys(this.props.groupChannels).forEach((channelId) => {
+                let groupChannel = groupChannels[channelId];
+                if (!Object.keys(userChannels).includes(channelId)) {
+                    unjoinedGroups.push(groupChannel);
+                }
+            });
+            this.setState({ unjoinedGroups });
+        }
+    }
+
     update(e){
-        let filteredChannels = this.unjoinedGroups.filter(channel =>
+        let filteredChannels = this.state.unjoinedGroups.filter(channel =>
             channel.name.toLowerCase().includes(e.currentTarget.value.toLowerCase()))
         this.setState({
             searchTerm: e.currentTarget.value,
@@ -49,12 +71,12 @@ class ChatJoinChannel extends React.Component{
         if (this.props.show){
             let index;
             if (this.state.searchTerm === '' || this.state.filteredChannels.length === 0){
-                if (this.unjoinedGroups.length === 0){
+                if (this.state.unjoinedGroups.length === 0){
                     index = (<div className="chat-modal-msg">
                                 <p>You've joined all the channels</p>
                             </div>)
                 } else {
-                    index = this.unjoinedGroups.map((channel, i) => (
+                    index = this.state.unjoinedGroups.map((channel, i) => (
                         <div key={i}
                             className="chat-modal-list-item"
                             onClick={() => this.createChannelship(channel)}>

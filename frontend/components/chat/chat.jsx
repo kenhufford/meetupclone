@@ -51,14 +51,15 @@ class Chat extends React.Component {
     removeChannelship(channelshipId){
         this.props.deleteChannelship(channelshipId)
             .then( () => {
-                let groupId = Object.values(this.state.groups)[0].id;
+                // let groupId = Object.values(this.state.groups)[0].id;
+                let groupId = this.state.selectedGroupId;
                 let fetchGroupChannels = this.props.fetchGroupChannels(groupId);
                 let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
                 Promise.all([fetchUsersFromGroup, fetchGroupChannels])
                     .then((data) => {
                         let groupUsers = data[0].users;
                         this.setState({
-                            selectedGroupId: groupId,
+                            // selectedGroupId: groupId,
                             loaded: true,
                             groupUsers,
                             selectedChannel: {},
