@@ -84,7 +84,6 @@ class GroupOptionsDropdown extends React.Component{
     }
 
     render(){
-
         if (this.state.toGroupIndex === true) {
             return <Redirect to='/groups' />
           }
@@ -98,14 +97,14 @@ class GroupOptionsDropdown extends React.Component{
                 <div className="create-group-card-dropdown-header-title-div">
                     <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
                     You're a Squad Captain</div>
-                    <i className="fas fa-caret-down"></i>
+                    {listOpen ? <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
                 </div>)
         } else if (currentUserMember){
             dropdownTitle = (
                 <div className="create-group-card-dropdown-header-title-div">
                     <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
                     You're a member</div>
-                    <i className="fas fa-caret-down"></i>
+                    {listOpen ? <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
                 </div>)
 
         } else {
@@ -133,10 +132,12 @@ class GroupOptionsDropdown extends React.Component{
         return(
             
             <div className="create-group-card-dropdown">
-                <div className="create-group-card-dropdown-header" onClick={() => this.toggleList()} >
+                <div className="create-group-card-dropdown-header" 
+                    onClick={() => this.toggleList()} >
                     {dropdownTitle}
                 </div>
-                {listOpen && <ul  className="create-group-card-dropdown-header-list">
+                {listOpen && 
+                <ul  className="create-group-card-dropdown-header-list">
                     {dropdownOption1}
                     {dropdownOption2}
                     {dropdownOption3}

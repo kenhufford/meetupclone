@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Link } from 'react-router-dom';
+import onClickOutside from "react-onclickoutside";
 
 class ChatInfoBar extends React.Component {
     constructor(props) {
@@ -10,12 +11,19 @@ class ChatInfoBar extends React.Component {
             channelUsers: this.props.channelUsers
         }
         this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     toggleDropdown(){
         let userDropdown = !this.state.userDropdown
         this.setState({
             userDropdown
+        })
+    }
+
+    handleClickOutside() {
+        this.setState({
+            userDropdown: false
         })
     }
 
@@ -31,18 +39,18 @@ class ChatInfoBar extends React.Component {
         if (this.state.channelUsers === {}) return null;
         let channel = this.props.selectedChannel;
         let users = Object.values(this.state.channelUsers);
-        let userDropdown = this.state.userDropdown ? (
-            <div className="chat-info-dropdown">
-                <div 
+        let userDropdown =
+             <div className="chat-info-dropdown">
+                <div
                     className="chat-info-bar-users">
                     <p>
                         <i className="far fa-user"></i>
-                        {`${users.length} members`} 
+                        {`${users.length} members`}
                     </p>
                     <i className="fas fa-angle-down"
                         onClick={this.toggleDropdown}></i>
                 </div>
-                {users.map( user => (
+                {users.map(user => (
                     <div key={user.id}
                         className="chat-info-bar-users-item">
                         <img src={window[user.imageUrl]}
@@ -51,11 +59,8 @@ class ChatInfoBar extends React.Component {
                         <p> {user.name} </p>
                     </div>
                 ))}
-                {/* <div className="chat-info-bar-add">
-                    <p>Add Member</p>
-                </div> */}
             </div>
-        ) : <div></div>
+        
         let infobar = !channel ? 
             (<div className="chat-info-bar">
                     <p>Select a channel</p>
@@ -76,7 +81,7 @@ class ChatInfoBar extends React.Component {
             return (
                 <div className="chat-info-bar-wrapper">
                     {infobar}
-                    {userDropdown}
+                    {this.state.userDropdown && userDropdown}
                 </div>
             )
         } else {
@@ -89,4 +94,4 @@ class ChatInfoBar extends React.Component {
     }
 }
 
-export default ChatInfoBar;
+export default onClickOutside(ChatInfoBar);

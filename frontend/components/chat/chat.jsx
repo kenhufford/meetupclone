@@ -92,7 +92,6 @@ class Chat extends React.Component {
             .then( ()=>
                 Promise.all([fetchChannelships, fetchUsersFromChannel])
                     .then((data) => {
-                        debugger
                         let channelChannelships = data[0].channelships.channelChannelships;
                         channelships[channelChannelships] = channelChannelships
                         let channelUsers = data[1].users;
@@ -108,7 +107,6 @@ class Chat extends React.Component {
     }
 
     selectAfterCreateChannel(channel){
-        debugger
         let selectedChannel = channel;
         let fetchChannelships = this.props.fetchChannelships(channel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);

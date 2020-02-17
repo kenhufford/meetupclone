@@ -29,7 +29,8 @@ class CreateGroupFormDropdown extends React.Component{
         <div className="create-group-card-dropdown">
             <div className="create-group-card-dropdown-header" onClick={() => this.toggleList()}>
                 <div className="create-group-card-dropdown-header-title">Change Location</div>
-                <i className="fas fa-caret-down"></i>
+          
+          {listOpen ? <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
             </div>
             {listOpen && <ul className="create-group-card-dropdown-header-list">
                 {list.map((location, index) => (

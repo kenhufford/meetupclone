@@ -46,7 +46,6 @@ class GroupIndex extends React.Component{
 
 
     render(){
-        console.log(this.props)
         if(this.state.loaded){
             let {groups} = this.props
             let userGroups = Object.values(this.state.userGroups)
@@ -65,26 +64,13 @@ class GroupIndex extends React.Component{
                 </div>
             ) :  (<div></div>)
             let yourTitle = !userGroups.length ?
-             (<div onClick={this.handleSignup} className="index-div-titles">JOIN A SQUAD</div>) : 
-            (<p className="index-div-titles">YOUR SQUADS</p>)
+             (<div onClick={this.handleSignup} className="index-div-titles">Join a squad</div>) : 
+            (<p className="index-div-titles">Your Squads</p>)
             return(
-                <div className="index-div">
-                    <div className="index-header">
-                        {yourTitle}
-                        <div className="index-switch-div">
-                            <div className="index-switch-selected">
-                                <Link className="index-switch-text-selected" to="/groups">SQUADS</Link>
-                            </div>
-                            <div className="index-switch-not">
-                                <Link className="index-switch-text-not" to="/events">BRAWLS</Link>
-                            </div>                    
-                            <div className="index-switch-not">
-                                <Link className="index-switch-text-not" to="/categories">STYLES</Link>
-                            </div>                    
-                        </div>
-                    </div>
+                <div className="component-index">
+                    {yourTitle}
                     {yourGroups}
-                    <p className="index-div-titles">ALL SQUADS</p>
+                    <p className="index-div-titles">All Squads</p>
                     {suggestedGroups}
                 </div>
                 

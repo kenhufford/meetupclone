@@ -135,11 +135,14 @@ class Search extends React.Component{
             let squadMessages = groups.length === 0 ? (<p>No results found</p>) : (<p></p>)
             let brawlMessages = events.length === 0 ? (<p>No results found</p>) : (<p></p>)
             let lastQuery=this.state.lastQuery.toUpperCase();
-            
+            let array = lastQuery.split(" ");
+            let index = array[array.length-1];
+            debugger
             if (lastQuery.includes("LOCATION")){
-                lastQuery = locations[lastQuery[lastQuery.length-1]].name.toUpperCase()
+                
+                lastQuery = locations[index].name.toUpperCase()
             } else if (lastQuery.includes("CATEGORY")) {
-                lastQuery = categories[lastQuery[lastQuery.length-1]].name.toUpperCase()
+                lastQuery = categories[index].name.toUpperCase()
             } 
             let searchedGroups = (
                 <ul className="groups-index-div-results">

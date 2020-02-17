@@ -30,20 +30,6 @@ class EventIndex extends React.Component{
             
             return (
                     <div className="index-div">
-                        <div className="index-header">
-                            <p className="index-div-titles">ALL FIGHTING STYLES</p>
-                            <div className="index-switch-div">
-                                <div className="index-switch-not">
-                                    <Link className="index-switch-text-not" to="/groups">SQUADS</Link>
-                                </div>
-                                <div className="index-switch-not">
-                                    <Link className="index-switch-text-not" to="/events">BRAWLS</Link>
-                                </div>                    
-                                <div className="index-switch-selected">
-                                    <Link className="index-switch-text-selected" to="/categories">STYLES</Link>
-                                </div>                    
-                            </div>
-                        </div>
                         {allFightingStyles}
                     </div>
             )

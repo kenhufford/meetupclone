@@ -18,7 +18,7 @@ class EventIndex extends React.Component{
             noUserBrawls: true,
             eventIndex: 10
         }
-        
+    
     this.handleSignup = this.handleSignup.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
     this.loadEvents = this.loadEvents.bind(this)
@@ -48,10 +48,12 @@ class EventIndex extends React.Component{
                 let allBrawls = this.state.allBrawls;
                 let eventIndex = this.state.eventIndex + 10;
                 let hasMore = this.state.hasMore;
-                if (eventIndex > allBrawls.length) {
-                    eventIndex = allBrawls.length;
+                let loaded = this.state.loaded;
+                if (eventIndex > allBrawls.length && this.state.loaded) {
                     hasMore = false;
-                };
+                } else {
+                    hasMore = true;
+                }
                 console.log(`setting eventindex ${eventIndex}`)
                 this.setState({
                     displayedBrawls: allBrawls.slice(0, eventIndex),
@@ -77,6 +79,7 @@ class EventIndex extends React.Component{
         const fetchGroups = this.props.fetchGroups();
         const fetchLocations = this.props.fetchLocations();
         const fetchReservations = this.props.fetchReservations(0);
+        let eventIndex = this.state.eventIndex;
         Promise.all([fetchEvents, fetchGroups, fetchReservations, fetchLocations])
             .then( (data) => {
                 let userEventIds = data[2].reservations.userReservations.map(reservation => {
@@ -112,18 +115,18 @@ class EventIndex extends React.Component{
                     }
                 })
                 if (userBrawls.length > 0) noUserBrawls = false;
-                
                 allBrawls.sort(function (a, b) {
                     return new Date(a.startTime) - new Date(b.startTime)
                 })
                 userBrawls.sort(function (a, b) {
                     return new Date(a.startTime) - new Date(b.startTime)
                 })
+                
                 this.setState({
                     loaded:true,
                     noUserBrawls,
                     allBrawls,
-                    displayedBrawls: allBrawls.slice(0,this.state.eventIndex),
+                    displayedBrawls: allBrawls.slice(0,eventIndex),
                     userBrawls,
                     eventIndex:10
                 })
@@ -131,7 +134,6 @@ class EventIndex extends React.Component{
         }
 
     render(){
-        debugger
         if(this.state.loaded){
             let {locations } = this.props;
             let {userBrawls, displayedBrawls, noUserBrawls, isLoading} = this.state;
@@ -146,7 +148,8 @@ class EventIndex extends React.Component{
                         let { title, locationId, groupId, imageUrl, startTime, endTime, address, id, reservationIds, recurringType } = brawl
                         let recurring = (recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {recurringType}</p>)
                         return (
-                            <div key={i} >
+                            <div key={i} 
+                                className="group-show-events-li-container">
                                 {diffMonth ? (<div className="group-show-event-datedivider">
                                     {thisMonth}
                                 </div>) :
@@ -188,7 +191,8 @@ class EventIndex extends React.Component{
                         let { title, locationId, groupId, imageUrl, startTime, endTime, address, id, reservationIds, recurringType } = brawl
                         let recurring = (recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {recurringType}</p>)
                         return (
-                            <div key={i} >
+                            <div key={i} 
+                                className="group-show-events-li-container">
                                 {diffMonth ? (<div className="group-show-event-datedivider">
                                     {thisMonth}
                                 </div>) :
@@ -222,25 +226,11 @@ class EventIndex extends React.Component{
 
             return (
 
-                <div className="event-index-div">
-                    <div className="event-index-header">
-                        <div className="index-switch-div">
-                            <div className="index-switch-not">
-                                <Link className="index-switch-text-not" to="/groups">SQUADS</Link>
-                            </div>
-                            <div className="index-switch-selected">
-                                <Link className="index-switch-text-selected" to="/events">BRAWLS</Link>
-                            </div>
-                            <div className="index-switch-not">
-                                <Link className="index-switch-text-not" to="/categories">STYLES</Link>
-                            </div>
-                        </div>
-                    </div>
-                    
+                <div className="index-div">
+                    {noUserBrawls ? <p className="index-div-titles-mid"></p> : <p className="index-div-titles-mid">YOUR BRAWLS</p>}
                     <div className="group-show-events-main">
-                        {noUserBrawls ? <p className="index-div-titles">GO SIGN UP FOR A BRAWL</p> : <p className="index-div-titles">YOUR BRAWLS</p>}
                         {userlist}
-                        <p className="index-div-titles">UPCOMING BRAWLS</p>
+                        <p className="index-div-titles-mid">UPCOMING BRAWLS</p>
                         {list}
                         {isLoading &&
                             <div>Loading...</div>

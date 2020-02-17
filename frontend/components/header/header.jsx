@@ -41,8 +41,7 @@ class Header extends React.Component{
   
     const sessionLinks = () => (
       <nav className="navbar-right">
-        <Link className="navbar-explore-link" to="/groups">Explore</Link>
-        {/* <a href="#/groups" className="navbar-explore-link">Explore</a> */}
+        <Link className="navbar-explore-link" to="/index/squads">Explore</Link>
         <HeaderSearchWithRouter />
         <Link className="navbar-login-signup-link" to="/login">Log in</Link>
         <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
@@ -55,17 +54,13 @@ class Header extends React.Component{
         {this.state.userHasMemberships ? <Link to="/chat">Messenger</Link> : 
           <Link 
             className="on-hover-messenger"
-            to="/groups">
+            to="/index/squads">
           Messenger
           <span className="on-hover-messenger-tooltip">Join a group to use messenger</span>
           </Link>}
-        
-        {/* <a href="#/groups/form/new" className="navbar-group-link">Start a New Squad</a> */}
-        <Link to="/groups">Explore</Link>
+        <Link to="/index/squads">Explore</Link>
         <HeaderSearchWithRouter />
         <Link onClick={logout} to="/login">Logout</Link>
-        {/* <a href="#/groups" className="navbar-explore-link">Explore</a> */}
-        {/* <a onClick={logout} className="navbar-dropdown" to="/login">Logout</a> */}
       </nav>
     );
       
