@@ -33,7 +33,7 @@ const App = () => (
         <Route exact path="/groups/:groupId/events/:eventId" component={EventShowContainer} />
         <ProtectedRoute exact path="/groups/form/:groupId/edit" component={EditGroupFormContainer} />
         <Route path="/index" component={Index} />
-        <Route exact path="/groups/:groupId" component={GroupShowContainer} />
+        <Route path="/groups/:groupId" component={GroupShowContainer} />
         <Route exact path="/" component={GroupLandingContainer} />
         <Redirect exact to="/" />
       </Switch>

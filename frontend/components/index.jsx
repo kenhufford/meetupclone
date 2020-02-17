@@ -19,6 +19,15 @@ class Index extends React.Component{
         })
     }
 
+    componentDidUpdate(prevProps){ 
+        if (prevProps.history.location.pathname.split("/")[2] !== prevProps.location.pathname.split("/")[2]){
+            this.setState({
+                selected: this.props.history.location.pathname.split("/")[2]
+            })
+        }
+
+    }
+
     render(){
         return (
             <div className="index-div">

@@ -99,14 +99,25 @@ class ChatDirectMessageInvite extends React.Component{
             .then( data => {
                 if (data.channel.oldChannel === undefined){
                     users.forEach((user, i) => {
-                        this.props.createChannelship({
-                            channel_id: data.channel.id,
-                            user_id: user.id,
-                            moderator: true,
-                            group_id: this.props.groupId
-                        });
+                        if (i !== users.length - 1) {
+                            this.props.createChannelship({
+                                channel_id: data.channel.id,
+                                user_id: user.id,
+                                moderator: true,
+                                group_id: this.props.groupId
+                            }); 
+                        } else {
+                            this.props.createChannelship({
+                                channel_id: data.channel.id,
+                                user_id: user.id,
+                                moderator: true,
+                                group_id: this.props.groupId
+                            })
+                                .then(() => {
+                                    this.props.selectAfterCreateChannel(data.channel)
+                                })
+                        }
                     })
-                    selectAfterCreateChannel(data.channel)
                 } else {
                     selectAfterCreateChannel(data.channel.oldChannel)
                 } 

@@ -232,7 +232,7 @@ end
     Membership.create!(
         group_id: 1,
         user_id: demo_user.id,
-        member_type: "Member"    
+        member_type: "Initiate"    
     )
     
     sf_event_titles = ["Limb strength training", "A fun trip to wine country!", "Fuego Friday"]

@@ -6,7 +6,9 @@ import Header from './header';
 const mapStateToProps = (state) => {
   let currentUser = state.session.id===undefined ? false:true
   return {
-    currentUser: currentUser
+    currentUser: currentUser,
+    memberships: state.entities.memberships,
+    userHasMemberships: state.entities.memberships.userHasMemberships
   };
 };
 

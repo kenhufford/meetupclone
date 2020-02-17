@@ -45,7 +45,7 @@ class GroupOptionsDropdown extends React.Component{
         if (!this.props.currentUser){
             document.location.href = '#/login'
         } else {
-            this.props.createMembership(this.props.groupId)
+            this.props.createMembership(this.props.groupId);
             this.setState({
                 listOpen: false,
                 currentUserMember: true

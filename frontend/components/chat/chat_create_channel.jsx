@@ -73,15 +73,28 @@ class ChatCreateChannel extends React.Component{
                 dm: false,
             })
                 .then(data => {
+                    let channel = data.channel;
                     users.forEach((user, i) => {
-                        this.props.createChannelship({
-                            channel_id: data.channel.id,
-                            user_id: user.id,
-                            moderator: true,
-                            group_id: this.props.groupId
-                        });
+                        if (i !==users.length-1){
+                            this.props.createChannelship({
+                                channel_id: data.channel.id,
+                                user_id: user.id,
+                                moderator: true,
+                                group_id: this.props.groupId
+                            });
+                        } else {
+                            this.props.createChannelship({
+                                channel_id: data.channel.id,
+                                user_id: user.id,
+                                moderator: true,
+                                group_id: this.props.groupId
+                            })
+                                .then( () => {
+                                    this.props.selectAfterCreateChannel(channel)
+                                })
+                        }
                     })
-                    this.props.selectAfterCreateChannel(data.channel)
+                    
                 })
             this.props.toggleModal("createChannel");
             this.setState({

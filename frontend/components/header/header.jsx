@@ -17,17 +17,17 @@ class Header extends React.Component{
     this.props.fetchMemberships(0)
       .then( data => {
         if (data.memberships.userHasMemberships){
-          this.setState({ userHasMemberships: true})
+          this.setState({ userHasMemberships: data.memberships.userHasMemberships})
         }
       })
   }
 
   componentDidUpdate(prevProps){
-    if (this.props.currentUser !== prevProps.currentUser){
+    if (this.props.currentUser !== prevProps.currentUser || prevProps.location.pathname !== this.props.location.pathname){
       this.props.fetchMemberships(0)
         .then(data => {
           if (data.memberships.userHasMemberships) {
-            this.setState({ userHasMemberships: true })
+            this.setState({ userHasMemberships: data.memberships.userHasMemberships })
           }
         })
     }
@@ -38,7 +38,6 @@ class Header extends React.Component{
     const goHome = ()=>{
       document.location.href = '#/'
     }
-  
     const sessionLinks = () => (
       <nav className="navbar-right">
         <Link className="navbar-explore-link" to="/index/squads">Explore</Link>
@@ -51,13 +50,16 @@ class Header extends React.Component{
     const signedIn = () => (
       <nav className="navbar-right">
         <Link to="/groups/form/new">Start a New Squad</Link>
-        {this.state.userHasMemberships ? <Link to="/chat">Messenger</Link> : 
-          <Link 
+        {this.props.userHasMemberships ? <Link to="/chat">Messenger</Link> : 
+        <div></div>}
+          {/* <Link 
             className="on-hover-messenger"
             to="/index/squads">
-          Messenger
-          <span className="on-hover-messenger-tooltip">Join a group to use messenger</span>
-          </Link>}
+            Messenger
+            <span className="on-hover-messenger-tooltip">
+              Join a group to use messenger
+            </span>
+          </Link> */}
         <Link to="/index/squads">Explore</Link>
         <HeaderSearchWithRouter />
         <Link onClick={logout} to="/login">Logout</Link>
@@ -85,4 +87,4 @@ class Header extends React.Component{
 }
 
 
-export default Header;
+export default withRouter(Header);

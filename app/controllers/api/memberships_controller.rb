@@ -42,6 +42,11 @@ class Api::MembershipsController < ApplicationController
           render json: @membership.errors.full_messages, status: 401
         end
         @user_memberships = current_user.memberships
+        if @user_memberships.length != 0
+          @user_has_memberships = true
+        else 
+          @user_has_memberships = false
+        end
         @group_memberships = @group.memberships
         render "api/memberships/index"
       end
@@ -56,6 +61,11 @@ class Api::MembershipsController < ApplicationController
         end
 
         @user_memberships = current_user.memberships
+        if @user_memberships.length != 0
+          @user_has_memberships = true
+        else 
+          @user_has_memberships = false
+        end
         @group_memberships = @group.memberships
         render "api/memberships/index"
       end
@@ -66,6 +76,11 @@ class Api::MembershipsController < ApplicationController
         @membership.destroy
         @current_user_member = false
         @user_memberships = current_user.memberships
+        if @user_memberships.length != 0
+          @user_has_memberships = true
+        else 
+          @user_has_memberships = false
+        end
         @group_memberships = @group.memberships
         render "api/memberships/index"
       end

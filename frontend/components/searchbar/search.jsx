@@ -137,7 +137,6 @@ class Search extends React.Component{
             let lastQuery=this.state.lastQuery.toUpperCase();
             let array = lastQuery.split(" ");
             let index = array[array.length-1];
-            debugger
             if (lastQuery.includes("LOCATION")){
                 
                 lastQuery = locations[index].name.toUpperCase()

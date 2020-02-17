@@ -139,12 +139,15 @@ class CreateGroupForm extends React.Component{
         if (this.state.loaded){
             let slide0 = (
                 <div className="create-group-card-body">
-                    <h3 className="create-group-card-title">First, where is your squad located?.</h3>
+                    <h3 className="create-group-card-title">First, where is your squad located?</h3>
                     <p className="create-group-card-description">Squads meet locally and in person. We will help you recruit warriors from across your region.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
+                    <p className="create-group-card-selected">{this.state.selectedLocation}</p>
                     <div className="create-group-card-options">
-                        <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.location} toggleLocation={this.toggleSelected} />
-                        <p className="create-group-card-selected">{this.state.selectedLocation}</p>
+                        <CreateGroupFormDropdown 
+                            location={this.state.selectedLocation} 
+                            list={this.state.location} 
+                            toggleLocation={this.toggleSelected} />
                     </div>
                 </div>
             )

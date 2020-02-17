@@ -126,7 +126,7 @@
   .on-hover-messenger .on-hover-messenger-tooltip {
    border: 2px solid white;
   visibility: hidden;
-  width: 120px;
+  width: 240px;
   background-color: rgba(255, 53, 12, 0.92);
   color: #fff;
   text-align: center;
@@ -2002,7 +2002,6 @@ padding-left: 15px;
 .group-show-create-event-button{
     font-size: 28px;
     font-weight: 500;
-    cursor: pointer;
     color: rgba(255, 53, 12, 0.8);
     text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
     text-decoration: none;
@@ -2380,7 +2379,8 @@ padding-left: 15px;
 .chat-info-dropdown{
    background-color: rgb(53, 53, 53);
     z-index: 2;
-    position: relative;
+    position: absolute;
+    top: 20%;
      max-height: 700px;
     overflow: scroll;
     border-radius: 10px;
@@ -2719,7 +2719,7 @@ padding-left: 15px;
     border: 0.8px solid rgb(168, 168, 168);
     border-radius: 5px;
     background-color: white;
-    resize: vertical;
+
 }
 
 .chat-message-form textarea:focus{
@@ -2831,7 +2831,7 @@ display: flex;
 }
 
 .chat-dm-icon-index-item-selected{
-   border: 2px solid red;
+   border: 2px solid rgba(47, 79, 79,1);;
    background-repeat: no-repeat;
    background-position: 50%;
    background-size: cover;

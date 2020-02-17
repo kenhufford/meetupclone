@@ -110,23 +110,18 @@ class Chat extends React.Component {
         let selectedChannel = channel;
         let fetchChannelships = this.props.fetchChannelships(channel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-        this.props.updateChannelship({
-            channel_id: channel.id
-        })
-            .then(() => 
-                Promise.all([fetchChannelships, fetchUsersFromChannel])
-                    .then((data) => {
-                        let channelships = data[0].channelships;
-                        let channelUsers = data[1].users;
-                        this.setState({
-                            selectedChannel,
-                            loaded: true,
-                            channelships,
-                            channelUsers,
-                            loadInfoBar: true
-                        });
-                    })
-        )
+        Promise.all([fetchChannelships, fetchUsersFromChannel])
+            .then((data) => {
+                let channelships = data[0].channelships;
+                let channelUsers = data[1].users;
+                this.setState({
+                    selectedChannel,
+                    loaded: true,
+                    channelships,
+                    channelUsers,
+                    loadInfoBar: true
+                });
+            })
     }
 
     render() {

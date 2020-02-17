@@ -958,7 +958,6 @@ var App = function App() {
     path: "/index",
     component: _index__WEBPACK_IMPORTED_MODULE_13__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
-    exact: true,
     path: "/groups/:groupId",
     component: _groups_group_show_container__WEBPACK_IMPORTED_MODULE_5__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
@@ -1354,20 +1353,16 @@ function (_React$Component) {
       var selectedChannel = channel;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-      this.props.updateChannelship({
-        channel_id: channel.id
-      }).then(function () {
-        return Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
-          var channelships = data[0].channelships;
-          var channelUsers = data[1].users;
+      Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
+        var channelships = data[0].channelships;
+        var channelUsers = data[1].users;
 
-          _this6.setState({
-            selectedChannel: selectedChannel,
-            loaded: true,
-            channelships: channelships,
-            channelUsers: channelUsers,
-            loadInfoBar: true
-          });
+        _this6.setState({
+          selectedChannel: selectedChannel,
+          loaded: true,
+          channelships: channelships,
+          channelUsers: channelUsers,
+          loadInfoBar: true
         });
       });
     }
@@ -2000,16 +1995,26 @@ function (_React$Component) {
           group_id: this.props.groupId,
           dm: false
         }).then(function (data) {
+          var channel = data.channel;
           users.forEach(function (user, i) {
-            _this3.props.createChannelship({
-              channel_id: data.channel.id,
-              user_id: user.id,
-              moderator: true,
-              group_id: _this3.props.groupId
-            });
+            if (i !== users.length - 1) {
+              _this3.props.createChannelship({
+                channel_id: data.channel.id,
+                user_id: user.id,
+                moderator: true,
+                group_id: _this3.props.groupId
+              });
+            } else {
+              _this3.props.createChannelship({
+                channel_id: data.channel.id,
+                user_id: user.id,
+                moderator: true,
+                group_id: _this3.props.groupId
+              }).then(function () {
+                _this3.props.selectAfterCreateChannel(channel);
+              });
+            }
           });
-
-          _this3.props.selectAfterCreateChannel(data.channel);
         });
         this.props.toggleModal("createChannel");
         this.setState({
@@ -2302,14 +2307,24 @@ function (_React$Component) {
       }).then(function (data) {
         if (data.channel.oldChannel === undefined) {
           users.forEach(function (user, i) {
-            _this3.props.createChannelship({
-              channel_id: data.channel.id,
-              user_id: user.id,
-              moderator: true,
-              group_id: _this3.props.groupId
-            });
+            if (i !== users.length - 1) {
+              _this3.props.createChannelship({
+                channel_id: data.channel.id,
+                user_id: user.id,
+                moderator: true,
+                group_id: _this3.props.groupId
+              });
+            } else {
+              _this3.props.createChannelship({
+                channel_id: data.channel.id,
+                user_id: user.id,
+                moderator: true,
+                group_id: _this3.props.groupId
+              }).then(function () {
+                _this3.props.selectAfterCreateChannel(data.channel);
+              });
+            }
           });
-          selectAfterCreateChannel(data.channel);
         } else {
           selectAfterCreateChannel(data.channel.oldChannel);
         }
@@ -4703,19 +4718,19 @@ function (_React$Component) {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "create-group-card-title"
-        }, "First, where is your squad located?."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "First, where is your squad located?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
         }, "Squads meet locally and in person. We will help you recruit warriors from across your region."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-errors"
-        }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "create-group-card-selected"
+        }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-options"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
           location: this.state.selectedLocation,
           list: this.state.location,
           toggleLocation: this.toggleSelected
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "create-group-card-selected"
-        }, this.state.selectedLocation)));
+        })));
         var slide1 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -6683,7 +6698,7 @@ function (_React$Component) {
       this.props.fetchMemberships(0).then(function (data) {
         if (data.memberships.userHasMemberships) {
           _this2.setState({
-            userHasMemberships: true
+            userHasMemberships: data.memberships.userHasMemberships
           });
         }
       });
@@ -6693,11 +6708,11 @@ function (_React$Component) {
     value: function componentDidUpdate(prevProps) {
       var _this3 = this;
 
-      if (this.props.currentUser !== prevProps.currentUser) {
+      if (this.props.currentUser !== prevProps.currentUser || prevProps.location.pathname !== this.props.location.pathname) {
         this.props.fetchMemberships(0).then(function (data) {
           if (data.memberships.userHasMemberships) {
             _this3.setState({
-              userHasMemberships: true
+              userHasMemberships: data.memberships.userHasMemberships
             });
           }
         });
@@ -6736,14 +6751,9 @@ function (_React$Component) {
           className: "navbar-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/groups/form/new"
-        }, "Start a New Squad"), _this4.state.userHasMemberships ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        }, "Start a New Squad"), _this4.props.userHasMemberships ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/chat"
-        }, "Messenger") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          className: "on-hover-messenger",
-          to: "/index/squads"
-        }, "Messenger", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "on-hover-messenger-tooltip"
-        }, "Join a group to use messenger")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        }, "Messenger") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/index/squads"
         }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderSearchWithRouter, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           onClick: logout,
@@ -6776,7 +6786,7 @@ function (_React$Component) {
   return Header;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Header);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Header));
 
 /***/ }),
 
@@ -6801,7 +6811,9 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   var currentUser = state.session.id === undefined ? false : true;
   return {
-    currentUser: currentUser
+    currentUser: currentUser,
+    memberships: state.entities.memberships,
+    userHasMemberships: state.entities.memberships.userHasMemberships
   };
 };
 
@@ -6993,6 +7005,15 @@ function (_React$Component) {
       this.setState({
         selected: type
       });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.history.location.pathname.split("/")[2] !== prevProps.location.pathname.split("/")[2]) {
+        this.setState({
+          selected: this.props.history.location.pathname.split("/")[2]
+        });
+      }
     }
   }, {
     key: "render",
@@ -7380,7 +7401,6 @@ function (_React$Component) {
         var lastQuery = this.state.lastQuery.toUpperCase();
         var array = lastQuery.split(" ");
         var index = array[array.length - 1];
-        debugger;
 
         if (lastQuery.includes("LOCATION")) {
           lastQuery = locations[index].name.toUpperCase();

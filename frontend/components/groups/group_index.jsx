@@ -19,7 +19,6 @@ class GroupIndex extends React.Component{
         } else {
             return null
         }
-        
     }
 
     componentDidMount(){
