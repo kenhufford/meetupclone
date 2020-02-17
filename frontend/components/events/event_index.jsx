@@ -54,7 +54,6 @@ class EventIndex extends React.Component{
                 } else {
                     hasMore = true;
                 }
-                console.log(`setting eventindex ${eventIndex}`)
                 this.setState({
                     displayedBrawls: allBrawls.slice(0, eventIndex),
                     eventIndex,

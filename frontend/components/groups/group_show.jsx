@@ -130,7 +130,8 @@ class GroupShow extends React.Component{
                                 </div>
                                 <div className="group-show-header-right-totalmembers">
                                     <i className="fas fa-user-friends"></i>
-                                    <p className="group-show-header-right-totalmembers-text">{memberIds.length} members</p>
+                                    <p className="group-show-header-right-totalmembers-text"
+                                        onClick={this.switchPage('members')}>{memberIds.length} members</p>
                                 </div>
                                 <div className="group-show-header-right-organized">
                                     <i className="fas fa-user"></i> 

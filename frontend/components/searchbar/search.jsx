@@ -84,7 +84,6 @@ class Search extends React.Component{
         }
 
         let setSearchStateFail= (payload) => {
-            console.log("bye")
             let newState = Object.assign({}, {
                 query: "",
                 lastQuery: result.toUpperCase(),
@@ -96,7 +95,6 @@ class Search extends React.Component{
         }
 
         let setSearchStateFailOne= (payload) => {
-            console.log("bye")
             let newState = Object.assign({}, {
                 query: "",
                 lastQuery: result.toUpperCase(),

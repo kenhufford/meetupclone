@@ -111,7 +111,7 @@ class EventShow extends React.Component{
                     <div>
                         <p>Organizer Options</p>
                         <Link to={`/events/form/${id}/edit`}>Edit Event</Link>
-                        <p className="text-link" onClick={this.deleteEvent}>Cancel the Brawl</p>
+                        <p> onClick={this.deleteEvent}>Cancel the Brawl</p>
                     </div>
                 </div>
             ) : (<div></div>)

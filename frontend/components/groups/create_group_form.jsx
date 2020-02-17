@@ -47,7 +47,6 @@ class CreateGroupForm extends React.Component{
 
     handleStep(type){
         return () => {
-            console.log(this.state.categorySelected)
         let slide = this.state.currentSlide;
         let groupId = this.props.match.params.groupId;
         let catArray = [];
@@ -231,7 +230,7 @@ class CreateGroupForm extends React.Component{
                     </div>
                     <footer className="create-group-footer">
                         <div>
-                            <button onClick={this.handleStep('prev')} className="create-group-footer-prev">Prev</button>
+                            <button onClick={this.handleStep('prev')} className="create-group-footer-next">Prev</button>
                         </div>
                         <div>
                             <button onClick={this.handleStep('next')} className="create-group-footer-next">Next</button>
