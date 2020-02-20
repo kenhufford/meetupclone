@@ -4762,7 +4762,7 @@ function (_React$Component) {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "create-group-card-title"
-        }, "What best typifies your squad's fighting style"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, "How would you describe your squad's fighting style"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
         }, "Be specific and don't be shy. We won't divulge the secret training methods of your squad.  We will help potential squad members find you!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-errors"
