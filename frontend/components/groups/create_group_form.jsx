@@ -153,7 +153,7 @@ class CreateGroupForm extends React.Component{
     
             let slide1 = (
                 <div className="create-group-card-body">
-                    <h3 className="create-group-card-title">What best typifies your squad's fighting style</h3>
+                    <h3 className="create-group-card-title">How would you describe your squad's fighting style</h3>
                     <p className="create-group-card-description">Be specific and don't be shy. We won't divulge the secret training methods of your squad.  We will help potential squad members find you!</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
