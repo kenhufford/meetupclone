@@ -1466,7 +1466,7 @@ function (_React$Component) {
   _createClass(ChatChannel, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar__WEBPACK_IMPORTED_MODULE_1__["default"], {
         selectedChannel: this.props.selectedChannel,
         channelUsers: this.props.channelUsers,
         loadInfoBar: this.props.loadInfoBar
@@ -2813,8 +2813,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_onclickoutside__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-onclickoutside */ "./node_modules/react-onclickoutside/dist/react-onclickoutside.es.js");
+/* harmony import */ var _chat_infobar_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_infobar_dropdown */ "./frontend/components/chat/chat_infobar_dropdown.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2849,81 +2849,56 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatInfoBar).call(this, props));
     _this.state = {
-      userDropdown: false,
-      channelUsers: _this.props.channelUsers
+      userDropdown: false
     };
     _this.toggleDropdown = _this.toggleDropdown.bind(_assertThisInitialized(_this));
-    _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChatInfoBar, [{
     key: "toggleDropdown",
-    value: function toggleDropdown() {
-      var userDropdown = !this.state.userDropdown;
+    value: function toggleDropdown(outsideClick) {
+      debugger;
+      var userDropdown = outsideClick ? false : !this.state.userDropdown;
       this.setState({
         userDropdown: userDropdown
       });
     }
   }, {
-    key: "handleClickOutside",
-    value: function handleClickOutside() {
-      this.setState({
-        userDropdown: false
-      });
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.selectedChannel !== prevProps.selectedChannel) {
-        this.setState({
-          channelUsers: this.props.channelUsers
-        });
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
-      // if (this.state.channelUsers === {}) return null;
+      var _this2 = this;
+
       var channel = this.props.selectedChannel;
-      var users = Object.values(this.state.channelUsers);
-      var userDropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-info-dropdown"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-info-bar-users"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-user"
-      }), "".concat(users.length, " members")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-angle-down",
-        onClick: this.toggleDropdown
-      })), users.map(function (user) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: user.id,
-          className: "chat-info-bar-users-item"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window[user.imageUrl],
-          className: "chat-message-img"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", user.name, " "));
-      }));
-      var infobar = !channel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var users = Object.values(this.props.channelUsers);
+      var selectChannelBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-info-bar"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select a channel")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-info-bar"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, channel.name), channel.eventId !== null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: "/groups/".concat(channel.groupId, "/events/").concat(channel.eventId)
-      }, "Event Page") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-info-bar-users",
-        onClick: this.toggleDropdown
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-users"
-      }), users.length));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select a channel"));
+      var dropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        channelUsers: this.props.channelUsers,
+        userDropdown: this.state.userDropdown,
+        toggleDropdown: this.toggleDropdown
+      });
 
       if (this.props.loadInfoBar) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-info-bar-wrapper"
-        }, infobar, this.state.userDropdown && userDropdown);
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-info-bar"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, channel.name), channel.eventId !== null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/groups/".concat(channel.groupId, "/events/").concat(channel.eventId)
+        }, "Event Page") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-info-bar-users",
+          onClick: function onClick() {
+            return _this2.toggleDropdown(false);
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-users"
+        }), users.length)), this.state.userDropdown && dropdown);
       } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-info-bar-wrapper"
+        }, selectChannelBar);
       }
     }
   }]);
@@ -2931,7 +2906,96 @@ function (_React$Component) {
   return ChatInfoBar;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_onclickoutside__WEBPACK_IMPORTED_MODULE_2__["default"])(ChatInfoBar));
+/* harmony default export */ __webpack_exports__["default"] = (ChatInfoBar);
+
+/***/ }),
+
+/***/ "./frontend/components/chat/chat_infobar_dropdown.jsx":
+/*!************************************************************!*\
+  !*** ./frontend/components/chat/chat_infobar_dropdown.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_onclickoutside__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-onclickoutside */ "./node_modules/react-onclickoutside/dist/react-onclickoutside.es.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var ChatInfoBarDropdown =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChatInfoBarDropdown, _React$Component);
+
+  function ChatInfoBarDropdown(props) {
+    var _this;
+
+    _classCallCheck(this, ChatInfoBarDropdown);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatInfoBarDropdown).call(this, props));
+    _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(ChatInfoBarDropdown, [{
+    key: "handleClickOutside",
+    value: function handleClickOutside() {
+      this.props.toggleDropdown(true);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var users = Object.values(this.props.channelUsers);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-info-dropdown"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-info-bar-users"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-user"
+      }), "".concat(users.length, " members")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-angle-down",
+        onClick: function onClick() {
+          return _this2.props.toggleDropdown(true);
+        }
+      })), users.map(function (user) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: user.id,
+          className: "chat-info-bar-users-item"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window[user.imageUrl],
+          className: "chat-message-img"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, user.name));
+      }));
+    }
+  }]);
+
+  return ChatInfoBarDropdown;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_onclickoutside__WEBPACK_IMPORTED_MODULE_1__["default"])(ChatInfoBarDropdown));
 
 /***/ }),
 

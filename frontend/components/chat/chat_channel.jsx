@@ -12,7 +12,7 @@ class ChatChannel extends React.Component {
 
     render() {
         return(
-            <div>
+            <React.Fragment>
                 <ChatInfoBar
                     selectedChannel={this.props.selectedChannel}
                     channelUsers={this.props.channelUsers}
@@ -27,7 +27,7 @@ class ChatChannel extends React.Component {
                     updateChannelship={this.props.updateChannelship}
                     fetchChannelMessages={this.props.fetchChannelMessages}
                 />
-            </div>
+            </React.Fragment>
         )
     }
 }

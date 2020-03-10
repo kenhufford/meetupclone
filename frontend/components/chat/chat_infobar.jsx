@@ -1,97 +1,59 @@
 
 import React from "react";
+import ChatInfoBarDropDown from './chat_infobar_dropdown';
 import { Link } from 'react-router-dom';
-import onClickOutside from "react-onclickoutside";
 
 class ChatInfoBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             userDropdown: false,
-            channelUsers: this.props.channelUsers
         }
         this.toggleDropdown = this.toggleDropdown.bind(this);
-        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
-    toggleDropdown(){
-        let userDropdown = !this.state.userDropdown
+    toggleDropdown(outsideClick){
+        debugger
+        let userDropdown = outsideClick ? false : !this.state.userDropdown
         this.setState({
             userDropdown
         })
     }
 
-    handleClickOutside() {
-        this.setState({
-            userDropdown: false
-        })
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.selectedChannel !== prevProps.selectedChannel ) {
-            this.setState({
-                channelUsers: this.props.channelUsers
-            })
-        }
-    }
-
     render() {
-        // if (this.state.channelUsers === {}) return null;
         let channel = this.props.selectedChannel;
-        let users = Object.values(this.state.channelUsers);
-        let userDropdown =
-             <div className="chat-info-dropdown">
-                <div
-                    className="chat-info-bar-users">
-                    <p>
-                        <i className="far fa-user"></i>
-                        {`${users.length} members`}
-                    </p>
-                    <i className="fas fa-angle-down"
-                        onClick={this.toggleDropdown}></i>
-                </div>
-                {users.map(user => (
-                    <div key={user.id}
-                        className="chat-info-bar-users-item">
-                        <img src={window[user.imageUrl]}
-                            className="chat-message-img">
-                        </img>
-                        <p> {user.name} </p>
-                    </div>
-                ))}
-            </div>
-        
-        let infobar = !channel ? 
-            (<div className="chat-info-bar">
-                    <p>Select a channel</p>
-                </div>)
-                :
-            (<div className="chat-info-bar">
-                <p>{channel.name}</p>
-                {channel.eventId!==null ? <Link to={`/groups/${channel.groupId}/events/${channel.eventId}`}>Event Page</Link> : <div></div>}
-                <div className="chat-info-bar-users"
-                    onClick={this.toggleDropdown}>
-                    <i className="fas fa-users"></i>
-                    {users.length} 
-                </div>
-                
-            </div> )
+        let users = Object.values(this.props.channelUsers);
+        let selectChannelBar = (<div className="chat-info-bar">
+                                    <p>Select a channel</p>
+                                </div>)
+        let dropdown = <ChatInfoBarDropDown
+            channelUsers={this.props.channelUsers}
+            userDropdown={this.state.userDropdown}
+            toggleDropdown={this.toggleDropdown}/>
 
         if (this.props.loadInfoBar){
             return (
                 <div className="chat-info-bar-wrapper">
-                    {infobar}
-                    {this.state.userDropdown && userDropdown}
+                    <div className="chat-info-bar">
+                        <p>{channel.name}</p>
+                        {channel.eventId !== null ? <Link to={`/groups/${channel.groupId}/events/${channel.eventId}`}>Event Page</Link> : <div></div>}
+                        <div className="chat-info-bar-users"
+                            onClick={() => this.toggleDropdown(false)}>
+                            <i className="fas fa-users"></i>
+                            {users.length}
+                        </div>
+                    </div>
+                    {this.state.userDropdown && dropdown}
                 </div>
             )
         } else {
             return (
-                <div >
-
+                <div className="chat-info-bar-wrapper">
+                    {selectChannelBar}
                 </div>
             )
         }
     }
 }
 
-export default onClickOutside(ChatInfoBar);
+export default ChatInfoBar;

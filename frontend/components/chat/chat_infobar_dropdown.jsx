@@ -4,26 +4,39 @@ import onClickOutside from "react-onclickoutside";
 class ChatInfoBarDropdown extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            listOpen: false
-        }
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     handleClickOutside() {
-        this.setState({
-            listOpen: false
-        })
+        this.props.toggleDropdown(true);
     }
 
     render(){
-        const { listOpen } = this.state
+        let users = Object.values(this.props.channelUsers);
         return (
-            <div>
-
+            <div className="chat-info-dropdown">
+                <div className="chat-info-bar-users">
+                    <p>
+                        <i className="far fa-user"></i>
+                        {`${users.length} members`}
+                    </p>
+                    <i className="fas fa-angle-down"
+                        onClick={() => this.props.toggleDropdown(true)}>
+                    </i>
+                </div>
+                {users.map(user => (
+                    <div key={user.id}
+                        className="chat-info-bar-users-item">
+                        <img src={window[user.imageUrl]}
+                            className="chat-message-img">
+                        </img>
+                        <p>
+                            {user.name}
+                        </p>
+                    </div>
+                ))}
             </div>
-            
-                )
+            )
         }
 }
 
