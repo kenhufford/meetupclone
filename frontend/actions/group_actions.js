@@ -1,11 +1,16 @@
 import * as APIUtils from '../utils/group_api_util'
 
 export const RECEIVE_GROUPS = "RECEIVE_GROUPS";
+export const RECEIVE_GROUPS_FROM_USER = "RECEIVE_GROUPS_FROM_USER";
 export const RECEIVE_GROUP = "RECEIVE_GROUP";
-// export const REMOVE_GROUP = "REMOVE_GROUP";
 
 const receiveGroups = (groups) => ({
     type: RECEIVE_GROUPS,
+    groups
+})
+
+const receiveGroupsFromUser = (groups) => ({
+    type: RECEIVE_GROUPS_FROM_USER,
     groups
 })
 
@@ -32,7 +37,7 @@ export const fetchGroupsFromCategory = (categoryId) => dispatch => (
 
 export const fetchGroupsFromUser = (userId) => dispatch => (
     APIUtils.fetchGroupsFromUser(userId)
-        .then( (groups) => dispatch(receiveGroups(groups)))
+        .then((groups) => dispatch(receiveGroupsFromUser(groups)))
 )
 
 export const fetchGroup = (groupId) => dispatch => (

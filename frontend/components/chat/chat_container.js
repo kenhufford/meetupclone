@@ -9,6 +9,7 @@ import Chat from './chat';
 const mapStateToProps = (state) => {
     return {
         currentUser: state.session,
+        groups: state.entities.groups
     };
 };
 

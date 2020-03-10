@@ -415,12 +415,13 @@ var updateFilter = function updateFilter(filter, value) {
 /*!*******************************************!*\
   !*** ./frontend/actions/group_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUP, fetchGroups, fetchGroupsFromLocation, fetchGroupsFromCategory, fetchGroupsFromUser, fetchGroup, createGroup, updateGroup, deleteGroup, searchGroups, createType, deleteType */
+/*! exports provided: RECEIVE_GROUPS, RECEIVE_GROUPS_FROM_USER, RECEIVE_GROUP, fetchGroups, fetchGroupsFromLocation, fetchGroupsFromCategory, fetchGroupsFromUser, fetchGroup, createGroup, updateGroup, deleteGroup, searchGroups, createType, deleteType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_GROUPS", function() { return RECEIVE_GROUPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_GROUPS_FROM_USER", function() { return RECEIVE_GROUPS_FROM_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_GROUP", function() { return RECEIVE_GROUP; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchGroups", function() { return fetchGroups; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchGroupsFromLocation", function() { return fetchGroupsFromLocation; });
@@ -436,11 +437,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/group_api_util */ "./frontend/utils/group_api_util.js");
 
 var RECEIVE_GROUPS = "RECEIVE_GROUPS";
-var RECEIVE_GROUP = "RECEIVE_GROUP"; // export const REMOVE_GROUP = "REMOVE_GROUP";
+var RECEIVE_GROUPS_FROM_USER = "RECEIVE_GROUPS_FROM_USER";
+var RECEIVE_GROUP = "RECEIVE_GROUP";
 
 var receiveGroups = function receiveGroups(groups) {
   return {
     type: RECEIVE_GROUPS,
+    groups: groups
+  };
+};
+
+var receiveGroupsFromUser = function receiveGroupsFromUser(groups) {
+  return {
+    type: RECEIVE_GROUPS_FROM_USER,
     groups: groups
   };
 };
@@ -476,7 +485,7 @@ var fetchGroupsFromCategory = function fetchGroupsFromCategory(categoryId) {
 var fetchGroupsFromUser = function fetchGroupsFromUser(userId) {
   return function (dispatch) {
     return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchGroupsFromUser"](userId).then(function (groups) {
-      return dispatch(receiveGroups(groups));
+      return dispatch(receiveGroupsFromUser(groups));
     });
   };
 };
@@ -1191,9 +1200,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _chat_channel_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_channel_index */ "./frontend/components/chat/chat_channel_index.jsx");
-/* harmony import */ var _chat_display__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_display */ "./frontend/components/chat/chat_display.jsx");
+/* harmony import */ var _chat_channel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_channel */ "./frontend/components/chat/chat_channel.jsx");
 /* harmony import */ var _chat_group_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./chat_group_index */ "./frontend/components/chat/chat_group_index.jsx");
-/* harmony import */ var _chat_infobar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chat_infobar */ "./frontend/components/chat/chat_infobar.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1217,7 +1225,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
 var Chat =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1232,10 +1239,7 @@ function (_React$Component) {
     _this.state = {
       loaded: false,
       loadInfoBar: false,
-      groups: {},
       selectedGroupId: '',
-      channels: {},
-      channelships: {},
       groupUsers: {},
       channelUsers: {},
       selectedChannel: {}
@@ -1255,11 +1259,6 @@ function (_React$Component) {
       var fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUser.id);
       Promise.all([fetchGroupsFromUser]).then(function (data) {
         var groups = data[0].groups;
-
-        _this2.setState({
-          groups: groups
-        });
-
         var groupId = Object.values(groups)[0].id;
 
         var fetchGroupChannels = _this2.props.fetchGroupChannels(groupId);
@@ -1283,7 +1282,6 @@ function (_React$Component) {
       var _this3 = this;
 
       this.props.deleteChannelship(channelshipId).then(function () {
-        // let groupId = Object.values(this.state.groups)[0].id;
         var groupId = _this3.state.selectedGroupId;
 
         var fetchGroupChannels = _this3.props.fetchGroupChannels(groupId);
@@ -1294,7 +1292,6 @@ function (_React$Component) {
           var groupUsers = data[0].users;
 
           _this3.setState({
-            // selectedGroupId: groupId,
             loaded: true,
             groupUsers: groupUsers,
             selectedChannel: {},
@@ -1376,12 +1373,12 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-left"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_group_index__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          groups: this.state.groups,
+          groups: this.props.groups,
           selectGroup: this.selectGroup
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
           currentUser: this.props.currentUser,
           groupId: this.state.selectedGroupId,
-          groupName: this.state.groups[this.state.selectedGroupId].name,
+          groupName: this.props.groups[this.state.selectedGroupId].name,
           selectedChannel: this.state.selectedChannel,
           groupUsers: this.state.groupUsers,
           selectChannel: this.selectChannel,
@@ -1393,12 +1390,8 @@ function (_React$Component) {
           removeChannelship: this.removeChannelship
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          selectedChannel: this.state.selectedChannel,
-          groupUsers: this.state.groupUsers,
-          channelUsers: this.state.channelUsers,
-          loadInfoBar: this.state.loadInfoBar
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_display__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          loadInfoBar: this.state.loadInfoBar,
           receiveMessage: this.props.receiveMessage,
           userId: this.props.currentUser.id,
           selectedChannel: this.state.selectedChannel,
@@ -1417,6 +1410,82 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Chat);
+
+/***/ }),
+
+/***/ "./frontend/components/chat/chat_channel.jsx":
+/*!***************************************************!*\
+  !*** ./frontend/components/chat/chat_channel.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _chat_infobar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_infobar */ "./frontend/components/chat/chat_infobar.jsx");
+/* harmony import */ var _chat_display__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_display */ "./frontend/components/chat/chat_display.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var ChatChannel =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChatChannel, _React$Component);
+
+  function ChatChannel(props) {
+    var _this;
+
+    _classCallCheck(this, ChatChannel);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ChatChannel).call(this, props));
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(ChatChannel, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        selectedChannel: this.props.selectedChannel,
+        channelUsers: this.props.channelUsers,
+        loadInfoBar: this.props.loadInfoBar
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_display__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        receiveMessage: this.props.receiveMessage,
+        userId: this.props.userId,
+        selectedChannel: this.props.selectedChannel,
+        channelUsers: this.props.channelUsers,
+        updateChannel: this.props.updateChannel,
+        updateChannelship: this.props.updateChannelship,
+        fetchChannelMessages: this.props.fetchChannelMessages
+      }));
+    }
+  }]);
+
+  return ChatChannel;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ChatChannel);
 
 /***/ }),
 
@@ -1825,7 +1894,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    currentUser: state.session
+    currentUser: state.session,
+    groups: state.entities.groups
   };
 };
 
@@ -2814,7 +2884,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (this.state.channelUsers === {}) return null;
+      // if (this.state.channelUsers === {}) return null;
       var channel = this.props.selectedChannel;
       var users = Object.values(this.state.channelUsers);
       var userDropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8358,6 +8428,9 @@ var groupsReducer = function groupsReducer() {
   switch (action.type) {
     case _actions_group_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_GROUPS"]:
       return Object.assign({}, nextState, action.groups);
+
+    case _actions_group_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_GROUPS_FROM_USER"]:
+      return action.groups;
 
     case _actions_group_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_GROUP"]:
       return _defineProperty({}, action.group.id, action.group);

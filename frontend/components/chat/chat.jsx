@@ -1,9 +1,8 @@
 
 import React from "react";
 import ChatChannelIndex from './chat_channel_index';
-import ChatDisplay from './chat_display';
+import ChatChannel from './chat_channel';
 import ChatGroupIndex from './chat_group_index';
-import ChatInfoBar from './chat_infobar';
 
 class Chat extends React.Component {
     constructor(props) {
@@ -11,10 +10,7 @@ class Chat extends React.Component {
         this.state = {
             loaded: false,
             loadInfoBar: false,
-            groups: {},
             selectedGroupId: '',
-            channels: {},
-            channelships: {},
             groupUsers: {},
             channelUsers: {},
             selectedChannel:{}
@@ -30,9 +26,6 @@ class Chat extends React.Component {
         Promise.all([fetchGroupsFromUser])
             .then( (data) => {
                 let groups = data[0].groups;
-                this.setState({
-                    groups,
-                });
                 let groupId = Object.values(groups)[0].id;
                 let fetchGroupChannels = this.props.fetchGroupChannels(groupId);
                 let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
@@ -51,7 +44,6 @@ class Chat extends React.Component {
     removeChannelship(channelshipId){
         this.props.deleteChannelship(channelshipId)
             .then( () => {
-                // let groupId = Object.values(this.state.groups)[0].id;
                 let groupId = this.state.selectedGroupId;
                 let fetchGroupChannels = this.props.fetchGroupChannels(groupId);
                 let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
@@ -59,7 +51,6 @@ class Chat extends React.Component {
                     .then((data) => {
                         let groupUsers = data[0].users;
                         this.setState({
-                            // selectedGroupId: groupId,
                             loaded: true,
                             groupUsers,
                             selectedChannel: {},
@@ -132,12 +123,12 @@ class Chat extends React.Component {
                     <div className="chat-main">
                         <div className="chat-main-left">
                             <ChatGroupIndex 
-                                groups={this.state.groups} 
+                                groups={this.props.groups} 
                                 selectGroup={this.selectGroup}/>
                             <ChatChannelIndex 
                                 currentUser={this.props.currentUser}
                                 groupId={this.state.selectedGroupId}
-                                groupName={this.state.groups[this.state.selectedGroupId].name}
+                                groupName={this.props.groups[this.state.selectedGroupId].name}
                                 selectedChannel={this.state.selectedChannel}
                                 groupUsers={this.state.groupUsers}
                                 selectChannel={this.selectChannel}
@@ -149,13 +140,8 @@ class Chat extends React.Component {
                                 removeChannelship={this.removeChannelship}/>
                         </div>
                         <div className="chat-main-right">
-                            <ChatInfoBar 
-                                selectedChannel={this.state.selectedChannel}
-                                groupUsers={this.state.groupUsers}
-                                channelUsers={this.state.channelUsers}
+                            <ChatChannel 
                                 loadInfoBar={this.state.loadInfoBar}
-                                />
-                            <ChatDisplay 
                                 receiveMessage={this.props.receiveMessage}
                                 userId={this.props.currentUser.id}
                                 selectedChannel={this.state.selectedChannel}

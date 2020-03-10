@@ -1,4 +1,4 @@
-fclass User < ApplicationRecord
+class User < ApplicationRecord
 
     attr_reader :password
   

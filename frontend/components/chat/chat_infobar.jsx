@@ -36,7 +36,7 @@ class ChatInfoBar extends React.Component {
     }
 
     render() {
-        if (this.state.channelUsers === {}) return null;
+        // if (this.state.channelUsers === {}) return null;
         let channel = this.props.selectedChannel;
         let users = Object.values(this.state.channelUsers);
         let userDropdown =
