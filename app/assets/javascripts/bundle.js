@@ -1501,9 +1501,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _chat_direct_message_invite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_direct_message_invite */ "./frontend/components/chat/chat_channel_index/chat_direct_message_invite.jsx");
 /* harmony import */ var _chat_create_channel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_create_channel */ "./frontend/components/chat/chat_channel_index/chat_create_channel.jsx");
 /* harmony import */ var _chat_join_channel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./chat_join_channel */ "./frontend/components/chat/chat_channel_index/chat_join_channel.jsx");
-/* harmony import */ var _chat_channel_index_item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chat_channel_index_item */ "./frontend/components/chat/chat_channel_index/chat_channel_index_item.jsx");
+/* harmony import */ var _chat_channel_index_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chat_channel_index_list */ "./frontend/components/chat/chat_channel_index/chat_channel_index_list.jsx");
 /* harmony import */ var _chat_channel_index_header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./chat_channel_index_header */ "./frontend/components/chat/chat_channel_index/chat_channel_index_header.jsx");
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1521,7 +1520,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -1630,8 +1628,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
-
       if (!this.state.loaded) return null;
       var userChannelships = this.state.channelships.userChannelships;
       var channelToChannelshipHash = {};
@@ -1647,50 +1643,43 @@ function (_React$Component) {
       var userChannels = Object.values(this.state.userChannels).filter(function (channel) {
         return channel.dm;
       });
-      var groupChannelList;
-      var userChannelList;
       userChannels = userChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
       });
       groupChannels = groupChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
-      });
-
-      if (groupChannels.length !== 0) {
-        groupChannelList = groupChannels.map(function (channel, i) {
-          var selected = channel.id === selectedId;
-          var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_6__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_item__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            key: channel.id,
-            selected: selected,
-            notify: notify,
-            dm: false,
-            removeChannelship: _this4.props.removeChannelship,
-            selectChannel: _this4.props.selectChannel,
-            channel: channel
-          });
-        });
-      } else {
-        groupChannelList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
-      }
-
-      if (userChannels.length !== 0) {
-        userChannelList = userChannels.map(function (channel, i) {
-          var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_6__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-          var selected = channel.id === selectedId;
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_item__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            key: channel.id,
-            selected: selected,
-            notify: notify,
-            dm: true,
-            removeChannelship: _this4.props.removeChannelship,
-            selectChannel: _this4.props.selectChannel,
-            channel: channel
-          });
-        });
-      } else {
-        userChannelList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
-      }
+      }); // if (groupChannels.length !== 0) {
+      //     groupChannelList = groupChannels.map((channel, i) =>{
+      //         let selected = channel.id === selectedId;
+      //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+      //         return (<ChatChannelIndexItem  
+      //                     key={channel.id}
+      //                     selected={selected}
+      //                     notify={notify}
+      //                     dm={false}
+      //                     removeChannelship={this.props.removeChannelship}
+      //                     selectChannel={this.props.selectChannel}
+      //                     channel={channel} />)
+      //     })
+      // } else {
+      //     groupChannelList = <p></p>
+      // }
+      // if (userChannels.length !== 0) {
+      //     userChannelList = userChannels.map((channel, i) =>{
+      //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+      //         let selected = channel.id === selectedId;
+      //         return (<ChatChannelIndexItem
+      //             key={channel.id}
+      //             selected={selected}
+      //             notify={notify}
+      //             dm={true}
+      //             removeChannelship={this.props.removeChannelship}
+      //             selectChannel={this.props.selectChannel}
+      //             channel={channel} />)
+      //     })
+      // } else {
+      //     userChannelList = <p></p>
+      // }
 
       var createChannelModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.showChannelModal,
@@ -1739,16 +1728,26 @@ function (_React$Component) {
         modal: chatJoinChannelModal,
         modalType: "joinChannel",
         toggleModal: this.toggleModal
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "chat-channel-list"
-      }, groupChannelList), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_header__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_list__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        channels: groupChannels,
+        removeChannelship: this.props.removeChannelship,
+        selectChannel: this.props.selectChannel,
+        dm: false,
+        selectedId: selectedId,
+        channelToChannelshipHash: channelToChannelshipHash
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_header__WEBPACK_IMPORTED_MODULE_5__["default"], {
         headerTitle: "Direct Messages",
         modal: chatDMInviteModal,
         modalType: "dm",
         toggleModal: this.toggleModal
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "chat-channel-list"
-      }, userChannelList));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_list__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        channels: userChannels,
+        removeChannelship: this.props.removeChannelship,
+        selectChannel: this.props.selectChannel,
+        dm: true,
+        selectedId: selectedId,
+        channelToChannelshipHash: channelToChannelshipHash
+      }));
     }
   }]);
 
@@ -1934,6 +1933,95 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (ChatChannelIndexItem);
+
+/***/ }),
+
+/***/ "./frontend/components/chat/chat_channel_index/chat_channel_index_list.jsx":
+/*!*********************************************************************************!*\
+  !*** ./frontend/components/chat/chat_channel_index/chat_channel_index_list.jsx ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _chat_channel_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_channel_index_item */ "./frontend/components/chat/chat_channel_index/chat_channel_index_item.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var ChatChannelIndexList =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChatChannelIndexList, _React$Component);
+
+  function ChatChannelIndexList() {
+    _classCallCheck(this, ChatChannelIndexList);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChatChannelIndexList).apply(this, arguments));
+  }
+
+  _createClass(ChatChannelIndexList, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          channels = _this$props.channels,
+          removeChannelship = _this$props.removeChannelship,
+          selectChannel = _this$props.selectChannel,
+          dm = _this$props.dm,
+          selectedId = _this$props.selectedId,
+          channelToChannelshipHash = _this$props.channelToChannelshipHash;
+      var channelsList;
+
+      if (channels.length !== 0) {
+        channelsList = channels.map(function (channel) {
+          var selected = channel.id === selectedId;
+          var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            key: channel.id,
+            selected: selected,
+            notify: notify,
+            dm: dm,
+            removeChannelship: removeChannelship,
+            selectChannel: selectChannel,
+            channel: channel
+          });
+        });
+      } else {
+        channelsList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "chat-channel-list"
+      }, channelsList);
+    }
+  }]);
+
+  return ChatChannelIndexList;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ChatChannelIndexList);
 
 /***/ }),
 

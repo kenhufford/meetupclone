@@ -3,9 +3,9 @@ import React from "react";
 import ChatDirectMessageInvite from './chat_direct_message_invite';
 import ChatCreateChannel from './chat_create_channel';
 import ChatJoinChannel from './chat_join_channel';
-import ChatChannelIndexItem from './chat_channel_index_item';
+import ChatChannelIndexList from './chat_channel_index_list';
 import ChatChannelIndexHeader from './chat_channel_index_header';
-import {moreRecentOrEqualThanDate} from '../../../utils/date_util';
+
 
 class ChatChannelIndex extends React.Component {
     constructor(props) {
@@ -94,45 +94,43 @@ class ChatChannelIndex extends React.Component {
         })
         let groupChannels = Object.values(this.state.userChannels).filter(channel => !channel.dm);
         let userChannels = Object.values(this.state.userChannels).filter(channel => channel.dm);
-        let groupChannelList;
-        let userChannelList;
 
         userChannels = userChannels.sort( (a, b) => {return a.name < b.name  ? -1 : 1});
         groupChannels = groupChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
        
-        if (groupChannels.length !== 0) {
-            groupChannelList = groupChannels.map((channel, i) =>{
-                let selected = channel.id === selectedId;
-                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-                return (<ChatChannelIndexItem  
-                            key={channel.id}
-                            selected={selected}
-                            notify={notify}
-                            dm={false}
-                            removeChannelship={this.props.removeChannelship}
-                            selectChannel={this.props.selectChannel}
-                            channel={channel} />)
-            })
-        } else {
-            groupChannelList = <p></p>
-        }
+        // if (groupChannels.length !== 0) {
+        //     groupChannelList = groupChannels.map((channel, i) =>{
+        //         let selected = channel.id === selectedId;
+        //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+        //         return (<ChatChannelIndexItem  
+        //                     key={channel.id}
+        //                     selected={selected}
+        //                     notify={notify}
+        //                     dm={false}
+        //                     removeChannelship={this.props.removeChannelship}
+        //                     selectChannel={this.props.selectChannel}
+        //                     channel={channel} />)
+        //     })
+        // } else {
+        //     groupChannelList = <p></p>
+        // }
 
-        if (userChannels.length !== 0) {
-            userChannelList = userChannels.map((channel, i) =>{
-                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-                let selected = channel.id === selectedId;
-                return (<ChatChannelIndexItem
-                    key={channel.id}
-                    selected={selected}
-                    notify={notify}
-                    dm={true}
-                    removeChannelship={this.props.removeChannelship}
-                    selectChannel={this.props.selectChannel}
-                    channel={channel} />)
-            })
-        } else {
-            userChannelList = <p></p>
-        }
+        // if (userChannels.length !== 0) {
+        //     userChannelList = userChannels.map((channel, i) =>{
+        //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+        //         let selected = channel.id === selectedId;
+        //         return (<ChatChannelIndexItem
+        //             key={channel.id}
+        //             selected={selected}
+        //             notify={notify}
+        //             dm={true}
+        //             removeChannelship={this.props.removeChannelship}
+        //             selectChannel={this.props.selectChannel}
+        //             channel={channel} />)
+        //     })
+        // } else {
+        //     userChannelList = <p></p>
+        // }
         let createChannelModal = <ChatCreateChannel
             show={this.state.showChannelModal}
             toggleModal={this.toggleModal}
@@ -186,18 +184,28 @@ class ChatChannelIndex extends React.Component {
                     modalType="joinChannel"
                     toggleModal={this.toggleModal}
                 />
-                <ul className="chat-channel-list">
-                    {groupChannelList}
-                </ul>
+                <ChatChannelIndexList 
+                    channels={groupChannels}
+                    removeChannelship={this.props.removeChannelship}
+                    selectChannel={this.props.selectChannel}
+                    dm={false}
+                    selectedId={selectedId}
+                    channelToChannelshipHash={channelToChannelshipHash}
+                    />
                 <ChatChannelIndexHeader
                     headerTitle={"Direct Messages"}
                     modal={chatDMInviteModal}
                     modalType="dm"
                     toggleModal={this.toggleModal}
                 />
-                <ul className="chat-channel-list">
-                    {userChannelList}
-                </ul>
+                <ChatChannelIndexList
+                    channels={userChannels}
+                    removeChannelship={this.props.removeChannelship}
+                    selectChannel={this.props.selectChannel}
+                    dm={true}
+                    selectedId={selectedId}
+                    channelToChannelshipHash={channelToChannelshipHash}
+                />
                 
             </div>
         )
