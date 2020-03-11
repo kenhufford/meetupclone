@@ -4,6 +4,7 @@ import ChatDirectMessageInvite from './chat_direct_message_invite';
 import ChatCreateChannel from './chat_create_channel';
 import ChatJoinChannel from './chat_join_channel';
 import ChatChannelIndexItem from './chat_channel_index_item';
+import ChatChannelIndexHeader from './chat_channel_index_header';
 import {moreRecentOrEqualThanDate} from '../../../utils/date_util';
 
 class ChatChannelIndex extends React.Component {
@@ -132,72 +133,69 @@ class ChatChannelIndex extends React.Component {
         } else {
             userChannelList = <p></p>
         }
+        let createChannelModal = <ChatCreateChannel
+            show={this.state.showChannelModal}
+            toggleModal={this.toggleModal}
+            groupId={this.props.groupId}
+            groupUsers={this.props.groupUsers}
+            groupChannels={this.state.groupChannels}
+            createChannel={this.props.createChannel}
+            createChannelship={this.props.createChannelship}
+            selectAfterCreateChannel={this.props.selectAfterCreateChannel}
+            currentUser={this.props.currentUser}
+        />
+
+        let chatJoinChannelModal = <ChatJoinChannel
+            show={this.state.showJoinChannelModal}
+            toggleModal={this.toggleModal}
+            groupId={this.props.groupId}
+            userChannels={this.state.userChannels}
+            groupChannels={this.state.groupChannels}
+            createChannelship={this.props.createChannelship}
+            currentUser={this.props.currentUser}
+            selectChannel={this.props.selectChannel}
+            selectedChannel={this.props.selectedChannel}
+        />
+
+        let chatDMInviteModal= <ChatDirectMessageInvite
+            show={this.state.showDmModal}
+            toggleModal={this.toggleModal}
+            userChannels={this.state.userChannels}
+            groupId={this.props.groupId}
+            groupUsers={this.props.groupUsers}
+            createChannel={this.props.createChannel}
+            selectChannel={this.props.selectChannel}
+            createChannelship={this.props.createChannelship}
+            selectAfterCreateChannel={this.props.selectAfterCreateChannel}
+            currentUser={this.props.currentUser}
+            selectedChannel={this.props.selectedChannel}
+        />
 
         return (
             <div className="chat-channel-index">
                 <p>{this.props.groupName}</p>
-                <div className="chat-channel-dm-div">
-                    <p>Add New Channel</p>
-                    <ChatCreateChannel
-                        show={this.state.showChannelModal}
-                        toggleModal={this.toggleModal}
-                        groupId={this.props.groupId}
-                        groupUsers={this.props.groupUsers}
-                        groupChannels={this.state.groupChannels}
-                        createChannel={this.props.createChannel}
-                        createChannelship={this.props.createChannelship}
-                        selectAfterCreateChannel={this.props.selectAfterCreateChannel}
-                        currentUser={this.props.currentUser}
+                <ChatChannelIndexHeader 
+                    headerTitle={"Add New Channel"}
+                    modal={createChannelModal}
+                    modalType="createChannel"
+                    toggleModal={this.toggleModal}
                     />
-                    <i className="fas fa-plus-circle"
-                        onClick={(e) => this.toggleModal("createChannel")} 
-                        >
-                    </i>
-                </div>
-                <div className="chat-channel-dm-div">
-                    <p>Join Channel</p>
-                    <ChatJoinChannel
-                        show={this.state.showJoinChannelModal}
-                        toggleModal={this.toggleModal}
-                        groupId={this.props.groupId}
-                        userChannels={this.state.userChannels}
-                        groupChannels={this.state.groupChannels}
-                        createChannelship={this.props.createChannelship}
-                        currentUser={this.props.currentUser}
-                        selectChannel={this.props.selectChannel}
-                        selectedChannel={this.props.selectedChannel}
-                    />
-                    <i className="fas fa-plus-circle"
-                        onClick={(e) => this.toggleModal("joinChannel")} 
-                        >
-                    </i>
-                </div>
+                <ChatChannelIndexHeader
+                    headerTitle={"Join Channel"}
+                    modal={chatJoinChannelModal}
+                    modalType="joinChannel"
+                    toggleModal={this.toggleModal}
+                />
                 <ul className="chat-channel-list">
                     {groupChannelList}
                 </ul>
-                <ul className="chat-channel-list">
-                    <div className="chat-channel-dm-div">
-                        <p>Direct Messages</p>
-                        <i className="fas fa-plus-circle"
-                            onClick={(e) => this.toggleModal("dm")}>
-                        </i>
-                    </div>
-                    
-                    {userChannelList}
-                    <ChatDirectMessageInvite 
-                        show={this.state.showDmModal} 
-                        toggleModal={this.toggleModal} 
-                        userChannels={this.state.userChannels}
-                        groupId={this.props.groupId}
-                        groupUsers={this.props.groupUsers}
-                        createChannel={this.props.createChannel}
-                        selectChannel={this.props.selectChannel}
-                        createChannelship={this.props.createChannelship}
-                        selectAfterCreateChannel={this.props.selectAfterCreateChannel}
-                        currentUser={this.props.currentUser}
-                        selectedChannel={this.props.selectedChannel}
-                        />
-                </ul>
+                <ChatChannelIndexHeader
+                    headerTitle={"Direct Messages"}
+                    modal={chatDMInviteModal}
+                    modalType="dm"
+                    toggleModal={this.toggleModal}
+                />
+                {userChannelList}
             </div>
         )
     }
