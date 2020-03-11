@@ -3,6 +3,7 @@ import CreateGroupFormDropdown from './create_group_form_dropdown'
 
 class CreateGroupForm extends React.Component{
     constructor(props){
+        debugger
         super(props)
         let {name, description, lat, long, imageUrl, selectedLocationId, selectedLocation} = this.props.group
         let {categorySelected} = this.props
@@ -26,24 +27,46 @@ class CreateGroupForm extends React.Component{
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories ){
-            return ({
-                location: nextProps.locations,
-                categories: nextProps.categories,
-                selectedLocation: nextProps.selectedLocation
-            })
-        } else {
-            return null
-        }
-    }
+    // static getDerivedStateFromProps(nextProps, prevState){
+    //     debugger
+    //     if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories ){
+    //         return ({
+    //             location: nextProps.locations,
+    //             categories: nextProps.categories,
+    //             selectedLocation: nextProps.selectedLocation
+    //         })
+    //     } else {
+    //         return null
+    //     }
+    // } 
 
     componentDidMount(){
         const fetchCategories = this.props.fetchCategories();
         const fetchLocations = this.props.fetchLocations();
         Promise.all([fetchCategories, fetchLocations])
-        .then( () => this.setState({loaded:true}))
-        }
+        .then( (data) => {
+            let {group} = this.props;
+            let selectedLocation;
+            let locations = Object.values(data[1].locations);
+            let categories = Object.values(data[0].categories);
+            for (let i = 0; i < locations.length; i++) {
+                locations[i].key = 'location';
+                locations[i].selected = (locations[i].id === group.locationId)
+                if (group.locationId === locations[i].id) selectedLocation = locations[i].name
+            }
+            for (let i = 0; i < categories.length; i++) {
+                categories[i].key = 'category';
+                categories[i].selected = group.categoryIds.includes(categories[i].id)
+            }
+
+            this.setState({
+                selectedLocation,
+                categories,
+                location,
+                loaded: true
+            })
+        })
+    }
 
     handleStep(type){
         return () => {

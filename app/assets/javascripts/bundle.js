@@ -4726,6 +4726,7 @@ function (_React$Component) {
 
     _classCallCheck(this, CreateGroupForm);
 
+    debugger;
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateGroupForm).call(this, props));
     var _this$props$group = _this.props.group,
         name = _this$props$group.name,
@@ -4755,7 +4756,19 @@ function (_React$Component) {
     _this.handleClickPic = _this.handleClickPic.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // static getDerivedStateFromProps(nextProps, prevState){
+  //     debugger
+  //     if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories ){
+  //         return ({
+  //             location: nextProps.locations,
+  //             categories: nextProps.categories,
+  //             selectedLocation: nextProps.selectedLocation
+  //         })
+  //     } else {
+  //         return null
+  //     }
+  // } 
+
 
   _createClass(CreateGroupForm, [{
     key: "componentDidMount",
@@ -4764,8 +4777,27 @@ function (_React$Component) {
 
       var fetchCategories = this.props.fetchCategories();
       var fetchLocations = this.props.fetchLocations();
-      Promise.all([fetchCategories, fetchLocations]).then(function () {
-        return _this2.setState({
+      Promise.all([fetchCategories, fetchLocations]).then(function (data) {
+        var group = _this2.props.group;
+        var selectedLocation;
+        var locations = Object.values(data[1].locations);
+        var categories = Object.values(data[0].categories);
+
+        for (var i = 0; i < locations.length; i++) {
+          locations[i].key = 'location';
+          locations[i].selected = locations[i].id === group.locationId;
+          if (group.locationId === locations[i].id) selectedLocation = locations[i].name;
+        }
+
+        for (var _i = 0; _i < categories.length; _i++) {
+          categories[_i].key = 'category';
+          categories[_i].selected = group.categoryIds.includes(categories[_i].id);
+        }
+
+        _this2.setState({
+          selectedLocation: selectedLocation,
+          categories: categories,
+          location: location,
           loaded: true
         });
       });
@@ -5009,19 +5041,6 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
     }
-  }], [{
-    key: "getDerivedStateFromProps",
-    value: function getDerivedStateFromProps(nextProps, prevState) {
-      if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories) {
-        return {
-          location: nextProps.locations,
-          categories: nextProps.categories,
-          selectedLocation: nextProps.selectedLocation
-        };
-      } else {
-        return null;
-      }
-    }
   }]);
 
   return CreateGroupForm;
@@ -5232,24 +5251,10 @@ var mstp = function mstp(state, ownProps) {
   var locations = Object.values(state.entities.locations);
   var categories = Object.values(state.entities.categories);
   var group = state.entities.groups[ownProps.match.params.groupId];
-  var selectedLocation;
-
-  for (var i = 0; i < locations.length; i++) {
-    locations[i].key = 'location';
-    locations[i].selected = locations[i].id === group.locationId;
-    if (group.locationId === locations[i].id) selectedLocation = locations[i].name;
-  }
-
-  for (var _i = 0; _i < categories.length; _i++) {
-    categories[_i].key = 'category';
-    categories[_i].selected = group.categoryIds.includes(categories[_i].id);
-  }
-
   return {
     group: group,
     locations: locations,
     categories: categories,
-    selectedLocation: selectedLocation,
     categorySelected: true
   };
 };

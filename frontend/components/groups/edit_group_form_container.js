@@ -9,21 +9,10 @@ const mstp = (state, ownProps) => {
     let locations = Object.values(state.entities.locations)
     let categories = Object.values(state.entities.categories)
     let group = state.entities.groups[ownProps.match.params.groupId]
-    let selectedLocation;
-    for (let i = 0; i < locations.length; i++){
-        locations[i].key = 'location';
-        locations[i].selected = (locations[i].id === group.locationId) 
-        if (group.locationId === locations[i].id) selectedLocation = locations[i].name        
-    }
-    for (let i = 0; i < categories.length; i++){
-        categories[i].key = 'category';
-        categories[i].selected  = group.categoryIds.includes(categories[i].id)
-    }
     return {
         group: group,
         locations: locations,
         categories: categories,
-        selectedLocation: selectedLocation,
         categorySelected: true
     }
 }
