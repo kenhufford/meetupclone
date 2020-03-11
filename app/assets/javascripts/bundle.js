@@ -1306,6 +1306,7 @@ function (_React$Component) {
       var _this4 = this;
 
       var groupId = group.id;
+      if (this.state.selectedGroupId === groupId) return;
       var fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
       Promise.all([fetchUsersFromGroup]).then(function (data) {
         var groupUsers = data[0].users;
@@ -1321,6 +1322,7 @@ function (_React$Component) {
     value: function selectChannel(channel) {
       var _this5 = this;
 
+      if (this.state.selectedChannel.id === channel.id) return;
       channel["groupId"] = this.state.selectedGroupId;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
@@ -1351,7 +1353,8 @@ function (_React$Component) {
       var selectedChannel = channel;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-      Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
+      var fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
+      Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels]).then(function (data) {
         var channelships = data[0].channelships;
         var channelUsers = data[1].users;
 
@@ -1601,6 +1604,7 @@ function (_React$Component) {
       var _this$props = this.props,
           channelships = _this$props.channelships,
           selectedChannel = _this$props.selectedChannel;
+      debugger;
       var userChannelships = "userChannelships" in channelships ? channelships.userChannelships : {};
       var channelToChannelshipHash = {};
       var selectedId = selectedChannel.id;
@@ -1609,13 +1613,12 @@ function (_React$Component) {
           lastVisited: channelship.lastVisited
         };
       });
-      debugger;
-      var groupChannels = Object.values(this.props.groupChannels).filter(function (channel) {
+      var groupChannels = this.props.groupChannels !== undefined ? Object.values(this.props.groupChannels).filter(function (channel) {
         return !channel.dm && channel.id in channelToChannelshipHash;
-      });
-      var userChannels = Object.values(this.props.userChannels).filter(function (channel) {
+      }) : [];
+      var userChannels = this.props.userChannels !== undefined ? Object.values(this.props.userChannels).filter(function (channel) {
         return channel.dm;
-      });
+      }) : [];
       userChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
       });

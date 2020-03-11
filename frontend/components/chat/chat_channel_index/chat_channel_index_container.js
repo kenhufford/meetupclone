@@ -3,12 +3,14 @@ import ChatChannelIndex from './chat_channel_index';
 import { fetchChannelshipsFromUser, createChannelship} from '../../../actions/channelship_actions';
 import { fetchGroupChannels, createChannel} from '../../../actions/channel_actions';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+    return ({
     groupChannels: state.entities.channels.groupChannels,
     userChannels: state.entities.channels.userChannels,
     channelships: state.entities.channelships,
     currentUser: state.session,
 })
+}
 
 const mapDispatchToProps = dispatch => ({
     fetchChannelshipsFromUser: () => dispatch(fetchChannelshipsFromUser()),

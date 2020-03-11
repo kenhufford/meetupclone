@@ -44,7 +44,7 @@ before_action :require_logged_in, only: [:index, :create, :update, :destroy]
         @channel = Channel.find(params[:id])
         @channel.updated_at = Time.now
         if @channel.update_attributes(channel_params)
-            render "api/channels/show"
+            # render "api/channels/show"
         else
             render json: [@channel.errors.full_messages], status: 401
         end

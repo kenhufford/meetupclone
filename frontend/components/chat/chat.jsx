@@ -62,6 +62,7 @@ class Chat extends React.Component {
 
     selectGroup(group){
         let groupId = group.id
+        if(this.state.selectedGroupId === groupId) return;
         let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
         Promise.all([fetchUsersFromGroup])
             .then((data) => {
@@ -74,6 +75,7 @@ class Chat extends React.Component {
     }
 
     selectChannel(channel){
+        if (this.state.selectedChannel.id === channel.id) return;
         channel["groupId"] = this.state.selectedGroupId;
         let fetchChannelships = this.props.fetchChannelships(channel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
@@ -102,7 +104,8 @@ class Chat extends React.Component {
         let selectedChannel = channel;
         let fetchChannelships = this.props.fetchChannelships(channel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-        Promise.all([fetchChannelships, fetchUsersFromChannel])
+        let fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
+        Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels])
             .then((data) => {
                 let channelships = data[0].channelships;
                 let channelUsers = data[1].users;

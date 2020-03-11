@@ -67,15 +67,16 @@ class ChatChannelIndex extends React.Component {
     render() {
         if (!this.state.loaded) return null
         let {channelships, selectedChannel} = this.props;
+
+        debugger
         let userChannelships = "userChannelships" in channelships ? channelships.userChannelships : {};
         let channelToChannelshipHash = {};
         let selectedId = selectedChannel.id
         Object.values(userChannelships).forEach(channelship => {
             channelToChannelshipHash[channelship.channelId] = {lastVisited: channelship.lastVisited}
         })
-        debugger
-        let groupChannels = Object.values(this.props.groupChannels).filter(channel => !channel.dm && (channel.id in channelToChannelshipHash));
-        let userChannels = Object.values(this.props.userChannels).filter(channel => channel.dm);
+        let groupChannels = (this.props.groupChannels!==undefined) ? Object.values(this.props.groupChannels).filter(channel => !channel.dm && (channel.id in channelToChannelshipHash)) : [];
+        let userChannels = (this.props.userChannels !== undefined) ? Object.values(this.props.userChannels).filter(channel => channel.dm): [];
         userChannels.sort( (a, b) => {return a.name < b.name  ? -1 : 1});
         groupChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
         
