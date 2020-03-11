@@ -142,7 +142,6 @@ class Chat extends React.Component {
                         <div className="chat-main-right">
                             <ChatChannel 
                                 loadInfoBar={this.state.loadInfoBar}
-                                receiveMessage={this.props.receiveMessage}
                                 userId={this.props.currentUser.id}
                                 selectedChannel={this.state.selectedChannel}
                                 channelUsers={this.state.channelUsers}

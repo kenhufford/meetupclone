@@ -25,8 +25,7 @@ const mapDispatchToProps = dispatch => ({
     updateChannel: channel => dispatch(updateChannel(channel)),
     updateChannelship: channel => dispatch(updateChannelship(channel)),
     createChannelship: channelship => dispatch(createChannelship(channelship)),
-    deleteChannelship: channelship => dispatch(deleteChannelship(channelship)),
-    receiveMessage: message=> dispatch(receiveMessage(message))
+    deleteChannelship: channelship => dispatch(deleteChannelship(channelship))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

@@ -36,6 +36,10 @@ class ChatDisplay extends React.Component {
         }
     }
 
+    componentWillUnmount(){
+        App.currentChannel.unsubscribe();
+    }
+
     makeMsg(data){
         let channelId = this.props.selectedChannel.id
         let { message, user_id, channel_id, updated_at, created_at } = data.message
@@ -50,17 +54,14 @@ class ChatDisplay extends React.Component {
             .then( () => {
                 this.props.updateChannelship({channel_id: channelId})
             })
-
         this.setState({
             messages: this.state.messages.concat(newMsg)
         });
     }
 
     setupSocket(){
-
         let channelId = this.props.selectedChannel.id
         if (channelId === undefined) return null
-
         if (App.currentChannel) {
             App.currentChannel.unsubscribe();
         }
@@ -82,25 +83,25 @@ class ChatDisplay extends React.Component {
 
     render() {
         let lastDay;
-        const messageList = this.state.messages.map((message, idx) => {
-            if (this.props.channelUsers[message.userId]===undefined) return null
+        let { channelUsers, userId} = this.props;
+        const messageList = this.state.messages.map((message) => {
+            if (channelUsers[message.userId]===undefined) return null
             let thisDay = formatDateWithDay(message.createdAt);
             let diffDay = thisDay !== lastDay;
             lastDay = thisDay;
             return (
-                <li key={idx}>
-                    {diffDay ? (<div className="chat-message-datedivider">
+                <li key={message.id}>
+                    {diffDay ? <div className="chat-message-datedivider">
                                     <span>{thisDay}</span>
-                                </div>) : 
-                    <div> </div>}
+                                </div> : <div> </div>}
 
                     <div className="chat-message">
                         <img 
                             className="chat-message-img"
-                            src={window[this.props.channelUsers[message.userId].imageUrl]}/>
+                            src={window[channelUsers[message.userId].imageUrl]}/>
                         <div className="chat-message-right">
                             <div className="chat-message-info">
-                                <p className="chat-message-name">{this.props.channelUsers[message.userId].name}</p>
+                                <p className="chat-message-name">{channelUsers[message.userId].name}</p>
                                 <p className="chat-message-time">{formatTime(message.createdAt)}</p>
                             </div>
                             <div className="chat-message-message">
@@ -114,10 +115,12 @@ class ChatDisplay extends React.Component {
         });
         return (
             <div className="chat-display">
-                <ul className="message-list">{messageList}</ul>
+                <ul className="message-list">
+                    {messageList}
+                </ul>
                 <MessageForm 
-                    userId={this.props.userId}
-                    selectedChannelId={this.props.selectedChannel.id}/>
+                    userId={userId}
+                    selectedChannelId={selectedChannel.id}/>
             </div>
         );
     }

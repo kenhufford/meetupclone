@@ -2,16 +2,12 @@
 import React from "react";
 
 class ChatGroupIndex extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let groups = Object.values(this.props.groups);
         let groupsList;
         if (groups.length !== 0){
-            groupsList = groups.map((group, i) =>
-                            (<div key={i} 
+            groupsList = groups.map((group) =>
+                            (<div key={group.id} 
                                 value={group.id} 
                                 onClick={(e) => this.props.selectGroup(e)} 
                                 className="chat-group-index-item">

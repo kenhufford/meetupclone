@@ -19,7 +19,6 @@ class ChatChannel extends React.Component {
                     loadInfoBar={this.props.loadInfoBar}
                 />
                 <ChatDisplay
-                    receiveMessage={this.props.receiveMessage}
                     userId={this.props.userId}
                     selectedChannel={this.props.selectedChannel}
                     channelUsers={this.props.channelUsers}

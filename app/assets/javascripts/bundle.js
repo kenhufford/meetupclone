@@ -1392,7 +1392,6 @@ function (_React$Component) {
           className: "chat-main-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loadInfoBar: this.state.loadInfoBar,
-          receiveMessage: this.props.receiveMessage,
           userId: this.props.currentUser.id,
           selectedChannel: this.state.selectedChannel,
           channelUsers: this.state.channelUsers,
@@ -1471,7 +1470,6 @@ function (_React$Component) {
         channelUsers: this.props.channelUsers,
         loadInfoBar: this.props.loadInfoBar
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_display__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        receiveMessage: this.props.receiveMessage,
         userId: this.props.userId,
         selectedChannel: this.props.selectedChannel,
         channelUsers: this.props.channelUsers,
@@ -1936,9 +1934,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteChannelship: function deleteChannelship(channelship) {
       return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_3__["deleteChannelship"])(channelship));
-    },
-    receiveMessage: function receiveMessage(message) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["receiveMessage"])(message));
     }
   };
 };
@@ -2612,6 +2607,11 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      App.currentChannel.unsubscribe();
+    }
+  }, {
     key: "makeMsg",
     value: function makeMsg(data) {
       var _this3 = this;
@@ -2676,27 +2676,30 @@ function (_React$Component) {
       var _this5 = this;
 
       var lastDay;
-      var messageList = this.state.messages.map(function (message, idx) {
-        if (_this5.props.channelUsers[message.userId] === undefined) return null;
+      var _this$props = this.props,
+          channelUsers = _this$props.channelUsers,
+          userId = _this$props.userId;
+      var messageList = this.state.messages.map(function (message) {
+        if (channelUsers[message.userId] === undefined) return null;
         var thisDay = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithDay"])(message.createdAt);
         var diffDay = thisDay !== lastDay;
         lastDay = thisDay;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: idx
+          key: message.id
         }, diffDay ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-datedivider"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, thisDay)) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           className: "chat-message-img",
-          src: window[_this5.props.channelUsers[message.userId].imageUrl]
+          src: window[channelUsers[message.userId].imageUrl]
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-right"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-info"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "chat-message-name"
-        }, _this5.props.channelUsers[message.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, channelUsers[message.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "chat-message-time"
         }, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatTime"])(message.createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-message-message"
@@ -2709,8 +2712,8 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "message-list"
       }, messageList), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        userId: this.props.userId,
-        selectedChannelId: this.props.selectedChannel.id
+        userId: userId,
+        selectedChannelId: selectedChannel.id
       }));
     }
   }]);
@@ -2758,10 +2761,10 @@ var ChatGroupIndex =
 function (_React$Component) {
   _inherits(ChatGroupIndex, _React$Component);
 
-  function ChatGroupIndex(props) {
+  function ChatGroupIndex() {
     _classCallCheck(this, ChatGroupIndex);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ChatGroupIndex).call(this, props));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChatGroupIndex).apply(this, arguments));
   }
 
   _createClass(ChatGroupIndex, [{
@@ -2773,9 +2776,9 @@ function (_React$Component) {
       var groupsList;
 
       if (groups.length !== 0) {
-        groupsList = groups.map(function (group, i) {
+        groupsList = groups.map(function (group) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            key: i,
+            key: group.id,
             value: group.id,
             onClick: function onClick(e) {
               return _this.props.selectGroup(e);
@@ -2858,7 +2861,6 @@ function (_React$Component) {
   _createClass(ChatInfoBar, [{
     key: "toggleDropdown",
     value: function toggleDropdown(outsideClick) {
-      debugger;
       var userDropdown = outsideClick ? false : !this.state.userDropdown;
       this.setState({
         userDropdown: userDropdown
@@ -2869,24 +2871,18 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var channel = this.props.selectedChannel;
-      var users = Object.values(this.props.channelUsers);
-      var selectChannelBar = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-info-bar"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select a channel"));
-      var dropdown = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        channelUsers: this.props.channelUsers,
-        userDropdown: this.state.userDropdown,
-        toggleDropdown: this.toggleDropdown
-      });
+      var _this$props = this.props,
+          selectedChannel = _this$props.selectedChannel,
+          channelUsers = _this$props.channelUsers;
+      var users = Object.values(channelUsers);
 
       if (this.props.loadInfoBar) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-info-bar-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-info-bar"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, channel.name), channel.eventId !== null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          to: "/groups/".concat(channel.groupId, "/events/").concat(channel.eventId)
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, selectedChannel.name), selectedChannel.eventId !== null ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/groups/".concat(selectedChannel.groupId, "/events/").concat(selectedChannel.eventId)
         }, "Event Page") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-info-bar-users",
           onClick: function onClick() {
@@ -2894,11 +2890,17 @@ function (_React$Component) {
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-users"
-        }), users.length)), this.state.userDropdown && dropdown);
+        }), users.length)), this.state.userDropdown && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_infobar_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          channelUsers: channelUsers,
+          userDropdown: this.state.userDropdown,
+          toggleDropdown: this.toggleDropdown
+        }));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-info-bar-wrapper"
-        }, selectChannelBar);
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-info-bar"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select a channel")));
       }
     }
   }]);
