@@ -8,8 +8,7 @@ class ChatGroupIndex extends React.Component {
         if (groups.length !== 0){
             groupsList = groups.map((group) =>
                             (<div key={group.id} 
-                                value={group.id} 
-                                onClick={(e) => this.props.selectGroup(e)} 
+                                onClick={() => this.props.selectGroup(group)} 
                                 className="chat-group-index-item">
                                 <img src={window[group.iconUrl]}/>
                             </div>)       )     

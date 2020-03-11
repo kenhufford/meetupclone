@@ -4,7 +4,7 @@ import ChatDirectMessageInvite from './chat_direct_message_invite';
 import ChatCreateChannel from './chat_create_channel';
 import ChatJoinChannel from './chat_join_channel';
 import ChatChannelIndexItem from './chat_channel_index_item';
-import {moreRecentOrEqualThanDate} from '../../utils/date_util';
+import {moreRecentOrEqualThanDate} from '../../../utils/date_util';
 
 class ChatChannelIndex extends React.Component {
     constructor(props) {
@@ -104,10 +104,10 @@ class ChatChannelIndex extends React.Component {
                 let selected = channel.id === selectedId;
                 let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
                 return (<ChatChannelIndexItem  
+                            key={channel.id}
                             selected={selected}
                             notify={notify}
                             dm={false}
-                            key={i}
                             removeChannelship={this.props.removeChannelship}
                             selectChannel={this.props.selectChannel}
                             channel={channel} />)
@@ -121,10 +121,10 @@ class ChatChannelIndex extends React.Component {
                 let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
                 let selected = channel.id === selectedId;
                 return (<ChatChannelIndexItem
+                    key={channel.id}
                     selected={selected}
                     notify={notify}
                     dm={true}
-                    key={i}
                     removeChannelship={this.props.removeChannelship}
                     selectChannel={this.props.selectChannel}
                     channel={channel} />)

@@ -83,7 +83,7 @@ class ChatDisplay extends React.Component {
 
     render() {
         let lastDay;
-        let { channelUsers, userId} = this.props;
+        let { channelUsers, userId, selectedChannel} = this.props;
         const messageList = this.state.messages.map((message) => {
             if (channelUsers[message.userId]===undefined) return null
             let thisDay = formatDateWithDay(message.createdAt);

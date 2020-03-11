@@ -1,6 +1,6 @@
 
 import React from "react";
-import ChatChannelIndex from './chat_channel_index';
+import ChatChannelIndex from './chat_channel_index/chat_channel_index';
 import ChatChannel from './chat_channel';
 import ChatGroupIndex from './chat_group_index';
 
@@ -60,8 +60,8 @@ class Chat extends React.Component {
             });
     }
 
-    selectGroup(e){
-        let groupId = e.currentTarget.getAttribute('value');
+    selectGroup(group){
+        let groupId = group.id
         let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
         Promise.all([fetchUsersFromGroup])
             .then((data) => {
