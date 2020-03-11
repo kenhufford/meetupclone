@@ -1199,7 +1199,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _chat_channel_index_chat_channel_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_channel_index/chat_channel_index */ "./frontend/components/chat/chat_channel_index/chat_channel_index.jsx");
+/* harmony import */ var _chat_channel_index_chat_channel_index_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_channel_index/chat_channel_index_container */ "./frontend/components/chat/chat_channel_index/chat_channel_index_container.js");
 /* harmony import */ var _chat_channel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_channel */ "./frontend/components/chat/chat_channel.jsx");
 /* harmony import */ var _chat_group_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./chat_group_index */ "./frontend/components/chat/chat_group_index.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1375,18 +1375,13 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_group_index__WEBPACK_IMPORTED_MODULE_3__["default"], {
           groups: this.props.groups,
           selectGroup: this.selectGroup
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_chat_channel_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          currentUser: this.props.currentUser,
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_chat_channel_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           groupId: this.state.selectedGroupId,
           groupName: this.props.groups[this.state.selectedGroupId].name,
           selectedChannel: this.state.selectedChannel,
           groupUsers: this.state.groupUsers,
           selectChannel: this.selectChannel,
-          createChannel: this.props.createChannel,
-          fetchGroupChannels: this.props.fetchGroupChannels,
-          fetchChannelshipsFromUser: this.props.fetchChannelshipsFromUser,
           selectAfterCreateChannel: this.selectAfterCreateChannel,
-          createChannelship: this.props.createChannelship,
           removeChannelship: this.removeChannelship
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-right"
@@ -1543,8 +1538,6 @@ function (_React$Component) {
       showDmModal: false,
       showChannelModal: false,
       showJoinChannelModal: false,
-      userChannels: {},
-      groupChannels: {},
       loaded: false
     };
     _this.toggleModal = _this.toggleModal.bind(_assertThisInitialized(_this));
@@ -1558,17 +1551,8 @@ function (_React$Component) {
 
       var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
       var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
-      Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function (data) {
-        var groupChannels = data[0].channels.groupChannels;
-        var userChannels = data[0].channels.userChannels === undefined ? {} : data[0].channels.userChannels;
-        var userChannelships = data[1].channelships.userChannelships;
-
+      Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function () {
         _this2.setState({
-          groupChannels: groupChannels,
-          userChannels: userChannels,
-          channelships: {
-            userChannelships: userChannelships
-          },
           loaded: true
         });
       });
@@ -1576,24 +1560,9 @@ function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var _this3 = this;
-
       if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel) {
-        var fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
-        var fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
-        Promise.all([fetchGroupChannels, fetchChannelshipsFromUser]).then(function (data) {
-          var groupChannels = data[0].channels.groupChannels;
-          var userChannels = data[0].channels.userChannels === undefined ? {} : data[0].channels.userChannels;
-          var userChannelships = data[1].channelships.userChannelships;
-
-          _this3.setState({
-            groupChannels: groupChannels,
-            userChannels: userChannels,
-            channelships: {
-              userChannelships: userChannelships
-            }
-          });
-        });
+        this.props.fetchGroupChannels(this.props.groupId);
+        this.props.fetchChannelshipsFromUser();
       }
     }
   }, {
@@ -1629,64 +1598,35 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (!this.state.loaded) return null;
-      var userChannelships = this.state.channelships.userChannelships;
+      var _this$props = this.props,
+          channelships = _this$props.channelships,
+          selectedChannel = _this$props.selectedChannel;
+      var userChannelships = "userChannelships" in channelships ? channelships.userChannelships : {};
       var channelToChannelshipHash = {};
-      var selectedId = this.props.selectedChannel.id;
+      var selectedId = selectedChannel.id;
       Object.values(userChannelships).forEach(function (channelship) {
         channelToChannelshipHash[channelship.channelId] = {
           lastVisited: channelship.lastVisited
         };
       });
-      var groupChannels = Object.values(this.state.userChannels).filter(function (channel) {
-        return !channel.dm;
+      debugger;
+      var groupChannels = Object.values(this.props.groupChannels).filter(function (channel) {
+        return !channel.dm && channel.id in channelToChannelshipHash;
       });
-      var userChannels = Object.values(this.state.userChannels).filter(function (channel) {
+      var userChannels = Object.values(this.props.userChannels).filter(function (channel) {
         return channel.dm;
       });
-      userChannels = userChannels.sort(function (a, b) {
+      userChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
       });
-      groupChannels = groupChannels.sort(function (a, b) {
+      groupChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
-      }); // if (groupChannels.length !== 0) {
-      //     groupChannelList = groupChannels.map((channel, i) =>{
-      //         let selected = channel.id === selectedId;
-      //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-      //         return (<ChatChannelIndexItem  
-      //                     key={channel.id}
-      //                     selected={selected}
-      //                     notify={notify}
-      //                     dm={false}
-      //                     removeChannelship={this.props.removeChannelship}
-      //                     selectChannel={this.props.selectChannel}
-      //                     channel={channel} />)
-      //     })
-      // } else {
-      //     groupChannelList = <p></p>
-      // }
-      // if (userChannels.length !== 0) {
-      //     userChannelList = userChannels.map((channel, i) =>{
-      //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-      //         let selected = channel.id === selectedId;
-      //         return (<ChatChannelIndexItem
-      //             key={channel.id}
-      //             selected={selected}
-      //             notify={notify}
-      //             dm={true}
-      //             removeChannelship={this.props.removeChannelship}
-      //             selectChannel={this.props.selectChannel}
-      //             channel={channel} />)
-      //     })
-      // } else {
-      //     userChannelList = <p></p>
-      // }
-
+      });
       var createChannelModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.showChannelModal,
         toggleModal: this.toggleModal,
         groupId: this.props.groupId,
         groupUsers: this.props.groupUsers,
-        groupChannels: this.state.groupChannels,
         createChannel: this.props.createChannel,
         createChannelship: this.props.createChannelship,
         selectAfterCreateChannel: this.props.selectAfterCreateChannel,
@@ -1696,8 +1636,8 @@ function (_React$Component) {
         show: this.state.showJoinChannelModal,
         toggleModal: this.toggleModal,
         groupId: this.props.groupId,
-        userChannels: this.state.userChannels,
-        groupChannels: this.state.groupChannels,
+        userChannels: userChannels,
+        groupChannels: groupChannels,
         createChannelship: this.props.createChannelship,
         currentUser: this.props.currentUser,
         selectChannel: this.props.selectChannel,
@@ -1706,7 +1646,7 @@ function (_React$Component) {
       var chatDMInviteModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_direct_message_invite__WEBPACK_IMPORTED_MODULE_1__["default"], {
         show: this.state.showDmModal,
         toggleModal: this.toggleModal,
-        userChannels: this.state.userChannels,
+        userChannels: userChannels,
         groupId: this.props.groupId,
         groupUsers: this.props.groupUsers,
         createChannel: this.props.createChannel,
@@ -1755,6 +1695,54 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (ChatChannelIndex);
+
+/***/ }),
+
+/***/ "./frontend/components/chat/chat_channel_index/chat_channel_index_container.js":
+/*!*************************************************************************************!*\
+  !*** ./frontend/components/chat/chat_channel_index/chat_channel_index_container.js ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _chat_channel_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_channel_index */ "./frontend/components/chat/chat_channel_index/chat_channel_index.jsx");
+/* harmony import */ var _actions_channelship_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/channelship_actions */ "./frontend/actions/channelship_actions.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    groupChannels: state.entities.channels.groupChannels,
+    userChannels: state.entities.channels.userChannels,
+    channelships: state.entities.channelships,
+    currentUser: state.session
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchChannelshipsFromUser: function fetchChannelshipsFromUser() {
+      return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_2__["fetchChannelshipsFromUser"])());
+    },
+    createChannel: function createChannel(channel) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["createChannel"])(channel));
+    },
+    fetchGroupChannels: function fetchGroupChannels(groupId) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["fetchGroupChannels"])(groupId));
+    },
+    createChannelship: function createChannelship(channelship) {
+      return dispatch(Object(_actions_channelship_actions__WEBPACK_IMPORTED_MODULE_2__["createChannelship"])(channelship));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_chat_channel_index__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -1997,7 +1985,14 @@ function (_React$Component) {
       if (channels.length !== 0) {
         channelsList = channels.map(function (channel) {
           var selected = channel.id === selectedId;
-          var notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+          var notify;
+
+          if (channel.id in channelToChannelshipHash) {
+            notify = !Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["moreRecentOrEqualThanDate"])(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+          } else {
+            false;
+          }
+
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
             key: channel.id,
             selected: selected,
@@ -2343,8 +2338,6 @@ function (_React$Component) {
     _this.state = {
       filteredUsers: [],
       searchTerm: '',
-      users: _this.props.groupUsers,
-      dmChannels: [],
       addedToChannel: {}
     };
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -2352,36 +2345,26 @@ function (_React$Component) {
     _this.removeFromChannel = _this.removeFromChannel.bind(_assertThisInitialized(_this));
     _this.createChannel = _this.createChannel.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // componentDidMount(){
+  //     let dmChannels = [];
+  //     if (this.props.userChannels !== undefined) {
+  //         dmChannels = Object.values(this.props.userChannels).map(channel => (channel))
+  //     } 
+  //     this.setState({
+  //         dmChannels
+  //     })
+  // }
+  // componentDidUpdate(prevProps){
+  //     if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
+  //         let dmChannels = Object.values(this.props.userChannels).map(channel => (channel));
+  //         this.setState({
+  //             dmChannels
+  //         })
+  //     }
+  // }
+
 
   _createClass(ChatDirectMessageInvite, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var dmChannels = [];
-
-      if (this.props.userChannels !== undefined) {
-        dmChannels = Object.values(this.props.userChannels).map(function (channel) {
-          return channel;
-        });
-      }
-
-      this.setState({
-        dmChannels: dmChannels
-      });
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
-        var dmChannels = Object.values(this.props.userChannels).map(function (channel) {
-          return channel;
-        });
-        this.setState({
-          dmChannels: dmChannels
-        });
-      }
-    }
-  }, {
     key: "update",
     value: function update(e) {
       var _this2 = this;
@@ -2482,7 +2465,7 @@ function (_React$Component) {
       this.setState({
         filteredUsers: [],
         searchTerm: '',
-        users: this.props.groupUsers,
+        // users: this.props.groupUsers,
         addedToChannel: {}
       });
     }
@@ -2494,7 +2477,7 @@ function (_React$Component) {
       this.setState({
         filteredUsers: [],
         searchTerm: '',
-        users: this.props.groupUsers,
+        // users: this.props.groupUsers,
         addedToChannel: {}
       });
     }
@@ -2509,11 +2492,11 @@ function (_React$Component) {
         var addedToChannelToggle = this.state.addedToChannel.length !== 0;
 
         if (this.state.filteredUsers.length === 0 || this.state.searchTerm === '') {
-          if (this.state.dmChannels.length === 0) {
+          if (this.props.userChannels.length === 0) {
             index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "No recent messages");
           } else {
             dmChannelsToggle = true;
-            var dmChannels = this.state.dmChannels.sort(function (a, b) {
+            var dmChannels = this.props.userChannels.sort(function (a, b) {
               return a.name < b.name ? -1 : 1;
             });
             index = dmChannels.map(function (channel, i) {
@@ -2663,14 +2646,13 @@ function (_React$Component) {
   _createClass(ChatJoinChannel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var userChannels = this.props.userChannels;
-      var groupChannels = this.props.groupChannels;
+      var _this$props = this.props,
+          userChannels = _this$props.userChannels,
+          groupChannels = _this$props.groupChannels;
       var unjoinedGroups = [];
-      Object.keys(this.props.groupChannels).forEach(function (channelId) {
-        var groupChannel = groupChannels[channelId];
-
-        if (!Object.keys(userChannels).includes(channelId)) {
-          unjoinedGroups.push(groupChannel);
+      groupChannels.forEach(function (channel) {
+        if (userChannels.includes(channel.id)) {
+          unjoinedGroups.push(channel);
         }
       });
       this.setState({
@@ -2680,15 +2662,14 @@ function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var userChannels = this.props.userChannels;
-      var groupChannels = this.props.groupChannels;
+      var _this$props2 = this.props,
+          userChannels = _this$props2.userChannels,
+          groupChannels = _this$props2.groupChannels;
       var unjoinedGroups = [];
 
-      if (prevProps.userChannels !== this.props.userChannels) {
-        Object.keys(this.props.groupChannels).forEach(function (channelId) {
-          var groupChannel = groupChannels[channelId];
-
-          if (!Object.keys(userChannels).includes(channelId)) {
+      if (prevProps.userChannels !== userChannels) {
+        groupChannels.forEach(function (channel) {
+          if (userChannels.includes(channel.id)) {
             unjoinedGroups.push(groupChannel);
           }
         });

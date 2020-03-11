@@ -9,7 +9,12 @@ class ChatChannelIndexList extends React.Component{
         if (channels.length !== 0) {
             channelsList = channels.map((channel) => {
                 let selected = channel.id === selectedId;
-                let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
+                let notify;
+                if (channel.id in channelToChannelshipHash){
+                    notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt)
+                } else {
+                    false;
+                }
                 return (
                 <ChatChannelIndexItem
                     key={channel.id}

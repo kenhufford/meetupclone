@@ -29,14 +29,12 @@ class Api::ChannelshipsController < ApplicationController
     end
 
     def update
-        
         channelshipId = Channel.find(channelship_params[:channel_id])
             .channelships
             .where(:channelships => {:user_id => current_user.id})
             .limit(1)
             .pluck("id")
             .first
-        
         @channelship = Channelship.find(channelshipId)
         if @channelship.update(last_visited: Time.now)
             

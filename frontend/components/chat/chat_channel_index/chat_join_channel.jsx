@@ -15,26 +15,22 @@ class ChatJoinChannel extends React.Component{
     }
 
     componentDidMount(){
-        let userChannels = this.props.userChannels;
-        let groupChannels = this.props.groupChannels;
+        let {userChannels, groupChannels} = this.props;
         let unjoinedGroups = [];
-        Object.keys(this.props.groupChannels).forEach((channelId) => {
-            let groupChannel = groupChannels[channelId];
-            if (!Object.keys(userChannels).includes(channelId)) {
-                unjoinedGroups.push(groupChannel);
+        groupChannels.forEach((channel) => {
+            if (userChannels.includes(channel.id)) {
+                unjoinedGroups.push(channel);
             }
         });
         this.setState({ unjoinedGroups });
     }
 
     componentDidUpdate(prevProps){
-        let userChannels = this.props.userChannels;
-        let groupChannels = this.props.groupChannels;
+        let { userChannels, groupChannels } = this.props;
         let unjoinedGroups = [];
-        if (prevProps.userChannels !== this.props.userChannels){
-            Object.keys(this.props.groupChannels).forEach((channelId) => {
-                let groupChannel = groupChannels[channelId];
-                if (!Object.keys(userChannels).includes(channelId)) {
+        if (prevProps.userChannels !== userChannels){
+            groupChannels.forEach((channel) => {
+                if (userChannels.includes(channel.id)) {
                     unjoinedGroups.push(groupChannel);
                 }
             });

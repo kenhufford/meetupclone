@@ -6,8 +6,6 @@ class ChatDirectMessageInvite extends React.Component{
         this.state = {
             filteredUsers: [],
             searchTerm: '',
-            users: this.props.groupUsers,
-            dmChannels: [],
             addedToChannel: {},
         };
         this.update = this.update.bind(this);
@@ -16,24 +14,24 @@ class ChatDirectMessageInvite extends React.Component{
         this.createChannel = this.createChannel.bind(this);
     }
 
-    componentDidMount(){
-        let dmChannels = [];
-        if (this.props.userChannels !== undefined) {
-            dmChannels = Object.values(this.props.userChannels).map(channel => (channel))
-        } 
-        this.setState({
-            dmChannels
-        })
-    }
+    // componentDidMount(){
+    //     let dmChannels = [];
+    //     if (this.props.userChannels !== undefined) {
+    //         dmChannels = Object.values(this.props.userChannels).map(channel => (channel))
+    //     } 
+    //     this.setState({
+    //         dmChannels
+    //     })
+    // }
 
-    componentDidUpdate(prevProps){
-        if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
-            let dmChannels = Object.values(this.props.userChannels).map(channel => (channel));
-            this.setState({
-                dmChannels
-            })
-        }
-    }
+    // componentDidUpdate(prevProps){
+    //     if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
+    //         let dmChannels = Object.values(this.props.userChannels).map(channel => (channel));
+    //         this.setState({
+    //             dmChannels
+    //         })
+    //     }
+    // }
 
     update(e){
         let filteredUsers = Object.values(this.props.groupUsers).filter(user => 
@@ -126,7 +124,7 @@ class ChatDirectMessageInvite extends React.Component{
         this.setState({
             filteredUsers: [],
             searchTerm: '',
-            users: this.props.groupUsers,
+            // users: this.props.groupUsers,
             addedToChannel: {},
         })
     }
@@ -137,7 +135,7 @@ class ChatDirectMessageInvite extends React.Component{
         this.setState({
             filteredUsers: [],
             searchTerm: '',
-            users: this.props.groupUsers,
+            // users: this.props.groupUsers,
             addedToChannel: {},
         })
     }
@@ -149,11 +147,11 @@ class ChatDirectMessageInvite extends React.Component{
             let addedToChannelToggle = this.state.addedToChannel.length !== 0;
 
             if (this.state.filteredUsers.length===0 || this.state.searchTerm === ''){
-                if (this.state.dmChannels.length === 0){
+                if (this.props.userChannels.length === 0){
                     index = <li>No recent messages</li>
                 } else {
                     dmChannelsToggle = true;
-                    let dmChannels = this.state.dmChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
+                    let dmChannels = this.props.userChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
                     index = dmChannels.map((channel, i) => {
                         if (channel.dm){
                             return (

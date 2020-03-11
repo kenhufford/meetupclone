@@ -14,8 +14,6 @@ class ChatChannelIndex extends React.Component {
             showDmModal: false,
             showChannelModal: false,
             showJoinChannelModal: false,
-            userChannels: {},
-            groupChannels: {},
             loaded: false,
         }
         this.toggleModal = this.toggleModal.bind(this);
@@ -25,14 +23,8 @@ class ChatChannelIndex extends React.Component {
         let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
         let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
         Promise.all([fetchGroupChannels, fetchChannelshipsFromUser])
-            .then( (data) => {
-                let groupChannels = data[0].channels.groupChannels;
-                let userChannels = data[0].channels.userChannels===undefined ? {} : data[0].channels.userChannels;
-                let userChannelships = data[1].channelships.userChannelships;
+            .then( () => {
                 this.setState({
-                    groupChannels,
-                    userChannels,
-                    channelships: {userChannelships},
                     loaded: true
                 })
             })
@@ -40,19 +32,8 @@ class ChatChannelIndex extends React.Component {
 
     componentDidUpdate(prevProps){
         if (this.props.groupId !== prevProps.groupId || this.props.selectedChannel !== prevProps.selectedChannel ){
-            let fetchGroupChannels = this.props.fetchGroupChannels(this.props.groupId);
-            let fetchChannelshipsFromUser = this.props.fetchChannelshipsFromUser();
-            Promise.all([fetchGroupChannels, fetchChannelshipsFromUser])
-                .then((data) => {
-                    let groupChannels = data[0].channels.groupChannels;
-                    let userChannels = data[0].channels.userChannels === undefined ? {} : data[0].channels.userChannels;
-                    let userChannelships = data[1].channelships.userChannelships;
-                    this.setState({
-                        groupChannels,
-                        userChannels,
-                        channelships: { userChannelships },
-                    })
-                })
+            this.props.fetchGroupChannels(this.props.groupId);
+            this.props.fetchChannelshipsFromUser();
         }
     }
 
@@ -85,58 +66,24 @@ class ChatChannelIndex extends React.Component {
 
     render() {
         if (!this.state.loaded) return null
-        let userChannelships = this.state.channelships.userChannelships;
+        let {channelships, selectedChannel} = this.props;
+        let userChannelships = "userChannelships" in channelships ? channelships.userChannelships : {};
         let channelToChannelshipHash = {};
-        let selectedId = this.props.selectedChannel.id
- 
+        let selectedId = selectedChannel.id
         Object.values(userChannelships).forEach(channelship => {
             channelToChannelshipHash[channelship.channelId] = {lastVisited: channelship.lastVisited}
         })
-        let groupChannels = Object.values(this.state.userChannels).filter(channel => !channel.dm);
-        let userChannels = Object.values(this.state.userChannels).filter(channel => channel.dm);
-
-        userChannels = userChannels.sort( (a, b) => {return a.name < b.name  ? -1 : 1});
-        groupChannels = groupChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
-       
-        // if (groupChannels.length !== 0) {
-        //     groupChannelList = groupChannels.map((channel, i) =>{
-        //         let selected = channel.id === selectedId;
-        //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-        //         return (<ChatChannelIndexItem  
-        //                     key={channel.id}
-        //                     selected={selected}
-        //                     notify={notify}
-        //                     dm={false}
-        //                     removeChannelship={this.props.removeChannelship}
-        //                     selectChannel={this.props.selectChannel}
-        //                     channel={channel} />)
-        //     })
-        // } else {
-        //     groupChannelList = <p></p>
-        // }
-
-        // if (userChannels.length !== 0) {
-        //     userChannelList = userChannels.map((channel, i) =>{
-        //         let notify = !moreRecentOrEqualThanDate(channelToChannelshipHash[channel.id].lastVisited, channel.updatedAt);
-        //         let selected = channel.id === selectedId;
-        //         return (<ChatChannelIndexItem
-        //             key={channel.id}
-        //             selected={selected}
-        //             notify={notify}
-        //             dm={true}
-        //             removeChannelship={this.props.removeChannelship}
-        //             selectChannel={this.props.selectChannel}
-        //             channel={channel} />)
-        //     })
-        // } else {
-        //     userChannelList = <p></p>
-        // }
+        debugger
+        let groupChannels = Object.values(this.props.groupChannels).filter(channel => !channel.dm && (channel.id in channelToChannelshipHash));
+        let userChannels = Object.values(this.props.userChannels).filter(channel => channel.dm);
+        userChannels.sort( (a, b) => {return a.name < b.name  ? -1 : 1});
+        groupChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
+        
         let createChannelModal = <ChatCreateChannel
             show={this.state.showChannelModal}
             toggleModal={this.toggleModal}
             groupId={this.props.groupId}
             groupUsers={this.props.groupUsers}
-            groupChannels={this.state.groupChannels}
             createChannel={this.props.createChannel}
             createChannelship={this.props.createChannelship}
             selectAfterCreateChannel={this.props.selectAfterCreateChannel}
@@ -147,8 +94,8 @@ class ChatChannelIndex extends React.Component {
             show={this.state.showJoinChannelModal}
             toggleModal={this.toggleModal}
             groupId={this.props.groupId}
-            userChannels={this.state.userChannels}
-            groupChannels={this.state.groupChannels}
+            userChannels={userChannels}
+            groupChannels={groupChannels}
             createChannelship={this.props.createChannelship}
             currentUser={this.props.currentUser}
             selectChannel={this.props.selectChannel}
@@ -158,7 +105,7 @@ class ChatChannelIndex extends React.Component {
         let chatDMInviteModal= <ChatDirectMessageInvite
             show={this.state.showDmModal}
             toggleModal={this.toggleModal}
-            userChannels={this.state.userChannels}
+            userChannels={userChannels}
             groupId={this.props.groupId}
             groupUsers={this.props.groupUsers}
             createChannel={this.props.createChannel}

@@ -1,6 +1,6 @@
 
 import React from "react";
-import ChatChannelIndex from './chat_channel_index/chat_channel_index';
+import ChatChannelIndexContainer from './chat_channel_index/chat_channel_index_container';
 import ChatChannel from './chat_channel';
 import ChatGroupIndex from './chat_group_index';
 
@@ -125,18 +125,13 @@ class Chat extends React.Component {
                             <ChatGroupIndex 
                                 groups={this.props.groups} 
                                 selectGroup={this.selectGroup}/>
-                            <ChatChannelIndex 
-                                currentUser={this.props.currentUser}
+                            <ChatChannelIndexContainer 
                                 groupId={this.state.selectedGroupId}
                                 groupName={this.props.groups[this.state.selectedGroupId].name}
                                 selectedChannel={this.state.selectedChannel}
                                 groupUsers={this.state.groupUsers}
                                 selectChannel={this.selectChannel}
-                                createChannel={this.props.createChannel}
-                                fetchGroupChannels={this.props.fetchGroupChannels}
-                                fetchChannelshipsFromUser={this.props.fetchChannelshipsFromUser}
                                 selectAfterCreateChannel={this.selectAfterCreateChannel}
-                                createChannelship={this.props.createChannelship}
                                 removeChannelship={this.removeChannelship}/>
                         </div>
                         <div className="chat-main-right">

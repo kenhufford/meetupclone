@@ -25,7 +25,7 @@ class ChatChannelIndexItem extends React.Component{
             <i className="fas fa-ban remove-button"
                 onClick={() => this.props.removeChannelship(channel.channelshipId[0])}></i> : 
             <i className="hidden"></i>
-
+        
         return (
             <div className={selected ? "chat-channel-dm-container-selected" : "chat-channel-dm-container"}
                 onMouseEnter={() => this.hover(true)}
