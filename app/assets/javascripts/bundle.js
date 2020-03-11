@@ -1746,7 +1746,9 @@ function (_React$Component) {
         modal: chatDMInviteModal,
         modalType: "dm",
         toggleModal: this.toggleModal
-      }), userChannelList);
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "chat-channel-list"
+      }, userChannelList));
     }
   }]);
 

@@ -195,7 +195,10 @@ class ChatChannelIndex extends React.Component {
                     modalType="dm"
                     toggleModal={this.toggleModal}
                 />
-                {userChannelList}
+                <ul className="chat-channel-list">
+                    {userChannelList}
+                </ul>
+                
             </div>
         )
     }
