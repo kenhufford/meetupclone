@@ -2452,12 +2452,12 @@ padding-left: 15px;
     height: 15%;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 1px solid darkslategray;
+    border-bottom: 1px solid rgb(226, 156, 76);
     align-items: center;
 }
 
 .chat-info-bar a{
-       color: rgb(226, 156, 76);
+    color: rgb(226, 156, 76);
     font-size: 20px;
     text-decoration: none;
 }
@@ -2613,7 +2613,7 @@ padding-left: 15px;
 .chat-message-datedivider{
    width: 100%; 
    text-align: center; 
-   border-bottom: 1px solid darkslategray;
+   border-bottom: 1px solid rgb(104, 72, 36);
    line-height: 0.1em;
    margin: 20px 0px 10px 0px;
 }
@@ -2822,7 +2822,7 @@ padding-left: 15px;
 .chat-modal-list >div{
     color: darkgray;
     font-weight: 200;
-    border-bottom: 1px solid rgb(47, 79, 79);
+    border-bottom: 1px solid rgb(226, 156, 76);
     font-size: 16px;
     padding: 20px 0px;
 }
@@ -2839,7 +2839,7 @@ padding-left: 15px;
 }
 
 .chat-modal-list-item:hover{
-   background-color: lightslategrey;
+   background-color: rgb(68, 78, 87);
 }
 
 .chat-modal-list-item p{
@@ -2849,7 +2849,7 @@ padding-left: 15px;
 }
 
 .chat-horiz-list{
-display: flex;
+   display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
@@ -2861,7 +2861,7 @@ display: flex;
    display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: darkslategray;
+    background-color: rgb(226, 156, 76);
     border-radius: 8px;
     padding: 10px;
     justify-content: space-around;
@@ -2870,6 +2870,7 @@ display: flex;
 
 .chat-horiz-list-item p{
    color: white;
+   text-shadow: 1px 1px black;
    font-size: 22px;
    padding: 0px 10px;
    font-weight: 500;
@@ -2877,6 +2878,7 @@ display: flex;
 
 .chat-horiz-list-item i{
    color: white;
+   text-shadow: 1px 1px black;
    font-size: 18px;
 }
 
@@ -2917,7 +2919,7 @@ display: flex;
 }
 
 .chat-dm-icon-index-item-selected{
-   border: 2px solid rgba(47, 79, 79,1);;
+   border: 2px solid rgb(226, 156, 76);
    background-repeat: no-repeat;
    background-position: 50%;
    background-size: cover;

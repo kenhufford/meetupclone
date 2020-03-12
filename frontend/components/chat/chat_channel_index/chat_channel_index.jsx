@@ -67,8 +67,6 @@ class ChatChannelIndex extends React.Component {
     render() {
         if (!this.state.loaded) return null
         let {channelships, selectedChannel} = this.props;
-
-        debugger
         let userChannelships = "userChannelships" in channelships ? channelships.userChannelships : {};
         let channelToChannelshipHash = {};
         let selectedId = selectedChannel.id

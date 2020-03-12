@@ -1,8 +1,7 @@
 import React from 'react';
-import request from "superagent";
 import debounce from "lodash.debounce";
-import { formatDate, addWeek, addMonth, formatDateWithMonth } from '../../utils/date_util'
-import {Link} from 'react-router-dom'
+import EventIndexItemLarge from './event_index_item_large';
+import {addWeek, addMonth, formatDateWithMonth } from '../../utils/date_util';
 
 class EventIndex extends React.Component{
     constructor(props){
@@ -140,85 +139,41 @@ class EventIndex extends React.Component{
 
             let userlist = (
                 (<ul className="group-show-events-list">
-                    {userBrawls.map((brawl, i) => {
+                    {userBrawls.map((brawl) => {
                         let thisMonth = formatDateWithMonth(brawl.startTime);
                         let diffMonth = thisMonth !== lastMonth;
                         lastMonth = thisMonth;
-                        let { title, locationId, groupId, imageUrl, startTime, endTime, address, id, reservationIds, recurringType } = brawl
+                        let {recurringType} = brawl
                         let recurring = (recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {recurringType}</p>)
                         return (
-                            <div key={i} 
-                                className="group-show-events-li-container">
-                                {diffMonth ? (<div className="group-show-event-datedivider">
-                                    {thisMonth}
-                                </div>) :
-                                    <div> </div>}
-                                <li className="group-show-events-li">
-
-                                    <div className="group-show-events-event-div">
-                                        <div className="group-show-events-event-div-top">
-                                            <p>{formatDate(startTime)}</p>
-                                        </div>
-                                        {recurring}
-                                        <div className="group-show-events-event-div-bottom">
-                                            <div className="group-show-events-event-info">
-                                                <span className="group-show-events-event-title">{title}</span>
-                                                <Link to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
-                                                <p>{reservationIds.length} challengers</p>
-                                            </div>
-                                            <div className="group-show-events-event-link">
-                                                <Link to={`/groups/${groupId}/events/${id}`} >
-                                                    <img src={window[imageUrl]} alt="event-img" className="group-show-events-img" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </div>
-
+                            <EventIndexItemLarge
+                                recurring={recurring}
+                                diffMonth={diffMonth}
+                                thisMonth={thisMonth}
+                                brawl={brawl}
+                                locations={locations}
+                                key={brawl.id}
+                            />
                         )
                     })}
                 </ul>)
             )
             let list =
                 (<ul className="group-show-events-list">
-
-                    {displayedBrawls.map((brawl, i) => {
+                    {displayedBrawls.map((brawl) => {
                         let thisMonth = formatDateWithMonth(brawl.startTime);
                         let diffMonth = thisMonth !== lastMonth;
                         lastMonth = thisMonth;
-                        let { title, locationId, groupId, imageUrl, startTime, endTime, address, id, reservationIds, recurringType } = brawl
-                        let recurring = (recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {recurringType}</p>)
+                        let recurring = (this.props.recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {this.props.recurringType}</p>)
                         return (
-                            <div key={i} 
-                                className="group-show-events-li-container">
-                                {diffMonth ? (<div className="group-show-event-datedivider">
-                                    {thisMonth}
-                                </div>) :
-                                    <div> </div>}
-                                <li className="group-show-events-li">
-
-                                    <div className="group-show-events-event-div">
-                                        <div className="group-show-events-event-div-top">
-                                            <p>{formatDate(startTime)}</p>
-                                        </div>
-                                        {recurring}
-                                        <div className="group-show-events-event-div-bottom">
-                                            <div className="group-show-events-event-info">
-                                                <span className="group-show-events-event-title">{title}</span>
-                                                <Link to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
-                                                <p>{reservationIds.length} challengers</p>
-                                            </div>
-                                            <div className="group-show-events-event-link">
-                                                <Link to={`/groups/${groupId}/events/${id}`} >
-                                                    <img src={window[imageUrl]} alt="event-img" className="group-show-events-img" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </div>
-
+                           <EventIndexItemLarge 
+                                recurring={recurring}
+                                diffMonth={diffMonth}
+                                thisMonth={thisMonth}
+                                brawl={brawl}
+                                locations={locations}
+                                key={brawl.id}
+                            />
                         )
                     })}
                 </ul>)
