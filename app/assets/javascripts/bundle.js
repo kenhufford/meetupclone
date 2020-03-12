@@ -4233,7 +4233,8 @@ function (_React$Component) {
             thisMonth: thisMonth,
             brawl: brawl,
             locations: locations,
-            key: brawl.id
+            key: brawl.id // why doesn't this work?
+
           });
         }));
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
