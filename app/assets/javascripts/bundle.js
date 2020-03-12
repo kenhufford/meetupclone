@@ -7071,6 +7071,7 @@ function (_React$Component) {
       var _this$props = this.props,
           currentUser = _this$props.currentUser,
           logout = _this$props.logout;
+      debugger;
 
       var goHome = function goHome() {
         document.location.href = '#/';
