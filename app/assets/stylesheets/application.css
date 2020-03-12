@@ -2153,10 +2153,13 @@ padding-left: 15px;
    justify-content: flex-start;
    padding: 5px 10px;
    margin: 10px 0px;
-   border-radius: 10px;
-   background-color: rgb(235, 192, 201);
-   border-radius: 10px;
+   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 8px;
+   border-radius: 16px;
 }  
+.group-show-events-li:hover{
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
+   transform: translateY(-1px);
+}
 
 .group-show-events-li-container{
    width:100%;
@@ -2206,11 +2209,11 @@ padding-left: 15px;
 }
 
 .group-show-events-event-info > *{
-   padding: 5px 0px;
+   padding: 2px 0px;
 }
 
 .group-show-events-event-info > p{
-   font-size: 18px;
+   font-size: 16px;
    font-weight: 700;
 }
 
@@ -2236,10 +2239,8 @@ padding-left: 15px;
    padding: 8px 16px;
 }
 
+
 .group-show-events-img{
-   /* margin-right: 20px; */
-   margin-top: 20px;
-   margin-bottom: 20px;
    background-repeat: no-repeat;
    background-position: 50%;
    background-size: cover;

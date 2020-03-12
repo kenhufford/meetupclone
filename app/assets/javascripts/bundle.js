@@ -4194,8 +4194,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
-
       if (this.state.loaded) {
         var locations = this.props.locations;
         var _this$state = this.state,
@@ -4227,7 +4225,8 @@ function (_React$Component) {
           var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDateWithMonth"])(brawl.startTime);
           var diffMonth = thisMonth !== lastMonth;
           lastMonth = thisMonth;
-          var recurring = _this4.props.recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", _this4.props.recurringType);
+          var recurringType = brawl.recurringType;
+          var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item_large__WEBPACK_IMPORTED_MODULE_2__["default"], {
             recurring: recurring,
             diffMonth: diffMonth,
@@ -4457,7 +4456,6 @@ function (_React$Component) {
           groupId = brawl.groupId,
           imageUrl = brawl.imageUrl;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: id,
         className: "group-show-events-li-container"
       }, diffMonth ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-event-datedivider"
@@ -4466,8 +4464,6 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events-event-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-events-event-div-top"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime))), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events-event-div-bottom"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-events-event-info"
@@ -4475,15 +4471,13 @@ function (_React$Component) {
         className: "group-show-events-event-title"
       }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/search/?location%20".concat(locationId)
-      }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-events-event-link"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+      }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime)), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/groups/".concat(groupId, "/events/").concat(id)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: window[imageUrl],
         alt: "event-img",
         className: "group-show-events-img"
-      })))))));
+      }))))));
     }
   }]);
 

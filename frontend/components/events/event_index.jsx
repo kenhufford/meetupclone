@@ -164,7 +164,8 @@ class EventIndex extends React.Component{
                         let thisMonth = formatDateWithMonth(brawl.startTime);
                         let diffMonth = thisMonth !== lastMonth;
                         lastMonth = thisMonth;
-                        let recurring = (this.props.recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {this.props.recurringType}</p>)
+                        let {recurringType} = brawl;
+                        let recurring = (recurringType === "None") ? (<p>One Time Brawl</p>) : (<p>Brawl Occurring {recurringType}</p>)
                         return (
                            <EventIndexItemLarge 
                                 recurring={recurring}
