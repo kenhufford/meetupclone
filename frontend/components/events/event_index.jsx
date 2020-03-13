@@ -178,7 +178,7 @@ class EventIndex extends React.Component{
                                 key2={brawl.id}
                                 // why doesn't this work?
                                 // new comment to show stuff
-
+                                //another new comment
                             />
                         )
                     })}

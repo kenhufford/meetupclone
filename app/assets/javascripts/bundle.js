@@ -4238,6 +4238,7 @@ function (_React$Component) {
             key: brawl.id,
             key2: brawl.id // why doesn't this work?
             // new comment to show stuff
+            //another new comment
 
           });
         }));
