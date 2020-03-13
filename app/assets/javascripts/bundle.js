@@ -4233,7 +4233,9 @@ function (_React$Component) {
             thisMonth: thisMonth,
             brawl: brawl,
             locations: locations,
-            key: brawl.id // why doesn't this work?
+            key: brawl.id,
+            key2: brawl.id // why doesn't this work?
+            // new comment to show stuff
 
           });
         }));
