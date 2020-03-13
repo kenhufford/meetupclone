@@ -29,7 +29,8 @@
   },
   "scripts": {
     "start": "webpack --watch --mode=development",
-    "postinstall": "webpack"
+    "build": "webpack",
+    // "postinstall": "webpack"
   },
   "engines": {
     "node": "12.13.0",
