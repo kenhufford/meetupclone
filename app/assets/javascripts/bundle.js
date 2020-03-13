@@ -4194,6 +4194,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log("hello new change");
+
       if (this.state.loaded) {
         var locations = this.props.locations;
         var _this$state = this.state,

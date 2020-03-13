@@ -132,6 +132,7 @@ class EventIndex extends React.Component{
         }
 
     render(){
+        console.log("hello new change")
         if(this.state.loaded){
             let {locations } = this.props;
             let {userBrawls, displayedBrawls, noUserBrawls, isLoading} = this.state;
