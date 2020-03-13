@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "webpack --watch --mode=development",
-    "build": "webpack",
+    "build": "webpack"
     // "postinstall": "webpack"
   },
   "engines": {
