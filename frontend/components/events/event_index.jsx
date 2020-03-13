@@ -175,6 +175,7 @@ class EventIndex extends React.Component{
                                 locations={locations}
                                 key={brawl.id}
                                 // why doesn't this work?
+                                //chat now
                             />
                         )
                     })}
