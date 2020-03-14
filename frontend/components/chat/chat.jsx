@@ -76,7 +76,6 @@ class Chat extends React.Component {
 
     selectChannel(channel){
         if (this.state.selectedChannel.id === channel.id) return;
-        channel["groupId"] = this.state.selectedGroupId;
         let fetchChannelships = this.props.fetchChannelships(channel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
         let channelships = Object.assign({},this.state.channelships)

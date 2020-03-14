@@ -1323,7 +1323,6 @@ function (_React$Component) {
       var _this5 = this;
 
       if (this.state.selectedChannel.id === channel.id) return;
-      channel["groupId"] = this.state.selectedGroupId;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
       var channelships = Object.assign({}, this.state.channelships);
