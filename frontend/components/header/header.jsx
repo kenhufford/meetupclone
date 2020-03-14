@@ -26,6 +26,7 @@ class Header extends React.Component{
     if (this.props.currentUser !== prevProps.currentUser || prevProps.location.pathname !== this.props.location.pathname){
       this.props.fetchMemberships(0)
         .then(data => {
+          console.log(data.memberships.userHasMemberships)
           if (data.memberships.userHasMemberships) {
             this.setState({ userHasMemberships: data.memberships.userHasMemberships })
           }

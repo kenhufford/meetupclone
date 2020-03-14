@@ -7145,6 +7145,8 @@ function (_React$Component) {
 
       if (this.props.currentUser !== prevProps.currentUser || prevProps.location.pathname !== this.props.location.pathname) {
         this.props.fetchMemberships(0).then(function (data) {
+          console.log(data.memberships.userHasMemberships);
+
           if (data.memberships.userHasMemberships) {
             _this3.setState({
               userHasMemberships: data.memberships.userHasMemberships
