@@ -14,25 +14,6 @@ class ChatDirectMessageInvite extends React.Component{
         this.createChannel = this.createChannel.bind(this);
     }
 
-    // componentDidMount(){
-    //     let dmChannels = [];
-    //     if (this.props.userChannels !== undefined) {
-    //         dmChannels = Object.values(this.props.userChannels).map(channel => (channel))
-    //     } 
-    //     this.setState({
-    //         dmChannels
-    //     })
-    // }
-
-    // componentDidUpdate(prevProps){
-    //     if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
-    //         let dmChannels = Object.values(this.props.userChannels).map(channel => (channel));
-    //         this.setState({
-    //             dmChannels
-    //         })
-    //     }
-    // }
-
     update(e){
         let filteredUsers = Object.values(this.props.groupUsers).filter(user => 
             user.name.toLowerCase().includes(e.currentTarget.value.toLowerCase())
@@ -124,7 +105,6 @@ class ChatDirectMessageInvite extends React.Component{
         this.setState({
             filteredUsers: [],
             searchTerm: '',
-            // users: this.props.groupUsers,
             addedToChannel: {},
         })
     }
@@ -135,7 +115,6 @@ class ChatDirectMessageInvite extends React.Component{
         this.setState({
             filteredUsers: [],
             searchTerm: '',
-            // users: this.props.groupUsers,
             addedToChannel: {},
         })
     }

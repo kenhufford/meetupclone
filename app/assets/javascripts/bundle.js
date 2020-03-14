@@ -2318,24 +2318,7 @@ function (_React$Component) {
     _this.removeFromChannel = _this.removeFromChannel.bind(_assertThisInitialized(_this));
     _this.createChannel = _this.createChannel.bind(_assertThisInitialized(_this));
     return _this;
-  } // componentDidMount(){
-  //     let dmChannels = [];
-  //     if (this.props.userChannels !== undefined) {
-  //         dmChannels = Object.values(this.props.userChannels).map(channel => (channel))
-  //     } 
-  //     this.setState({
-  //         dmChannels
-  //     })
-  // }
-  // componentDidUpdate(prevProps){
-  //     if (this.props.selectedChannel !== prevProps.selectedChannel || this.props.userChannels !== prevProps.userChannels) {
-  //         let dmChannels = Object.values(this.props.userChannels).map(channel => (channel));
-  //         this.setState({
-  //             dmChannels
-  //         })
-  //     }
-  // }
-
+  }
 
   _createClass(ChatDirectMessageInvite, [{
     key: "update",
@@ -2438,7 +2421,6 @@ function (_React$Component) {
       this.setState({
         filteredUsers: [],
         searchTerm: '',
-        // users: this.props.groupUsers,
         addedToChannel: {}
       });
     }
@@ -2450,7 +2432,6 @@ function (_React$Component) {
       this.setState({
         filteredUsers: [],
         searchTerm: '',
-        // users: this.props.groupUsers,
         addedToChannel: {}
       });
     }
@@ -5364,7 +5345,8 @@ var mstp = function mstp(state) {
       "long": '',
       imageUrl: '',
       selectedLocationId: '',
-      selectedLocation: "Select Location"
+      selectedLocation: "Select Location",
+      categoryIds: []
     },
     locations: locations,
     categories: categories,
