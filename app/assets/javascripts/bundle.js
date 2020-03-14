@@ -1247,7 +1247,6 @@ function (_React$Component) {
     _this.selectGroup = _this.selectGroup.bind(_assertThisInitialized(_this));
     _this.removeChannelship = _this.removeChannelship.bind(_assertThisInitialized(_this));
     _this.selectChannel = _this.selectChannel.bind(_assertThisInitialized(_this));
-    _this.selectAfterCreateChannel = _this.selectAfterCreateChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1325,44 +1324,18 @@ function (_React$Component) {
       if (this.state.selectedChannel.id === channel.id) return;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-      var channelships = Object.assign({}, this.state.channelships);
       this.props.updateChannelship({
         channel_id: channel.id
       }).then(function () {
         return Promise.all([fetchChannelships, fetchUsersFromChannel]).then(function (data) {
-          var channelChannelships = data[0].channelships.channelChannelships;
-          channelships[channelChannelships] = channelChannelships;
           var channelUsers = data[1].users;
 
           _this5.setState({
             selectedChannel: channel,
             loaded: true,
-            channelships: channelships,
             channelUsers: channelUsers,
             loadInfoBar: true
           });
-        });
-      });
-    }
-  }, {
-    key: "selectAfterCreateChannel",
-    value: function selectAfterCreateChannel(channel) {
-      var _this6 = this;
-
-      var selectedChannel = channel;
-      var fetchChannelships = this.props.fetchChannelships(channel);
-      var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
-      var fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
-      Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels]).then(function (data) {
-        var channelships = data[0].channelships;
-        var channelUsers = data[1].users;
-
-        _this6.setState({
-          selectedChannel: selectedChannel,
-          loaded: true,
-          channelships: channelships,
-          channelUsers: channelUsers,
-          loadInfoBar: true
         });
       });
     }
@@ -1383,7 +1356,6 @@ function (_React$Component) {
           selectedChannel: this.state.selectedChannel,
           groupUsers: this.state.groupUsers,
           selectChannel: this.selectChannel,
-          selectAfterCreateChannel: this.selectAfterCreateChannel,
           removeChannelship: this.removeChannelship
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-right"
@@ -1630,7 +1602,7 @@ function (_React$Component) {
         groupUsers: this.props.groupUsers,
         createChannel: this.props.createChannel,
         createChannelship: this.props.createChannelship,
-        selectAfterCreateChannel: this.props.selectAfterCreateChannel,
+        selectChannel: this.props.selectChannel,
         currentUser: this.props.currentUser
       });
       var chatJoinChannelModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_join_channel__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -2156,7 +2128,7 @@ function (_React$Component) {
                 moderator: true,
                 group_id: _this3.props.groupId
               }).then(function () {
-                _this3.props.selectAfterCreateChannel(channel);
+                _this3.props.selectChannel(channel);
               });
             }
           });
@@ -7075,7 +7047,6 @@ function (_React$Component) {
       var _this$props = this.props,
           currentUser = _this$props.currentUser,
           logout = _this$props.logout;
-      debugger;
 
       var goHome = function goHome() {
         document.location.href = '#/';

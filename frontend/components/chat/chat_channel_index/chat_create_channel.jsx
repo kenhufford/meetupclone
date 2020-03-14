@@ -90,7 +90,7 @@ class ChatCreateChannel extends React.Component{
                                 group_id: this.props.groupId
                             })
                                 .then( () => {
-                                    this.props.selectAfterCreateChannel(channel)
+                                    this.props.selectChannel(channel)
                                 })
                         }
                     })

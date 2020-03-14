@@ -85,7 +85,7 @@ class ChatChannelIndex extends React.Component {
             groupUsers={this.props.groupUsers}
             createChannel={this.props.createChannel}
             createChannelship={this.props.createChannelship}
-            selectAfterCreateChannel={this.props.selectAfterCreateChannel}
+            selectChannel={this.props.selectChannel}
             currentUser={this.props.currentUser}
         />
 
