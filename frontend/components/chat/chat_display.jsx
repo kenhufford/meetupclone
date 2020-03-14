@@ -1,6 +1,6 @@
 import React from "react";
 import MessageForm from "./chat_message_form";
-import { formatTime, formatDateWithDay } from "../../utils/date_util";
+import ChatMessageIndex from "./chat_message_index";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
@@ -82,42 +82,15 @@ class ChatDisplay extends React.Component {
     }
 
     render() {
-        let lastDay;
         let { channelUsers, userId, selectedChannel} = this.props;
-        const messageList = this.state.messages.map((message) => {
-            if (channelUsers[message.userId]===undefined) return null
-            let thisDay = formatDateWithDay(message.createdAt);
-            let diffDay = thisDay !== lastDay;
-            lastDay = thisDay;
-            return (
-                <li key={message.id}>
-                    {diffDay ? <div className="chat-message-datedivider">
-                                    <span>{thisDay}</span>
-                                </div> : <div> </div>}
-
-                    <div className="chat-message">
-                        <img 
-                            className="chat-message-img"
-                            src={window[channelUsers[message.userId].imageUrl]}/>
-                        <div className="chat-message-right">
-                            <div className="chat-message-info">
-                                <p className="chat-message-name">{channelUsers[message.userId].name}</p>
-                                <p className="chat-message-time">{formatTime(message.createdAt)}</p>
-                            </div>
-                            <div className="chat-message-message">
-                                <p>{message.message}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div ref={this.bottom} />
-                </li>
-            );
-        });
+        let { messages } = this.state;
         return (
             <div className="chat-display">
-                <ul className="message-list">
-                    {messageList}
-                </ul>
+                <ChatMessageIndex 
+                    channelUsers={channelUsers}
+                    messages={messages}
+                    bottom={this.bottom}
+                    />
                 <MessageForm 
                     userId={userId}
                     selectedChannelId={selectedChannel.id}/>

@@ -2850,7 +2850,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _chat_message_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_message_form */ "./frontend/components/chat/chat_message_form.jsx");
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _chat_message_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat_message_index */ "./frontend/components/chat/chat_message_index.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2990,46 +2990,18 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
-
-      var lastDay;
       var _this$props = this.props,
           channelUsers = _this$props.channelUsers,
           userId = _this$props.userId,
           selectedChannel = _this$props.selectedChannel;
-      var messageList = this.state.messages.map(function (message) {
-        if (channelUsers[message.userId] === undefined) return null;
-        var thisDay = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithDay"])(message.createdAt);
-        var diffDay = thisDay !== lastDay;
-        lastDay = thisDay;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: message.id
-        }, diffDay ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-message-datedivider"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, thisDay)) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-message"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          className: "chat-message-img",
-          src: window[channelUsers[message.userId].imageUrl]
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-message-right"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-message-info"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "chat-message-name"
-        }, channelUsers[message.userId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "chat-message-time"
-        }, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatTime"])(message.createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-message-message"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message.message)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          ref: _this5.bottom
-        }));
-      });
+      var messages = this.state.messages;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chat-display"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "message-list"
-      }, messageList), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_message_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        channelUsers: channelUsers,
+        messages: messages,
+        bottom: this.bottom
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         userId: userId,
         selectedChannelId: selectedChannel.id
       }));
@@ -3318,6 +3290,86 @@ function (_React$Component) {
 
 /***/ }),
 
+/***/ "./frontend/components/chat/chat_message.jsx":
+/*!***************************************************!*\
+  !*** ./frontend/components/chat/chat_message.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var ChatMessage =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChatMessage, _React$Component);
+
+  function ChatMessage() {
+    _classCallCheck(this, ChatMessage);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChatMessage).apply(this, arguments));
+  }
+
+  _createClass(ChatMessage, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          dateDivider = _this$props.dateDivider,
+          image = _this$props.image,
+          name = _this$props.name,
+          time = _this$props.time,
+          message = _this$props.message,
+          bottom = _this$props.bottom;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, dateDivider, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-message"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "chat-message-img",
+        src: window[image]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-message-right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-message-info"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "chat-message-name"
+      }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "chat-message-time"
+      }, time)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chat-message-message"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        ref: bottom
+      }));
+    }
+  }]);
+
+  return ChatMessage;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ChatMessage);
+
+/***/ }),
+
 /***/ "./frontend/components/chat/chat_message_form.jsx":
 /*!********************************************************!*\
   !*** ./frontend/components/chat/chat_message_form.jsx ***!
@@ -3407,6 +3459,91 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (MessageForm);
+
+/***/ }),
+
+/***/ "./frontend/components/chat/chat_message_index.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/chat/chat_message_index.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _chat_message__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat_message */ "./frontend/components/chat/chat_message.jsx");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var ChatMessageIndex =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChatMessageIndex, _React$Component);
+
+  function ChatMessageIndex() {
+    _classCallCheck(this, ChatMessageIndex);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChatMessageIndex).apply(this, arguments));
+  }
+
+  _createClass(ChatMessageIndex, [{
+    key: "render",
+    value: function render() {
+      var lastDay;
+      var _this$props = this.props,
+          channelUsers = _this$props.channelUsers,
+          messages = _this$props.messages,
+          bottom = _this$props.bottom;
+      var messageList = messages.map(function (message) {
+        if (channelUsers[message.userId] === undefined) return null;
+        var thisDay = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatDateWithDay"])(message.createdAt);
+        var diffDay = thisDay !== lastDay;
+        lastDay = thisDay;
+        var dateDivider = diffDay ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-message-datedivider"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, thisDay)) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ");
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_message__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: message.id,
+          dateDivider: dateDivider,
+          image: channelUsers[message.userId].imageUrl,
+          name: channelUsers[message.userId].name,
+          time: Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_2__["formatTime"])(message.createdAt),
+          message: message.message,
+          bottom: bottom
+        });
+      });
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "message-list"
+      }, messageList);
+    }
+  }]);
+
+  return ChatMessageIndex;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ChatMessageIndex);
 
 /***/ }),
 
