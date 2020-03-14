@@ -200,7 +200,7 @@ class ChatDirectMessageInvite extends React.Component{
                                         <i onClick={() => this.removeFromChannel(user.id)}
                                             className="fas fa-times"></i>
                                     </div>
-                                ))})
+                                ))}
                         </ul>) : <div></div>}
                         <div className="chat-dm-search-container">
                             <input

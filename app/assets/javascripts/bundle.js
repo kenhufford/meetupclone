@@ -2534,7 +2534,7 @@ function (_React$Component) {
             },
             className: "fas fa-times"
           }));
-        }), ")") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-search-container"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           onChange: this.update,
@@ -2922,11 +2922,6 @@ function (_React$Component) {
           });
         });
       }
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      App.currentChannel.unsubscribe();
     }
   }, {
     key: "makeMsg",

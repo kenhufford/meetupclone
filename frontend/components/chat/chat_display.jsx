@@ -36,10 +36,6 @@ class ChatDisplay extends React.Component {
         }
     }
 
-    componentWillUnmount(){
-        App.currentChannel.unsubscribe();
-    }
-
     makeMsg(data){
         let channelId = this.props.selectedChannel.id
         let { message, user_id, channel_id, updated_at, created_at } = data.message
