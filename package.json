@@ -30,8 +30,7 @@
   },
   "scripts": {
     "start": "webpack --watch --mode=development",
-    "build": "webpack",
-    "postinstall": "npm run clean && npm run build"
+    "build": "webpack"
   },
   "engines": {
     "node": "12.13.0",
