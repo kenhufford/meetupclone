@@ -495,7 +495,6 @@
    margin: 0 auto;
    justify-content: space-around;
    flex-wrap: wrap;
-   margin-top: 10px;
 }
 
 .events-div{
@@ -620,10 +619,10 @@
    transition: color 300ms ease;
     -webkit-transition: color 300ms ease;
   }
-    .index-switch-text-not:hover{
-       color:white;
-    }
-
+   
+.index-switch-text-not:hover{
+   color: #ff350c;
+}
 
 .index-div-titles{
    font-size: 24px;
@@ -1072,7 +1071,7 @@ color: #404040;
 }
 
 .group-show-members-right-member{
-   border-bottom: 1px solid white;
+   border-bottom: 1px rgb(206, 124, 124) solid;
    width: 100%;
 }
 
@@ -1140,11 +1139,15 @@ color: #404040;
 
 .group-show-members-left{
    width: 20%;
-   margin: 10px;
-   padding: 10px;
-   background-color: rgb(235, 192, 201);
-   border-radius: 10px;
    height: fit-content;
+
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   padding: 5px 10px;
+   margin: 10px 0px;
+   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 8px;
+   border-radius: 16px;
 }
 
 .group-show-members-left-tab{
@@ -1163,16 +1166,18 @@ color: #404040;
 }
 
 .group-show-members-right{
-   margin: 10px;
-    background-color: rgb(235, 192, 201);
-    border-radius: 10px;
-    height: fit-content;
-    padding: 10px 30px;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    padding-left: 20px;
+   height: fit-content;
+   width: 80%;
+   display: flex;
+   flex-direction: column;
+   align-items: baseline;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   padding: 5px 30px;
+   margin: 10px 20px;
+   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 8px;
+   border-radius: 16px;
 }
 
 .group-show-members-selected{
@@ -1228,7 +1233,18 @@ color: #404040;
     padding: 10px 10px;
     line-height: 20px;
     border-radius: 8px;
+    border: 1px solid darkgray;
 }
+
+.group-show-filter-input:focus{
+   width: 100%;
+   font-size: 18px;
+   padding: 10px 10px;
+   line-height: 20px;
+   border-radius: 8px;
+   border: 1px solid rgb(206, 124, 124);
+}
+
 
 .group-show-members-right-header p {
    padding: 10px 0px;
