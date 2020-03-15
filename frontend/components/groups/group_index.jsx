@@ -1,5 +1,6 @@
 import React from 'react';
-import GroupIndexItem from './group_index_item';
+import GroupIndexList from './group_index_list';
+import {Link} from 'react-router-dom';
 
 class GroupIndex extends React.Component{
     constructor(props){
@@ -7,16 +8,6 @@ class GroupIndex extends React.Component{
         this.state={
             loaded: false,
             userGroups: {}
-        }
-    this.handleSignup = this.handleSignup.bind(this)
-    this.componentDidMount = this.componentDidMount.bind(this)
-}
-
-    handleSignup(){
-        if (this.props.currentUserId === ""){
-            document.location.href = '#/signup'
-        } else {
-            return null
         }
     }
 
@@ -42,34 +33,29 @@ class GroupIndex extends React.Component{
         }
     }
 
-
     render(){
         if(this.state.loaded){
-            let {groups} = this.props
-            let userGroups = Object.values(this.state.userGroups)
-            let suggestedGroups = (
-                <div className="groups-div">
-                    {Object.values(groups).map( (group) => (
-                        <GroupIndexItem key={group.id} group={group}/>
-                    ))}
-                </div>
-            )
-            let yourGroups = userGroups.length ? (
-                <div className="groups-div">
-                    {userGroups.map( (group, i) => (
-                        <GroupIndexItem key={i} group={group}/>
-                    ))}
-                </div>
-            ) :  (<div></div>)
+            let userGroups = Object.values(this.state.userGroups);
+            let suggestedGroups = Object.values(this.props.groups);
             let yourTitle = !userGroups.length ?
-             (<div onClick={this.handleSignup} className="index-div-titles">Join a squad</div>) : 
-            (<p className="index-div-titles">Your Squads</p>)
+             (<Link 
+                className="index-div-titles"
+                to={'/login'}>
+                Join a squad
+            </Link>) : 
+            (<p className="index-div-titles">
+                Your Squads
+            </p>)
             return(
                 <div className="component-index">
                     {yourTitle}
-                    {yourGroups}
+                    <GroupIndexList 
+                        groups={userGroups}
+                        />
                     <p className="index-div-titles">All Squads</p>
-                    {suggestedGroups}
+                    <GroupIndexList
+                        groups={suggestedGroups}
+                    />
                 </div>
                 
             )

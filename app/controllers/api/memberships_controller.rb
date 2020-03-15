@@ -1,5 +1,4 @@
 class Api::MembershipsController < ApplicationController
-
     def index
       if current_user
         @user_memberships = current_user.memberships

@@ -4,7 +4,6 @@ import GroupIndexItem from './group_index_item';
 class GroupIndexList extends React.Component{
     render(){
         let { groups } = this.props;
-        debugger
         return (
             <div className="landing-groups-div">
                 {groups.map(group => (

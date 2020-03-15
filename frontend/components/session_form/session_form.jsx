@@ -33,7 +33,6 @@ class SessionForm extends React.Component {
   }
 
   toggleSelected(index){
-
     let loc = this.props.locations[index]
     this.setState({
       selectedLocation: loc.name,
