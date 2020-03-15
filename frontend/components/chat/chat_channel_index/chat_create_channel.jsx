@@ -143,7 +143,7 @@ class ChatCreateChannel extends React.Component{
                         <i onClick={()=>this.props.toggleModal("createChannel")} className="fas fa-times"></i>
                     </div>
                     <div className="chat-dm-content">
-                        <p>Create Channel</p>
+                        <p className="chat-modal-large">Create Channel</p>
                         <div className="chat-dm-search-container">
                             <input
                                 onChange={(e) => this.update(e, "channelName")}
@@ -151,7 +151,7 @@ class ChatCreateChannel extends React.Component{
                                 placeholder="Name the channel"
                                 className="chat-dm-search" />
                         </div>
-                        <p>Add members</p>
+                        <p className="chat-modal-medium">Add members</p>
                         {addedToChannelToggle ?
                             (<ul className="chat-horiz-list">
                                 {Object.values(this.state.addedToChannel).map((user) => (
@@ -181,7 +181,7 @@ class ChatCreateChannel extends React.Component{
                                 </li>
                             ))}
                         </div>
-                        <p>Select an icon for the channel</p>
+                        <p className="chat-modal-medium">Select an icon for the channel</p>
                         <div className="chat-dm-icon-index">
                             
                             {this.images.map( (icon,i)=>(

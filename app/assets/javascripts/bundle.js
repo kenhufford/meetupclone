@@ -1595,6 +1595,7 @@ function (_React$Component) {
       groupChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
       });
+      debugger;
       var createChannelModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.showChannelModal,
         toggleModal: this.toggleModal,
@@ -1610,7 +1611,9 @@ function (_React$Component) {
         toggleModal: this.toggleModal,
         groupId: this.props.groupId,
         userChannels: userChannels,
-        groupChannels: groupChannels,
+        groupChannels: this.props.groupChannels,
+        myGroupChannels: groupChannels,
+        channelships: channelships,
         createChannelship: this.props.createChannelship,
         currentUser: this.props.currentUser,
         selectChannel: this.props.selectChannel,
@@ -2198,7 +2201,9 @@ function (_React$Component) {
           className: "fas fa-times"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-content"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Create Channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "chat-modal-large"
+        }, "Create Channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-search-container"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           onChange: function onChange(e) {
@@ -2207,7 +2212,9 @@ function (_React$Component) {
           value: this.state.channelName,
           placeholder: "Name the channel",
           className: "chat-dm-search"
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add members"), addedToChannelToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "chat-modal-medium"
+        }, "Add members"), addedToChannelToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "chat-horiz-list"
         }, Object.values(this.state.addedToChannel).map(function (user) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2238,7 +2245,9 @@ function (_React$Component) {
             key: i,
             className: "chat-dm-errors-item"
           }, error);
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Select an icon for the channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "chat-modal-medium"
+        }, "Select an icon for the channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-icon-index"
         }, this.images.map(function (icon, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -2500,7 +2509,9 @@ function (_React$Component) {
           className: "fas fa-times"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-content"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Direct Messages"), addedToChannelToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "chat-modal-large"
+        }, "Direct Messages"), addedToChannelToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "chat-horiz-list"
         }, Object.values(this.state.addedToChannel).map(function (user) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2527,7 +2538,9 @@ function (_React$Component) {
           className: "chat-dm-search-go"
         }, "GO")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "chat-modal-list"
-        }, dmChannelsToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Recent Conversations") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), index)));
+        }, dmChannelsToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-modal-small"
+        }, "Recent Conversations") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), index)));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -2601,11 +2614,11 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this$props = this.props,
-          userChannels = _this$props.userChannels,
-          groupChannels = _this$props.groupChannels;
+          groupChannels = _this$props.groupChannels,
+          myGroupChannels = _this$props.myGroupChannels;
       var unjoinedGroups = [];
-      groupChannels.forEach(function (channel) {
-        if (userChannels.includes(channel.id)) {
+      Object.values(groupChannels).forEach(function (channel) {
+        if (!myGroupChannels.includes(channel)) {
           unjoinedGroups.push(channel);
         }
       });
@@ -2617,14 +2630,15 @@ function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       var _this$props2 = this.props,
-          userChannels = _this$props2.userChannels,
+          myGroupChannels = _this$props2.myGroupChannels,
           groupChannels = _this$props2.groupChannels;
       var unjoinedGroups = [];
+      debugger;
 
-      if (prevProps.userChannels !== userChannels) {
-        groupChannels.forEach(function (channel) {
-          if (userChannels.includes(channel.id)) {
-            unjoinedGroups.push(groupChannel);
+      if (prevProps.myGroupChannels !== myGroupChannels) {
+        Object.values(groupChannels).forEach(function (channel) {
+          if (!myGroupChannels.includes(channel)) {
+            unjoinedGroups.push(channel);
           }
         });
         this.setState({
@@ -2673,7 +2687,9 @@ function (_React$Component) {
           if (this.state.unjoinedGroups.length === 0) {
             index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "chat-modal-msg"
-            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "You've joined all the channels"));
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              className: "chat-modal-medium"
+            }, "You've joined all the channels"));
           } else {
             index = this.state.unjoinedGroups.map(function (channel, i) {
               return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2692,7 +2708,9 @@ function (_React$Component) {
           if (this.state.filteredChannels.length === 0) {
             index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "chat-modal-msg"
-            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No channels found"));
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              className: "chat-modal-medium"
+            }, "No channels found"));
           } else {
             index = this.state.filteredChannels.map(function (channel, i) {
               return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2720,7 +2738,9 @@ function (_React$Component) {
           className: "fas fa-times"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-content"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Browse Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "chat-modal-large"
+        }, "Browse Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-dm-search-container"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           onChange: function onChange(e) {
@@ -2729,7 +2749,9 @@ function (_React$Component) {
           value: this.state.searchTerm,
           placeholder: "Search for a channel",
           className: "chat-dm-search"
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Channels you can join"), index));
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "chat-modal-medium"
+        }, "Channels you can join"), index));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }

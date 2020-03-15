@@ -15,10 +15,10 @@ class ChatJoinChannel extends React.Component{
     }
 
     componentDidMount(){
-        let {userChannels, groupChannels} = this.props;
+        let {groupChannels, myGroupChannels} = this.props;
         let unjoinedGroups = [];
-        groupChannels.forEach((channel) => {
-            if (userChannels.includes(channel.id)) {
+        Object.values(groupChannels).forEach((channel) => {
+            if (!myGroupChannels.includes(channel)) {
                 unjoinedGroups.push(channel);
             }
         });
@@ -26,12 +26,13 @@ class ChatJoinChannel extends React.Component{
     }
 
     componentDidUpdate(prevProps){
-        let { userChannels, groupChannels } = this.props;
+        let { myGroupChannels, groupChannels } = this.props;
         let unjoinedGroups = [];
-        if (prevProps.userChannels !== userChannels){
-            groupChannels.forEach((channel) => {
-                if (userChannels.includes(channel.id)) {
-                    unjoinedGroups.push(groupChannel);
+        debugger
+        if (prevProps.myGroupChannels !== myGroupChannels){
+            Object.values(groupChannels).forEach((channel) => {
+                if (!myGroupChannels.includes(channel)) {
+                    unjoinedGroups.push(channel);
                 }
             });
             this.setState({ unjoinedGroups });
@@ -69,7 +70,7 @@ class ChatJoinChannel extends React.Component{
             if (this.state.searchTerm === '' || this.state.filteredChannels.length === 0){
                 if (this.state.unjoinedGroups.length === 0){
                     index = (<div className="chat-modal-msg">
-                                <p>You've joined all the channels</p>
+                                <p className="chat-modal-medium">You've joined all the channels</p>
                             </div>)
                 } else {
                     index = this.state.unjoinedGroups.map((channel, i) => (
@@ -85,7 +86,7 @@ class ChatJoinChannel extends React.Component{
             } else {
                 if (this.state.filteredChannels.length === 0) {
                     index = (<div className="chat-modal-msg">
-                                 <p>No channels found</p>
+                        <p className="chat-modal-medium">No channels found</p>
                             </div>)
                 } else {
                     index = this.state.filteredChannels.map((channel, i) => (
@@ -107,7 +108,7 @@ class ChatJoinChannel extends React.Component{
                         <i onClick={()=>this.props.toggleModal("joinChannel")} className="fas fa-times"></i>
                     </div>
                     <div className="chat-dm-content">
-                        <p>Browse Channels</p>
+                        <p className="chat-modal-large">Browse Channels</p>
                         <div className="chat-dm-search-container">
                             <input
                                 onChange={(e) => this.update(e)}
@@ -115,7 +116,7 @@ class ChatJoinChannel extends React.Component{
                                 placeholder="Search for a channel"
                                 className="chat-dm-search" />
                         </div>
-                        <p>Channels you can join</p>
+                        <p className="chat-modal-medium">Channels you can join</p>
                         {index}
                     </div>
                 </div>

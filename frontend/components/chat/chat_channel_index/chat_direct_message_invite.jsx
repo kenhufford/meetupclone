@@ -168,7 +168,7 @@ class ChatDirectMessageInvite extends React.Component{
                         <i onClick={()=>this.props.toggleModal("dm")} className="fas fa-times"></i>
                     </div>
                     <div className="chat-dm-content">
-                        <p>Direct Messages</p>
+                        <p className="chat-modal-large">Direct Messages</p>
                         {addedToChannelToggle ?
                             (<ul className="chat-horiz-list">
                                 {Object.values(this.state.addedToChannel).map((user) => (
@@ -195,7 +195,7 @@ class ChatDirectMessageInvite extends React.Component{
                         </div>
 
                         <ul className="chat-modal-list"> 
-                            {dmChannelsToggle ? <div>Recent Conversations</div> : <div></div>}
+                            {dmChannelsToggle ? <div className="chat-modal-small">Recent Conversations</div> : <div></div>}
                             {index}
                         </ul>
 
