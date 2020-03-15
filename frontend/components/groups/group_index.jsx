@@ -1,6 +1,5 @@
 import React from 'react';
-import GroupIndexItem from './group_index_item'
-import {Link} from 'react-router-dom'
+import GroupIndexItem from './group_index_item';
 
 class GroupIndex extends React.Component{
     constructor(props){

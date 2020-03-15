@@ -1,8 +1,8 @@
 import React from 'react';
-import GroupIndexItem from './group_index_item'
-import EventIndexItem from '../events/event_index_item'
-import SearchBar from '../../components/searchbar/search_bar'
-import CreateGroupFormDropdown from '../../components/groups/create_group_form_dropdown'
+import GroupIndexList from './group_index_list';
+import EventIndexList from '../events/event_index_list';
+import SearchBar from '../../components/searchbar/search_bar';
+import CreateGroupFormDropdown from '../../components/groups/create_group_form_dropdown';
 
 class GroupLanding extends React.Component{
     constructor(props){
@@ -10,14 +10,13 @@ class GroupLanding extends React.Component{
         this.state = {
             selectedLocation: "San Francisco",
             selectedLocationId: 1,
-            location: this.props.locations,
             loaded: false
         }
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
     toggleSelected(index){
-        let loc = this.state.location[index]
+        let loc = this.props.locations[index]
         this.setState({
           selectedLocation: loc.name,
           selectedLocationId: loc.id
@@ -49,43 +48,39 @@ class GroupLanding extends React.Component{
 
 
     render(){
-        if (this.state.loaded){
-            let nearbyGroups = []
-            this.props.groups.map(group => {
-                if (group.locationId === this.state.selectedLocationId) nearbyGroups.push(group)
-            })
-            let nearbyEvents = []
-            this.props.events.map(event => {
-                if (event.locationId === this.state.selectedLocationId) nearbyEvents.push(event)
-            })
+        let {loaded, selectedLocationId, selectedLocation} = this.state;
+        let {groups, events, history, locations} = this.props;
+        if (loaded){
+            let nearbyGroups = groups.filter(group => group.locationId === selectedLocationId)
+            let nearbyEvents = events.filter(event => event.locationId === selectedLocationId)
             return(
                 <div className="landing">
                     <div className="landing-banner">
                         <div className="landing-banner-left">
                             <h1 className="landing-banner-left-title">Join the ultimate brawl</h1>
                             <h3 className="landing-banner-left-subtitle">Find your spirit squad and enter the fray</h3>
-                            <SearchBar history={this.props.history} autoSearch={false} />
+                            <SearchBar 
+                                history={history} 
+                                autoSearch={false} />
                         </div>
                         <div className="landing-banner-right">
-                            <img className="landing-banner-right-image" src={window.mainImageURL}/>
+                            <img className="landing-banner-right-image" 
+                                src={window.mainImageURL}/>
                         </div>
                     </div>
                     <div className="landing-main">
                         <div className="landing-location-dropdown">
-                            <div className="landing-location-h4">Squads in {this.state.selectedLocation}</div>
-                            <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.location} toggleLocation={this.toggleSelected} />
+                            <div className="landing-location-h4">
+                                Squads in {selectedLocation}
+                            </div>
+                            <CreateGroupFormDropdown 
+                                location={selectedLocation} 
+                                list={locations} 
+                                toggleLocation={this.toggleSelected} />
                         </div>
-                        <div className="landing-groups-div">
-                            {nearbyGroups.map(group => (
-                                <GroupIndexItem key={group.id} group={group}/>
-                            ))}
-                        </div>
-                        <div className="landing-location-h4">Events in {this.state.selectedLocation}</div>
-                        <div className="landing-events-div">
-                            {nearbyEvents.map(event => (
-                                <EventIndexItem key={event.id} event={event} groupName={event.name}/>
-                            ))}
-                        </div>
+                        <GroupIndexList groups={nearbyGroups}/>
+                        <div className="landing-location-h4">Events in {selectedLocation}</div>
+                        <EventIndexList events={nearbyEvents} />
                     </div>
                 </div>
             )
