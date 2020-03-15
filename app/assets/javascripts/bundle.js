@@ -2633,7 +2633,6 @@ function (_React$Component) {
           myGroupChannels = _this$props2.myGroupChannels,
           groupChannels = _this$props2.groupChannels;
       var unjoinedGroups = [];
-      debugger;
 
       if (prevProps.myGroupChannels !== myGroupChannels) {
         Object.values(groupChannels).forEach(function (channel) {

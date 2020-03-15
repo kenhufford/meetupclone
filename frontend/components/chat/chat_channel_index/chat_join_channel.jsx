@@ -28,7 +28,6 @@ class ChatJoinChannel extends React.Component{
     componentDidUpdate(prevProps){
         let { myGroupChannels, groupChannels } = this.props;
         let unjoinedGroups = [];
-        debugger
         if (prevProps.myGroupChannels !== myGroupChannels){
             Object.values(groupChannels).forEach((channel) => {
                 if (!myGroupChannels.includes(channel)) {
