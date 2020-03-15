@@ -169,18 +169,6 @@ class ChatDirectMessageInvite extends React.Component{
                     </div>
                     <div className="chat-dm-content">
                         <p className="chat-modal-large">Direct Messages</p>
-                        {addedToChannelToggle ?
-                            (<ul className="chat-horiz-list">
-                                {Object.values(this.state.addedToChannel).map((user) => (
-                                    <div className="chat-horiz-list-item" key={user.id}>
-                                        <img className="chat-message-img"
-                                            src={window[user.imageUrl]}></img>
-                                        <p> {user.name} </p>
-                                        <i onClick={() => this.removeFromChannel(user.id)}
-                                            className="fas fa-times"></i>
-                                    </div>
-                                ))}
-                        </ul>) : <div></div>}
                         <div className="chat-dm-search-container">
                             <input
                                 onChange={this.update}
@@ -193,7 +181,18 @@ class ChatDirectMessageInvite extends React.Component{
                                 GO
                             </div>
                         </div>
-
+                        {addedToChannelToggle ?
+                            (<ul className="chat-horiz-list">
+                                {Object.values(this.state.addedToChannel).map((user) => (
+                                    <div className="chat-horiz-list-item" key={user.id}>
+                                        <img className="chat-message-img"
+                                            src={window[user.imageUrl]}></img>
+                                        <p> {user.name} </p>
+                                        <i onClick={() => this.removeFromChannel(user.id)}
+                                            className="fas fa-times"></i>
+                                    </div>
+                                ))}
+                            </ul>) : <div></div>}
                         <ul className="chat-modal-list"> 
                             {dmChannelsToggle ? <div className="chat-modal-small">Recent Conversations</div> : <div></div>}
                             {index}

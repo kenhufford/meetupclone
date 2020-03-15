@@ -1595,7 +1595,6 @@ function (_React$Component) {
       groupChannels.sort(function (a, b) {
         return a.name < b.name ? -1 : 1;
       });
-      debugger;
       var createChannelModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_create_channel__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.showChannelModal,
         toggleModal: this.toggleModal,
@@ -2053,7 +2052,7 @@ function (_React$Component) {
     _this.removeFromChannel = _this.removeFromChannel.bind(_assertThisInitialized(_this));
     _this.selectIcon = _this.selectIcon.bind(_assertThisInitialized(_this));
     _this.createChannel = _this.createChannel.bind(_assertThisInitialized(_this));
-    _this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL", "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL"];
+    _this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL", "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL", "defaultchannel9URL", "defaultchannel10URL"];
     return _this;
   }
 
@@ -2511,7 +2510,17 @@ function (_React$Component) {
           className: "chat-dm-content"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "chat-modal-large"
-        }, "Direct Messages"), addedToChannelToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        }, "Direct Messages"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "chat-dm-search-container"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          onChange: this.update,
+          value: this.state.searchTerm,
+          placeholder: "Search for members",
+          className: "chat-dm-search"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: this.createChannel,
+          className: "chat-dm-search-go"
+        }, "GO")), addedToChannelToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "chat-horiz-list"
         }, Object.values(this.state.addedToChannel).map(function (user) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2526,17 +2535,7 @@ function (_React$Component) {
             },
             className: "fas fa-times"
           }));
-        })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-dm-search-container"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          onChange: this.update,
-          value: this.state.searchTerm,
-          placeholder: "Search for members",
-          className: "chat-dm-search"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          onClick: this.createChannel,
-          className: "chat-dm-search-go"
-        }, "GO")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "chat-modal-list"
         }, dmChannelsToggle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-modal-small"
@@ -4341,9 +4340,7 @@ function (_React$Component) {
             brawl: brawl,
             locations: locations,
             key: brawl.id,
-            key2: brawl.id // why doesn't this work?
-            //chat now
-
+            key2: brawl.id
           });
         }));
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5008,7 +5005,6 @@ function (_React$Component) {
 
     _classCallCheck(this, CreateGroupForm);
 
-    debugger;
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateGroupForm).call(this, props));
     var _this$props$group = _this.props.group,
         name = _this$props$group.name,
@@ -5030,27 +5026,13 @@ function (_React$Component) {
       selectedLocation: selectedLocation,
       selectedLocationId: selectedLocationId,
       errorMessage: "",
-      location: _this.props.locations,
-      categories: _this.props.categories,
       categorySelected: categorySelected
     };
     _this.handleStep = _this.handleStep.bind(_assertThisInitialized(_this));
     _this.handleClickPic = _this.handleClickPic.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
     return _this;
-  } // static getDerivedStateFromProps(nextProps, prevState){
-  //     debugger
-  //     if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories ){
-  //         return ({
-  //             location: nextProps.locations,
-  //             categories: nextProps.categories,
-  //             selectedLocation: nextProps.selectedLocation
-  //         })
-  //     } else {
-  //         return null
-  //     }
-  // } 
-
+  }
 
   _createClass(CreateGroupForm, [{
     key: "componentDidMount",
@@ -5160,7 +5142,7 @@ function (_React$Component) {
   }, {
     key: "toggleSelected",
     value: function toggleSelected(index) {
-      var loc = this.state.location[index];
+      var loc = this.props.locations[index];
       this.setState({
         selectedLocation: loc.name,
         selectedLocationId: loc.id
@@ -5182,7 +5164,7 @@ function (_React$Component) {
   }, {
     key: "handleClick",
     value: function handleClick(categoryId) {
-      var temp = this.state.categories;
+      var temp = this.props.categories;
       temp[categoryId - 1].selected = !temp[categoryId - 1].selected;
       this.setState({
         categories: temp,
@@ -5201,17 +5183,17 @@ function (_React$Component) {
           className: "create-group-card-title"
         }, "First, where is your squad located?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-description"
-        }, "Squads meet locally and in person. We will help you recruit warriors from across your region."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "create-group-card-errors"
-        }, this.state.errorMessage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "create-group-card-selected"
-        }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, "Squads meet locally and in person. We will help you recruit warriors from across your region."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-options"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
           location: this.state.selectedLocation,
-          list: this.state.location,
+          list: this.props.locations,
           toggleLocation: this.toggleSelected
-        })));
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "create-group-card-selected"
+        }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "create-group-card-errors"
+        }, this.state.errorMessage));
         var slide1 = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "create-group-card-body"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -5224,7 +5206,7 @@ function (_React$Component) {
           className: "create-group-card-options"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "create-group-card-options-categories"
-        }, this.state.categories.map(function (category) {
+        }, this.props.categories.map(function (category) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: category.id
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {

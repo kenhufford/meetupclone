@@ -109,8 +109,8 @@
      text-align: center;
      align-items: center;
      justify-content: space-between;
-      width: 60%;
-    max-width: 850px;
+      width: 70%;
+    max-width: 1050px;
  }
 
   .navbar-right a{
@@ -731,8 +731,8 @@ border: 1px solid rgb(206, 206, 206);
 }
 
 .search-bar-input:focus{
-    box-shadow: 0 0 10px rgb(255, 171, 213);
-    border: 3px solid rgb(255, 171, 213);
+   box-shadow: 0 0 5px rgb(226, 156, 76);
+   border: 1px solid rgb(226, 156, 76);
 }
 
 
@@ -1646,7 +1646,7 @@ color: #404040;
    align-items: center;
    width: 100%;
    height: 80px;
-   padding: 0px;
+   padding: 0px 10px;
    border-top: 1px lightgray solid;
    left: 0px;
    flex-shrink: 0;
@@ -1738,8 +1738,8 @@ color: #404040;
 }
 
 .create-group-card-name-field:focus{
-   box-shadow: 0 0 10px rgb(255, 171, 213);
-   border: 3px solid rgb(255, 171, 213);
+   box-shadow: 0 0 5px rgb(226, 156, 76);
+   border: 1px solid rgb(226, 156, 76);
 }
 
 .create-group-card-name-field-big{
@@ -1754,8 +1754,8 @@ color: #404040;
 }
 
 .create-group-card-name-field-big:focus{
-   box-shadow: 0 0 10px rgb(255, 171, 213);
-   border: 3px solid rgb(255, 171, 213);
+   box-shadow: 0 0 5px rgb(226, 156, 76);
+   border: 1px solid rgb(226, 156, 76);
 }
 
 .fa-backspace{
@@ -2835,11 +2835,11 @@ padding-left: 15px;
    max-height: 65vh;
 }
 
-.chat-modal-list >div{
-    color: darkgray;
+.chat-modal-list > div{
+    color: lightgray;
     font-weight: 200;
     border-bottom: 1px solid rgb(226, 156, 76);
-    font-size: 16px;
+    font-size: 20px;
     padding: 20px 0px;
 }
 
@@ -2869,7 +2869,7 @@ padding-left: 15px;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    margin: 15px 0px;
     width: 100%;
 }
 
@@ -2939,8 +2939,8 @@ padding-left: 15px;
    background-repeat: no-repeat;
    background-position: 50%;
    background-size: cover;
-   width: 110px;
-   height: 110px;
+   width: 75px;
+   height: 75px;
    border-radius: 10px;
    box-sizing: border-box;
    vertical-align: middle;

@@ -17,7 +17,7 @@ class ChatCreateChannel extends React.Component{
         this.selectIcon = this.selectIcon.bind(this);
         this.createChannel = this.createChannel.bind(this);
         this.images = ["defaultchannel1URL", "defaultchannel2URL", "defaultchannel3URL", "defaultchannel4URL",
-            "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL"]
+            "defaultchannel5URL", "defaultchannel6URL", "defaultchannel7URL", "defaultchannel8URL", "defaultchannel9URL", "defaultchannel10URL" ]
     }
 
     update(e, field){

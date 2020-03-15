@@ -3,7 +3,6 @@ import CreateGroupFormDropdown from './create_group_form_dropdown'
 
 class CreateGroupForm extends React.Component{
     constructor(props){
-        debugger
         super(props)
         let {name, description, lat, long, imageUrl, selectedLocationId, selectedLocation} = this.props.group
         let {categorySelected} = this.props
@@ -18,27 +17,12 @@ class CreateGroupForm extends React.Component{
             selectedLocation: selectedLocation,
             selectedLocationId: selectedLocationId,
             errorMessage: "",
-            location: this.props.locations,
-            categories: this.props.categories,
             categorySelected: categorySelected
         }
         this.handleStep = this.handleStep.bind(this);
         this.handleClickPic = this.handleClickPic.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
     }
-
-    // static getDerivedStateFromProps(nextProps, prevState){
-    //     debugger
-    //     if (nextProps.locations !== prevState.location || nextProps.categories !== prevState.categories ){
-    //         return ({
-    //             location: nextProps.locations,
-    //             categories: nextProps.categories,
-    //             selectedLocation: nextProps.selectedLocation
-    //         })
-    //     } else {
-    //         return null
-    //     }
-    // } 
 
     componentDidMount(){
         const fetchCategories = this.props.fetchCategories();
@@ -132,7 +116,7 @@ class CreateGroupForm extends React.Component{
     }
 
     toggleSelected(index){
-        let loc = this.state.location[index]
+        let loc = this.props.locations[index]
         this.setState({
           selectedLocation: loc.name,
           selectedLocationId: loc.id
@@ -149,7 +133,7 @@ class CreateGroupForm extends React.Component{
     }
 
     handleClick(categoryId){
-        let temp = this.state.categories
+        let temp = this.props.categories
         temp[categoryId-1].selected = !temp[categoryId-1].selected 
         this.setState({
             categories: temp,
@@ -163,14 +147,14 @@ class CreateGroupForm extends React.Component{
                 <div className="create-group-card-body">
                     <h3 className="create-group-card-title">First, where is your squad located?</h3>
                     <p className="create-group-card-description">Squads meet locally and in person. We will help you recruit warriors from across your region.</p>
-                    <p className="create-group-card-errors">{this.state.errorMessage}</p>
-                    <p className="create-group-card-selected">{this.state.selectedLocation}</p>
                     <div className="create-group-card-options">
                         <CreateGroupFormDropdown 
                             location={this.state.selectedLocation} 
-                            list={this.state.location} 
+                            list={this.props.locations} 
                             toggleLocation={this.toggleSelected} />
                     </div>
+                    <p className="create-group-card-selected">{this.state.selectedLocation}</p>
+                    <p className="create-group-card-errors">{this.state.errorMessage}</p>
                 </div>
             )
     
@@ -181,7 +165,7 @@ class CreateGroupForm extends React.Component{
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
                         <ul className="create-group-card-options-categories">
-                            {this.state.categories.map( (category) => (
+                            {this.props.categories.map( (category) => (
                                 <li key={category.id}>
                                     <button onClick={() => this.handleClick(category.id)} 
                                     className={category.selected ? "create-group-card-options-categories-button-selected" : "create-group-card-options-categories-button"}>{category.name}</button>

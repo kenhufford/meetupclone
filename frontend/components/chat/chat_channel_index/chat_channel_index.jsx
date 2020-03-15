@@ -77,7 +77,6 @@ class ChatChannelIndex extends React.Component {
         let userChannels = (this.props.userChannels !== undefined) ? Object.values(this.props.userChannels).filter(channel => channel.dm): [];
         userChannels.sort( (a, b) => {return a.name < b.name  ? -1 : 1});
         groupChannels.sort((a, b) => { return a.name < b.name ? -1 : 1 });
-        debugger
         let createChannelModal = <ChatCreateChannel
             show={this.state.showChannelModal}
             toggleModal={this.toggleModal}
