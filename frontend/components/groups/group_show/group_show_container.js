@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import {fetchGroup, deleteGroup} from '../../actions/group_actions'
-import {createMembership, deleteMembership, fetchMemberships} from '../../actions/membership_actions'
-import {fetchLocations} from '../../actions/location_actions'
-import {fetchEventsFromGroup} from '../../actions/event_actions'
-import {fetchUser, fetchUsersFromGroup} from '../../actions/user_actions'
-import GroupShow from '../../components/groups/group_show'
+import {fetchGroup, deleteGroup} from '../../../actions/group_actions'
+import {createMembership, deleteMembership, fetchMemberships} from '../../../actions/membership_actions'
+import {fetchLocations} from '../../../actions/location_actions'
+import {fetchEventsFromGroup} from '../../../actions/event_actions'
+import {fetchUser, fetchUsersFromGroup} from '../../../actions/user_actions'
+import GroupShow from './group_show'
 
 const mapStateToProps = (state, ownProps) => {
     return {

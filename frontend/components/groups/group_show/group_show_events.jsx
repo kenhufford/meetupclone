@@ -1,5 +1,5 @@
 import React from 'react';
-import {formatDate, addWeek, addMonth, formatDateWithMonth} from '../../utils/date_util'
+import {formatDate, addWeek, addMonth, formatDateWithMonth} from '../../../utils/date_util'
 import {Link} from 'react-router-dom'
 class GroupShowEvents extends React.Component{
     constructor(props){
