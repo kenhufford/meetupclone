@@ -69,6 +69,7 @@
    display:flex;
    flex-direction: row;
    align-items: center;
+   width:30%;
 }
 
 .navbar-left i{
@@ -110,7 +111,7 @@
      align-items: center;
      justify-content: space-between;
       width: 70%;
-    max-width: 1050px;
+    max-width: 1200px;
  }
 
   .navbar-right a{

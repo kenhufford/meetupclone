@@ -1,5 +1,5 @@
 import React from 'react';
-import {formatDate} from '../../utils/date_util'
+import {formatDate} from '../../../utils/date_util'
 
 class GroupShowMembers extends React.Component{
     constructor(props){
