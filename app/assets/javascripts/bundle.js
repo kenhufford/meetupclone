@@ -5678,9 +5678,8 @@ function (_React$Component) {
       if (this.props.currentUserId !== undefined) {
         var fetchGroups = this.props.fetchGroups();
         var fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUserId);
-        var fetchCategories = this.props.fetchCategories();
-        Promise.all([fetchCategories, fetchGroups, fetchGroupsFromUser]).then(function (data) {
-          var userGroups = data[2].groups;
+        Promise.all([fetchGroups, fetchGroupsFromUser]).then(function (data) {
+          var userGroups = data[1].groups;
 
           _this2.setState({
             loaded: true,
@@ -5690,9 +5689,7 @@ function (_React$Component) {
       } else {
         var _fetchGroups = this.props.fetchGroups();
 
-        var _fetchCategories = this.props.fetchCategories();
-
-        Promise.all([_fetchCategories, _fetchGroups]).then(function () {
+        Promise.all([_fetchGroups]).then(function () {
           _this2.setState({
             loaded: true
           });

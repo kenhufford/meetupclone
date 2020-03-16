@@ -123,9 +123,9 @@
     -webkit-transition: color 300ms ease;
   }
 
-    .navbar-right a:hover{
-       color:black;
-    }
+   .navbar-right a:hover{
+      color:black;
+   }
 
    
 
@@ -864,6 +864,11 @@ color: #404040;
     font-size: 22px;
     color: #ff350c;
     font-weight: 500;
+   transition: color 300ms ease;
+   -webkit-transition: color 300ms ease;
+}
+.group-show-header-right-totalmembers-text:hover{
+   color:black;
 }
 
 .group-show-header-right-organized-text{
@@ -1055,7 +1060,13 @@ color: #404040;
    cursor: pointer;
    font-size: 22px;
    color: #ff350c;
-    font-weight: 500;
+   font-weight: 500;
+   transition: color 300ms ease;
+   -webkit-transition: color 300ms ease;
+}
+
+.group-show-header-right-location a:hover{
+   color:black;
 }
 
 .group-show-members-right-list{

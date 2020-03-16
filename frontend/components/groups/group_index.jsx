@@ -15,18 +15,14 @@ class GroupIndex extends React.Component{
         if (this.props.currentUserId !== undefined){
             const fetchGroups = this.props.fetchGroups();
             const fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUserId);
-            const fetchCategories = this.props.fetchCategories();
-
-            Promise.all([fetchCategories, fetchGroups, fetchGroupsFromUser])
+            Promise.all([fetchGroups, fetchGroupsFromUser])
                 .then((data) => {
-                    let userGroups = data[2].groups;
+                    let userGroups = data[1].groups;
                     this.setState({ loaded: true, userGroups });
                 })
         } else {
             const fetchGroups = this.props.fetchGroups();
-            const fetchCategories = this.props.fetchCategories();
-
-            Promise.all([fetchCategories, fetchGroups])
+            Promise.all([fetchGroups])
                 .then(() => {
                     this.setState({ loaded: true });
             })
