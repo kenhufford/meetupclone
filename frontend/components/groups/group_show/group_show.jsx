@@ -50,16 +50,15 @@ class GroupShow extends React.Component{
             let currentUserMember = false;
             let currentUserCaptain;
             let captainIds = [];
-            let leaderIds = [];
+            let squadLeaderIds = [];
             let memberIds = [];
             let currentTab;
             memberships.groupMemberships.map(membership => {
-                memberIds.push(membership.userId)
+                memberIds.push(membership.userId);
                 if (membership.memberType==="Captain") {
-                    captainIds.push(membership.userId)
-                    leaderIds.push(membership.userId)
+                    captainIds.push(membership.userId);
                 } else if(membership.memberType==="Squad Leader"){
-                    leaderIds.push(membership.userId);
+                    squadLeaderIds.push(membership.userId);
                 }
                 if (membership.userId===session.id){
                     currentUserMember = true;
@@ -86,10 +85,12 @@ class GroupShow extends React.Component{
                         break;
                     case "members":
                         currentTab = <GroupShowMembers 
-                                        currentUserCaptain={currentUserCaptain} 
-                                        leaderIds={leaderIds}
-                                        users={users} 
+                                        currentUserCaptain={currentUserCaptain}
+                                        captainIds={captainIds} 
+                                        squadLeaderIds={squadLeaderIds}
+                                        memberIds={memberIds}
                                         memberships={memberships.groupMemberships}
+                                        users={users} 
                                         updateMembership={this.props.updateMembership}/>
                         break;
                     case "events":

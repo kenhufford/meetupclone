@@ -6501,7 +6501,7 @@ function (_React$Component) {
         var currentUserMember = false;
         var currentUserCaptain;
         var captainIds = [];
-        var leaderIds = [];
+        var squadLeaderIds = [];
         var memberIds = [];
         var currentTab;
         memberships.groupMemberships.map(function (membership) {
@@ -6509,9 +6509,8 @@ function (_React$Component) {
 
           if (membership.memberType === "Captain") {
             captainIds.push(membership.userId);
-            leaderIds.push(membership.userId);
           } else if (membership.memberType === "Squad Leader") {
-            leaderIds.push(membership.userId);
+            squadLeaderIds.push(membership.userId);
           }
 
           if (membership.userId === session.id) {
@@ -6543,9 +6542,11 @@ function (_React$Component) {
           case "members":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members__WEBPACK_IMPORTED_MODULE_2__["default"], {
               currentUserCaptain: currentUserCaptain,
-              leaderIds: leaderIds,
-              users: users,
+              captainIds: captainIds,
+              squadLeaderIds: squadLeaderIds,
+              memberIds: memberIds,
               memberships: memberships.groupMemberships,
+              users: users,
               updateMembership: this.props.updateMembership
             });
             break;
@@ -7061,7 +7062,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _group_show_members_left__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_show_members_left */ "./frontend/components/groups/group_show/group_show_members_left.jsx");
+/* harmony import */ var _group_show_members_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_show_members_list */ "./frontend/components/groups/group_show/group_show_members_list.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7079,6 +7081,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -7126,69 +7129,23 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var searchQuery = this.state.searchQuery;
-      var icons = {
-        "Initiate": "initiateURL",
-        "Squad Leader": "squadleaderURL",
-        "Captain": "captainURL"
-      };
       var _this$props = this.props,
-          memberships = _this$props.memberships,
           users = _this$props.users,
-          leaderIds = _this$props.leaderIds;
-      var list = this.state.currentPage === "All members" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "group-show-members-right-list"
-      }, memberships.map(function (membership, i) {
-        var _users$membership$use = users[membership.userId],
-            imageUrl = _users$membership$use.imageUrl,
-            name = _users$membership$use.name,
-            createdAt = _users$membership$use.createdAt;
-
-        if (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-            key: i,
-            className: "group-show-members-right-member-li"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-members-right-member"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            src: window[imageUrl],
-            className: "group-show-members-right-member-img"
-          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-members-right-member-info"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-members-right-member-info-left"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-members-right-member-info-right"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, membership.memberType), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            className: "group-show-member-picture-square",
-            src: window[icons[membership.memberType]],
-            alt: ""
-          })))));
-        }
-      })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "group-show-members-right-list"
-      }, leaderIds.map(function (id, i) {
-        var _users$id = users[id],
-            imageUrl = _users$id.imageUrl,
-            name = _users$id.name,
-            createdAt = _users$id.createdAt;
-
-        if (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-            key: i,
-            className: "group-show-members-right-member-li"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-members-right-member"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            src: window[imageUrl],
-            className: "group-show-members-right-member-img"
-          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "group-show-members-right-member-info"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt)))));
-        }
-      }));
+          squadLeaderIds = _this$props.squadLeaderIds,
+          captainIds = _this$props.captainIds,
+          memberIds = _this$props.memberIds,
+          memberships = _this$props.memberships;
+      var leaderIds = squadLeaderIds.concat(captainIds);
+      var currentPage = this.state.currentPage;
+      var ids = currentPage === "All members" ? memberIds : leaderIds;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupShowMembersLeft, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members_left__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        currentPage: currentPage,
+        switchPage: this.switchPage,
+        memberIds: memberIds,
+        leaderIds: leaderIds
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right-header"
@@ -7200,7 +7157,13 @@ function (_React$Component) {
         placeholder: "Search members",
         value: this.state.searchQuery,
         onChange: this.update
-      }))), list));
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        currentPage: currentPage,
+        users: users,
+        ids: ids,
+        searchQuery: searchQuery,
+        memberships: memberships
+      })));
     }
   }]);
 
@@ -7208,6 +7171,108 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupShowMembers);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_show/group_show_members_left.jsx":
+/*!***************************************************************************!*\
+  !*** ./frontend/components/groups/group_show/group_show_members_left.jsx ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function GroupShowMembersLeft(props) {
+  var currentPage = props.currentPage,
+      switchPage = props.switchPage,
+      memberIds = props.memberIds,
+      leaderIds = props.leaderIds;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-members-left"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-members-left-tab",
+    onClick: switchPage("All members")
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: currentPage === "All members" ? "group-show-members-selected" : "group-show-members-notselected"
+  }, "All Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "group-show-members-length"
+  }, memberIds.length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-members-left-tab",
+    onClick: switchPage("Leadership team")
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: currentPage !== "All members" ? "group-show-members-selected" : "group-show-members-notselected"
+  }, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "group-show-members-length"
+  }, leaderIds.length)));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupShowMembersLeft);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_show/group_show_members_list.jsx":
+/*!***************************************************************************!*\
+  !*** ./frontend/components/groups/group_show/group_show_members_list.jsx ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+
+
+
+function GroupShowMembersList(props) {
+  var icons = {
+    "Initiate": "initiateURL",
+    "Squad Leader": "squadleaderURL",
+    "Captain": "captainURL"
+  };
+  var users = props.users,
+      ids = props.ids,
+      searchQuery = props.searchQuery,
+      memberships = props.memberships;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "group-show-members-right-list"
+  }, memberships.map(function (membership) {
+    var id = membership.userId;
+    var _users$id = users[id],
+        imageUrl = _users$id.imageUrl,
+        name = _users$id.name,
+        createdAt = _users$id.createdAt;
+
+    if (ids.includes(id) && (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase()))) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: membership.id,
+        className: "group-show-members-right-member-li"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-members-right-member"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window[imageUrl],
+        className: "group-show-members-right-member-img"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-members-right-member-info"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-members-right-member-info-left"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Joined on ", Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(createdAt))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-members-right-member-info-right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, membership.memberType), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "group-show-member-picture-square",
+        src: window[icons[membership.memberType]]
+      })))));
+    }
+  }));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupShowMembersList);
 
 /***/ }),
 

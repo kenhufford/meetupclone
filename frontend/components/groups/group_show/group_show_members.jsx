@@ -1,5 +1,6 @@
 import React from 'react';
-import {formatDate} from '../../../utils/date_util'
+import GroupShowMembersLeft from './group_show_members_left';
+import GroupShowMembersList from './group_show_members_list';
 
 class GroupShowMembers extends React.Component{
     constructor(props){
@@ -26,59 +27,17 @@ class GroupShowMembers extends React.Component{
 
     render(){
         let searchQuery = this.state.searchQuery;
-        let icons = {"Initiate": "initiateURL","Squad Leader": "squadleaderURL","Captain": "captainURL"}
-        let {memberships, users, leaderIds} = this.props
-        let list = this.state.currentPage==="All members" ? 
-        (<ul className="group-show-members-right-list">
-            {memberships.map ((membership, i) => {
-                let { imageUrl, name, createdAt } = users[membership.userId]
-                if (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase())){
-                    return (
-                        <li key={i} className="group-show-members-right-member-li">
-                            <div className="group-show-members-right-member">
-                                <img src={window[imageUrl]} className="group-show-members-right-member-img" />
-                                <div className="group-show-members-right-member-info">
-                                    <div className="group-show-members-right-member-info-left">
-                                        <section>{name}</section>
-                                        <p>Joined on {formatDate(createdAt)}</p>
-                                    </div>
-                                    <div className="group-show-members-right-member-info-right">
-                                        <p>{membership.memberType}</p>
-                                        <img className="group-show-member-picture-square" src={window[icons[membership.memberType]]} alt="" />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </li>
-                    )
-                }  
-            })}
-        </ul>) : 
-
-        (<ul className="group-show-members-right-list">
-            {leaderIds.map ((id, i) => {
-                let {imageUrl, name, createdAt} = users[id]
-                if (searchQuery === '' || name.toLowerCase().includes(searchQuery.toLowerCase())) {
-                return (
-                    <li key={i} className="group-show-members-right-member-li">
-                        <div className="group-show-members-right-member">
-                            <img src={window[imageUrl]} className="group-show-members-right-member-img"/>
-                            <div  className="group-show-members-right-member-info">
-                                <p>{name}</p>
-                                <p>Joined on {formatDate(createdAt)}</p>
-                            </div>
-                        </div>
-
-                    </li>
-                )}
-            })}
-            
-        </ul>)
-
+        let {users, squadLeaderIds, captainIds, memberIds, memberships} = this.props;
+        let leaderIds = squadLeaderIds.concat(captainIds);
+        let {currentPage} = this.state;
+        let ids = currentPage === "All members" ? memberIds : leaderIds;
         return (
-            
             <div className="group-show-members">
                 <GroupShowMembersLeft 
+                    currentPage={currentPage}
+                    switchPage={this.switchPage}
+                    memberIds={memberIds}
+                    leaderIds={leaderIds}
                     />
                 <div className="group-show-members-right">
                     <div className="group-show-members-right-header">
@@ -91,8 +50,13 @@ class GroupShowMembers extends React.Component{
                                 onChange={this.update}/>
                         </form>
                     </div>
-
-                    {list}
+                    <GroupShowMembersList
+                        currentPage={currentPage}
+                        users={users}
+                        ids={ids}
+                        searchQuery={searchQuery}
+                        memberships={memberships}
+                        />
                 </div>
             </div>
 
