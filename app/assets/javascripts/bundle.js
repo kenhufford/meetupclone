@@ -7064,111 +7064,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _group_show_members_left__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_show_members_left */ "./frontend/components/groups/group_show/group_show_members_left.jsx");
 /* harmony import */ var _group_show_members_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_show_members_list */ "./frontend/components/groups/group_show/group_show_members_list.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
-var GroupShowMembers =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(GroupShowMembers, _React$Component);
+function GroupShowMembers(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("All members"),
+      _useState2 = _slicedToArray(_useState, 2),
+      currentPage = _useState2[0],
+      setCurrentPage = _useState2[1];
 
-  function GroupShowMembers(props) {
-    var _this;
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      searchQuery = _useState4[0],
+      setSearchQuery = _useState4[1];
 
-    _classCallCheck(this, GroupShowMembers);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupShowMembers).call(this, props));
-    _this.state = {
-      currentPage: "All members",
-      searchQuery: ''
-    };
-    _this.update = _this.update.bind(_assertThisInitialized(_this));
-    _this.switchPage = _this.switchPage.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(GroupShowMembers, [{
-    key: "switchPage",
-    value: function switchPage(page) {
-      var _this2 = this;
-
-      return function () {
-        _this2.setState({
-          currentPage: page,
-          searchQuery: ''
-        });
-      };
+  var users = props.users,
+      squadLeaderIds = props.squadLeaderIds,
+      captainIds = props.captainIds,
+      memberIds = props.memberIds,
+      memberships = props.memberships;
+  var leaderIds = squadLeaderIds.concat(captainIds);
+  var ids = currentPage === "All members" ? memberIds : leaderIds;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-members"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members_left__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    currentPage: currentPage,
+    switchPage: function switchPage(page) {
+      return setCurrentPage(page);
+    },
+    memberIds: memberIds,
+    leaderIds: leaderIds
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-members-right"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-members-right-header"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, currentPage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    className: "group-show-filter-input",
+    placeholder: "Search members",
+    value: searchQuery,
+    onChange: function onChange(e) {
+      return setSearchQuery(e.currentTarget.value);
     }
-  }, {
-    key: "update",
-    value: function update(e) {
-      this.setState({
-        searchQuery: e.currentTarget.value
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var searchQuery = this.state.searchQuery;
-      var _this$props = this.props,
-          users = _this$props.users,
-          squadLeaderIds = _this$props.squadLeaderIds,
-          captainIds = _this$props.captainIds,
-          memberIds = _this$props.memberIds,
-          memberships = _this$props.memberships;
-      var leaderIds = squadLeaderIds.concat(captainIds);
-      var currentPage = this.state.currentPage;
-      var ids = currentPage === "All members" ? memberIds : leaderIds;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-members"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members_left__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        currentPage: currentPage,
-        switchPage: this.switchPage,
-        memberIds: memberIds,
-        leaderIds: leaderIds
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-members-right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-members-right-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.currentPage), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "group-show-filter-input",
-        placeholder: "Search members",
-        value: this.state.searchQuery,
-        onChange: this.update
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        currentPage: currentPage,
-        users: users,
-        ids: ids,
-        searchQuery: searchQuery,
-        memberships: memberships
-      })));
-    }
-  }]);
-
-  return GroupShowMembers;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_members_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    currentPage: currentPage,
+    users: users,
+    ids: ids,
+    searchQuery: searchQuery,
+    memberships: memberships
+  })));
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupShowMembers);
 
@@ -7196,14 +7150,18 @@ function GroupShowMembersLeft(props) {
     className: "group-show-members-left"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "group-show-members-left-tab",
-    onClick: switchPage("All members")
+    onClick: function onClick() {
+      return switchPage("All members");
+    }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: currentPage === "All members" ? "group-show-members-selected" : "group-show-members-notselected"
   }, "All Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "group-show-members-length"
   }, memberIds.length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "group-show-members-left-tab",
-    onClick: switchPage("Leadership team")
+    onClick: function onClick() {
+      return switchPage("Leadership team");
+    }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: currentPage !== "All members" ? "group-show-members-selected" : "group-show-members-notselected"
   }, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
