@@ -47,7 +47,6 @@ class EventIndex extends React.Component{
                 let allBrawls = this.state.allBrawls;
                 let eventIndex = this.state.eventIndex + 10;
                 let hasMore = this.state.hasMore;
-                let loaded = this.state.loaded;
                 if (eventIndex > allBrawls.length && this.state.loaded) {
                     hasMore = false;
                 } else {
@@ -132,7 +131,6 @@ class EventIndex extends React.Component{
         }
 
     render(){
-        console.log("hello new change")
         if(this.state.loaded){
             let {locations } = this.props;
             let {userBrawls, displayedBrawls, noUserBrawls, isLoading} = this.state;
