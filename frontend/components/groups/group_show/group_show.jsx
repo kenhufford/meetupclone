@@ -19,12 +19,6 @@ class GroupShow extends React.Component{
         this.switchPage = this.switchPage.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
-            this.props.fetchGroup(this.props.match.params.groupId)
-        }
-    }
-
     componentDidMount(){
         let groupId = this.props.match.params.groupId;
         const fetchEventsFromGroup = this.props.fetchEventsFromGroup(groupId);
@@ -34,6 +28,12 @@ class GroupShow extends React.Component{
         const fetchGroup = this.props.fetchGroup(groupId);  
         Promise.all([fetchLocations, fetchEventsFromGroup, fetchLocations, fetchUsersFromGroup, fetchMemberships, fetchGroup])
             .then( () => this.setState({loaded:true}))
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
+            this.props.fetchGroup(this.props.match.params.groupId)
+        }
     }
 
     switchPage(page){
@@ -123,8 +123,8 @@ class GroupShow extends React.Component{
                         captainsNum={captainsNum} 
                         switchPage={this.switchPage}/>
                     <GroupShowStripe
-                        currentPage={currentPage}
                         groupDropdown={groupDropdown}
+                        currentPage={currentPage}
                         switchPage={this.switchPage} />
                     {currentTab}
                 </div>

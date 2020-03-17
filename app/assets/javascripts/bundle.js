@@ -6154,6 +6154,88 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/groups/group_show/about_captain_info.jsx":
+/*!**********************************************************************!*\
+  !*** ./frontend/components/groups/group_show/about_captain_info.jsx ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function AboutCaptainInfo(props) {
+  var captainsNum = props.captainsNum,
+      captainIds = props.captainIds,
+      users = props.users;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-main-right-organizers"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "group-show-main-right-organizers-title"
+  }, "Captains"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-main-right-organizers-info"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-member-picture-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: window[users[captainIds[0]].imageUrl],
+    alt: "organizer-pic",
+    className: "group-show-member-picture"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "group-show-organizer-info-text"
+  }, users[captainIds[0]].name, " ", captainsNum)));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (AboutCaptainInfo);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_show/about_members_info.jsx":
+/*!**********************************************************************!*\
+  !*** ./frontend/components/groups/group_show/about_members_info.jsx ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function AboutMembersInfo(props) {
+  var memberIds = props.memberIds,
+      memberships = props.memberships,
+      users = props.users,
+      switchPage = props.switchPage;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-main-right-members"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    onClick: switchPage("members")
+  }, "Members (", memberIds.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    onClick: switchPage("members")
+  }, "See All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-main-right-members-list"
+  }, memberships.map(function (membership, i) {
+    if (i < 12) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-member-picture-div",
+        key: membership.id
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window[users[membership.userId].imageUrl],
+        alt: "member-pic",
+        className: "group-show-member-picture"
+      }));
+    }
+  })));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (AboutMembersInfo);
+
+/***/ }),
+
 /***/ "./frontend/components/groups/group_show/group_options_dropdown.jsx":
 /*!**************************************************************************!*\
   !*** ./frontend/components/groups/group_show/group_options_dropdown.jsx ***!
@@ -6446,13 +6528,6 @@ function (_React$Component) {
   }
 
   _createClass(GroupShow, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
-        this.props.fetchGroup(this.props.match.params.groupId);
-      }
-    }
-  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -6468,6 +6543,13 @@ function (_React$Component) {
           loaded: true
         });
       });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
+        this.props.fetchGroup(this.props.match.params.groupId);
+      }
     }
   }, {
     key: "switchPage",
@@ -6578,8 +6660,8 @@ function (_React$Component) {
           captainsNum: captainsNum,
           switchPage: this.switchPage
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_stripe__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          currentPage: currentPage,
           groupDropdown: groupDropdown,
+          currentPage: currentPage,
           switchPage: this.switchPage
         }), currentTab);
       } else {
@@ -6607,6 +6689,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _group_show_about_left__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_show_about_left */ "./frontend/components/groups/group_show/group_show_about_left.jsx");
+/* harmony import */ var _group_show_about_right__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_show_about_right */ "./frontend/components/groups/group_show/group_show_about_right.jsx");
+
 
 
 
@@ -6622,44 +6706,14 @@ function GroupShowAbout(props) {
     className: "group-show-main"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_about_left__WEBPACK_IMPORTED_MODULE_1__["default"], {
     description: group.description
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-main-right"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-main-right-organizers"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "group-show-main-right-organizers-title"
-  }, "Captains"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-main-right-organizers-info"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-member-picture-div"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: window[users[captainIds[0]].imageUrl],
-    alt: "organizer-pic",
-    className: "group-show-member-picture"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "group-show-organizer-info-text"
-  }, users[captainIds[0]].name, " ", captainsNum))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-main-right-members"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    onClick: switchPage("members")
-  }, "Members (", memberIds.length, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    onClick: switchPage("members")
-  }, "See All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-main-right-members-list"
-  }, memberships.map(function (member, i) {
-    if (i < 12) {
-      var icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-member-picture-div",
-        key: i
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        key: i,
-        src: window[users[member.userId].imageUrl],
-        alt: "member-pic",
-        className: "group-show-member-picture"
-      }));
-      return icon;
-    }
-  }))));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_about_right__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    captainsNum: captainsNum,
+    captainIds: captainIds,
+    memberIds: memberIds,
+    users: users,
+    memberships: memberships,
+    switchPage: switchPage
+  }));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupShowAbout);
@@ -6691,6 +6745,48 @@ function GroupShowAboutLeft(props) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupShowAboutLeft);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_show/group_show_about_right.jsx":
+/*!**************************************************************************!*\
+  !*** ./frontend/components/groups/group_show/group_show_about_right.jsx ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _about_captain_info__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./about_captain_info */ "./frontend/components/groups/group_show/about_captain_info.jsx");
+/* harmony import */ var _about_members_info__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./about_members_info */ "./frontend/components/groups/group_show/about_members_info.jsx");
+
+
+
+
+function GroupShowAboutRight(props) {
+  var captainsNum = props.captainsNum,
+      captainIds = props.captainIds,
+      memberIds = props.memberIds,
+      users = props.users,
+      memberships = props.memberships,
+      switchPage = props.switchPage;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "group-show-main-right"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_about_captain_info__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    captainIds: captainIds,
+    users: users,
+    captainsNum: captainsNum
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_about_members_info__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    users: users,
+    memberships: memberships,
+    memberIds: memberIds,
+    switchPage: switchPage
+  }));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupShowAboutRight);
 
 /***/ }),
 

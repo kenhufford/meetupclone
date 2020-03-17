@@ -96,7 +96,6 @@ class GroupShowEvents extends React.Component{
             <div className="group-show-events">
                 <div className="group-show-events-main">
                     <div className="group-show-events-header">
-                        {/* <p>{this.state.currentPage}</p> */}
                     </div>
                     {list}
                 </div>
