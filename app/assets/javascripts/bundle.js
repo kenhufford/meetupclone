@@ -4117,10 +4117,7 @@ var mdtp = function mdtp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _event_index_item_large__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event_index_item_large */ "./frontend/components/events/event_index_item_large.jsx");
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _event_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_list */ "./frontend/components/events/event_index_list.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4142,8 +4139,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
-
 var EventIndex =
 /*#__PURE__*/
 function (_React$Component) {
@@ -4157,70 +4152,13 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(EventIndex).call(this, props));
     _this.state = {
       loaded: false,
-      error: false,
-      hasMore: true,
-      isLoading: false,
-      userBrawls: [],
-      allBrawls: [],
-      displayedBrawls: [],
-      noUserBrawls: true,
-      eventIndex: 10
+      userBrawls: []
     };
     _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
-    _this.componentDidMount = _this.componentDidMount.bind(_assertThisInitialized(_this));
-    _this.loadEvents = _this.loadEvents.bind(_assertThisInitialized(_this));
-    window.onscroll = lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default()(function () {
-      var _assertThisInitialize = _assertThisInitialized(_this),
-          loadEvents = _assertThisInitialize.loadEvents,
-          _assertThisInitialize2 = _assertThisInitialize.state,
-          error = _assertThisInitialize2.error,
-          isLoading = _assertThisInitialize2.isLoading,
-          hasMore = _assertThisInitialize2.hasMore;
-
-      if (error || isLoading || !hasMore) return;
-
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 100) {
-        loadEvents();
-      }
-    }, 200);
     return _this;
   }
 
   _createClass(EventIndex, [{
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      window.removeEventListener('onscroll', lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default.a);
-    }
-  }, {
-    key: "loadEvents",
-    value: function loadEvents() {
-      var _this2 = this;
-
-      this.setState({
-        isLoading: true
-      }, function () {
-        var allBrawls = _this2.state.allBrawls;
-        var eventIndex = _this2.state.eventIndex + 10;
-        var hasMore = _this2.state.hasMore;
-
-        if (eventIndex > allBrawls.length && _this2.state.loaded) {
-          hasMore = false;
-        } else {
-          hasMore = true;
-        }
-
-        _this2.setState({
-          displayedBrawls: allBrawls.slice(0, eventIndex),
-          eventIndex: eventIndex,
-          hasMore: hasMore
-        }, function () {
-          _this2.setState({
-            isLoading: false
-          });
-        });
-      });
-    }
-  }, {
     key: "handleSignup",
     value: function handleSignup() {
       if (this.props.currentUserId === "") {
@@ -4232,65 +4170,20 @@ function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this2 = this;
 
       var fetchEvents = this.props.fetchEvents();
-      var fetchGroups = this.props.fetchGroups();
       var fetchLocations = this.props.fetchLocations();
       var fetchReservations = this.props.fetchReservations(0);
-      var eventIndex = this.state.eventIndex;
-      Promise.all([fetchEvents, fetchGroups, fetchReservations, fetchLocations]).then(function (data) {
-        var userEventIds = data[2].reservations.userReservations.map(function (reservation) {
-          return reservation.eventId;
-        });
-        var noUserBrawls = true;
+      Promise.all([fetchEvents, fetchReservations, fetchLocations]).then(function (data) {
         var events = data[0].events;
-        var allBrawls = [];
-        var userBrawls = [];
-        Object.values(events).map(function (brawl) {
-          switch (brawl.recurringType) {
-            case "Weekly":
-              for (var i = 1; i < 16; i++) {
-                var brawl1 = Object.assign({}, brawl);
-                brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addWeek"])(brawl.startTime, i);
-                brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addWeek"])(brawl.endTime, i);
-                allBrawls.push(brawl1);
-                if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
-              }
-
-              break;
-
-            case "Monthly":
-              for (var _i = 1; _i < 4; _i++) {
-                var _brawl = Object.assign({}, brawl);
-
-                _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addMonth"])(brawl.startTime, _i);
-                _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["addMonth"])(brawl.endTime, _i);
-                allBrawls.push(_brawl);
-                if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
-              }
-
-            default:
-              allBrawls.push(brawl);
-              if (userEventIds.includes(brawl.id)) userBrawls.push(brawl);
-              break;
-          }
-        });
-        if (userBrawls.length > 0) noUserBrawls = false;
-        allBrawls.sort(function (a, b) {
-          return new Date(a.startTime) - new Date(b.startTime);
-        });
-        userBrawls.sort(function (a, b) {
-          return new Date(a.startTime) - new Date(b.startTime);
+        var userBrawls = data[1].reservations.userReservations.map(function (reservation) {
+          return events[reservation.eventId];
         });
 
-        _this3.setState({
+        _this2.setState({
           loaded: true,
-          noUserBrawls: noUserBrawls,
-          allBrawls: allBrawls,
-          displayedBrawls: allBrawls.slice(0, eventIndex),
-          userBrawls: userBrawls,
-          eventIndex: 10
+          userBrawls: userBrawls
         });
       });
     }
@@ -4298,59 +4191,27 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.loaded) {
-        var locations = this.props.locations;
-        var _this$state = this.state,
-            userBrawls = _this$state.userBrawls,
-            displayedBrawls = _this$state.displayedBrawls,
-            noUserBrawls = _this$state.noUserBrawls,
-            isLoading = _this$state.isLoading;
-        var lastMonth;
-        var userlist = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-          className: "group-show-events-list"
-        }, userBrawls.map(function (brawl) {
-          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDateWithMonth"])(brawl.startTime);
-          var diffMonth = thisMonth !== lastMonth;
-          lastMonth = thisMonth;
-          var recurringType = brawl.recurringType;
-          var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item_large__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            recurring: recurring,
-            diffMonth: diffMonth,
-            thisMonth: thisMonth,
-            brawl: brawl,
-            locations: locations,
-            key: brawl.id
-          });
-        }));
-        var list = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-          className: "group-show-events-list"
-        }, displayedBrawls.map(function (brawl) {
-          var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_3__["formatDateWithMonth"])(brawl.startTime);
-          var diffMonth = thisMonth !== lastMonth;
-          lastMonth = thisMonth;
-          var recurringType = brawl.recurringType;
-          var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item_large__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            recurring: recurring,
-            diffMonth: diffMonth,
-            thisMonth: thisMonth,
-            brawl: brawl,
-            locations: locations,
-            key: brawl.id,
-            key2: brawl.id
-          });
-        }));
+        var _this$props = this.props,
+            locations = _this$props.locations,
+            events = _this$props.events;
+        var userBrawls = this.state.userBrawls;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "index-div"
-        }, noUserBrawls ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, userBrawls.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles-mid"
         }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles-mid"
         }, "YOUR BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-events-main"
-        }, userlist, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          events: userBrawls,
+          locations: locations
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "index-div-titles-mid"
-        }, "UPCOMING BRAWLS"), list, isLoading && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading...")));
+        }, "UPCOMING BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          events: events,
+          locations: locations
+        })));
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -4603,7 +4464,10 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index_item.jsx");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _event_index_item_large__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event_index_item_large */ "./frontend/components/events/event_index_item_large.jsx");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4614,13 +4478,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -4630,24 +4496,127 @@ var EventIndexList =
 function (_React$Component) {
   _inherits(EventIndexList, _React$Component);
 
-  function EventIndexList() {
+  function EventIndexList(props) {
+    var _this;
+
     _classCallCheck(this, EventIndexList);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(EventIndexList).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EventIndexList).call(this, props));
+    _this.state = {
+      error: false,
+      hasMore: true,
+      isLoading: false,
+      eventIndex: 10
+    };
+    _this.loadEvents = _this.loadEvents.bind(_assertThisInitialized(_this));
+    window.onscroll = lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default()(function () {
+      var _assertThisInitialize = _assertThisInitialized(_this),
+          loadEvents = _assertThisInitialize.loadEvents,
+          _assertThisInitialize2 = _assertThisInitialize.state,
+          error = _assertThisInitialize2.error,
+          isLoading = _assertThisInitialize2.isLoading,
+          hasMore = _assertThisInitialize2.hasMore;
+
+      if (error || isLoading || !hasMore) return;
+
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 100) {
+        loadEvents();
+      }
+    }, 200);
+    return _this;
   }
 
   _createClass(EventIndexList, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener('onscroll', lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default.a);
+    }
+  }, {
+    key: "loadEvents",
+    value: function loadEvents() {
+      var _this2 = this;
+
+      this.setState({
+        isLoading: true
+      }, function () {
+        var allBrawls = _this2.props.events;
+        var eventIndex = _this2.state.eventIndex + 10;
+        var hasMore = _this2.state.hasMore;
+
+        if (eventIndex > allBrawls.length && _this2.state.loaded) {
+          hasMore = false;
+        } else {
+          hasMore = true;
+        }
+
+        _this2.setState({
+          eventIndex: eventIndex,
+          hasMore: hasMore
+        }, function () {
+          _this2.setState({
+            isLoading: false
+          });
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var events = this.props.events;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "landing-groups-div"
-      }, events.map(function (event) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          key: event.id,
-          event: event
+      var _this$props = this.props,
+          events = _this$props.events,
+          locations = _this$props.locations;
+      var _this$state = this.state,
+          isLoading = _this$state.isLoading,
+          eventIndex = _this$state.eventIndex;
+      var allBrawls = [];
+      Object.values(events).map(function (brawl) {
+        switch (brawl.recurringType) {
+          case "Weekly":
+            for (var i = 1; i < 16; i++) {
+              var brawl1 = Object.assign({}, brawl);
+              brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.startTime, i);
+              brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.endTime, i);
+              allBrawls.push(brawl1);
+            }
+
+            break;
+
+          case "Monthly":
+            for (var _i = 1; _i < 4; _i++) {
+              var _brawl = Object.assign({}, brawl);
+
+              _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.startTime, _i);
+              _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.endTime, _i);
+              allBrawls.push(_brawl);
+            }
+
+          default:
+            allBrawls.push(brawl);
+            break;
+        }
+      });
+      var lastMonth;
+      allBrawls.sort(function (a, b) {
+        return new Date(a.startTime) - new Date(b.startTime);
+      });
+      allBrawls = allBrawls.slice(0, eventIndex + 1);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "group-show-events-list"
+      }, allBrawls.map(function (brawl, i) {
+        var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithMonth"])(brawl.startTime);
+        var diffMonth = thisMonth !== lastMonth;
+        lastMonth = thisMonth;
+        var recurringType = brawl.recurringType;
+        var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item_large__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          recurring: recurring,
+          diffMonth: diffMonth,
+          thisMonth: thisMonth,
+          brawl: brawl,
+          locations: locations,
+          key: i * brawl.id
         });
-      }));
+      }), isLoading && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading..."));
     }
   }]);
 
@@ -6233,80 +6202,6 @@ function AboutMembersInfo(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/group_show/event_index_list.jsx":
-/*!********************************************************************!*\
-  !*** ./frontend/components/groups/group_show/event_index_list.jsx ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
-/* harmony import */ var _events_event_index_item_large__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index_item_large */ "./frontend/components/events/event_index_item_large.jsx");
-
-
-
-
-function EventIndexList(props) {
-  var events = props.events,
-      locations = props.locations;
-  var allBrawls = [];
-  Object.values(events).map(function (brawl) {
-    switch (brawl.recurringType) {
-      case "Weekly":
-        for (var i = 1; i < 8; i++) {
-          var brawl1 = Object.assign({}, brawl);
-          brawl1.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.startTime, i);
-          brawl1.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addWeek"])(brawl.endTime, i);
-          allBrawls.push(brawl1);
-        }
-
-        break;
-
-      case "Monthly":
-        for (var _i = 1; _i < 4; _i++) {
-          var _brawl = Object.assign({}, brawl);
-
-          _brawl.startTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.startTime, _i);
-          _brawl.endTime = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["addMonth"])(brawl.endTime, _i);
-          allBrawls.push(_brawl);
-        }
-
-      default:
-        allBrawls.push(brawl);
-        break;
-    }
-  });
-  var lastMonth;
-  allBrawls.sort(function (a, b) {
-    return new Date(a.startTime) - new Date(b.startTime);
-  });
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "group-show-events-list"
-  }, allBrawls.map(function (brawl, i) {
-    var thisMonth = Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDateWithMonth"])(brawl.startTime);
-    var diffMonth = thisMonth !== lastMonth;
-    lastMonth = thisMonth;
-    var recurringType = brawl.recurringType;
-    var recurring = recurringType === "None" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "One Time Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl Occurring ", recurringType);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_item_large__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      recurring: recurring,
-      diffMonth: diffMonth,
-      thisMonth: thisMonth,
-      brawl: brawl,
-      locations: locations,
-      key: i
-    });
-  }));
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (EventIndexList);
-
-/***/ }),
-
 /***/ "./frontend/components/groups/group_show/group_options_dropdown.jsx":
 /*!**************************************************************************!*\
   !*** ./frontend/components/groups/group_show/group_options_dropdown.jsx ***!
@@ -6945,7 +6840,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _event_index_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event_index_list */ "./frontend/components/groups/group_show/event_index_list.jsx");
+/* harmony import */ var _events_event_index_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index_list */ "./frontend/components/events/event_index_list.jsx");
 
 
 
@@ -6962,7 +6857,7 @@ function GroupShowEvents(props) {
   }, currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/events/new/".concat(groupId, "/"),
     className: "group-show-create-event-button"
-  }, "Create a Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Create a Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
     events: events,
     locations: locations
   })));
