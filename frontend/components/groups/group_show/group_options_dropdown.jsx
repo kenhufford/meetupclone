@@ -43,7 +43,7 @@ class GroupOptionsDropdown extends React.Component{
 
     handleJoin(){
         if (!this.props.currentUser){
-            document.location.href = '#/login'
+            document.location.href = '#/login';
         } else {
             this.props.createMembership(this.props.groupId);
             this.setState({
@@ -94,24 +94,31 @@ class GroupOptionsDropdown extends React.Component{
         let dropdownTitle; 
         if (currentUserMember && currentUserCaptain){
             dropdownTitle = (
-                <div className="create-group-card-dropdown-header-title-div">
-                    <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
-                    You're a Squad Captain</div>
-                    {listOpen ? <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
+                <div className="create-group-card-dropdown-header-title-div"
+                    onClick={this.toggleList}>
+                    <div className="create-group-card-dropdown-header-title">
+                        You're a Squad Captain
+                    </div>
+                    {listOpen ? 
+                    <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
                 </div>)
         } else if (currentUserMember){
             dropdownTitle = (
-                <div className="create-group-card-dropdown-header-title-div">
-                    <div className="create-group-card-dropdown-header-title" onClick={this.toggleList}>
-                    You're a member</div>
-                    {listOpen ? <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
+                <div className="create-group-card-dropdown-header-title-div"
+                    onClick={this.toggleList}>
+                    <div className="create-group-card-dropdown-header-title">
+                        You're a member
+                    </div>
+                    {listOpen ? 
+                    <i className="fas fa-caret-down dropdown-caret-up"></i> : <i className="fas fa-caret-down dropdown-caret-down"></i>}
                 </div>)
 
         } else {
             dropdownTitle = (
-                <div className="create-group-card-dropdown-header-title-div">
-                    <div className="create-group-card-dropdown-header-title" onClick={this.handleJoin}>
-                    Join Squad
+                <div className="create-group-card-dropdown-header-title-div"
+                    onClick={this.handleJoin}>
+                    <div className="create-group-card-dropdown-header-title">
+                        Join Squad
                     </div>
                 </div>)
         }
@@ -132,10 +139,7 @@ class GroupOptionsDropdown extends React.Component{
         return(
             
             <div className="create-group-card-dropdown">
-                <div className="create-group-card-dropdown-header" 
-                    onClick={() => this.toggleList()} >
-                    {dropdownTitle}
-                </div>
+                {dropdownTitle}
                 {listOpen && 
                 <ul  className="create-group-card-dropdown-header-list">
                     {dropdownOption1}

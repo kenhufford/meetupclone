@@ -5,8 +5,7 @@ function GroupShowMembersLeft(props){
     return (
         <div className="group-show-members-left">
             <div className="group-show-members-left-tab" 
-                onClick={()=>switchPage("All members")}
-                >
+                onClick={()=>switchPage("All members")}>
                 <p className={currentPage === "All members" ? "group-show-members-selected" : "group-show-members-notselected"}>
                     All Members</p>
                 <p className="group-show-members-length"> 
@@ -14,8 +13,7 @@ function GroupShowMembersLeft(props){
                 </p>
             </div>
             <div className="group-show-members-left-tab" 
-                onClick={()=>switchPage("Leadership team")}
-                >
+                onClick={()=>switchPage("Leadership team")}>
                 <p className={currentPage !== "All members" ? "group-show-members-selected" : "group-show-members-notselected"}>
                     Leadership
                 </p>
