@@ -334,7 +334,7 @@ end
     rapper_image_url, division_image_url]
 
     max_attendance = [100, 20, 5]
-    recurring_type = ["Weekly", "Monthly", "None"]
+    recurring_type = ["Weekly", "Monthly"]
 
     
     event_titles.each_with_index do |event_group_titles, i|
