@@ -1,8 +1,9 @@
 import React from 'react';
-import GroupShowAbout from './group_show_about'
-import GroupShowMembers from './group_show_members'
-import GroupShowEvents from './group_show_events'
-import GroupShowInfo from './group_show_info'
+import GroupShowAbout from './group_show_about';
+import GroupShowMembers from './group_show_members';
+import GroupShowEvents from './group_show_events';
+import GroupShowInfo from './group_show_info';
+import GroupShowStripe from './group_show_stripe';
 import GroupOptionsDropdown from './group_options_dropdown';
 import { withRouter } from "react-router";
 
@@ -32,7 +33,7 @@ class GroupShow extends React.Component{
         const fetchMemberships = this.props.fetchMemberships(groupId);
         const fetchGroup = this.props.fetchGroup(groupId);  
         Promise.all([fetchLocations, fetchEventsFromGroup, fetchLocations, fetchUsersFromGroup, fetchMemberships, fetchGroup])
-        .then( () => this.setState({loaded:true}))
+            .then( () => this.setState({loaded:true}))
     }
 
     switchPage(page){
@@ -44,36 +45,34 @@ class GroupShow extends React.Component{
 
     render(){
         if (this.state.loaded){
-            let {group, locations, events, users, memberships, session, currentUser} = this.props
-            let currentUserCaptain;
+            let {group, locations, events, users, memberships, session, currentUser} = this.props;
+            let {currentPage} = this.state;
             let currentUserMember = false;
+            let currentUserCaptain;
             let captainIds = [];
             let leaderIds = [];
             let memberIds = [];
+            let currentTab;
             memberships.groupMemberships.map(membership => {
                 memberIds.push(membership.userId)
                 if (membership.memberType==="Captain") {
                     captainIds.push(membership.userId)
                     leaderIds.push(membership.userId)
                 } else if(membership.memberType==="Squad Leader"){
-                    leaderIds.push(membership.userId)
+                    leaderIds.push(membership.userId);
                 }
                 if (membership.userId===session.id){
-                    currentUserMember = true
+                    currentUserMember = true;
                 }
             })
-            
             if (users[captainIds[0]]===undefined) return null
             let captainsNum = captainIds.length===1 ? ` ` : ` and ${captainIds.length-1} others` 
-            
             if (typeof this.props.session === "undefined"){
-                currentUserCaptain = false    
+                currentUserCaptain = false;
             } else {
-                currentUserCaptain = captainIds.includes(this.props.session.id)
+                currentUserCaptain = captainIds.includes(this.props.session.id);
             }
             
-            let currentTab;
-            let eventsArray = Object.values(events)
             switch (this.state.currentPage) {
                     case "about":
                         currentTab = (<GroupShowAbout 
@@ -96,7 +95,7 @@ class GroupShow extends React.Component{
                     case "events":
                         currentTab = <GroupShowEvents 
                                         currentUserCaptain={currentUserCaptain} 
-                                        events={eventsArray} 
+                                        events={events} 
                                         group={group} 
                                         locations={locations}
                                         groupId={group.id}/>
@@ -113,30 +112,21 @@ class GroupShow extends React.Component{
                                     totalMembers={memberIds.length}
                                 />
             return(
-                <div>
-                    <div className="group-show-div">
-                        <GroupShowInfo 
-                            locations={locations}
-                            group={group}
-                            memberIds={memberIds}
-                            users={users}
-                            captainIds={captainIds}
-                            captainsNum={captainsNum} 
-                            switchPage={this.switchPage}/>
-                        <div className="group-show-stripe">
-                            <div className="group-show-stripe-left">
-                                <li className={this.state.currentPage === "about" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item" }
-                                    onClick={this.switchPage('about')}>About</li>
-                                <li className={this.state.currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item" }
-                                    onClick={this.switchPage('events')}>Brawls</li>
-                                <li className={this.state.currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item" }
-                                    onClick={this.switchPage('members')}>Members</li>
-                            {groupDropdown}
-                            </div>
-                        </div>
-                        {currentTab}
-                    </div>
-            </div> 
+                <div className="group-show-div">
+                    <GroupShowInfo 
+                        locations={locations}
+                        group={group}
+                        memberIds={memberIds}
+                        users={users}
+                        captainIds={captainIds}
+                        captainsNum={captainsNum} 
+                        switchPage={this.switchPage}/>
+                    <GroupShowStripe
+                        currentPage={currentPage}
+                        groupDropdown={groupDropdown}
+                        switchPage={this.switchPage} />
+                    {currentTab}
+                </div>
             )
         } else {    
             return (<div></div>)

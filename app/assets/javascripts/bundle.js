@@ -6400,8 +6400,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _group_show_members__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_show_members */ "./frontend/components/groups/group_show/group_show_members.jsx");
 /* harmony import */ var _group_show_events__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group_show_events */ "./frontend/components/groups/group_show/group_show_events.jsx");
 /* harmony import */ var _group_show_info__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group_show_info */ "./frontend/components/groups/group_show/group_show_info.jsx");
-/* harmony import */ var _group_options_dropdown__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./group_options_dropdown */ "./frontend/components/groups/group_show/group_options_dropdown.jsx");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _group_show_stripe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./group_show_stripe */ "./frontend/components/groups/group_show/group_show_stripe.jsx");
+/* harmony import */ var _group_options_dropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./group_options_dropdown */ "./frontend/components/groups/group_show/group_options_dropdown.jsx");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6427,7 +6428,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var GroupOptionsDropdownWithRouter = Object(react_router__WEBPACK_IMPORTED_MODULE_6__["withRouter"])(_group_options_dropdown__WEBPACK_IMPORTED_MODULE_5__["default"]);
+
+var GroupOptionsDropdownWithRouter = Object(react_router__WEBPACK_IMPORTED_MODULE_7__["withRouter"])(_group_options_dropdown__WEBPACK_IMPORTED_MODULE_6__["default"]);
 
 var GroupShow =
 /*#__PURE__*/
@@ -6495,11 +6497,13 @@ function (_React$Component) {
             memberships = _this$props.memberships,
             session = _this$props.session,
             currentUser = _this$props.currentUser;
-        var currentUserCaptain;
+        var currentPage = this.state.currentPage;
         var currentUserMember = false;
+        var currentUserCaptain;
         var captainIds = [];
         var leaderIds = [];
         var memberIds = [];
+        var currentTab;
         memberships.groupMemberships.map(function (membership) {
           memberIds.push(membership.userId);
 
@@ -6522,9 +6526,6 @@ function (_React$Component) {
         } else {
           currentUserCaptain = captainIds.includes(this.props.session.id);
         }
-
-        var currentTab;
-        var eventsArray = Object.values(events);
 
         switch (this.state.currentPage) {
           case "about":
@@ -6552,7 +6553,7 @@ function (_React$Component) {
           case "events":
             currentTab = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_events__WEBPACK_IMPORTED_MODULE_3__["default"], {
               currentUserCaptain: currentUserCaptain,
-              events: eventsArray,
+              events: events,
               group: group,
               locations: locations,
               groupId: group.id
@@ -6570,7 +6571,7 @@ function (_React$Component) {
           currentUser: currentUser,
           totalMembers: memberIds.length
         });
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "group-show-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_info__WEBPACK_IMPORTED_MODULE_4__["default"], {
           locations: locations,
@@ -6580,20 +6581,11 @@ function (_React$Component) {
           captainIds: captainIds,
           captainsNum: captainsNum,
           switchPage: this.switchPage
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-stripe"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-stripe-left"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: this.state.currentPage === "about" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
-          onClick: this.switchPage('about')
-        }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: this.state.currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
-          onClick: this.switchPage('events')
-        }, "Brawls"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: this.state.currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
-          onClick: this.switchPage('members')
-        }, "Members"), groupDropdown)), currentTab));
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_stripe__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          currentPage: currentPage,
+          groupDropdown: groupDropdown,
+          switchPage: this.switchPage
+        }), currentTab);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -6643,10 +6635,10 @@ var GroupShowAbout =
 function (_React$Component) {
   _inherits(GroupShowAbout, _React$Component);
 
-  function GroupShowAbout(props) {
+  function GroupShowAbout() {
     _classCallCheck(this, GroupShowAbout);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(GroupShowAbout).call(this, props));
+    return _possibleConstructorReturn(this, _getPrototypeOf(GroupShowAbout).apply(this, arguments));
   }
 
   _createClass(GroupShowAbout, [{
@@ -6864,7 +6856,7 @@ function (_React$Component) {
           currentUserCaptain = _this$props.currentUserCaptain,
           groupId = _this$props.groupId;
       var allBrawls = [];
-      events.map(function (brawl) {
+      Object.values(events).map(function (brawl) {
         switch (brawl.recurringType) {
           case "Weekly":
             for (var i = 1; i < 8; i++) {
@@ -7196,23 +7188,7 @@ function (_React$Component) {
       }));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-members-left"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-members-left-tab",
-        onClick: this.switchPage("All members")
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: this.state.currentPage === "All members" ? "group-show-members-selected" : "group-show-members-notselected"
-      }, "All Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "group-show-members-length"
-      }, " ", this.props.memberships.length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "group-show-members-left-tab",
-        onClick: this.switchPage("Leadership team")
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: this.state.currentPage !== "All members" ? "group-show-members-selected" : "group-show-members-notselected"
-      }, "Leadership"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "group-show-members-length"
-      }, this.props.leaderIds.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(GroupShowMembersLeft, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-members-right-header"
@@ -7232,6 +7208,79 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupShowMembers);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_show/group_show_stripe.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/groups/group_show/group_show_stripe.jsx ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var GroupShowStripe =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(GroupShowStripe, _React$Component);
+
+  function GroupShowStripe() {
+    _classCallCheck(this, GroupShowStripe);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(GroupShowStripe).apply(this, arguments));
+  }
+
+  _createClass(GroupShowStripe, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          currentPage = _this$props.currentPage,
+          switchPage = _this$props.switchPage,
+          groupDropdown = _this$props.groupDropdown;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-stripe"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "group-show-stripe-left"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: currentPage === "about" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
+        onClick: switchPage('about')
+      }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
+        onClick: switchPage('events')
+      }, "Brawls"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
+        onClick: switchPage('members')
+      }, "Members"), groupDropdown));
+    }
+  }]);
+
+  return GroupShowStripe;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupShowStripe);
 
 /***/ }),
 

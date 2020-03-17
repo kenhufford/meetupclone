@@ -20,7 +20,7 @@ class GroupShowEvents extends React.Component{
     render(){
         let { events, locations, currentUserCaptain, groupId} = this.props;
         let allBrawls = []
-        events.map( brawl => {
+        Object.values(events).map( brawl => {
             switch (brawl.recurringType) {
                 case "Weekly":
                     for(let i = 1; i < 8; i++){
