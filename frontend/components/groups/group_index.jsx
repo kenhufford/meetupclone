@@ -1,69 +1,48 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import GroupIndexList from './group_index_list';
+import useFetches from '../hooks/use_fetches';
+import useFetchesSetData from '../hooks/use_fetches_set_data';
 import {Link} from 'react-router-dom';
 
-class GroupIndex extends React.Component{
-    constructor(props){
-        super(props)
-        this.state={
-            loaded: false,
-            userGroups: {}
-        }
-    }
+function GroupIndex(props){
+    let [loaded1, setLoaded1] = useState(false);
+    let [loaded2, setLoaded2] = useState(false);
+    let [userGroups, setUserGroups] = useState([]);
+    useFetches(setLoaded1, props.fetchGroups);
+    useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
 
-    componentDidMount(){
-        if (this.props.currentUserId !== undefined){
-            const fetchGroups = this.props.fetchGroups();
-            const fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUserId);
-            Promise.all([fetchGroups, fetchGroupsFromUser])
-                .then((data) => {
-                    let userGroups = data[1].groups;
-                    this.setState({ loaded: true, userGroups });
-                })
-        } else {
-            const fetchGroups = this.props.fetchGroups();
-            Promise.all([fetchGroups])
-                .then(() => {
-                    this.setState({ loaded: true });
-            })
-        }
-    }
-
-    render(){
-        if(this.state.loaded){
-            let userGroups = Object.values(this.state.userGroups);
-            let suggestedGroups = Object.values(this.props.groups);
-            let yourTitle = !userGroups.length ?
-             (<Link 
+    if(loaded1&&loaded2){
+        let suggestedGroups = Object.values(props.groups);
+        let yourTitle = !userGroups.length ?
+            (<Link 
                 className="index-div-titles"
                 to={'/login'}>
                 Join a squad
             </Link>) : 
-            (<p className="index-div-titles">
+            (<p 
+                className="index-div-titles">
                 Your Squads
             </p>)
-            return(
-                <div className="component-index">
-                    <div className="landing-main-groups">
-                        {yourTitle}
-                        <GroupIndexList 
-                            groups={userGroups}/>
-                    </div>
-                    <div className="landing-main-groups">
-                        <p className="index-div-titles">
-                            All Squads
-                        </p>
-                        <GroupIndexList
-                            groups={suggestedGroups}/>
-                    </div>
+        return(
+            <div className="component-index">
+                <div className="landing-main-groups">
+                    {yourTitle}
+                    <GroupIndexList 
+                        groups={userGroups}/>
                 </div>
-                
-            )
-        } else {
-            return (<div></div>)
-        }
-    }
-        
+                <div className="landing-main-groups">
+                    <p className="index-div-titles">
+                        All Squads
+                    </p>
+                    <GroupIndexList
+                        groups={suggestedGroups}/>
+                </div>
+            </div>
+            
+        )
+    } else {
+        return (<div></div>)
+    }   
 }
 
 export default GroupIndex

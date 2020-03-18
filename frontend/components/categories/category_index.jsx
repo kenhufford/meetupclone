@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import CategoryIndexItem from './category_index_item';
+import useFetches from '../hooks/use_fetches';
 
 function CategoryIndex(props){
     let [loaded, setLoaded] = useState(false);
-    useEffect(() => {
-        const fetchCategories = props.fetchCategories()
-        Promise.all([fetchCategories])
-            .then( () => setLoaded(true))
-    })
+    useFetches(setLoaded, props.fetchCategories);
     if(loaded){
         let {categories} = props
         return (
