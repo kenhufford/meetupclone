@@ -221,6 +221,7 @@
    display: flex;
    flex-direction: row;
    justify-content: space-between;
+   
  }
 
  .landing-banner-left{
@@ -232,7 +233,7 @@
     font-size: 44px;
     font-weight: 700;
    font-style: italic;
-   color: rgba(255, 53, 12, 0.8);
+   color: rgba(255, 12, 55,0.8);
    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
  }
 
@@ -294,14 +295,25 @@
 .landing-main{
    margin-top: 30px;
    display: flex;
+   align-items: center;
+   flex-direction: column;
    margin: 0 auto;
    width:100%;
-   flex-direction: column;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
    height: 100%;
    min-height: auto;
+
+}
+
+.landing-main-groups{
+   display: flex;
    align-items: center;
+   flex-direction: column;
+   background-color: rgb(249, 249, 249);
+   margin: 20px 0px;
+   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 8px;
+   border-radius: 16px;
 }
 
 .landing-location-dropdown{
@@ -316,6 +328,7 @@
 .landing-location-h4{
    color: rgb(43, 43, 43);
     font-size: 22px;
+    font-weight:500;
     text-shadow: 1px 1px lightgrey;
     padding: 10px;
 }
@@ -566,7 +579,7 @@
 
 .index-switch-selected{
    width: 90px;
-   background-color: #ff350c;
+   background-color: rgb(255, 12, 55);
    padding: 10px;
    border: 1px lightgray solid;
    border-radius: 8px;
@@ -575,7 +588,7 @@
 }
 
 .index-switch-selected:hover{
-   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
+   box-shadow: 0 0 5px rgba(175, 0, 0, 0.2);
    transform: translateY(-1px);
 }
 
@@ -627,7 +640,7 @@
 .index-div-titles{
    font-size: 24px;
    font-weight: 700;
-   color: rgba(255, 53, 12, 0.8);
+   color: rgba(255, 12, 55,0.8);
    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
    margin-left: 40px;
    text-decoration: none;
@@ -637,7 +650,7 @@
    margin-bottom: 10px;
    font-size: 24px;
    font-weight: 700;
-   color: rgba(255, 53, 12, 0.8);
+   color: rgba(255, 12, 55,0.8);
    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
 }
 
@@ -848,7 +861,7 @@ color: #404040;
    font-size: 36px;
    font-weight: 500;
    cursor: pointer;
-   color: rgba(255, 53, 12, 0.8);
+   color: rgba(255, 12, 55,0.8);
    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
 }
 
@@ -862,7 +875,7 @@ color: #404040;
     padding: 8px 8px;
     cursor: pointer;
     font-size: 22px;
-    color: #ff350c;
+    color: rgba(255, 12, 55,0.8);
     font-weight: 500;
    transition: color 300ms ease;
    -webkit-transition: color 300ms ease;
@@ -886,8 +899,8 @@ color: #404040;
    padding-top: 10px;
    padding-bottom: 10px;
    z-index: 5;
-   border-bottom: 1px rgb(206, 124, 124) solid;
-   border-top: 1px rgb(206, 124, 124) solid;
+   border-bottom: 1px rgb(255, 12, 55) solid;
+   border-top: 1px rgb(255, 12, 55) solid;
 }
 
 .group-show-stripe-left{
@@ -914,7 +927,7 @@ color: #404040;
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    color: rgba(255, 53, 12, 0.8);
+    color: rgba(255, 12, 55,0.8);
     text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white
 }
 
@@ -924,7 +937,7 @@ color: #404040;
    font-size: 22px;
     font-weight: 500;
     cursor: pointer;
-    color: rgba(255, 53, 12, 0.8);
+    color: rgba(255, 12, 55,0.8);
     text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
 }
 
@@ -1059,7 +1072,7 @@ color: #404040;
    padding: 8px 8px;
    cursor: pointer;
    font-size: 22px;
-   color: #ff350c;
+   color: rgba(255, 12, 55,0.8);
    font-weight: 500;
    transition: color 300ms ease;
    -webkit-transition: color 300ms ease;
@@ -1552,7 +1565,7 @@ color: #404040;
 .create-group-card-selected{
     font-size: 36px;
     padding-right: 15px;
-    color: rgba(255, 53, 12, 0.8);
+    color: rgba(255, 12, 55,0.8);
     text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
 }
 
@@ -1594,10 +1607,10 @@ color: #404040;
 
 
 .create-group-card-dropdown-header-title{
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 500;
     cursor: pointer;
-    color: rgba(255, 53, 12, 0.8);
+    color: rgba(255, 12, 55,0.8);
     text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white
 }
 
@@ -2042,11 +2055,17 @@ color: #404040;
 }
 
 .event-show-main-right-groupinfo p{
-padding-left: 15px;
+   padding-left: 15px;
     line-height: 25px;
     color: #ff350c;
     font-size: 18px;
     font-weight: 700;
+   transition: color 300ms ease;
+   -webkit-transition: color 300ms ease;
+}
+
+.event-show-main-right-groupinfo p:hover{
+   color:black;
 }
 
 .event-show-main-right-eventinfo{
@@ -2081,10 +2100,16 @@ padding-left: 15px;
     line-height: 25px;
     color: #ff350c;
     font-size: 18px;
+    font-weight: 700;
     cursor: pointer;
     text-decoration: none;
+   transition: color 300ms ease;
+    -webkit-transition: color 300ms ease;
 }
 
+.event-show-main-right-infobox a:hover{
+   color:black;
+}
 
 .event-show-join{
    font-size: 20px;
@@ -2117,7 +2142,7 @@ padding-left: 15px;
 .group-show-create-event-button{
     font-size: 28px;
     font-weight: 500;
-    color: rgba(255, 53, 12, 0.8);
+    color: rgba(255, 12, 55,0.8);
     text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
     text-decoration: none;
     cursor:pointer;

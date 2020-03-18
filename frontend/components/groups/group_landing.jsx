@@ -69,19 +69,32 @@ class GroupLanding extends React.Component{
                         </div>
                     </div>
                     <div className="landing-main">
-                        <div className="landing-location-dropdown">
-                            <div className="landing-location-h4">
-                                Squads in {selectedLocation}
+                        <div className="landing-main-groups">
+                            <div className="landing-location-dropdown">
+                                <div className="landing-location-h4">
+                                    Squads in {selectedLocation}
+                                </div>
+                                <CreateGroupFormDropdown
+                                    location={selectedLocation}
+                                    list={locations}
+                                    toggleLocation={this.toggleSelected} />
                             </div>
-                            <CreateGroupFormDropdown 
-                                location={selectedLocation} 
-                                list={locations} 
-                                toggleLocation={this.toggleSelected} />
+                            <GroupIndexList
+                                groups={nearbyGroups} />
                         </div>
-                        <GroupIndexList groups={nearbyGroups}/>
-                        <div className="landing-location-h4">Events in {selectedLocation}</div>
-                        <EventIndexListShort 
-                            events={nearbyEvents} />
+                        <div className="landing-main-groups">
+                            <div className="landing-location-dropdown">
+                                <div className="landing-location-h4">
+                                    Events in {selectedLocation}
+                                </div>
+                                <CreateGroupFormDropdown
+                                    location={selectedLocation}
+                                    list={locations}
+                                    toggleLocation={this.toggleSelected} />
+                            </div>
+                            <EventIndexListShort
+                                events={nearbyEvents} />
+                        </div>
                     </div>
                 </div>
             )

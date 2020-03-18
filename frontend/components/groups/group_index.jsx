@@ -44,14 +44,18 @@ class GroupIndex extends React.Component{
             </p>)
             return(
                 <div className="component-index">
-                    {yourTitle}
-                    <GroupIndexList 
-                        groups={userGroups}
-                        />
-                    <p className="index-div-titles">All Squads</p>
-                    <GroupIndexList
-                        groups={suggestedGroups}
-                    />
+                    <div className="landing-main-groups">
+                        {yourTitle}
+                        <GroupIndexList 
+                            groups={userGroups}/>
+                    </div>
+                    <div className="landing-main-groups">
+                        <p className="index-div-titles">
+                            All Squads
+                        </p>
+                        <GroupIndexList
+                            groups={suggestedGroups}/>
+                    </div>
                 </div>
                 
             )

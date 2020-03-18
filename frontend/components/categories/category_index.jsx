@@ -29,7 +29,7 @@ class EventIndex extends React.Component{
             )
             
             return (
-                    <div className="index-div">
+                    <div className="landing-main-groups">
                         {allFightingStyles}
                     </div>
             )
