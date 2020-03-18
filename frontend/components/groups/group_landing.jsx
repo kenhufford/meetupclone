@@ -1,6 +1,6 @@
 import React from 'react';
 import GroupIndexList from './group_index_list';
-import EventIndexList from '../events/event_index_list';
+import EventIndexListShort from '../events/event_index_list_short';
 import SearchBar from '../../components/searchbar/search_bar';
 import CreateGroupFormDropdown from '../../components/groups/create_group_form_dropdown';
 
@@ -80,7 +80,8 @@ class GroupLanding extends React.Component{
                         </div>
                         <GroupIndexList groups={nearbyGroups}/>
                         <div className="landing-location-h4">Events in {selectedLocation}</div>
-                        <EventIndexList events={nearbyEvents} />
+                        <EventIndexListShort 
+                            events={nearbyEvents} />
                     </div>
                 </div>
             )
