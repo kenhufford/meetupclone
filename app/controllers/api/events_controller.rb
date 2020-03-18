@@ -11,6 +11,11 @@ class Api::EventsController < ApplicationController
     else
       @events = Event.all
     end
+    if current_user
+      @user_events = current_user.events
+    else
+      @user_events = []
+    end    
       render "api/events/index"
   end
 

@@ -9,7 +9,13 @@ function GroupIndex(props){
     let [loaded2, setLoaded2] = useState(false);
     let [userGroups, setUserGroups] = useState([]);
     useFetches(setLoaded1, props.fetchGroups);
-    useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
+    if(props.currentUserId){
+        useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
+    } else if (!loaded2){
+        setLoaded2(true);
+        setUserGroups([]);
+    }
+    
 
     if(loaded1&&loaded2){
         let suggestedGroups = Object.values(props.groups);

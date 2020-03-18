@@ -4078,108 +4078,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _event_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_list */ "./frontend/components/events/event_index_list.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var EventIndex =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(EventIndex, _React$Component);
 
-  function EventIndex(props) {
-    var _this;
+function EventIndex(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loaded = _useState2[0],
+      setLoaded = _useState2[1];
 
-    _classCallCheck(this, EventIndex);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, props.fetchEvents, props.fetchLocations);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EventIndex).call(this, props));
-    _this.state = {
-      loaded: false,
-      userBrawls: []
-    };
-    _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
-    return _this;
+  if (loaded) {
+    var locations = props.locations,
+        events = props.events;
+    var userEvents = events.userEvents,
+        allEvents = events.allEvents;
+    userEvents = userEvents === undefined ? [] : userEvents;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "index-div"
+    }, userEvents.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "index-div-titles-mid"
+    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "index-div-titles-mid"
+    }, "YOUR BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "group-show-events-main"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      events: userEvents,
+      locations: locations
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "index-div-titles-mid"
+    }, "UPCOMING BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      events: allEvents,
+      locations: locations
+    })));
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-
-  _createClass(EventIndex, [{
-    key: "handleSignup",
-    value: function handleSignup() {
-      if (this.props.currentUserId === "") {
-        document.location.href = '#/signup';
-      } else {
-        return null;
-      }
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      var fetchEvents = this.props.fetchEvents();
-      var fetchLocations = this.props.fetchLocations();
-      var fetchReservations = this.props.fetchReservations(0);
-      Promise.all([fetchEvents, fetchReservations, fetchLocations]).then(function (data) {
-        var events = data[0].events;
-        var userBrawls = data[1].reservations.userReservations.map(function (reservation) {
-          return events[reservation.eventId];
-        });
-
-        _this2.setState({
-          loaded: true,
-          userBrawls: userBrawls
-        });
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.loaded) {
-        var _this$props = this.props,
-            locations = _this$props.locations,
-            events = _this$props.events;
-        var userBrawls = this.state.userBrawls;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "index-div"
-        }, userBrawls.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "index-div-titles-mid"
-        }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "index-div-titles-mid"
-        }, "YOUR BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "group-show-events-main"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          events: userBrawls,
-          locations: locations
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "index-div-titles-mid"
-        }, "UPCOMING BRAWLS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          events: events,
-          locations: locations
-        })));
-      } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-      }
-    }
-  }]);
-
-  return EventIndex;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (EventIndex);
 
@@ -5620,7 +5566,13 @@ function GroupIndex(props) {
       setUserGroups = _useState6[1];
 
   Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded1, props.fetchGroups);
-  Object(_hooks_use_fetches_set_data__WEBPACK_IMPORTED_MODULE_3__["default"])(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
+
+  if (props.currentUserId) {
+    Object(_hooks_use_fetches_set_data__WEBPACK_IMPORTED_MODULE_3__["default"])(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
+  } else if (!loaded2) {
+    setLoaded2(true);
+    setUserGroups([]);
+  }
 
   if (loaded1 && loaded2) {
     var suggestedGroups = Object.values(props.groups);
@@ -6781,6 +6733,7 @@ function GroupShowEvents(props) {
       locations = props.locations,
       currentUserCaptain = props.currentUserCaptain,
       groupId = props.groupId;
+  var allEvents = events.allEvents;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "group-show-events"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6789,7 +6742,7 @@ function GroupShowEvents(props) {
     to: "/events/new/".concat(groupId, "/"),
     className: "group-show-create-event-button"
   }, "Create a Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    events: events,
+    events: allEvents,
     locations: locations
   })));
 }

@@ -4,6 +4,7 @@ import EventIndexList from '../../events/event_index_list';
 
 function GroupShowEvents(props){
     let { events, locations, currentUserCaptain, groupId } = props;
+    let {allEvents} = events;
     return (
         <div className="group-show-events">
             <div className="group-show-events-main">
@@ -13,12 +14,11 @@ function GroupShowEvents(props){
                     Create a Brawl
                 </Link>) : <div></div>}
                 <EventIndexList
-                    events={events}
+                    events={allEvents}
                     locations={locations}
                     />
             </div>
         </div>
-
     )
 }
 
