@@ -995,85 +995,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _category_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./category_index_item */ "./frontend/components/categories/category_index_item.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
+function CategoryIndex(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loaded = _useState2[0],
+      setLoaded = _useState2[1];
 
-var EventIndex =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(EventIndex, _React$Component);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var fetchCategories = props.fetchCategories();
+    Promise.all([fetchCategories]).then(function () {
+      return setLoaded(true);
+    });
+  });
 
-  function EventIndex(props) {
-    var _this;
-
-    _classCallCheck(this, EventIndex);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EventIndex).call(this, props));
-    _this.state = {
-      loaded: false
-    };
-    _this.componentDidMount = _this.componentDidMount.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(EventIndex, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      var fetchCategories = this.props.fetchCategories();
-      Promise.all([fetchCategories]).then(function () {
-        return _this2.setState({
-          loaded: true
-        });
+  if (loaded) {
+    var categories = props.categories;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "landing-main-groups"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "groups-div"
+    }, Object.values(categories).map(function (category) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_category_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        key: category.id,
+        category: category
       });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.loaded) {
-        var categories = this.props.categories;
-        var allFightingStyles = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "groups-div"
-        }, Object.values(categories).map(function (category) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_category_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            key: category.id,
-            category: category
-          });
-        }));
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "landing-main-groups"
-        }, allFightingStyles);
-      } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-      }
-    }
-  }]);
+    })));
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+  }
+}
 
-  return EventIndex;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (EventIndex);
+/* harmony default export */ __webpack_exports__["default"] = (CategoryIndex);
 
 /***/ }),
 
