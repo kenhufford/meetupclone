@@ -21,10 +21,10 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        const fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUser.id);
-        Promise.all([fetchGroupsFromUser])
+        const fetchGroups = this.props.fetchGroups();
+        Promise.all([fetchGroups])
             .then( (data) => {
-                let groups = data[0].groups;
+                let groups = data[0].groups.userGroups;
                 let groupId = Object.values(groups)[0].id;
                 let fetchGroupChannels = this.props.fetchGroupChannels(groupId);
                 let fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
@@ -106,7 +106,7 @@ class Chat extends React.Component {
                                 selectGroup={this.selectGroup}/>
                             <ChatChannelIndexContainer 
                                 groupId={this.state.selectedGroupId}
-                                groupName={this.props.groups[this.state.selectedGroupId].name}
+                                groupName={this.props.groups.allGroups[this.state.selectedGroupId].name}
                                 selectedChannel={this.state.selectedChannel}
                                 groupUsers={this.state.groupUsers}
                                 selectChannel={this.selectChannel}

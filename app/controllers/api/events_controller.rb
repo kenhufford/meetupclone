@@ -11,6 +11,7 @@ class Api::EventsController < ApplicationController
     else
       @events = Event.all
     end
+    
     if current_user
       @user_events = current_user.events
     else
@@ -71,6 +72,7 @@ class Api::EventsController < ApplicationController
     @query = params[:search_query];
     if @query.length > 0;
         @events = filtered_list(@query)
+        @user_events = []
         if (@events.length == 0)
             render json: ["No event found"], status: 404
         else

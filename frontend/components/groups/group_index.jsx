@@ -6,19 +6,20 @@ import {Link} from 'react-router-dom';
 
 function GroupIndex(props){
     let [loaded1, setLoaded1] = useState(false);
-    let [loaded2, setLoaded2] = useState(false);
+    // let [loaded2, setLoaded2] = useState(false);
     let [userGroups, setUserGroups] = useState([]);
     useFetches(setLoaded1, props.fetchGroups);
-    if(props.currentUserId){
-        useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
-    } else if (!loaded2){
-        setLoaded2(true);
-        setUserGroups([]);
-    }
+    // if(props.currentUserId){
+    //     useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
+    // } else if (!loaded2){
+    //     setLoaded2(true);
+    //     setUserGroups([]);
+    // }
     
 
-    if(loaded1&&loaded2){
-        let suggestedGroups = Object.values(props.groups);
+    if(loaded1){
+        let allGroups = Object.values(props.groups.allGroups);
+        let userGroups = Object.values(props.groups.userGroups);
         let yourTitle = !userGroups.length ?
             (<Link 
                 className="index-div-titles"
@@ -41,7 +42,7 @@ function GroupIndex(props){
                         All Squads
                     </p>
                     <GroupIndexList
-                        groups={suggestedGroups}/>
+                        groups={allGroups}/>
                 </div>
             </div>
             

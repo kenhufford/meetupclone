@@ -3,7 +3,7 @@ import React from "react";
 
 class ChatGroupIndex extends React.Component {
     render() {
-        let groups = Object.values(this.props.groups);
+        let groups = Object.values(this.props.groups.userGroups);
         let groupsList;
         if (groups.length !== 0){
             groupsList = groups.map((group) =>

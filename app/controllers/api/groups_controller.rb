@@ -11,6 +11,13 @@ class Api::GroupsController < ApplicationController
         else
             @groups = Group.all.includes(:memberships, :members)
         end
+
+        if current_user
+            @user_groups = current_user.groups
+        else
+            @user_groups = []
+        end
+        
         if @groups
             render "api/groups/index"
         else
@@ -71,6 +78,7 @@ class Api::GroupsController < ApplicationController
         @query = params[:search_query];
         if @query.length > 0;
             @groups = filtered_list(@query)
+            @user_groups = [];
             if (@groups.length == 0)
                 render json: ["No group found"], status: 404
             else
@@ -88,8 +96,6 @@ class Api::GroupsController < ApplicationController
 
     private
 
-
-    # removed category_ids
     def group_params
         params.require(:group).permit(
         :name, 

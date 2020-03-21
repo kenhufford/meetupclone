@@ -1215,9 +1215,9 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var fetchGroupsFromUser = this.props.fetchGroupsFromUser(this.props.currentUser.id);
-      Promise.all([fetchGroupsFromUser]).then(function (data) {
-        var groups = data[0].groups;
+      var fetchGroups = this.props.fetchGroups();
+      Promise.all([fetchGroups]).then(function (data) {
+        var groups = data[0].groups.userGroups;
         var groupId = Object.values(groups)[0].id;
 
         var fetchGroupChannels = _this2.props.fetchGroupChannels(groupId);
@@ -1312,7 +1312,7 @@ function (_React$Component) {
           selectGroup: this.selectGroup
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_chat_channel_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           groupId: this.state.selectedGroupId,
-          groupName: this.props.groups[this.state.selectedGroupId].name,
+          groupName: this.props.groups.allGroups[this.state.selectedGroupId].name,
           selectedChannel: this.state.selectedChannel,
           groupUsers: this.state.groupUsers,
           selectChannel: this.selectChannel,
@@ -2756,8 +2756,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchGroupsFromUser: function fetchGroupsFromUser(userId) {
-      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_4__["fetchGroupsFromUser"])(userId));
+    fetchGroups: function fetchGroups() {
+      return dispatch(Object(_actions_group_actions__WEBPACK_IMPORTED_MODULE_4__["fetchGroups"])());
     },
     fetchUsersFromGroup: function fetchUsersFromGroup(groupId) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_0__["fetchUsersFromGroup"])(groupId));
@@ -3018,7 +3018,7 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      var groups = Object.values(this.props.groups);
+      var groups = Object.values(this.props.groups.userGroups);
       var groupsList;
 
       if (groups.length !== 0) {
@@ -5553,30 +5553,27 @@ function GroupIndex(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       loaded1 = _useState2[0],
-      setLoaded1 = _useState2[1];
+      setLoaded1 = _useState2[1]; // let [loaded2, setLoaded2] = useState(false);
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState4 = _slicedToArray(_useState3, 2),
-      loaded2 = _useState4[0],
-      setLoaded2 = _useState4[1];
+      userGroups = _useState4[0],
+      setUserGroups = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState6 = _slicedToArray(_useState5, 2),
-      userGroups = _useState6[0],
-      setUserGroups = _useState6[1];
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded1, props.fetchGroups); // if(props.currentUserId){
+  //     useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
+  // } else if (!loaded2){
+  //     setLoaded2(true);
+  //     setUserGroups([]);
+  // }
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded1, props.fetchGroups);
+  if (loaded1) {
+    var allGroups = Object.values(props.groups.allGroups);
 
-  if (props.currentUserId) {
-    Object(_hooks_use_fetches_set_data__WEBPACK_IMPORTED_MODULE_3__["default"])(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
-  } else if (!loaded2) {
-    setLoaded2(true);
-    setUserGroups([]);
-  }
+    var _userGroups = Object.values(props.groups.userGroups);
 
-  if (loaded1 && loaded2) {
-    var suggestedGroups = Object.values(props.groups);
-    var yourTitle = !userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
+    var yourTitle = !_userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
       className: "index-div-titles",
       to: '/login'
     }, "Join a squad") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -5587,13 +5584,13 @@ function GroupIndex(props) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main-groups"
     }, yourTitle, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: userGroups
+      groups: _userGroups
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main-groups"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "index-div-titles"
     }, "All Squads"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: suggestedGroups
+      groups: allGroups
     })));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -5682,7 +5679,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5700,7 +5696,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -5724,9 +5719,6 @@ function (_React$Component) {
         var _this$props$group = this.props.group,
             id = _this$props$group.id,
             name = _this$props$group.name,
-            description = _this$props$group.description,
-            lat = _this$props$group.lat,
-            _long = _this$props$group["long"],
             imageUrl = _this$props$group.imageUrl,
             membershipIds = _this$props$group.membershipIds;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -5892,10 +5884,10 @@ function (_React$Component) {
           locations = _this$props.locations;
 
       if (loaded) {
-        var nearbyGroups = groups.filter(function (group) {
+        var nearbyGroups = Object.values(groups.allGroups).filter(function (group) {
           return group.locationId === selectedLocationId;
         });
-        var nearbyEvents = events.filter(function (event) {
+        var nearbyEvents = Object.values(events.allEvents).filter(function (event) {
           return event.locationId === selectedLocationId;
         });
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5978,9 +5970,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    groups: Object.values(state.entities.groups),
+    groups: state.entities.groups,
     locations: Object.values(state.entities.locations),
-    events: Object.values(state.entities.events),
+    events: state.entities.events,
     currentUser: state.session
   };
 };
@@ -7852,6 +7844,7 @@ function (_React$Component) {
       var fetchCategories = this.props.fetchCategories(result);
 
       var setSearchStateSuccessBoth = function setSearchStateSuccessBoth(payload) {
+        debugger;
         var events = payload[1] === undefined ? [] : Object.values(payload[1].events);
         var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups);
         var newState = Object.assign({}, {
@@ -7866,7 +7859,8 @@ function (_React$Component) {
       };
 
       var setSearchStateSuccessEvents = function setSearchStateSuccessEvents(payload) {
-        var events = payload[0] === undefined ? [] : Object.values(payload[0].events);
+        debugger;
+        var events = payload[0] === undefined ? [] : Object.values(payload[0].events.allEvents);
         var newState = Object.assign(_this2.state, {
           query: "",
           lastQuery: result.toUpperCase(),
@@ -7878,7 +7872,8 @@ function (_React$Component) {
       };
 
       var setSearchStateSuccessGroups = function setSearchStateSuccessGroups(payload) {
-        var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups);
+        debugger;
+        var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups.allGroups);
         var newState = Object.assign(_this2.state, {
           query: "",
           lastQuery: result.toUpperCase(),
@@ -7942,6 +7937,7 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.loaded) {
+        debugger;
         var squadsOnly = this.props.location.search.slice(1).split("%20")[0] !== "category";
         var _this$state = this.state,
             groups = _this$state.groups,
@@ -7967,7 +7963,7 @@ function (_React$Component) {
           className: "groups-div"
         }, groups.map(function (group) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            key: group.id,
+            key: "group".concat(group.id),
             group: group
           });
         })));
@@ -7977,7 +7973,7 @@ function (_React$Component) {
           className: "groups-div"
         }, events.map(function (event) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            key: event.id,
+            key: "event".concat(event.id),
             event: event
           });
         }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);

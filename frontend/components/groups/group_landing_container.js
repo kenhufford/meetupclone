@@ -5,9 +5,9 @@ import {fetchLocations} from '../../actions/location_actions'
 import {fetchEvents} from '../../actions/event_actions'
 
 const mapStateToProps = (state) => ({
-    groups: Object.values(state.entities.groups),
+    groups: state.entities.groups,
     locations: Object.values(state.entities.locations),
-    events: Object.values(state.entities.events),
+    events: state.entities.events,
     currentUser: state.session
 })
 

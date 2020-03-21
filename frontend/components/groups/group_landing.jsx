@@ -50,9 +50,10 @@ class GroupLanding extends React.Component{
     render(){
         let {loaded, selectedLocationId, selectedLocation} = this.state;
         let {groups, events, history, locations} = this.props;
+        
         if (loaded){
-            let nearbyGroups = groups.filter(group => group.locationId === selectedLocationId)
-            let nearbyEvents = events.filter(event => event.locationId === selectedLocationId)
+            let nearbyGroups = Object.values(groups.allGroups).filter(group => group.locationId === selectedLocationId)
+            let nearbyEvents = Object.values(events.allEvents).filter(event => event.locationId === selectedLocationId)
             return(
                 <div className="landing">
                     <div className="landing-banner">
