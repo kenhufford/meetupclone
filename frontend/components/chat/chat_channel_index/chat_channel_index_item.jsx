@@ -31,7 +31,6 @@ class ChatChannelIndexItem extends React.Component{
                 onMouseEnter={() => this.hover(true)}
                 onMouseLeave={() => this.hover(false)}>
                 <div className="chat-channel-index-item-left">
-                    
                     <i className={selected ? "fas fa-circle circle-selected" : "far fa-circle"}></i>
                     <li onClick={(e) => {
                             selectChannel(channel);

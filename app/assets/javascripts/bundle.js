@@ -5533,8 +5533,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index_list.jsx");
 /* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
-/* harmony import */ var _hooks_use_fetches_set_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/use_fetches_set_data */ "./frontend/components/hooks/use_fetches_set_data.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -5548,32 +5547,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 function GroupIndex(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
-      loaded1 = _useState2[0],
-      setLoaded1 = _useState2[1]; // let [loaded2, setLoaded2] = useState(false);
+      loaded = _useState2[0],
+      setLoaded = _useState2[1];
 
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, props.fetchGroups);
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      userGroups = _useState4[0],
-      setUserGroups = _useState4[1];
-
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded1, props.fetchGroups); // if(props.currentUserId){
-  //     useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
-  // } else if (!loaded2){
-  //     setLoaded2(true);
-  //     setUserGroups([]);
-  // }
-
-  if (loaded1) {
+  if (loaded) {
     var allGroups = Object.values(props.groups.allGroups);
-
-    var _userGroups = Object.values(props.groups.userGroups);
-
-    var yourTitle = !_userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
+    var userGroups = Object.values(props.groups.userGroups);
+    var yourTitle = !userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
       className: "index-div-titles",
       to: '/login'
     }, "Join a squad") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -5584,7 +5569,7 @@ function GroupIndex(props) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main-groups"
     }, yourTitle, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: _userGroups
+      groups: userGroups
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main-groups"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -7461,33 +7446,6 @@ function useFetches(setLoaded) {
 
 /***/ }),
 
-/***/ "./frontend/components/hooks/use_fetches_set_data.jsx":
-/*!************************************************************!*\
-  !*** ./frontend/components/hooks/use_fetches_set_data.jsx ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function useFetchesSetData(setLoaded, setter, fetch, type, fetchArg) {
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var fetchFunc = fetch(fetchArg);
-    Promise.all([fetchFunc]).then(function (data) {
-      setter(Object.values(data[0]["".concat(type)]));
-      setLoaded(true);
-    });
-  }, []);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (useFetchesSetData);
-
-/***/ }),
-
 /***/ "./frontend/components/index.jsx":
 /*!***************************************!*\
   !*** ./frontend/components/index.jsx ***!
@@ -7844,7 +7802,6 @@ function (_React$Component) {
       var fetchCategories = this.props.fetchCategories(result);
 
       var setSearchStateSuccessBoth = function setSearchStateSuccessBoth(payload) {
-        debugger;
         var events = payload[1] === undefined ? [] : Object.values(payload[1].events);
         var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups);
         var newState = Object.assign({}, {
@@ -7859,7 +7816,6 @@ function (_React$Component) {
       };
 
       var setSearchStateSuccessEvents = function setSearchStateSuccessEvents(payload) {
-        debugger;
         var events = payload[0] === undefined ? [] : Object.values(payload[0].events.allEvents);
         var newState = Object.assign(_this2.state, {
           query: "",
@@ -7872,7 +7828,6 @@ function (_React$Component) {
       };
 
       var setSearchStateSuccessGroups = function setSearchStateSuccessGroups(payload) {
-        debugger;
         var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups.allGroups);
         var newState = Object.assign(_this2.state, {
           query: "",
@@ -7937,7 +7892,6 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.loaded) {
-        debugger;
         var squadsOnly = this.props.location.search.slice(1).split("%20")[0] !== "category";
         var _this$state = this.state,
             groups = _this$state.groups,

@@ -1,23 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import GroupIndexList from './group_index_list';
 import useFetches from '../hooks/use_fetches';
-import useFetchesSetData from '../hooks/use_fetches_set_data';
 import {Link} from 'react-router-dom';
 
 function GroupIndex(props){
-    let [loaded1, setLoaded1] = useState(false);
-    // let [loaded2, setLoaded2] = useState(false);
-    let [userGroups, setUserGroups] = useState([]);
-    useFetches(setLoaded1, props.fetchGroups);
-    // if(props.currentUserId){
-    //     useFetchesSetData(setLoaded2, setUserGroups, props.fetchGroupsFromUser, "groups", props.currentUserId);
-    // } else if (!loaded2){
-    //     setLoaded2(true);
-    //     setUserGroups([]);
-    // }
-    
+    let [loaded, setLoaded] = useState(false);
+    useFetches(setLoaded, props.fetchGroups);
 
-    if(loaded1){
+    if(loaded){
         let allGroups = Object.values(props.groups.allGroups);
         let userGroups = Object.values(props.groups.userGroups);
         let yourTitle = !userGroups.length ?

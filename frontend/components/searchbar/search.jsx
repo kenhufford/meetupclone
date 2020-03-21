@@ -49,7 +49,6 @@ class Search extends React.Component{
         let fetchCategories = this.props.fetchCategories(result)
 
         let setSearchStateSuccessBoth =  (payload) => {
-            debugger
             let events = (payload[1]===undefined) ? []: Object.values(payload[1].events)
             let groups = (payload[0]===undefined) ? []: Object.values(payload[0].groups)
             let newState = Object.assign({}, {
@@ -62,7 +61,6 @@ class Search extends React.Component{
             this.setState(newState)
         }
         let setSearchStateSuccessEvents =  (payload) => {
-            debugger
             let events = (payload[0]===undefined) ? []: Object.values(payload[0].events.allEvents)
 
             let newState = Object.assign(this.state, {
@@ -74,7 +72,6 @@ class Search extends React.Component{
             this.setState(newState)
         }
         let setSearchStateSuccessGroups =  (payload) => {
-            debugger
             let groups = (payload[0]===undefined) ? []: Object.values(payload[0].groups.allGroups)
 
             let newState = Object.assign(this.state, {
@@ -129,7 +126,6 @@ class Search extends React.Component{
 
     render(){
         if (this.state.loaded){
-            debugger
             let squadsOnly = (this.props.location.search.slice(1).split("%20"))[0] !== "category"
             let {groups, events} = this.state;
             let {locations, categories} = this.props;

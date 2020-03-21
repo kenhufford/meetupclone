@@ -1,7 +1,6 @@
 import React from "react";
 
 class ChatChannelIndexHeader extends React.Component{
-
     render(){
         let {modalType, modal, headerTitle, toggleModal} = this.props;
         return (
