@@ -18,6 +18,7 @@ class Chat extends React.Component {
         this.selectGroup = this.selectGroup.bind(this);
         this.removeChannelship = this.removeChannelship.bind(this);
         this.selectChannel = this.selectChannel.bind(this);
+        this.selectAfterCreateChannel = this.selectAfterCreateChannel.bind(this);
     }
 
     componentDidMount() {
@@ -94,6 +95,25 @@ class Chat extends React.Component {
             )
     }
 
+    selectAfterCreateChannel(channel) {
+        debugger
+        let selectedChannel = channel;
+        let fetchChannelships = this.props.fetchChannelships(channel);
+        let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
+        let fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
+        Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels])
+            .then((data) => {
+                let channelships = data[0].channelships;
+                let channelUsers = data[1].users;
+                this.setState({
+                    selectedChannel,
+                    loaded: true,
+                    channelUsers,
+                    loadInfoBar: true
+                });
+            })
+    }
+
 
     render() {
         if (this.state.loaded){
@@ -110,6 +130,7 @@ class Chat extends React.Component {
                                 selectedChannel={this.state.selectedChannel}
                                 groupUsers={this.state.groupUsers}
                                 selectChannel={this.selectChannel}
+                                selectAfterCreateChannel={this.selectAfterCreateChannel}
                                 removeChannelship={this.removeChannelship}/>
                         </div>
                         <div className="chat-main-right">

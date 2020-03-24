@@ -1207,6 +1207,7 @@ function (_React$Component) {
     _this.selectGroup = _this.selectGroup.bind(_assertThisInitialized(_this));
     _this.removeChannelship = _this.removeChannelship.bind(_assertThisInitialized(_this));
     _this.selectChannel = _this.selectChannel.bind(_assertThisInitialized(_this));
+    _this.selectAfterCreateChannel = _this.selectAfterCreateChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1300,6 +1301,28 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "selectAfterCreateChannel",
+    value: function selectAfterCreateChannel(channel) {
+      var _this6 = this;
+
+      debugger;
+      var selectedChannel = channel;
+      var fetchChannelships = this.props.fetchChannelships(channel);
+      var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
+      var fetchGroupChannels = this.props.fetchGroupChannels(channel.groupId);
+      Promise.all([fetchChannelships, fetchUsersFromChannel, fetchGroupChannels]).then(function (data) {
+        var channelships = data[0].channelships;
+        var channelUsers = data[1].users;
+
+        _this6.setState({
+          selectedChannel: selectedChannel,
+          loaded: true,
+          channelUsers: channelUsers,
+          loadInfoBar: true
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       if (this.state.loaded) {
@@ -1316,6 +1339,7 @@ function (_React$Component) {
           selectedChannel: this.state.selectedChannel,
           groupUsers: this.state.groupUsers,
           selectChannel: this.selectChannel,
+          selectAfterCreateChannel: this.selectAfterCreateChannel,
           removeChannelship: this.removeChannelship
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "chat-main-right"
@@ -2377,7 +2401,7 @@ function (_React$Component) {
                 moderator: true,
                 group_id: _this3.props.groupId
               }).then(function () {
-                _this3.props.selectAfterCreateChannel(data.channel);
+                selectAfterCreateChannel(data.channel);
               });
             }
           });
@@ -2581,6 +2605,7 @@ function (_React$Component) {
           unjoinedGroups.push(channel);
         }
       });
+      debugger;
       this.setState({
         unjoinedGroups: unjoinedGroups
       });
@@ -2592,8 +2617,10 @@ function (_React$Component) {
           myGroupChannels = _this$props2.myGroupChannels,
           groupChannels = _this$props2.groupChannels;
       var unjoinedGroups = [];
+      if (groupChannels === undefined) groupChannels = [];
 
       if (prevProps.myGroupChannels !== myGroupChannels) {
+        debugger;
         Object.values(groupChannels).forEach(function (channel) {
           if (!myGroupChannels.includes(channel)) {
             unjoinedGroups.push(channel);

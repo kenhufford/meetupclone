@@ -93,7 +93,7 @@ class ChatDirectMessageInvite extends React.Component{
                                 group_id: this.props.groupId
                             })
                                 .then(() => {
-                                    this.props.selectAfterCreateChannel(data.channel)
+                                    selectAfterCreateChannel(data.channel)
                                 })
                         }
                     })
