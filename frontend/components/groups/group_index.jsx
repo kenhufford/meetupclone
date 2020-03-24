@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import GroupIndexList from './group_index_list';
 import useFetches from '../hooks/use_fetches';
 import {Link} from 'react-router-dom';
@@ -9,7 +9,7 @@ function GroupIndex(props){
 
     if(loaded){
         let allGroups = Object.values(props.groups.allGroups);
-        let userGroups = Object.values(props.groups.userGroups);
+        let userGroups = props.groups.userGroups === undefined ? []: Object.values(props.groups.userGroups);
         let yourTitle = !userGroups.length ?
             (<Link 
                 className="index-div-titles"

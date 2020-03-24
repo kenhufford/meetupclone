@@ -5557,7 +5557,7 @@ function GroupIndex(props) {
 
   if (loaded) {
     var allGroups = Object.values(props.groups.allGroups);
-    var userGroups = Object.values(props.groups.userGroups);
+    var userGroups = props.groups.userGroups === undefined ? [] : Object.values(props.groups.userGroups);
     var yourTitle = !userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
       className: "index-div-titles",
       to: '/login'
