@@ -87,6 +87,7 @@ class ChatChannelIndex extends React.Component {
             selectChannel={this.props.selectChannel}
             currentUser={this.props.currentUser}
             //somecomment
+            //somemore
         />
 
         let chatJoinChannelModal = <ChatJoinChannel
