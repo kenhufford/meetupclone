@@ -1587,7 +1587,9 @@ function (_React$Component) {
         createChannel: this.props.createChannel,
         createChannelship: this.props.createChannelship,
         selectChannel: this.props.selectChannel,
-        currentUser: this.props.currentUser
+        currentUser: this.props.currentUser //somecomment
+        //somemore
+
       });
       var chatJoinChannelModal = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_join_channel__WEBPACK_IMPORTED_MODULE_3__["default"], {
         show: this.state.showJoinChannelModal,
