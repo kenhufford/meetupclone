@@ -89,6 +89,7 @@ class ChatChannelIndex extends React.Component {
             //somecomment
             //somemore
             //another
+            //anotherone
         />
 
         let chatJoinChannelModal = <ChatJoinChannel
