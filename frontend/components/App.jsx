@@ -11,7 +11,7 @@ import CreateEventFormContainer from './events/create_event_form_container';
 import EditEventFormContainer from './events/edit_event_form_container';
 import EditGroupFormContainer from './groups/edit_group_form_container';
 import ChatContainer from './chat/chat_container';
-import Index from './index';
+import Index from './index/index';
 import {Route, Redirect, Switch} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 

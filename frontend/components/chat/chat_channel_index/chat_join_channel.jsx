@@ -22,7 +22,6 @@ class ChatJoinChannel extends React.Component{
                 unjoinedGroups.push(channel);
             }
         });
-        debugger
         this.setState({ unjoinedGroups });
     }
 
@@ -32,7 +31,6 @@ class ChatJoinChannel extends React.Component{
         
         if(groupChannels === undefined) groupChannels = [];
         if (prevProps.myGroupChannels !== myGroupChannels){
-            debugger
             Object.values(groupChannels).forEach((channel) => {
                 if (!myGroupChannels.includes(channel)) {
                     unjoinedGroups.push(channel);

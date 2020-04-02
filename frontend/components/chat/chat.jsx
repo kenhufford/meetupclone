@@ -96,7 +96,6 @@ class Chat extends React.Component {
     }
 
     selectAfterCreateChannel(channel) {
-        debugger
         let selectedChannel = channel;
         let fetchChannelships = this.props.fetchChannelships(channel);
         let fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);

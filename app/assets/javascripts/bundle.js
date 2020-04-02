@@ -907,7 +907,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events_edit_event_form_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./events/edit_event_form_container */ "./frontend/components/events/edit_event_form_container.js");
 /* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
 /* harmony import */ var _chat_chat_container__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./chat/chat_container */ "./frontend/components/chat/chat_container.js");
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./index */ "./frontend/components/index.jsx");
+/* harmony import */ var _index_index__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./index/index */ "./frontend/components/index/index.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _utils_route_util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
 
@@ -965,7 +965,7 @@ var App = function App() {
     component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_11__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
     path: "/index",
-    component: _index__WEBPACK_IMPORTED_MODULE_13__["default"]
+    component: _index_index__WEBPACK_IMPORTED_MODULE_13__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
     path: "/groups/:groupId",
     component: _groups_group_show_group_show_container__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -1305,7 +1305,6 @@ function (_React$Component) {
     value: function selectAfterCreateChannel(channel) {
       var _this6 = this;
 
-      debugger;
       var selectedChannel = channel;
       var fetchChannelships = this.props.fetchChannelships(channel);
       var fetchUsersFromChannel = this.props.fetchUsersFromChannel(channel.id);
@@ -2605,7 +2604,6 @@ function (_React$Component) {
           unjoinedGroups.push(channel);
         }
       });
-      debugger;
       this.setState({
         unjoinedGroups: unjoinedGroups
       });
@@ -2620,7 +2618,6 @@ function (_React$Component) {
       if (groupChannels === undefined) groupChannels = [];
 
       if (prevProps.myGroupChannels !== myGroupChannels) {
-        debugger;
         Object.values(groupChannels).forEach(function (channel) {
           if (!myGroupChannels.includes(channel)) {
             unjoinedGroups.push(channel);
@@ -7473,10 +7470,10 @@ function useFetches(setLoaded) {
 
 /***/ }),
 
-/***/ "./frontend/components/index.jsx":
-/*!***************************************!*\
-  !*** ./frontend/components/index.jsx ***!
-  \***************************************/
+/***/ "./frontend/components/index/index.jsx":
+/*!*********************************************!*\
+  !*** ./frontend/components/index/index.jsx ***!
+  \*********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7485,26 +7482,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _events_event_index_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./events/event_index_container */ "./frontend/components/events/event_index_container.js");
-/* harmony import */ var _categories_category_index_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./categories/category_index_container */ "./frontend/components/categories/category_index_container.js");
-/* harmony import */ var _groups_group_index_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./groups/group_index_container */ "./frontend/components/groups/group_index_container.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _events_event_index_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index_container */ "./frontend/components/events/event_index_container.js");
+/* harmony import */ var _categories_category_index_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../categories/category_index_container */ "./frontend/components/categories/category_index_container.js");
+/* harmony import */ var _groups_group_index_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../groups/group_index_container */ "./frontend/components/groups/group_index_container.js");
+/* harmony import */ var _index_switch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index_switch */ "./frontend/components/index/index_switch.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -7514,120 +7502,117 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var Index =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(Index, _React$Component);
+function Index(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("squads"),
+      _useState2 = _slicedToArray(_useState, 2),
+      selected = _useState2[0],
+      setSelected = _useState2[1];
 
-  function Index(props) {
-    var _this;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    console.log(props);
 
-    _classCallCheck(this, Index);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Index).call(this, props));
-    _this.state = {
-      selected: _this.props.history.location.pathname.split("/")[2]
-    };
-    return _this;
-  }
-
-  _createClass(Index, [{
-    key: "pickIndex",
-    value: function pickIndex(type) {
-      this.setState({
-        selected: type
-      });
+    if (props.history.location.pathname.split("/")[2] !== selected) {
+      setSelected(props.history.location.pathname.split("/")[2]);
     }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (prevProps.history.location.pathname.split("/")[2] !== prevProps.location.pathname.split("/")[2]) {
-        this.setState({
-          selected: this.props.history.location.pathname.split("/")[2]
-        });
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-div"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-div-titles"
-      }, "FIND YOUR FIGHT TONIGHT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-div"
-      }, this.state.selected === "squads" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-selected"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "index-switch-text-selected",
-        onClick: function onClick() {
-          return _this2.pickIndex("squads");
-        },
-        to: "/index/squads"
-      }, "SQUADS")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-not"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "index-switch-text-not",
-        onClick: function onClick() {
-          return _this2.pickIndex("squads");
-        },
-        to: "/index/squads"
-      }, "SQUADS")), this.state.selected === "brawls" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-selected"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "index-switch-text-selected",
-        onClick: function onClick() {
-          return _this2.pickIndex("brawls");
-        },
-        to: "/index/brawls"
-      }, "BRAWLS")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-not"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "index-switch-text-not",
-        onClick: function onClick() {
-          return _this2.pickIndex("brawls");
-        },
-        to: "/index/brawls"
-      }, "BRAWLS")), this.state.selected === "styles" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-selected"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "index-switch-text-selected",
-        onClick: function onClick() {
-          return _this2.pickIndex("styles");
-        },
-        to: "/index/styles"
-      }, "STYLES")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "index-switch-not"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "index-switch-text-not",
-        onClick: function onClick() {
-          return _this2.pickIndex("styles");
-        },
-        to: "/index/styles"
-      }, "STYLES")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        exact: true,
-        path: "/index/squads",
-        component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        exact: true,
-        path: "/index/brawls",
-        component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        exact: true,
-        path: "/index/styles",
-        component: _categories_category_index_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-      })));
-    }
-  }]);
-
-  return Index;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+  });
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-header"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-div-titles"
+  }, "FIND YOUR FIGHT TONIGHT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    setSelected: setSelected,
+    selected: selected
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    exact: true,
+    path: "/index/squads",
+    component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    exact: true,
+    path: "/index/brawls",
+    component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    exact: true,
+    path: "/index/styles",
+    component: _categories_category_index_container__WEBPACK_IMPORTED_MODULE_3__["default"]
+  })));
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Index));
+
+/***/ }),
+
+/***/ "./frontend/components/index/index_switch.jsx":
+/*!****************************************************!*\
+  !*** ./frontend/components/index/index_switch.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_switch_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index_switch_button */ "./frontend/components/index/index_switch_button.jsx");
+
+
+
+function IndexSwitch(props) {
+  var setSelected = props.setSelected,
+      selected = props.selected;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-switch-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    buttonName: "squads",
+    setSelected: setSelected,
+    selected: selected
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    buttonName: "brawls",
+    setSelected: setSelected,
+    selected: selected
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    buttonName: "styles",
+    setSelected: setSelected,
+    selected: selected
+  }));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (IndexSwitch);
+
+/***/ }),
+
+/***/ "./frontend/components/index/index_switch_button.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/index/index_switch_button.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+function IndexSwitchButton(props) {
+  var setSelected = props.setSelected,
+      buttonName = props.buttonName,
+      selected = props.selected;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: selected === buttonName ? "index-switch-selected" : "index-switch-not"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    className: selected === buttonName ? "index-switch-text-selected" : "index-switch-text-not",
+    onClick: function onClick() {
+      return setSelected(buttonName);
+    },
+    to: "/index/".concat(buttonName)
+  }, buttonName.toUpperCase()));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (IndexSwitchButton);
 
 /***/ }),
 

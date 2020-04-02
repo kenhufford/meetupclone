@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import CategoryIndexItem from './category_index_item';
 import useFetches from '../hooks/use_fetches';
 
