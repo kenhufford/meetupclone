@@ -36,7 +36,7 @@ class CreateGroupFormDropdown extends React.Component{
                 {list.map((location, index) => (
                     <li className="create-group-card-dropdown-header-list-item" key={index} 
                     onClick={() => {
-                        this.props.toggleLocation(index)
+                        this.props.toggleLocation(location.id)
                         this.handleClickOutside();
                     }}
                     >{location.name}</li>

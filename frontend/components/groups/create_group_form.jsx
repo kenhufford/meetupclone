@@ -115,11 +115,11 @@ class CreateGroupForm extends React.Component{
         })
     }
 
-    toggleSelected(index){
-        let loc = this.props.locations[index]
+    toggleSelected(id){
+        let location = this.props.locations[id-1]
         this.setState({
-          selectedLocation: loc.name,
-          selectedLocationId: loc.id
+            selectedLocation: location.name,
+          selectedLocationId: id-1
         })
     }
 

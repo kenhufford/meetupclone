@@ -11,13 +11,11 @@ function GroupIndex(props){
         let allGroups = Object.values(props.groups.allGroups);
         let userGroups = props.groups.userGroups === undefined ? []: Object.values(props.groups.userGroups);
         let yourTitle = !userGroups.length ?
-            (<Link 
-                className="index-div-titles"
+            (<Link className="index-div-titles"
                 to={'/login'}>
                 Join a squad
             </Link>) : 
-            (<p 
-                className="index-div-titles">
+            (<p className="index-div-titles">
                 Your Squads
             </p>)
         return(

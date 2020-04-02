@@ -4,7 +4,7 @@ import SignUpFormContainer from './session_form/signup_form_container';
 import LogInFormContainer from './session_form/login_form_container';
 import EventShowContainer from './events/event_show_container';
 import GroupShowContainer from './groups/group_show/group_show_container';
-import GroupLandingContainer from './groups/group_landing_container';
+import GroupLandingContainer from './groups/group_landing/group_landing_container';
 import SearchContainer from './searchbar/search_container';
 import CreateGroupFormContainer from './groups/create_group_form_container';
 import CreateEventFormContainer from './events/create_event_form_container';
