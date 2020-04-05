@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateGroupFormDropdown from '../create_group_form_dropdown';
+import CreateGroupFormDropdown from '../create_group/create_group_form_dropdown';
 
 const GroupLandingIndex = props => {
     const {selectedLocation, selectLocation, locations, indexList, indexName} = props;

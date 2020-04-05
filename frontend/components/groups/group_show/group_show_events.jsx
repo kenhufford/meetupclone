@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import EventIndexList from '../../events/event_index_list';
+import EventIndexList from '../../events/event_index/event_index_list';
 
 function GroupShowEvents(props){
     let { events, locations, currentUserCaptain, groupId } = props;

@@ -902,10 +902,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _groups_group_show_group_show_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./groups/group_show/group_show_container */ "./frontend/components/groups/group_show/group_show_container.js");
 /* harmony import */ var _groups_group_landing_group_landing_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./groups/group_landing/group_landing_container */ "./frontend/components/groups/group_landing/group_landing_container.js");
 /* harmony import */ var _searchbar_search_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./searchbar/search_container */ "./frontend/components/searchbar/search_container.jsx");
-/* harmony import */ var _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./groups/create_group_form_container */ "./frontend/components/groups/create_group_form_container.js");
-/* harmony import */ var _events_create_event_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./events/create_event_form_container */ "./frontend/components/events/create_event_form_container.js");
-/* harmony import */ var _events_edit_event_form_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./events/edit_event_form_container */ "./frontend/components/events/edit_event_form_container.js");
-/* harmony import */ var _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./groups/edit_group_form_container */ "./frontend/components/groups/edit_group_form_container.js");
+/* harmony import */ var _groups_create_group_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./groups/create_group/create_group_form_container */ "./frontend/components/groups/create_group/create_group_form_container.js");
+/* harmony import */ var _events_create_event_create_event_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./events/create_event/create_event_form_container */ "./frontend/components/events/create_event/create_event_form_container.js");
+/* harmony import */ var _events_create_event_edit_event_form_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./events/create_event/edit_event_form_container */ "./frontend/components/events/create_event/edit_event_form_container.js");
+/* harmony import */ var _groups_create_group_edit_group_form_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./groups/create_group/edit_group_form_container */ "./frontend/components/groups/create_group/edit_group_form_container.js");
 /* harmony import */ var _chat_chat_container__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./chat/chat_container */ "./frontend/components/chat/chat_container.js");
 /* harmony import */ var _index_index__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./index/index */ "./frontend/components/index/index.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
@@ -947,14 +947,14 @@ var App = function App() {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
     exact: true,
     path: "/events/form/:eventId/edit/",
-    component: _events_edit_event_form_container__WEBPACK_IMPORTED_MODULE_10__["default"]
+    component: _events_create_event_edit_event_form_container__WEBPACK_IMPORTED_MODULE_10__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
     path: "/events/new/:groupId",
-    component: _events_create_event_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _events_create_event_create_event_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
     exact: true,
     path: "/groups/form/new",
-    component: _groups_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
+    component: _groups_create_group_create_group_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
     exact: true,
     path: "/groups/:groupId/events/:eventId",
@@ -962,7 +962,7 @@ var App = function App() {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_route_util__WEBPACK_IMPORTED_MODULE_15__["ProtectedRoute"], {
     exact: true,
     path: "/groups/form/:groupId/edit",
-    component: _groups_edit_group_form_container__WEBPACK_IMPORTED_MODULE_11__["default"]
+    component: _groups_create_group_edit_group_form_container__WEBPACK_IMPORTED_MODULE_11__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__["Route"], {
     path: "/index",
     component: _index_index__WEBPACK_IMPORTED_MODULE_13__["default"]
@@ -3494,10 +3494,10 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/create_event_form.jsx":
-/*!**********************************************************!*\
-  !*** ./frontend/components/events/create_event_form.jsx ***!
-  \**********************************************************/
+/***/ "./frontend/components/events/create_event/create_event_form.jsx":
+/*!***********************************************************************!*\
+  !*** ./frontend/components/events/create_event/create_event_form.jsx ***!
+  \***********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3505,8 +3505,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../groups/create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3722,7 +3722,7 @@ function (_React$Component) {
           className: "create-group-card-options"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "create-group-card-selected"
-        }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
           location: this.state.selectedLocation,
           list: this.state.locations,
           toggleLocation: this.toggleSelected
@@ -3858,20 +3858,20 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/create_event_form_container.js":
-/*!*******************************************************************!*\
-  !*** ./frontend/components/events/create_event_form_container.js ***!
-  \*******************************************************************/
+/***/ "./frontend/components/events/create_event/create_event_form_container.js":
+/*!********************************************************************************!*\
+  !*** ./frontend/components/events/create_event/create_event_form_container.js ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _create_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_event_form */ "./frontend/components/events/create_event_form.jsx");
-/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
-/* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
-/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _create_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_event_form */ "./frontend/components/events/create_event/create_event_form.jsx");
+/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/location_actions */ "./frontend/actions/location_actions.js");
 
 
 
@@ -3888,6 +3888,7 @@ var mstp = function mstp(state, ownProps) {
       startTime: "theDate",
       endTime: "theTomorrow",
       locationId: '',
+      address: '',
       imageUrl: '',
       groupId: ownProps.match.params.groupId
     },
@@ -3915,10 +3916,10 @@ var mdtp = function mdtp(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/edit_event_form.jsx":
-/*!********************************************************!*\
-  !*** ./frontend/components/events/edit_event_form.jsx ***!
-  \********************************************************/
+/***/ "./frontend/components/events/create_event/edit_event_form.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/events/create_event/edit_event_form.jsx ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3926,8 +3927,8 @@ var mdtp = function mdtp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _create_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_event_form */ "./frontend/components/events/create_event_form.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var _create_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_event_form */ "./frontend/components/events/create_event/create_event_form.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -3969,19 +3970,19 @@ var EditEventForm = function EditEventForm(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/edit_event_form_container.js":
-/*!*****************************************************************!*\
-  !*** ./frontend/components/events/edit_event_form_container.js ***!
-  \*****************************************************************/
+/***/ "./frontend/components/events/create_event/edit_event_form_container.js":
+/*!******************************************************************************!*\
+  !*** ./frontend/components/events/create_event/edit_event_form_container.js ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _edit_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit_event_form */ "./frontend/components/events/edit_event_form.jsx");
-/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
-/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _edit_event_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit_event_form */ "./frontend/components/events/create_event/edit_event_form.jsx");
+/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/location_actions */ "./frontend/actions/location_actions.js");
 
 
 
@@ -4023,10 +4024,10 @@ var mdtp = function mdtp(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/event_index.jsx":
-/*!****************************************************!*\
-  !*** ./frontend/components/events/event_index.jsx ***!
-  \****************************************************/
+/***/ "./frontend/components/events/event_index/event_index.jsx":
+/*!****************************************************************!*\
+  !*** ./frontend/components/events/event_index/event_index.jsx ***!
+  \****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4034,8 +4035,8 @@ var mdtp = function mdtp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _event_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_list */ "./frontend/components/events/event_index_list.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var _event_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_list */ "./frontend/components/events/event_index/event_index_list.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -4088,21 +4089,21 @@ var EventIndex = function EventIndex(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/event_index_container.js":
-/*!*************************************************************!*\
-  !*** ./frontend/components/events/event_index_container.js ***!
-  \*************************************************************/
+/***/ "./frontend/components/events/event_index/event_index_container.js":
+/*!*************************************************************************!*\
+  !*** ./frontend/components/events/event_index/event_index_container.js ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _event_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index */ "./frontend/components/events/event_index.jsx");
-/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/event_actions */ "./frontend/actions/event_actions.js");
-/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
-/* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
+/* harmony import */ var _event_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index */ "./frontend/components/events/event_index/event_index.jsx");
+/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/event_actions */ "./frontend/actions/event_actions.js");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _actions_reservation_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../actions/reservation_actions */ "./frontend/actions/reservation_actions.js");
 
 
 
@@ -4140,10 +4141,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/event_index_item.jsx":
-/*!*********************************************************!*\
-  !*** ./frontend/components/events/event_index_item.jsx ***!
-  \*********************************************************/
+/***/ "./frontend/components/events/event_index/event_index_item.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/events/event_index/event_index_item.jsx ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4187,10 +4188,10 @@ var EventIndexItem = function EventIndexItem(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/event_index_item_large.jsx":
-/*!***************************************************************!*\
-  !*** ./frontend/components/events/event_index_item_large.jsx ***!
-  \***************************************************************/
+/***/ "./frontend/components/events/event_index/event_index_item_large.jsx":
+/*!***************************************************************************!*\
+  !*** ./frontend/components/events/event_index/event_index_item_large.jsx ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4198,7 +4199,7 @@ var EventIndexItem = function EventIndexItem(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 
@@ -4245,10 +4246,10 @@ var EventIndexItemLarge = function EventIndexItemLarge(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/event_index_list.jsx":
-/*!*********************************************************!*\
-  !*** ./frontend/components/events/event_index_list.jsx ***!
-  \*********************************************************/
+/***/ "./frontend/components/events/event_index/event_index_list.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/events/event_index/event_index_list.jsx ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4256,8 +4257,8 @@ var EventIndexItemLarge = function EventIndexItemLarge(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/date_util */ "./frontend/utils/date_util.js");
-/* harmony import */ var _event_index_item_large__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event_index_item_large */ "./frontend/components/events/event_index_item_large.jsx");
+/* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var _event_index_item_large__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event_index_item_large */ "./frontend/components/events/event_index/event_index_item_large.jsx");
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4419,10 +4420,10 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/events/event_index_list_short.jsx":
-/*!***************************************************************!*\
-  !*** ./frontend/components/events/event_index_list_short.jsx ***!
-  \***************************************************************/
+/***/ "./frontend/components/events/event_index/event_index_list_short.jsx":
+/*!***************************************************************************!*\
+  !*** ./frontend/components/events/event_index/event_index_list_short.jsx ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4430,7 +4431,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index_item.jsx");
+/* harmony import */ var _event_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./event_index_item */ "./frontend/components/events/event_index/event_index_item.jsx");
 
 
 
@@ -4893,10 +4894,10 @@ var EventShowMainRight = function EventShowMainRight(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/create_group_form.jsx":
-/*!**********************************************************!*\
-  !*** ./frontend/components/groups/create_group_form.jsx ***!
-  \**********************************************************/
+/***/ "./frontend/components/groups/create_group/create_group_form.jsx":
+/*!***********************************************************************!*\
+  !*** ./frontend/components/groups/create_group/create_group_form.jsx ***!
+  \***********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4904,7 +4905,7 @@ var EventShowMainRight = function EventShowMainRight(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
+/* harmony import */ var _create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5247,21 +5248,21 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/create_group_form_container.js":
-/*!*******************************************************************!*\
-  !*** ./frontend/components/groups/create_group_form_container.js ***!
-  \*******************************************************************/
+/***/ "./frontend/components/groups/create_group/create_group_form_container.js":
+/*!********************************************************************************!*\
+  !*** ./frontend/components/groups/create_group/create_group_form_container.js ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
-/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/membership_actions */ "./frontend/actions/membership_actions.js");
-/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/category_actions */ "./frontend/actions/category_actions.js");
-/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group/create_group_form.jsx");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/membership_actions */ "./frontend/actions/membership_actions.js");
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/category_actions */ "./frontend/actions/category_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../actions/location_actions */ "./frontend/actions/location_actions.js");
 
 
 
@@ -5314,10 +5315,10 @@ var mdtp = function mdtp(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/create_group_form_dropdown.jsx":
-/*!*******************************************************************!*\
-  !*** ./frontend/components/groups/create_group_form_dropdown.jsx ***!
-  \*******************************************************************/
+/***/ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx":
+/*!********************************************************************************!*\
+  !*** ./frontend/components/groups/create_group/create_group_form_dropdown.jsx ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5424,20 +5425,20 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/edit_group_form_container.js":
-/*!*****************************************************************!*\
-  !*** ./frontend/components/groups/edit_group_form_container.js ***!
-  \*****************************************************************/
+/***/ "./frontend/components/groups/create_group/edit_group_form_container.js":
+/*!******************************************************************************!*\
+  !*** ./frontend/components/groups/create_group/edit_group_form_container.js ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group_form.jsx");
-/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/category_actions */ "./frontend/actions/category_actions.js");
-/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/location_actions */ "./frontend/actions/location_actions.js");
+/* harmony import */ var _create_group_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create_group_form */ "./frontend/components/groups/create_group/create_group_form.jsx");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/category_actions */ "./frontend/actions/category_actions.js");
+/* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/location_actions */ "./frontend/actions/location_actions.js");
 
 
 
@@ -5484,10 +5485,10 @@ var mdtp = function mdtp(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/group_index.jsx":
-/*!****************************************************!*\
-  !*** ./frontend/components/groups/group_index.jsx ***!
-  \****************************************************/
+/***/ "./frontend/components/groups/group_index/group_index.jsx":
+/*!****************************************************************!*\
+  !*** ./frontend/components/groups/group_index/group_index.jsx ***!
+  \****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5495,8 +5496,8 @@ var mdtp = function mdtp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index_list.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -5550,21 +5551,21 @@ function GroupIndex(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/group_index_container.js":
-/*!*************************************************************!*\
-  !*** ./frontend/components/groups/group_index_container.js ***!
-  \*************************************************************/
+/***/ "./frontend/components/groups/group_index/group_index_container.js":
+/*!*************************************************************************!*\
+  !*** ./frontend/components/groups/group_index/group_index_container.js ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _group_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index */ "./frontend/components/groups/group_index.jsx");
-/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/group_actions */ "./frontend/actions/group_actions.js");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
-/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/category_actions */ "./frontend/actions/category_actions.js");
-/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/membership_actions */ "./frontend/actions/membership_actions.js");
+/* harmony import */ var _group_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index */ "./frontend/components/groups/group_index/group_index.jsx");
+/* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/group_actions */ "./frontend/actions/group_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _actions_category_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/category_actions */ "./frontend/actions/category_actions.js");
+/* harmony import */ var _actions_membership_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../actions/membership_actions */ "./frontend/actions/membership_actions.js");
 
 
 
@@ -5617,10 +5618,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/group_index_item.jsx":
-/*!*********************************************************!*\
-  !*** ./frontend/components/groups/group_index_item.jsx ***!
-  \*********************************************************/
+/***/ "./frontend/components/groups/group_index/group_index_item.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/groups/group_index/group_index_item.jsx ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5661,10 +5662,10 @@ function GroupIndexItem(props) {
 
 /***/ }),
 
-/***/ "./frontend/components/groups/group_index_list.jsx":
-/*!*********************************************************!*\
-  !*** ./frontend/components/groups/group_index_list.jsx ***!
-  \*********************************************************/
+/***/ "./frontend/components/groups/group_index/group_index_list.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/groups/group_index/group_index_list.jsx ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5672,7 +5673,7 @@ function GroupIndexItem(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _group_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_item */ "./frontend/components/groups/group_index_item.jsx");
+/* harmony import */ var _group_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_item */ "./frontend/components/groups/group_index/group_index_item.jsx");
 
 
 
@@ -5703,8 +5704,8 @@ function GroupIndexList(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../group_index_list */ "./frontend/components/groups/group_index_list.jsx");
-/* harmony import */ var _events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index_list_short */ "./frontend/components/events/event_index_list_short.jsx");
+/* harmony import */ var _group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../group_index/group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
+/* harmony import */ var _events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index/event_index_list_short */ "./frontend/components/events/event_index/event_index_list_short.jsx");
 /* harmony import */ var _group_landing_banner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group_landing_banner */ "./frontend/components/groups/group_landing/group_landing_banner.jsx");
 /* harmony import */ var _group_landing_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group_landing_index */ "./frontend/components/groups/group_landing/group_landing_index.jsx");
 /* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
@@ -5769,7 +5770,7 @@ var GroupLanding = function GroupLanding(props) {
       selectedLocation: selectedLocation,
       locations: locations,
       selectLocation: selectLocation,
-      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
         groups: nearbyGroups
       })
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -5777,7 +5778,7 @@ var GroupLanding = function GroupLanding(props) {
       selectedLocation: selectedLocation,
       locations: locations,
       selectLocation: selectLocation,
-      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
         events: nearbyEvents
       })
     })));
@@ -5887,7 +5888,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
+/* harmony import */ var _create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
 
 
 
@@ -5903,7 +5904,7 @@ var GroupLandingIndex = function GroupLandingIndex(props) {
     className: "landing-location-dropdown"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-location-h4"
-  }, indexName, " in ", selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, indexName, " in ", selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
     list: locations,
     toggleLocation: selectLocation
   })), indexList);
@@ -6633,7 +6634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _events_event_index_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index_list */ "./frontend/components/events/event_index_list.jsx");
+/* harmony import */ var _events_event_index_event_index_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index/event_index_list */ "./frontend/components/events/event_index/event_index_list.jsx");
 
 
 
@@ -6651,7 +6652,7 @@ function GroupShowEvents(props) {
   }, currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/events/new/".concat(groupId, "/"),
     className: "group-show-create-event-button"
-  }, "Create a Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Create a Brawl") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list__WEBPACK_IMPORTED_MODULE_2__["default"], {
     events: allEvents,
     locations: locations
   })));
@@ -7406,9 +7407,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _events_event_index_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index_container */ "./frontend/components/events/event_index_container.js");
+/* harmony import */ var _events_event_index_event_index_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index/event_index_container */ "./frontend/components/events/event_index/event_index_container.js");
 /* harmony import */ var _categories_category_index_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../categories/category_index_container */ "./frontend/components/categories/category_index_container.js");
-/* harmony import */ var _groups_group_index_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../groups/group_index_container */ "./frontend/components/groups/group_index_container.js");
+/* harmony import */ var _groups_group_index_group_index_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../groups/group_index/group_index_container */ "./frontend/components/groups/group_index/group_index_container.js");
 /* harmony import */ var _index_switch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index_switch */ "./frontend/components/index/index_switch.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -7449,11 +7450,11 @@ function Index(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     exact: true,
     path: "/index/squads",
-    component: _groups_group_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _groups_group_index_group_index_container__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     exact: true,
     path: "/index/brawls",
-    component: _events_event_index_container__WEBPACK_IMPORTED_MODULE_2__["default"]
+    component: _events_event_index_event_index_container__WEBPACK_IMPORTED_MODULE_2__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     exact: true,
     path: "/index/styles",
@@ -7646,8 +7647,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _groups_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index_list */ "./frontend/components/groups/group_index_list.jsx");
-/* harmony import */ var _events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index_list_short */ "./frontend/components/events/event_index_list_short.jsx");
+/* harmony import */ var _groups_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index/group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
+/* harmony import */ var _events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index/event_index_list_short */ "./frontend/components/events/event_index/event_index_list_short.jsx");
 /* harmony import */ var _searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -7795,8 +7796,6 @@ function (_React$Component) {
         _this2.setState(newState);
       };
 
-      debugger;
-
       switch (split[0]) {
         case "location":
           this.setState({
@@ -7851,14 +7850,14 @@ function (_React$Component) {
           className: "groups-index-div-results"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "SQUAD RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, squadMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
           groups: groups
         })));
         var searchedEvents = squadsOnly ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "groups-index-div-results"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "BRAWL RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, brawlMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
           events: events
         }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8132,7 +8131,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../groups/create_group_form_dropdown */ "./frontend/components/groups/create_group_form_dropdown.jsx");
+/* harmony import */ var _groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../groups/create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -8333,7 +8332,7 @@ function (_React$Component) {
         className: "signup-location-dropdown-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "signup-selected-location"
-      }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, this.state.selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         location: this.state.selectedLocation,
         list: this.props.locations,
         toggleLocation: this.toggleSelected

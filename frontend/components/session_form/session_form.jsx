@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import CreateGroupFormDropdown from '../groups/create_group_form_dropdown'
+import CreateGroupFormDropdown from '../groups/create_group/create_group_form_dropdown'
 
 class SessionForm extends React.Component {
   constructor(props) {

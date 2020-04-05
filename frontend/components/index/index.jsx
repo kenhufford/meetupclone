@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
-import EventIndexContainer from '../events/event_index_container';
+import EventIndexContainer from '../events/event_index/event_index_container';
 import CategoryIndexContainer from '../categories/category_index_container';
 import { withRouter } from 'react-router-dom';
-import GroupIndexContainer from '../groups/group_index_container';
+import GroupIndexContainer from '../groups/group_index/group_index_container';
 import IndexSwitch from './index_switch';
 function Index(props){
     let [selected, setSelected] = useState("squads");

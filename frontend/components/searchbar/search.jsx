@@ -1,6 +1,6 @@
 import React from 'react';
-import GroupIndexList from '../groups/group_index_list';
-import EventIndexList from '../events/event_index_list_short';
+import GroupIndexList from '../groups/group_index/group_index_list';
+import EventIndexList from '../events/event_index/event_index_list_short';
 import SearchBar from '../searchbar/search_bar';
 
 class Search extends React.Component{
@@ -102,8 +102,6 @@ class Search extends React.Component{
             })
             this.setState(newState)
         }
-         
-        debugger
         switch (split[0]) {
             case "location":
                 this.setState({groups: [], events: []})

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import GroupIndexList from '../group_index_list';
-import EventIndexListShort from '../../events/event_index_list_short';
+import GroupIndexList from '../group_index/group_index_list';
+import EventIndexListShort from '../../events/event_index/event_index_list_short';
 import GroupLandingBanner from './group_landing_banner';
 import GroupLandingIndex from './group_landing_index';
 import useFetches from '../../hooks/use_fetches';
