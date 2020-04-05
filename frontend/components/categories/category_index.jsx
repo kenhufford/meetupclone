@@ -3,10 +3,10 @@ import CategoryIndexItem from './category_index_item';
 import useFetches from '../hooks/use_fetches';
 
 function CategoryIndex(props){
+    let { categories, fetchCategories } = props
     let [loaded, setLoaded] = useState(false);
-    useFetches(setLoaded, props.fetchCategories);
+    useFetches(setLoaded, fetchCategories);
     if(loaded){
-        let {categories} = props
         return (
             <div className="landing-main-groups">
                 <div className="groups-div">
@@ -23,8 +23,6 @@ function CategoryIndex(props){
             <div></div>
         )
     }
-        
-        
 }
 
 export default CategoryIndex

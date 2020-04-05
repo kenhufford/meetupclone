@@ -1,38 +1,26 @@
-import React from 'react';
-import CreateEventForm from './create_event_form'
+import React, {useState} from 'react';
+import CreateEventForm from './create_event_form';
+import useFetches from '../hooks/use_fetches';
 
-class EditEventForm extends React.Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            loaded: false
-        }
-    }
+function EditEventForm(props){
+    let {fetchLocations, fetchEvent} = props;
+    let [loaded, setLoaded] = useState(false)
+    useFetches(setLoaded, fetchLocations, [fetchEvent, props.match.params.eventId])
 
-    componentDidMount(){
-        const fetchLocations = this.props.fetchLocations();
-        const fetchEvent = this.props.fetchEvent(this.props.match.params.eventId);
-        Promise.all([fetchLocations, fetchEvent])
-        .then( () => this.setState({loaded:true}))
-    }
-
-    render(){
-        if (this.state.loaded){
-            return(
-                <div>
-                    <CreateEventForm 
-                    event={this.props.event} 
-                    eventId={this.props.match.params.eventId} 
-                    locations={this.props.locations}
-                    fetchLocations={this.props.fetchLocations}
-                    action={this.props.action}
-                    selectedLocation={this.props.selectedLocation}/>
-                </div>
-            )
-        } else {
-            return (<div></div>)
-        }
-
+    if (loaded){
+        return(
+            <div>
+                <CreateEventForm 
+                    event={props.event} 
+                    eventId={props.match.params.eventId} 
+                    locations={props.locations}
+                    fetchLocations={props.fetchLocations}
+                    action={props.action}
+                    selectedLocation={props.selectedLocation}/>
+            </div>
+        )
+    } else {
+        return (<div></div>)
     }
 }
 

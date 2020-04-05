@@ -45,7 +45,7 @@ class EventShow extends React.Component{
             this.setState({ loaded: false })
             this.props.deleteEvent(this.props.event.id)            
                 .then( () => {
-                    this.setState({toEventIndex: true})
+                    this.props.history.push('/groups')
                 })
         }
     }
@@ -111,7 +111,7 @@ class EventShow extends React.Component{
                     <div>
                         <p>Organizer Options</p>
                         <Link to={`/events/form/${id}/edit`}>Edit Event</Link>
-                        <p> onClick={this.deleteEvent}>Cancel the Brawl</p>
+                        <a onClick={this.deleteEvent}>Cancel the Brawl</a>
                     </div>
                 </div>
             ) : (<div></div>)

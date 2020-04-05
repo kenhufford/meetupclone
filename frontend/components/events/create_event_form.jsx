@@ -5,7 +5,15 @@ import {formatDateInput} from '../../utils/date_util'
 class CreateEventForm extends React.Component{
     constructor(props){
         super(props)
-        let {title, description, maxAttendance, startTime, endTime, locationId, imageUrl, address, groupId} = this.props.event
+        let {title, 
+            description, 
+            maxAttendance, 
+            startTime, 
+            endTime, 
+            locationId, 
+            imageUrl, 
+            address, 
+            groupId} = this.props.event
 
         this.state = {
             event: {
@@ -30,7 +38,6 @@ class CreateEventForm extends React.Component{
         this.handleClick = this.handleClick.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
     }
-
 
     componentDidMount(){
         const fetchLocations = this.props.fetchLocations()

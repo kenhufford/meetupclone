@@ -60,11 +60,16 @@ class Api::EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find(params[:id])
-     if !@event.destroy
-        render json: ["No event to destroy"], status: 404
-     end
-     @events = Event.all
+    event = Event.find(params[:id])
+    if !event.destroy
+      render json: ["No event to destroy"], status: 404
+    end
+    @events = Event.all
+    if current_user
+      @user_events = current_user.events
+    else
+      @user_events = []
+    end    
      render "api/events/index"
   end
 
