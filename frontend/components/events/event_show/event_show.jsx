@@ -1,6 +1,6 @@
 import React from 'react';
 import {formatDate} from '../../../utils/date_util';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import EventShowBanner from './event_show_banner';
 import EventShowMainLeft from './event_show_main_left';
 import EventShowMainRight from './event_show_main_right';
@@ -83,12 +83,12 @@ class EventShow extends React.Component{
           }
 
         if(this.state.loaded){
-            let {title, description, startTime, locationId, maxAttendance,
-                endTime, address, imageUrl, id} = this.props.event
-            let {group, locations, users, reservations, currentUserId} = this.props;
-            let captains = [];
-            let captainIds = [];
-            let currentUserCaptain;
+            const {title, description, startTime, locationId, maxAttendance,
+                endTime, address, imageUrl} = this.props.event;
+            const {group, locations, users, reservations, currentUserId} = this.props;
+            const captains = [];
+            const captainIds = [];
+            let currentUserCaptain = false;
             reservations.eventReservations.forEach ( (reservation)=> {
                 if (reservation.isOrganizer){
                     if (!users[reservation.userId]) return null
@@ -99,7 +99,6 @@ class EventShow extends React.Component{
                     }
                 }
             })
-            let captainsText = captains.length===1 ? ` ` : `${captains[0]} and ${captains.length-1} others` 
             let joinButton;
             if (maxAttendance<=reservations.eventReservations.length){
                 joinButton = (<button className="event-show-join">TOO LATE EVENT FULL</button>)
@@ -109,22 +108,11 @@ class EventShow extends React.Component{
                 joinButton = (<button onClick={this.rsvp("delete")} className="event-show-join">A HONORABLE RETREAT</button>)
             }
             
-            let organizerOptions = currentUserCaptain ? (
-                <div className="event-show-main-right-infobox">
-                    <i className="far fa-compass"></i>
-                    <div>
-                        <p>Organizer Options</p>
-                        <Link to={`/events/form/${id}/edit`}>Edit Event</Link>
-                        <a onClick={this.deleteEvent}>Cancel the Brawl</a>
-                    </div>
-                </div>
-            ) : (<div></div>)
             return(
                 <div className="event-show">
                     <EventShowBanner
                         formatDate={formatDate}
                         captains={captains} 
-                        captainsText={captainsText}
                         captainIds={captainIds}
                         startTime={startTime}
                         title={title}
@@ -144,7 +132,8 @@ class EventShow extends React.Component{
                             address={address}
                             locationId={locationId}
                             locations={locations}
-                            organizerOptions={organizerOptions}
+                            currentUserCaptain={currentUserCaptain}
+                            deleteEvent={deleteEvent}
                             />
                     </div>
                    <EventShowFooter

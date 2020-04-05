@@ -1,7 +1,8 @@
 import React from 'react';
 
 const EventShowBanner = props =>{
-    const {title, formatDate, startTime, captains, captainsText, captainIds, users} = props;
+    const {title, formatDate, startTime, captains, captainIds, users} = props;
+    const captainsText = captains.length === 1 ? ` ` : `${captains[0]} and ${captains.length - 1} others` 
     return (
         <div className="event-show-banner">
             <div className="event-show-banner-inter">

@@ -4610,8 +4610,7 @@ function (_React$Component) {
             maxAttendance = _this$props$event.maxAttendance,
             endTime = _this$props$event.endTime,
             address = _this$props$event.address,
-            imageUrl = _this$props$event.imageUrl,
-            id = _this$props$event.id;
+            imageUrl = _this$props$event.imageUrl;
         var _this$props = this.props,
             group = _this$props.group,
             locations = _this$props.locations,
@@ -4620,7 +4619,7 @@ function (_React$Component) {
             currentUserId = _this$props.currentUserId;
         var captains = [];
         var captainIds = [];
-        var currentUserCaptain;
+        var currentUserCaptain = false;
         reservations.eventReservations.forEach(function (reservation) {
           if (reservation.isOrganizer) {
             if (!users[reservation.userId]) return null;
@@ -4632,7 +4631,6 @@ function (_React$Component) {
             }
           }
         });
-        var captainsText = captains.length === 1 ? " " : "".concat(captains[0], " and ").concat(captains.length - 1, " others");
         var joinButton;
 
         if (maxAttendance <= reservations.eventReservations.length) {
@@ -4651,21 +4649,11 @@ function (_React$Component) {
           }, "A HONORABLE RETREAT");
         }
 
-        var organizerOptions = currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "event-show-main-right-infobox"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: "far fa-compass"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organizer Options"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          to: "/events/form/".concat(id, "/edit")
-        }, "Edit Event"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          onClick: this.deleteEvent
-        }, "Cancel the Brawl"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "event-show"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_banner__WEBPACK_IMPORTED_MODULE_3__["default"], {
           formatDate: _utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"],
           captains: captains,
-          captainsText: captainsText,
           captainIds: captainIds,
           startTime: startTime,
           title: title,
@@ -4684,7 +4672,8 @@ function (_React$Component) {
           address: address,
           locationId: locationId,
           locations: locations,
-          organizerOptions: organizerOptions
+          currentUserCaptain: currentUserCaptain,
+          deleteEvent: deleteEvent
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_footer__WEBPACK_IMPORTED_MODULE_6__["default"], {
           startTime: startTime,
           title: title,
@@ -4721,9 +4710,9 @@ var EventShowBanner = function EventShowBanner(props) {
       formatDate = props.formatDate,
       startTime = props.startTime,
       captains = props.captains,
-      captainsText = props.captainsText,
       captainIds = props.captainIds,
       users = props.users;
+  var captainsText = captains.length === 1 ? " " : "".concat(captains[0], " and ").concat(captains.length - 1, " others");
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-banner"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4920,6 +4909,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+var _this = undefined;
+
 
 
 
@@ -4931,7 +4922,16 @@ var EventShowMainRight = function EventShowMainRight(props) {
       address = props.address,
       locationId = props.locationId,
       locations = props.locations,
-      organizerOptions = props.organizerOptions;
+      currentUserCaptain = props.currentUserCaptain;
+  var organizerOptions = currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "event-show-main-right-infobox"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "far fa-compass"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organizer Options"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/events/form/".concat(id, "/edit")
+  }, "Edit Event"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    onClick: _this.deleteEvent
+  }, "Cancel the Brawl"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-main-right"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
