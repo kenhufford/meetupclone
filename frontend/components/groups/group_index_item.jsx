@@ -5,7 +5,6 @@ function GroupIndexItem(props){
         return <div></div>
     } else {
     const {id, name, imageUrl, membershipIds} = props.group
-    debugger
     return(
             <a key={`group${id}`} 
                 href={`#/groups/${id}`} 

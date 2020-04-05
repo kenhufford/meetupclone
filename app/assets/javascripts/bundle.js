@@ -4440,7 +4440,7 @@ function EventIndexListShort(props) {
     className: "landing-groups-div"
   }, events.map(function (event) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      key: event.id,
+      key: "event".concat(event.id),
       event: event
     });
   }));
@@ -5705,7 +5705,6 @@ function GroupIndexItem(props) {
         name = _props$group.name,
         imageUrl = _props$group.imageUrl,
         membershipIds = _props$group.membershipIds;
-    debugger;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       key: "group".concat(id),
       href: "#/groups/".concat(id),
@@ -7715,10 +7714,9 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _groups_group_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index_item */ "./frontend/components/groups/group_index_item.jsx");
-/* harmony import */ var _events_event_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index_item */ "./frontend/components/events/event_index_item.jsx");
-/* harmony import */ var _groups_group_index_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../groups/group_index_list */ "./frontend/components/groups/group_index_list.jsx");
-/* harmony import */ var _searchbar_search_bar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
+/* harmony import */ var _groups_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index_list */ "./frontend/components/groups/group_index_list.jsx");
+/* harmony import */ var _events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index_list_short */ "./frontend/components/events/event_index_list_short.jsx");
+/* harmony import */ var _searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7736,7 +7734,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -7920,24 +7917,21 @@ function (_React$Component) {
           className: "groups-index-div-results"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "SQUAD RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, squadMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_list__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
           groups: Object.values(groups[0])
         })));
         var searchedEvents = squadsOnly ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "groups-index-div-results"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "BRAWL RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, brawlMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
-        }, events.map(function (event) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            key: "event".concat(event.id),
-            event: event
-          });
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          events: Object.values(events[0])
         }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-search-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-search-bar-div"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
           history: this.props.history,
           autoSearch: true
         })), searchedGroups, searchedEvents);

@@ -7,7 +7,7 @@ function EventIndexListShort(props){
         <div className="landing-groups-div">
             {events.map(event => (
                 <EventIndexItem
-                    key={event.id}
+                    key={`event${event.id}`}
                     event={event}
                 />
             ))}

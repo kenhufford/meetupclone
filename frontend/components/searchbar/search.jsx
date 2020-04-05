@@ -1,7 +1,6 @@
 import React from 'react';
-import GroupIndexItem from '../groups/group_index_item';
-import EventIndexItem from '../events/event_index_item';
 import GroupIndexList from '../groups/group_index_list';
+import EventIndexList from '../events/event_index_list_short';
 import SearchBar from '../searchbar/search_bar';
 
 class Search extends React.Component{
@@ -152,15 +151,13 @@ class Search extends React.Component{
                     </div>
                 </ul>
             )
-
             let searchedEvents = squadsOnly ? (
                 <ul className="groups-index-div-results">
                     <p>BRAWL RESULTS FOR {lastQuery}</p>
                     <span>{brawlMessages}</span>
                     <div className="groups-div">
-                        {events.map( (event) => (
-                            <EventIndexItem key={`event${event.id}`} event={event}/>
-                        ))}
+                        <EventIndexList
+                            events={Object.values(events[0])}/>
                     </div>
                 </ul>
             ) : (<div></div>)
