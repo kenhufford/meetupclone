@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 
-function useFetchesSetData(setLoaded, condition, setter, fetch, type, fetchArg){
+const useFetchesSetData = (setLoaded, condition, setter, fetch, type, fetchArg) =>{
     useEffect( () => {
         let fetchFunc = fetch(fetchArg);
         Promise.all([fetchFunc])

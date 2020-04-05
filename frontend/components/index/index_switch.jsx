@@ -1,8 +1,8 @@
 import React from 'react';
 import IndexSwitchButton from './index_switch_button';
 
-function IndexSwitch(props){
-    let {setSelected,selected} = props;
+const IndexSwitch = props =>{
+    const {setSelected, selected} = props;
 
     return(
         <div className="index-switch-div">

@@ -5,8 +5,9 @@ import CategoryIndexContainer from '../categories/category_index_container';
 import { withRouter } from 'react-router-dom';
 import GroupIndexContainer from '../groups/group_index/group_index_container';
 import IndexSwitch from './index_switch';
-function Index(props){
-    let [selected, setSelected] = useState("squads");
+
+const Index = props =>{
+    const [selected, setSelected] = useState("squads");
     useEffect( () => {
         if (props.history.location.pathname.split("/")[2] !==  selected) {
             setSelected(props.history.location.pathname.split("/")[2])

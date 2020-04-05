@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function IndexSwitchButton(props){
+const IndexSwitchButton = props => {
     let { setSelected, buttonName, selected } = props;
     return(
         <div className={selected === buttonName ? "index-switch-selected" : "index-switch-not"}>
