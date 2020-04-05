@@ -4673,7 +4673,7 @@ function (_React$Component) {
           locationId: locationId,
           locations: locations,
           currentUserCaptain: currentUserCaptain,
-          deleteEvent: deleteEvent
+          deleteEvent: this.deleteEvent
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_footer__WEBPACK_IMPORTED_MODULE_6__["default"], {
           startTime: startTime,
           title: title,

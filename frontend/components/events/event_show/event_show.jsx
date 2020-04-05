@@ -133,7 +133,7 @@ class EventShow extends React.Component{
                             locationId={locationId}
                             locations={locations}
                             currentUserCaptain={currentUserCaptain}
-                            deleteEvent={deleteEvent}
+                            deleteEvent={this.deleteEvent}
                             />
                     </div>
                    <EventShowFooter
