@@ -7444,8 +7444,6 @@ function Index(props) {
       setSelected = _useState2[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    console.log(props);
-
     if (props.history.location.pathname.split("/")[2] !== selected) {
       setSelected(props.history.location.pathname.split("/")[2]);
     }

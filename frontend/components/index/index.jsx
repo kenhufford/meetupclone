@@ -8,7 +8,6 @@ import IndexSwitch from './index_switch';
 function Index(props){
     let [selected, setSelected] = useState("squads");
     useEffect( () => {
-        console.log(props)
         if (props.history.location.pathname.split("/")[2] !==  selected) {
             setSelected(props.history.location.pathname.split("/")[2])
         }
