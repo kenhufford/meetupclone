@@ -1,7 +1,8 @@
-import React from 'react'
-import GroupIndexItem from '../groups/group_index_item'
-import EventIndexItem from '../events/event_index_item'
-import SearchBar from '../searchbar/search_bar'
+import React from 'react';
+import GroupIndexItem from '../groups/group_index_item';
+import EventIndexItem from '../events/event_index_item';
+import GroupIndexList from '../groups/group_index_list';
+import SearchBar from '../searchbar/search_bar';
 
 class Search extends React.Component{
     constructor(props){
@@ -43,8 +44,8 @@ class Search extends React.Component{
         let fetchGroupsFromLocation = this.props.fetchGroupsFromLocation(split[1])
         let fetchEventsFromLocation = this.props.fetchEventsFromLocation(split[1])
         let fetchGroupsFromCategory = this.props.fetchGroupsFromCategory(split[1])
-        let searchGroups = this.props.searchGroups(result)
-        let searchEvents = this.props.searchEvents(result)
+        // let searchGroups = this.props.searchGroups(result)
+        // let searchEvents = this.props.searchEvents(result)
         let fetchLocations = this.props.fetchLocations(result)
         let fetchCategories = this.props.fetchCategories(result)
 
@@ -145,9 +146,9 @@ class Search extends React.Component{
                     <p>SQUAD RESULTS FOR {lastQuery}</p>
                     <span>{squadMessages}</span>
                     <div className="groups-div">
-                        {groups.map( (group) => (
-                            <GroupIndexItem key={`group${group.id}`} group={group}/>
-                        ))}
+                        <GroupIndexList
+                            groups={Object.values(groups[0])}
+                            />
                     </div>
                 </ul>
             )

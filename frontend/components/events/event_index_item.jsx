@@ -6,9 +6,9 @@ function EventIndexItem(props){
         return (<div> </div>)
     } else {
         return(
-            <div className="index-item">
-                <a key={groupId} 
-                    href={`#/groups/${groupId}/events/${id}`} > 
+            <div className="index-item"
+                key={`event${id}`}>
+                <a href={`#/groups/${groupId}/events/${id}`} > 
                     <img className="index-item-image" 
                         src={window[imageUrl]} alt=""/>
                     <div className="index-item-image-text">
