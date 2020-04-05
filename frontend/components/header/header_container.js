@@ -4,7 +4,7 @@ import { fetchMemberships} from '../../actions/membership_actions';
 import Header from './header';
 
 const mapStateToProps = (state) => {
-  let currentUser = state.session.id===undefined ? false:true
+  let currentUser = state.session.id===undefined ? false:true;
   return {
     currentUser: currentUser,
     memberships: state.entities.memberships,
