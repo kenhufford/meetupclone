@@ -7797,15 +7797,15 @@ function (_React$Component) {
       });
       var fetchGroupsFromLocation = this.props.fetchGroupsFromLocation(split[1]);
       var fetchEventsFromLocation = this.props.fetchEventsFromLocation(split[1]);
-      var fetchGroupsFromCategory = this.props.fetchGroupsFromCategory(split[1]); // let searchGroups = this.props.searchGroups(result)
-      // let searchEvents = this.props.searchEvents(result)
-
+      var fetchGroupsFromCategory = this.props.fetchGroupsFromCategory(split[1]);
+      var searchGroups = this.props.searchGroups(result);
+      var searchEvents = this.props.searchEvents(result);
       var fetchLocations = this.props.fetchLocations(result);
       var fetchCategories = this.props.fetchCategories(result);
 
       var setSearchStateSuccessBoth = function setSearchStateSuccessBoth(payload) {
-        var events = payload[1] === undefined ? [] : Object.values(payload[1].events);
-        var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups);
+        var events = payload[1] === undefined ? [] : Object.values(payload[1].events.allEvents);
+        var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups.allGroups);
         var newState = Object.assign({}, {
           query: "",
           lastQuery: result.toUpperCase(),
@@ -7863,6 +7863,8 @@ function (_React$Component) {
         _this2.setState(newState);
       };
 
+      debugger;
+
       switch (split[0]) {
         case "location":
           this.setState({
@@ -7918,14 +7920,14 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "SQUAD RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, squadMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          groups: Object.values(groups[0])
+          groups: groups
         })));
         var searchedEvents = squadsOnly ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "groups-index-div-results"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "BRAWL RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, brawlMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          events: Object.values(events[0])
+          events: events
         }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-search-div"
@@ -7959,6 +7961,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7976,6 +7979,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -8066,7 +8070,7 @@ function (_React$Component) {
   return SearchBar;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (SearchBar);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(SearchBar));
 
 /***/ }),
 

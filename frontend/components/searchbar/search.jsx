@@ -43,14 +43,14 @@ class Search extends React.Component{
         let fetchGroupsFromLocation = this.props.fetchGroupsFromLocation(split[1])
         let fetchEventsFromLocation = this.props.fetchEventsFromLocation(split[1])
         let fetchGroupsFromCategory = this.props.fetchGroupsFromCategory(split[1])
-        // let searchGroups = this.props.searchGroups(result)
-        // let searchEvents = this.props.searchEvents(result)
+        let searchGroups = this.props.searchGroups(result)
+        let searchEvents = this.props.searchEvents(result)
         let fetchLocations = this.props.fetchLocations(result)
         let fetchCategories = this.props.fetchCategories(result)
 
         let setSearchStateSuccessBoth =  (payload) => {
-            let events = (payload[1]===undefined) ? []: Object.values(payload[1].events)
-            let groups = (payload[0]===undefined) ? []: Object.values(payload[0].groups)
+            let events = (payload[1]===undefined) ? []: Object.values(payload[1].events.allEvents)
+            let groups = (payload[0]===undefined) ? []: Object.values(payload[0].groups.allGroups)
             let newState = Object.assign({}, {
                 query: "",
                 lastQuery: result.toUpperCase(),
@@ -103,6 +103,7 @@ class Search extends React.Component{
             this.setState(newState)
         }
          
+        debugger
         switch (split[0]) {
             case "location":
                 this.setState({groups: [], events: []})
@@ -140,13 +141,14 @@ class Search extends React.Component{
             } else if (lastQuery.includes("CATEGORY")) {
                 lastQuery = categories[index].name.toUpperCase()
             } 
+            
             let searchedGroups = (
                 <ul className="groups-index-div-results">
                     <p>SQUAD RESULTS FOR {lastQuery}</p>
                     <span>{squadMessages}</span>
                     <div className="groups-div">
                         <GroupIndexList
-                            groups={Object.values(groups[0])}
+                            groups={groups}
                             />
                     </div>
                 </ul>
@@ -157,7 +159,7 @@ class Search extends React.Component{
                     <span>{brawlMessages}</span>
                     <div className="groups-div">
                         <EventIndexList
-                            events={Object.values(events[0])}/>
+                            events={events}/>
                     </div>
                 </ul>
             ) : (<div></div>)
