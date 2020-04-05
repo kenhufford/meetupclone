@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 function GroupIndex(props){
     let [loaded, setLoaded] = useState(false);
-    useFetches(setLoaded, props.fetchGroups);
+    useFetches(setLoaded, [], props.fetchGroups);
 
     if(loaded){
         let allGroups = Object.values(props.groups.allGroups);

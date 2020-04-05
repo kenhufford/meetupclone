@@ -2,7 +2,7 @@ import React from 'react';
 import { formatDate} from '../../utils/date_util';
 import { Link } from 'react-router-dom';
 
-function EventIndexItemLarge(props){
+const EventIndexItemLarge = (props) => {
     const {brawl, diffMonth, thisMonth, locations, recurring} = props;
     const {id, startTime, title, locationId, reservationIds, groupId, imageUrl} = brawl;
     return(

@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import EventIndexList from './event_index_list';
 import useFetches from '../hooks/use_fetches';
 
-function EventIndex (props){
-    let [loaded, setLoaded] = useState(false);
-    useFetches(setLoaded, props.fetchEvents, props.fetchLocations)
+const EventIndex = props => {
+    const [loaded, setLoaded] = useState(false);
+    useFetches(setLoaded, [], props.fetchEvents, props.fetchLocations)
 
     if(loaded){
-        let {locations, events} = props;
+        const {locations, events} = props;
         let {userEvents, allEvents} = events;
         userEvents = userEvents === undefined ? [] : userEvents;
         return (
@@ -37,4 +37,4 @@ function EventIndex (props){
     }
 }
 
-export default EventIndex
+export default EventIndex;

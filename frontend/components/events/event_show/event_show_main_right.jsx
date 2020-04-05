@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { formatDateWithDay } from '../../../utils/date_util';
 
 const EventShowMainRight = props =>{
-    const {group, startTime, endTime, address, locationId, locations, currentUserCaptain} = props;
+    const {group, startTime, endTime, address, locationId, locations, currentUserCaptain, id, deleteEvent} = props;
     const organizerOptions = currentUserCaptain ? (
         <div className="event-show-main-right-infobox">
             <i className="far fa-compass"></i>
@@ -12,12 +12,11 @@ const EventShowMainRight = props =>{
                 <Link to={`/events/form/${id}/edit`}>
                     Edit Event
                 </Link>
-                <a onClick={this.deleteEvent}>
+                <a onClick={deleteEvent}>
                     Cancel the Brawl
                 </a>
             </div>
-        </div>
-    ) : (<div></div>)
+        </div>) : (<div></div>)
     return(
         <div className="event-show-main-right">
             <div >
@@ -35,11 +34,9 @@ const EventShowMainRight = props =>{
                 <div className="event-show-main-right-infobox">
                     <i className="far fa-clock"></i>
                     <div>
-                        <p>
-                            {formatDateWithDay(startTime)} to
+                        <p>{formatDateWithDay(startTime)} to
                         </p>
-                        <p>
-                            {formatDateWithDay(endTime)}
+                        <p>{formatDateWithDay(endTime)}
                         </p>
                     </div>
                 </div>

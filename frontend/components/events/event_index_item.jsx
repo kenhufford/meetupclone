@@ -1,16 +1,14 @@
 import React from 'react';
 
-function EventIndexItem(props){
+const EventIndexItem = (props) =>{
     const { title, groupId, imageUrl, id, name} = props.event
-    if (name===undefined){
-        return (<div> </div>)
-    } else {
-        return(
+    if (name!==undefined){
+        return (
             <div className="index-item"
                 key={`event${id}`}>
-                <a href={`#/groups/${groupId}/events/${id}`} > 
-                    <img className="index-item-image" 
-                        src={window[imageUrl]} alt=""/>
+                <a href={`#/groups/${groupId}/events/${id}`} >
+                    <img className="index-item-image"
+                        src={window[imageUrl]} alt="" />
                     <div className="index-item-image-text">
                         <p className="index-item-image-text-big">
                             {title}
@@ -22,6 +20,8 @@ function EventIndexItem(props){
                 </a>
             </div>
         )
+    } else {
+        return (<div> </div>)
     }
 }
 

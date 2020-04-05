@@ -1,8 +1,8 @@
 import React from 'react';
 
 const EventShowBanner = props =>{
-    const {title, formatDate, startTime, captains, captainIds, users} = props;
-    const captainsText = captains.length === 1 ? ` ` : `${captains[0]} and ${captains.length - 1} others` 
+    const { title, formatDate, startTime, captainNames, captainIds, users} = props;
+    const captainsText = captainNames.length === 1 ? ` ` : `${captainNames[0]} and ${captainNames.length - 1} others` 
     return (
         <div className="event-show-banner">
             <div className="event-show-banner-inter">
@@ -13,7 +13,7 @@ const EventShowBanner = props =>{
                 <div className="event-show-banner-right">
                     <div className="event-show-banner-right-text">
                         <p>Brawl organized by</p>
-                        <p>{captains[0]} {captainsText}</p>
+                        <p>{captainNames[0]} {captainsText}</p>
                     </div>
                     <img src={window[users[captainIds[0]].imageUrl]}
                         className="event-show-member-picture"

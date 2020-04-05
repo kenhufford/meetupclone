@@ -1,8 +1,7 @@
 import {useEffect} from 'react';
 
-function useFetches(setLoaded,...args){
+function useFetches(setLoaded, condition,...args){
     useEffect( () => {
-        console.log(args)
         Promise.all(args.map(arg=>{ 
             if(typeof arg === "function"){
                 return arg();
@@ -12,7 +11,7 @@ function useFetches(setLoaded,...args){
             }
         }))
             .then(() => setLoaded(true))
-    }, [])
+    }, condition)
 }
 
 export default useFetches;

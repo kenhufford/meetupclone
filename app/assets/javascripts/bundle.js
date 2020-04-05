@@ -1017,7 +1017,7 @@ function CategoryIndex(props) {
       loaded = _useState2[0],
       setLoaded = _useState2[1];
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, fetchCategories);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [], fetchCategories);
 
   if (loaded) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3940,7 +3940,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function EditEventForm(props) {
+var EditEventForm = function EditEventForm(props) {
   var fetchLocations = props.fetchLocations,
       fetchEvent = props.fetchEvent;
 
@@ -3949,7 +3949,7 @@ function EditEventForm(props) {
       loaded = _useState2[0],
       setLoaded = _useState2[1];
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, fetchLocations, [fetchEvent, props.match.params.eventId]);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [], fetchLocations, [fetchEvent, props.match.params.eventId]);
 
   if (loaded) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_event_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -3963,7 +3963,7 @@ function EditEventForm(props) {
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (EditEventForm);
 
@@ -4048,13 +4048,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function EventIndex(props) {
+var EventIndex = function EventIndex(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       loaded = _useState2[0],
       setLoaded = _useState2[1];
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, props.fetchEvents, props.fetchLocations);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [], props.fetchEvents, props.fetchLocations);
 
   if (loaded) {
     var locations = props.locations,
@@ -4082,7 +4082,7 @@ function EventIndex(props) {
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (EventIndex);
 
@@ -4153,7 +4153,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-function EventIndexItem(props) {
+var EventIndexItem = function EventIndexItem(props) {
   var _props$event = props.event,
       title = _props$event.title,
       groupId = _props$event.groupId,
@@ -4161,9 +4161,7 @@ function EventIndexItem(props) {
       id = _props$event.id,
       name = _props$event.name;
 
-  if (name === undefined) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ");
-  } else {
+  if (name !== undefined) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "index-item",
       key: "event".concat(id)
@@ -4180,8 +4178,10 @@ function EventIndexItem(props) {
     }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "index-item-image-text-small"
     }, "Hosted By: ", name))));
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ");
   }
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (EventIndexItem);
 
@@ -4204,7 +4204,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function EventIndexItemLarge(props) {
+var EventIndexItemLarge = function EventIndexItemLarge(props) {
   var brawl = props.brawl,
       diffMonth = props.diffMonth,
       thisMonth = props.thisMonth,
@@ -4239,7 +4239,7 @@ function EventIndexItemLarge(props) {
     src: window[imageUrl],
     className: "group-show-events-img"
   }))))));
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (EventIndexItemLarge);
 
@@ -4434,7 +4434,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function EventIndexListShort(props) {
+var EventIndexListShort = function EventIndexListShort(props) {
   var events = props.events;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-groups-div"
@@ -4444,7 +4444,7 @@ function EventIndexListShort(props) {
       event: event
     });
   }));
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (EventIndexListShort);
 
@@ -4462,28 +4462,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _event_show_banner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./event_show_banner */ "./frontend/components/events/event_show/event_show_banner.jsx");
-/* harmony import */ var _event_show_main_left__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./event_show_main_left */ "./frontend/components/events/event_show/event_show_main_left.jsx");
-/* harmony import */ var _event_show_main_right__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./event_show_main_right */ "./frontend/components/events/event_show/event_show_main_right.jsx");
-/* harmony import */ var _event_show_footer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./event_show_footer */ "./frontend/components/events/event_show/event_show_footer.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _event_show_banner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event_show_banner */ "./frontend/components/events/event_show/event_show_banner.jsx");
+/* harmony import */ var _event_show_main_left__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./event_show_main_left */ "./frontend/components/events/event_show/event_show_main_left.jsx");
+/* harmony import */ var _event_show_main_right__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./event_show_main_right */ "./frontend/components/events/event_show/event_show_main_right.jsx");
+/* harmony import */ var _event_show_footer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./event_show_footer */ "./frontend/components/events/event_show/event_show_footer.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -4493,200 +4483,145 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var EventShow =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(EventShow, _React$Component);
+var EventShow = function EventShow(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loaded = _useState2[0],
+      setLoaded = _useState2[1];
 
-  function EventShow(props) {
-    var _this;
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentUserAttending = _useState4[0],
+      setCurrentUserAttending = _useState4[1];
 
-    _classCallCheck(this, EventShow);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EventShow).call(this, props));
-    _this.state = {
-      toEventIndex: false,
-      currentUserAttending: false,
-      loaded: false
+  var rsvp = function rsvp(key) {
+    return function () {
+      if (!props.currentUser) {
+        props.history.push("/login");
+      } else if (key === "create") {
+        props.createReservation(props.match.params.eventId).then(function () {
+          return setCurrentUserAttending(true);
+        });
+      } else if (props.reservations.eventReservations.length === 1) {
+        props.deleteEvent(props.match.params.eventId);
+        props.history.push('/groups');
+      } else {
+        props.deleteReservation(props.match.params.eventId).then(function () {
+          return setCurrentUserAttending(false);
+        });
+      }
     };
-    _this.rsvp = _this.rsvp.bind(_assertThisInitialized(_this));
-    _this.deleteEvent = _this.deleteEvent.bind(_assertThisInitialized(_this));
-    return _this;
+  };
+
+  var deleteEvent = function deleteEvent() {
+    if (!props.currentUser) {
+      document.location.href = '#/login';
+    } else {
+      setLoaded(false);
+      props.deleteEvent(props.event.id).then(function () {
+        props.history.push('/groups');
+      });
+    }
+  };
+
+  var _props$match$params = props.match.params,
+      eventId = _props$match$params.eventId,
+      groupId = _props$match$params.groupId;
+
+  var fetchEvent = function fetchEvent(eventId) {
+    return props.fetchEvent(eventId).then(function (payload) {
+      return setCurrentUserAttending(payload.event.currentUserAttending);
+    });
+  };
+
+  var fetchLocations = props.fetchLocations,
+      fetchUsersFromEvent = props.fetchUsersFromEvent,
+      fetchGroup = props.fetchGroup,
+      fetchReservations = props.fetchReservations;
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_6__["default"])(setLoaded, [props.match.params.eventId], fetchLocations, [fetchUsersFromEvent, eventId], [fetchEvent, eventId], [fetchGroup, groupId], [fetchReservations, eventId]);
+
+  if (loaded) {
+    var _props$event = props.event,
+        title = _props$event.title,
+        description = _props$event.description,
+        startTime = _props$event.startTime,
+        locationId = _props$event.locationId,
+        maxAttendance = _props$event.maxAttendance,
+        endTime = _props$event.endTime,
+        address = _props$event.address,
+        imageUrl = _props$event.imageUrl;
+    var group = props.group,
+        locations = props.locations,
+        users = props.users,
+        reservations = props.reservations,
+        currentUserId = props.currentUserId;
+    var captainNames = [];
+    var captainIds = [];
+    var currentUserCaptain = false;
+    reservations.eventReservations.forEach(function (reservation) {
+      if (reservation.isOrganizer) {
+        if (!users[reservation.userId]) return null;
+        captainNames.push(users[reservation.userId].name);
+        captainIds.push(reservation.userId);
+
+        if (reservation.userId === currentUserId) {
+          currentUserCaptain = true;
+        }
+      }
+    });
+    var joinButton;
+
+    if (maxAttendance <= reservations.eventReservations.length) {
+      joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "event-show-join"
+      }, "TOO LATE EVENT FULL");
+    } else if (!currentUserAttending) {
+      joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: rsvp("create"),
+        className: "event-show-join"
+      }, "A NEW CHALLENGER");
+    } else if (currentUserAttending) {
+      joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: rsvp("delete"),
+        className: "event-show-join"
+      }, "A HONORABLE RETREAT");
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "event-show"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_banner__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      formatDate: _utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"],
+      captainNames: captainNames,
+      captainIds: captainIds,
+      startTime: startTime,
+      title: title,
+      users: users
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "event-show-main"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_main_left__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      description: description,
+      reservations: reservations,
+      imageUrl: imageUrl,
+      users: users
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_main_right__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      group: group,
+      startTime: startTime,
+      endTime: endTime,
+      address: address,
+      locationId: locationId,
+      locations: locations,
+      currentUserCaptain: currentUserCaptain,
+      deleteEvent: deleteEvent,
+      id: eventId
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_footer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      startTime: startTime,
+      title: title,
+      joinButton: joinButton
+    }));
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-
-  _createClass(EventShow, [{
-    key: "rsvp",
-    value: function rsvp(key) {
-      var _this2 = this;
-
-      return function () {
-        if (!_this2.props.currentUser) {
-          _this2.props.history.push("/login");
-        } else if (key === "create") {
-          _this2.props.createReservation(_this2.props.match.params.eventId).then(function () {
-            return _this2.setState({
-              currentUserAttending: true
-            });
-          });
-        } else if (_this2.props.reservations.eventReservations.length === 1) {
-          _this2.props.deleteEvent(_this2.props.match.params.eventId).then(function () {
-            _this2.setState({
-              toEventIndex: true
-            });
-          });
-
-          _this2.props.history.push('/groups');
-        } else {
-          _this2.props.deleteReservation(_this2.props.match.params.eventId).then(function () {
-            return _this2.setState({
-              currentUserAttending: false
-            });
-          });
-        }
-      };
-    }
-  }, {
-    key: "deleteEvent",
-    value: function deleteEvent() {
-      var _this3 = this;
-
-      if (!this.props.currentUser) {
-        document.location.href = '#/login';
-      } else {
-        this.setState({
-          loaded: false
-        });
-        this.props.deleteEvent(this.props.event.id).then(function () {
-          _this3.props.history.push('/groups');
-        });
-      }
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.match.params.eventId !== prevProps.match.params.eventId) {
-        this.props.fetchEvent(this.props.match.params.eventId);
-        this.props.fetchUsersFromEvent(this.props.match.params.eventId);
-        this.props.fetchReservations(this.props.match.params.eventId);
-      }
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this4 = this;
-
-      var eventId = this.props.match.params.eventId;
-      var groupId = this.props.match.params.groupId;
-      var fetchLocations = this.props.fetchLocations();
-      var fetchUsersFromEvent = this.props.fetchUsersFromEvent(eventId);
-      var fetchEvent = this.props.fetchEvent(eventId).then(function (payload) {
-        return _this4.setState({
-          currentUserAttending: payload.event.currentUserAttending
-        });
-      });
-      var fetchGroup = this.props.fetchGroup(groupId);
-      var fetchReservations = this.props.fetchReservations(eventId);
-      Promise.all([fetchLocations, fetchUsersFromEvent, fetchEvent, fetchGroup, fetchReservations]).then(function () {
-        return _this4.setState({
-          loaded: true
-        });
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.toEventIndex === true) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
-          to: "/events"
-        });
-      }
-
-      if (this.state.loaded) {
-        var _this$props$event = this.props.event,
-            title = _this$props$event.title,
-            description = _this$props$event.description,
-            startTime = _this$props$event.startTime,
-            locationId = _this$props$event.locationId,
-            maxAttendance = _this$props$event.maxAttendance,
-            endTime = _this$props$event.endTime,
-            address = _this$props$event.address,
-            imageUrl = _this$props$event.imageUrl;
-        var _this$props = this.props,
-            group = _this$props.group,
-            locations = _this$props.locations,
-            users = _this$props.users,
-            reservations = _this$props.reservations,
-            currentUserId = _this$props.currentUserId;
-        var captains = [];
-        var captainIds = [];
-        var currentUserCaptain = false;
-        reservations.eventReservations.forEach(function (reservation) {
-          if (reservation.isOrganizer) {
-            if (!users[reservation.userId]) return null;
-            captains.push(users[reservation.userId].name);
-            captainIds.push(reservation.userId);
-
-            if (reservation.userId === currentUserId) {
-              currentUserCaptain = true;
-            }
-          }
-        });
-        var joinButton;
-
-        if (maxAttendance <= reservations.eventReservations.length) {
-          joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            className: "event-show-join"
-          }, "TOO LATE EVENT FULL");
-        } else if (!this.state.currentUserAttending) {
-          joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            onClick: this.rsvp("create"),
-            className: "event-show-join"
-          }, "A NEW CHALLENGER");
-        } else if (this.state.currentUserAttending) {
-          joinButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            onClick: this.rsvp("delete"),
-            className: "event-show-join"
-          }, "A HONORABLE RETREAT");
-        }
-
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "event-show"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_banner__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          formatDate: _utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"],
-          captains: captains,
-          captainIds: captainIds,
-          startTime: startTime,
-          title: title,
-          users: users
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "event-show-main"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_main_left__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          description: description,
-          reservations: reservations,
-          imageUrl: imageUrl,
-          users: users
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_main_right__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          group: group,
-          startTime: startTime,
-          endTime: endTime,
-          address: address,
-          locationId: locationId,
-          locations: locations,
-          currentUserCaptain: currentUserCaptain,
-          deleteEvent: this.deleteEvent
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_event_show_footer__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          startTime: startTime,
-          title: title,
-          joinButton: joinButton
-        }));
-      } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-      }
-    }
-  }]);
-
-  return EventShow;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (EventShow);
 
@@ -4709,10 +4644,10 @@ var EventShowBanner = function EventShowBanner(props) {
   var title = props.title,
       formatDate = props.formatDate,
       startTime = props.startTime,
-      captains = props.captains,
+      captainNames = props.captainNames,
       captainIds = props.captainIds,
       users = props.users;
-  var captainsText = captains.length === 1 ? " " : "".concat(captains[0], " and ").concat(captains.length - 1, " others");
+  var captainsText = captainNames.length === 1 ? " " : "".concat(captainNames[0], " and ").concat(captainNames.length - 1, " others");
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-banner"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4723,7 +4658,7 @@ var EventShowBanner = function EventShowBanner(props) {
     className: "event-show-banner-right"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-banner-right-text"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, captains[0], " ", captainsText)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, captainNames[0], " ", captainsText)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: window[users[captainIds[0]].imageUrl],
     className: "event-show-member-picture",
     alt: "org-pic"
@@ -4878,7 +4813,7 @@ var EventShowMainLeft = function EventShowMainLeft(props) {
     className: "event-show-main-left-members-list"
   }, reservations.eventReservations.map(function (reservation, i) {
     if (i < 12) {
-      var icon = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "event-show-member-picture-div",
         key: i
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4887,7 +4822,6 @@ var EventShowMainLeft = function EventShowMainLeft(props) {
         alt: "member-pic",
         className: "event-show-member-picture"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, users[reservation.userId].name));
-      return icon;
     }
   })));
 };
@@ -4909,8 +4843,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
-var _this = undefined;
-
 
 
 
@@ -4922,7 +4854,9 @@ var EventShowMainRight = function EventShowMainRight(props) {
       address = props.address,
       locationId = props.locationId,
       locations = props.locations,
-      currentUserCaptain = props.currentUserCaptain;
+      currentUserCaptain = props.currentUserCaptain,
+      id = props.id,
+      deleteEvent = props.deleteEvent;
   var organizerOptions = currentUserCaptain ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-main-right-infobox"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -4930,7 +4864,7 @@ var EventShowMainRight = function EventShowMainRight(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Organizer Options"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/events/form/".concat(id, "/edit")
   }, "Edit Event"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    onClick: _this.deleteEvent
+    onClick: deleteEvent
   }, "Cancel the Brawl"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-main-right"
@@ -5583,7 +5517,7 @@ function GroupIndex(props) {
       loaded = _useState2[0],
       setLoaded = _useState2[1];
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, props.fetchGroups);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [], props.fetchGroups);
 
   if (loaded) {
     var allGroups = Object.values(props.groups.allGroups);
@@ -5789,7 +5723,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function GroupLanding(props) {
+var GroupLanding = function GroupLanding(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       loaded = _useState2[0],
@@ -5806,7 +5740,6 @@ function GroupLanding(props) {
       setSelectedLocationId = _useState6[1];
 
   var selectLocation = function selectLocation(id) {
-    console.log(id);
     var location = props.locations[id - 1];
     setSelectedLocation(location.name);
     setSelectedLocationId(location.id);
@@ -5818,7 +5751,7 @@ function GroupLanding(props) {
       fetchGroups = props.fetchGroups,
       fetchEvents = props.fetchEvents,
       fetchLocations = props.fetchLocations;
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_5__["default"])(setLoaded, fetchGroups, fetchEvents, fetchLocations);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_5__["default"])(setLoaded, [], fetchGroups, fetchEvents, fetchLocations);
 
   if (loaded) {
     var nearbyGroups = Object.values(groups.allGroups).filter(function (group) {
@@ -5832,14 +5765,6 @@ function GroupLanding(props) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_banner__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      indexName: "Events",
-      selectedLocation: selectedLocation,
-      locations: locations,
-      selectLocation: selectLocation,
-      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        events: nearbyEvents
-      })
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
       indexName: "Groups",
       selectedLocation: selectedLocation,
       locations: locations,
@@ -5847,11 +5772,19 @@ function GroupLanding(props) {
       indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
         groups: nearbyGroups
       })
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      indexName: "Events",
+      selectedLocation: selectedLocation,
+      locations: locations,
+      selectLocation: selectLocation,
+      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        events: nearbyEvents
+      })
     })));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupLanding);
 
@@ -5872,7 +5805,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function GroupLandingBanner() {
+var GroupLandingBanner = function GroupLandingBanner() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-banner"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5890,7 +5823,7 @@ function GroupLandingBanner() {
     className: "landing-banner-right-image",
     src: window.mainImageURL
   })));
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupLandingBanner);
 
@@ -5958,7 +5891,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function GroupLandingIndex(props) {
+var GroupLandingIndex = function GroupLandingIndex(props) {
   var selectedLocation = props.selectedLocation,
       selectLocation = props.selectLocation,
       locations = props.locations,
@@ -5974,7 +5907,7 @@ function GroupLandingIndex(props) {
     list: locations,
     toggleLocation: selectLocation
   })), indexList);
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupLandingIndex);
 
@@ -7435,13 +7368,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function useFetches(setLoaded) {
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
+function useFetches(setLoaded, condition) {
+  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    args[_key - 2] = arguments[_key];
   }
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    console.log(args);
     Promise.all(args.map(function (arg) {
       if (typeof arg === "function") {
         return arg();
@@ -7455,7 +7387,7 @@ function useFetches(setLoaded) {
     })).then(function () {
       return setLoaded(true);
     });
-  }, []);
+  }, condition);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (useFetches);
@@ -7841,7 +7773,7 @@ function (_React$Component) {
         _this2.setState(newState);
       };
 
-      var setSearchStateFail = function setSearchStateFail(payload) {
+      var setSearchStateFail = function setSearchStateFail() {
         var newState = Object.assign({}, {
           query: "",
           lastQuery: result.toUpperCase(),

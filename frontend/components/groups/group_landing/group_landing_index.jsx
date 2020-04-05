@@ -1,8 +1,8 @@
 import React from 'react';
 import CreateGroupFormDropdown from '../create_group_form_dropdown';
 
-function GroupLandingIndex(props){
-    let {selectedLocation, selectLocation, locations, indexList, indexName} = props;
+const GroupLandingIndex = props => {
+    const {selectedLocation, selectLocation, locations, indexList, indexName} = props;
     return(
         <div className="landing-main-groups">
             <div className="landing-location-dropdown">

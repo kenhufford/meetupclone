@@ -5,23 +5,22 @@ import GroupLandingBanner from './group_landing_banner';
 import GroupLandingIndex from './group_landing_index';
 import useFetches from '../../hooks/use_fetches';
 
-function GroupLanding(props){
-    let [loaded, setLoaded] = useState(false);
-    let [selectedLocation, setSelectedLocation] = useState("San Francisco");
-    let [selectedLocationId, setSelectedLocationId] = useState(1);
-    let selectLocation = (id) => {
-        console.log(id)
+const GroupLanding = props => {
+    const [loaded, setLoaded] = useState(false);
+    const [selectedLocation, setSelectedLocation] = useState("San Francisco");
+    const [selectedLocationId, setSelectedLocationId] = useState(1);
+    const selectLocation = (id) => {
         let location = props.locations[id-1];
         setSelectedLocation(location.name);
         setSelectedLocationId(location.id);
     }
-    let { groups, events, locations, fetchGroups, fetchEvents, fetchLocations} = props;
-    useFetches(setLoaded, fetchGroups, fetchEvents, fetchLocations);
+    const { groups, events, locations, fetchGroups, fetchEvents, fetchLocations} = props;
+    useFetches(setLoaded,[], fetchGroups, fetchEvents, fetchLocations);
     
     if (loaded){
-        let nearbyGroups = Object.values(groups.allGroups)
+        const nearbyGroups = Object.values(groups.allGroups)
             .filter(group => group.locationId === selectedLocationId)
-        let nearbyEvents = Object.values(events.allEvents)
+        const nearbyEvents = Object.values(events.allEvents)
             .filter(event => event.locationId === selectedLocationId)
         return(
             <div className="landing">
@@ -29,18 +28,18 @@ function GroupLanding(props){
                     />
                 <div className="landing-main">
                     <GroupLandingIndex
-                        indexName="Events"
-                        selectedLocation={selectedLocation}
-                        locations={locations}
-                        selectLocation={selectLocation}
-                        indexList={<EventIndexListShort events={nearbyEvents}/>}
-                        />
-                    <GroupLandingIndex
                         indexName="Groups"
                         selectedLocation={selectedLocation}
                         locations={locations}
                         selectLocation={selectLocation}
                         indexList={<GroupIndexList groups={nearbyGroups} />}
+                        />
+                    <GroupLandingIndex
+                        indexName="Events"
+                        selectedLocation={selectedLocation}
+                        locations={locations}
+                        selectLocation={selectLocation}
+                        indexList={<EventIndexListShort events={nearbyEvents}/>}
                         />
                 </div>
             </div>

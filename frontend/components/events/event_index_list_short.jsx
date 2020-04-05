@@ -1,8 +1,8 @@
 import React from 'react';
 import EventIndexItem from './event_index_item';
 
-function EventIndexListShort(props){
-    let { events } = props;
+const EventIndexListShort = props =>{
+    const { events } = props;
     return (
         <div className="landing-groups-div">
             {events.map(event => (

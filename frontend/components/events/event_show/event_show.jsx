@@ -1,154 +1,119 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {formatDate} from '../../../utils/date_util';
-import {Redirect} from 'react-router-dom';
 import EventShowBanner from './event_show_banner';
 import EventShowMainLeft from './event_show_main_left';
 import EventShowMainRight from './event_show_main_right';
 import EventShowFooter from './event_show_footer';
+import useFetches from '../../hooks/use_fetches';
 
-class EventShow extends React.Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            toEventIndex: false,
-            currentUserAttending: false,
-            loaded: false,
-        }
-        this.rsvp = this.rsvp.bind(this)
-        this.deleteEvent = this.deleteEvent.bind(this)
-    }
-
-    rsvp(key){
+const EventShow = props =>{
+    const [loaded, setLoaded] = useState(false);
+    const [currentUserAttending, setCurrentUserAttending] = useState(false);
+    const rsvp = (key) => {
         return () => {
-            if (!this.props.currentUser){
-                this.props.history.push(`/login`)
+            if (!props.currentUser){
+                props.history.push(`/login`);
             } else if (key==="create"){
-                this.props.createReservation(this.props.match.params.eventId)            
-                .then( () => this.setState({
-                    currentUserAttending: true
-                }))
-            } else if (this.props.reservations.eventReservations.length===1){
-                this.props.deleteEvent(this.props.match.params.eventId)            
-                    .then( () => {
-                        this.setState({toEventIndex: true})
-                    })
-                this.props.history.push('/groups')
+                props.createReservation(props.match.params.eventId)    
+                    .then( () => setCurrentUserAttending(true));
+            } else if (props.reservations.eventReservations.length===1){
+                props.deleteEvent(props.match.params.eventId);
+                props.history.push('/groups');
             } else {
-                this.props.deleteReservation(this.props.match.params.eventId)            
-                .then( () => this.setState({
-                    currentUserAttending: false
-                }))
+                props.deleteReservation(props.match.params.eventId)            
+                    .then(() => setCurrentUserAttending(false));
             }
         }
     }
-
-    deleteEvent(){
-        if (!this.props.currentUser){
-            document.location.href = '#/login'
+    const deleteEvent = () =>{
+        if (!props.currentUser){
+            document.location.href = '#/login';
         } else {
-            this.setState({ loaded: false })
-            this.props.deleteEvent(this.props.event.id)            
-                .then( () => {
-                    this.props.history.push('/groups')
-                })
+            setLoaded(false);
+            props.deleteEvent(props.event.id)            
+                .then( () => {props.history.push('/groups')})
         }
     }
+    const { eventId, groupId } = props.match.params;
+    const fetchEvent = (eventId) => props.fetchEvent(eventId)
+        .then(payload => setCurrentUserAttending(payload.event.currentUserAttending))
+    const { fetchLocations, fetchUsersFromEvent, fetchGroup, fetchReservations } = props;
 
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.eventId !== prevProps.match.params.eventId) {
-            this.props.fetchEvent(this.props.match.params.eventId)
-            this.props.fetchUsersFromEvent(this.props.match.params.eventId);
-            this.props.fetchReservations(this.props.match.params.eventId);  
-        }
-    }
+    useFetches(setLoaded,
+        [props.match.params.eventId],
+        fetchLocations,
+        [fetchUsersFromEvent, eventId],
+        [fetchEvent, eventId],
+        [fetchGroup, groupId],
+        [fetchReservations, eventId])
 
-    componentDidMount(){
-        let eventId = this.props.match.params.eventId;
-        let groupId = this.props.match.params.groupId;
-        const fetchLocations = this.props.fetchLocations();
-        const fetchUsersFromEvent = this.props.fetchUsersFromEvent(eventId);
-        const fetchEvent = this.props.fetchEvent(eventId)
-            .then(payload => this.setState({
-                currentUserAttending: payload.event.currentUserAttending
-            }))  
-        const fetchGroup = this.props.fetchGroup(groupId);  
-        const fetchReservations = this.props.fetchReservations(eventId);  
-        Promise.all([fetchLocations, fetchUsersFromEvent, fetchEvent, fetchGroup, fetchReservations])
-        .then( () => this.setState({loaded:true}))
-    }
-
-    render(){
-        if (this.state.toEventIndex === true) {
-            return <Redirect to='/events' />
-          }
-
-        if(this.state.loaded){
-            const {title, description, startTime, locationId, maxAttendance,
-                endTime, address, imageUrl} = this.props.event;
-            const {group, locations, users, reservations, currentUserId} = this.props;
-            const captains = [];
-            const captainIds = [];
-            let currentUserCaptain = false;
-            reservations.eventReservations.forEach ( (reservation)=> {
-                if (reservation.isOrganizer){
-                    if (!users[reservation.userId]) return null
-                    captains.push(users[reservation.userId].name)
-                    captainIds.push(reservation.userId)
-                    if (reservation.userId === currentUserId){
-                        currentUserCaptain = true;
-                    }
+    if(loaded){
+        const {title, description, startTime, locationId, maxAttendance,
+            endTime, address, imageUrl} = props.event;
+        const {group, locations, users, reservations, currentUserId} = props;
+        const captainNames = [];
+        const captainIds = [];
+        let currentUserCaptain = false;
+        reservations.eventReservations.forEach ( (reservation)=> {
+            if (reservation.isOrganizer){
+                if (!users[reservation.userId]) return null
+                captainNames.push(users[reservation.userId].name)
+                captainIds.push(reservation.userId)
+                if (reservation.userId === currentUserId){
+                    currentUserCaptain = true;
                 }
-            })
-            let joinButton;
-            if (maxAttendance<=reservations.eventReservations.length){
-                joinButton = (<button className="event-show-join">TOO LATE EVENT FULL</button>)
-            } else if (!this.state.currentUserAttending){
-                joinButton = (<button onClick={this.rsvp("create")} className="event-show-join">A NEW CHALLENGER</button>)
-            } else if (this.state.currentUserAttending){
-                joinButton = (<button onClick={this.rsvp("delete")} className="event-show-join">A HONORABLE RETREAT</button>)
             }
-            
-            return(
-                <div className="event-show">
-                    <EventShowBanner
-                        formatDate={formatDate}
-                        captains={captains} 
-                        captainIds={captainIds}
-                        startTime={startTime}
-                        title={title}
-                        users={users}
-                        />
-                    <div className="event-show-main">
-                        <EventShowMainLeft
-                            description={description}
-                            reservations={reservations}
-                            imageUrl={imageUrl}
-                            users={users}
-                            />
-                        <EventShowMainRight
-                            group={group}
-                            startTime={startTime}
-                            endTime={endTime}
-                            address={address}
-                            locationId={locationId}
-                            locations={locations}
-                            currentUserCaptain={currentUserCaptain}
-                            deleteEvent={this.deleteEvent}
-                            />
-                    </div>
-                   <EventShowFooter
+        })
+        let joinButton;
+        if (maxAttendance<=reservations.eventReservations.length){
+            joinButton = (<button className="event-show-join">TOO LATE EVENT FULL</button>)
+        } else if (!currentUserAttending){
+            joinButton = (<button onClick={rsvp("create")} className="event-show-join">A NEW CHALLENGER</button>)
+        } else if (currentUserAttending){
+            joinButton = (<button onClick={rsvp("delete")} className="event-show-join">A HONORABLE RETREAT</button>)
+        }
+        
+        return(
+            <div className="event-show">
+                <EventShowBanner
+                    formatDate={formatDate}
+                    captainNames={captainNames} 
+                    captainIds={captainIds}
                     startTime={startTime}
                     title={title}
-                    joinButton={joinButton}
+                    users={users}
                     />
+                <div className="event-show-main">
+                    <EventShowMainLeft
+                        description={description}
+                        reservations={reservations}
+                        imageUrl={imageUrl}
+                        users={users}
+                        />
+                    <EventShowMainRight
+                        group={group}
+                        startTime={startTime}
+                        endTime={endTime}
+                        address={address}
+                        locationId={locationId}
+                        locations={locations}
+                        currentUserCaptain={currentUserCaptain}
+                        deleteEvent={deleteEvent}
+                        id={eventId}
+                        />
                 </div>
-                
-            )
-        } else {
-            return (
-                <div></div>
-            )
-        }
+                <EventShowFooter
+                startTime={startTime}
+                title={title}
+                joinButton={joinButton}
+                />
+            </div>
+            
+        )
+    } else {
+        return (
+            <div></div>
+        )
     }
 }
 

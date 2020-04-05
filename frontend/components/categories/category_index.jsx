@@ -5,7 +5,7 @@ import useFetches from '../hooks/use_fetches';
 function CategoryIndex(props){
     let { categories, fetchCategories } = props
     let [loaded, setLoaded] = useState(false);
-    useFetches(setLoaded, fetchCategories);
+    useFetches(setLoaded, [], fetchCategories);
     if(loaded){
         return (
             <div className="landing-main-groups">
