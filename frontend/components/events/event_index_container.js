@@ -5,14 +5,12 @@ import {fetchGroups} from '../../actions/group_actions'
 import {fetchLocations} from '../../actions/location_actions'
 import {fetchReservations} from '../../actions/reservation_actions'
 
-const mapStateToProps = (state) => {
-    return {
-        groups: state.entities.groups,
-        reservations: state.entities.reservations,
-        events: state.entities.events,
-        locations: state.entities.locations
-    }
-}
+const mapStateToProps = (state) => ({
+    groups: state.entities.groups,
+    reservations: state.entities.reservations,
+    events: state.entities.events,
+    locations: state.entities.locations
+})
 
 const mapDispatchToProps = dispatch => ({
     fetchEvents: () => dispatch(fetchEvents()),
