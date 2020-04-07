@@ -7177,7 +7177,8 @@ var HeaderLeft = function HeaderLeft() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fab fa-linkedin-in"
   })));
-};
+}; //something
+
 
 /* harmony default export */ __webpack_exports__["default"] = (HeaderLeft);
 
@@ -7322,7 +7323,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function useFetches(setLoaded, condition) {
+var useFetches = function useFetches(setLoaded, condition) {
   for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
     args[_key - 2] = arguments[_key];
   }
@@ -7342,7 +7343,7 @@ function useFetches(setLoaded, condition) {
       return setLoaded(true);
     });
   }, condition);
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (useFetches);
 
