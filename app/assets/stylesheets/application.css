@@ -372,14 +372,13 @@
  }
 
  .login-form-label{
-
    font-size: 16px;
    font-weight: 700;
  }
 
  .login-input{
-   margin-top: 5px;
-   margin-bottom: 5px;
+   margin-top: 15px;
+   margin-bottom: 15px;
    padding: 5px;
    width: 95%;
    display: block;
@@ -395,18 +394,25 @@
    align-items: center;
    justify-content: space-around;
 }
+
  .login-submit{
-    cursor: pointer;
-    user-select: none;
-    text-decoration: none;
-    background-color: #FF0C37;
-    color: white;
-    border-radius: 4px;
-    font-size: 18px;
-    font-weight: bold;
-    height: 40px;
-    width: 90px;
+   cursor: pointer;
+   user-select: none;
+   text-decoration: none;
+   background-color: #FF0C37;
+   color: white;
+   border-radius: 4px;
+   font-size: 18px;
+   font-weight: bold;
+   height: 40px;
+   width: 90px;
+   transition: color 300ms ease;
+   -webkit-transition: color 300ms ease;
  }
+
+   .login-submit:hover{
+      color:black;
+   }
 
  .login-demo-submit{
    cursor: pointer;

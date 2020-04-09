@@ -18,6 +18,4 @@ const HeaderLeft = () => {
     )
 }
 
-//somethingelse
-
 export default HeaderLeft;
