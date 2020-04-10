@@ -351,7 +351,6 @@
  .login{
     border-bottom: 1px solid lightgrey;
     font-size: 30px;
-    padding-left: 10px;
  }
 
  .login-not-reg{
@@ -361,6 +360,7 @@
 
  .login-signup-link{
    font-size: 18px;
+   font-weight: 500;
    padding-left: 6px;
    text-decoration: none;
    color: #FF0C37;
@@ -374,10 +374,13 @@
  .login-form-label{
    font-size: 16px;
    font-weight: 700;
+   margin-top: 20px;
+    margin-bottom: 20px;
  }
 
  .login-input{
    margin-top: 15px;
+   font-size:18px;
    margin-bottom: 15px;
    padding: 5px;
    width: 95%;

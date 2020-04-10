@@ -16,6 +16,7 @@ class SessionForm extends React.Component {
     this.handleDemoLogin = this.handleDemoLogin.bind(this);
     this.toggleSelected = this.toggleSelected.bind(this);
     this.renderErrors = this.renderErrors.bind(this);
+    this.update = this.update.bind(this);
   }
 
   componentDidMount(){
@@ -33,7 +34,7 @@ class SessionForm extends React.Component {
   }
 
   toggleSelected(index){
-    let loc = this.props.locations[index]
+    let loc = this.props.locations[index-1]
     this.setState({
       selectedLocation: loc.name,
       selectedLocationId: loc.id

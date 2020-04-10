@@ -13,22 +13,22 @@ const Login = props => {
                     {renderErrors()}
                 </h3>
                 <div className="login-form">
-                    <label className="login-form-label">
+                    <div className="login-form-label">
                         Email Address:
                         <input type="text"
                             value={email}
                             onChange={update('email')}
                             className="login-input"
                         />
-                    </label>
-                    <label className="login-form-label">
+                    </div>
+                    <div className="login-form-label">
                         Password:
                         <input type="password"
                             value={password}
                             onChange={update('password')}
                             className="login-input"
                         />
-                    </label>
+                    </div>
                     <br />
                     <div className="login-buttons-div">
                         <input onClick={handleSubmit} 

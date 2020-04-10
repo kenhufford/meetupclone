@@ -8055,14 +8055,14 @@ var Login = function Login(props) {
     className: "login-signup-link"
   }, "   Sign Up")), renderErrors()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-label"
   }, "Email Address:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     value: email,
     onChange: update('email'),
     className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-label"
   }, "Password:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "password",
@@ -8202,6 +8202,7 @@ function (_React$Component) {
     _this.handleDemoLogin = _this.handleDemoLogin.bind(_assertThisInitialized(_this));
     _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
     _this.renderErrors = _this.renderErrors.bind(_assertThisInitialized(_this));
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -8227,7 +8228,7 @@ function (_React$Component) {
   }, {
     key: "toggleSelected",
     value: function toggleSelected(index) {
-      var loc = this.props.locations[index];
+      var loc = this.props.locations[index - 1];
       this.setState({
         selectedLocation: loc.name,
         selectedLocationId: loc.id
@@ -8342,36 +8343,38 @@ var Signup = function Signup(props) {
       locations = props.locations,
       selectedLocation = props.selectedLocation;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "signup-form-container"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Sign Up"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "login-form-container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSubmit,
     className: "signup-box"
-  }, renderErrors(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "login"
+  }, "Sign up", renderErrors()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "signup"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-label"
   }, "Your name", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     value: name,
     onChange: update('name'),
     className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-label"
   }, "Email address", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     value: email,
     onChange: update('email'),
     className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-label"
   }, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "password",
     value: password,
     onChange: update('password'),
     className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "signup-selected-location-error"
-  }, locationError)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, locationError), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "signup-location-dropdown-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "signup-selected-location"
@@ -8387,10 +8390,12 @@ var Signup = function Signup(props) {
     value: "Continue"
   }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "signup-already-member"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Already a member?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "signup-terms"
+  }, "Already a member?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/login",
     className: "login-signup-link"
-  }, "   Log in."))));
+  }, "Log in."))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Signup);
