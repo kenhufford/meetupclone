@@ -1,13 +1,19 @@
 import React from 'react';
+import DropdownLinks from '../../dropdown_links';
 
 const UserCountsCard = props => {
-    let { title, icon, count} = props;
+    let { title, icon, count, type, userItems} = props.card;
+    let card =  <div className="user-counts-card-left">
+                    <div className="user-counts-card-count">{count}</div>
+                    <div className="user-counts-card-title">{title}</div>
+                </div>
+    let links = userItems.map(item => `/${type}/${item.id}`)
     return (
         <div className="user-counts-card">
-            <div className="user-counts-card-left">
-                <div>{count}</div>
-                <div>{title}</div>
-            </div>
+            <DropdownLinks
+                title={card}
+                links={links}
+                />
             {icon}
         </div>
     )

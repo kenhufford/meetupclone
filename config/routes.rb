@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :users, only:[:index, :create, :show] do
       resources :channels, only:[:index]
       resources :groups, only: [:index]
+      resources :events, only: [:index]
     end
     resources :locations, only:[:index] do
       resources :groups, only: [:index]

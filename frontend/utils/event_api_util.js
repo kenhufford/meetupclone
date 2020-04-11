@@ -11,6 +11,14 @@ export const fetchEventsFromGroup = (groupId) => (
         method: "GET"
     })
 )
+
+export const fetchEventsFromUser = (userId) => (
+    $.ajax({
+        url: `/api/users/${userId}}/events`,
+        method: "GET"
+    })
+)
+
 export const fetchEventsFromLocation = (locationId) => (
     $.ajax({
         url: `/api/locations/${locationId}}/events`,

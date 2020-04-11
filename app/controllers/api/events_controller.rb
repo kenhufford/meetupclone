@@ -6,6 +6,8 @@ class Api::EventsController < ApplicationController
       @events = Group.find(params[:group_id]).events.order(start_time: :desc)
     elsif params[:location_id]
       @events = Location.find(params[:location_id]).events.order(start_time: :desc)
+    elsif params[:user_id]
+      @events = User.find(params[:user_id]).events.order(start_time: :desc)
     elsif params[:category_id]
       @events = Category.find(params[:category_id]).events.order(start_time: :desc)
     else

@@ -17,7 +17,6 @@ const HeaderRight = (props) => {
                 to="/index/squads">
                 Explore
             </Link>
-            <HeaderSearchWithRouter />
             <Link className="navbar-login-signup-link" 
                 to="/login">
                 Log in
@@ -26,6 +25,7 @@ const HeaderRight = (props) => {
                 to="/signup">
                 Sign up
             </Link>
+            <HeaderSearchWithRouter />
         </nav>
     const signedIn =
         <nav className="navbar-right">
@@ -37,11 +37,11 @@ const HeaderRight = (props) => {
             <Link to="/index/squads">
                 Explore
             </Link>
-            <HeaderSearchWithRouter />
             <DropdownLinks 
-                title={<i className="far fa-user-circle"></i>}
+                title="Profile"
                 links={links}
                 />
+            <HeaderSearchWithRouter />
         </nav>
     return (
         currentUser ? signedIn: sessionLinks
