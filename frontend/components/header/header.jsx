@@ -5,7 +5,7 @@ import { withRouter } from "react-router";
 
 const Header = props =>{
   const [userHasMemberships, setUserHasMemberships] = useState(false);
-  const { currentUser, logout, fetchMemberships } = props;
+  const { currentUser, currentUserId, logout, fetchMemberships } = props;
   useEffect(() => {
     fetchMemberships(0)
       .then(data => {
@@ -18,6 +18,7 @@ const Header = props =>{
       <HeaderLeft/>
       <HeaderRight
         currentUser={currentUser}
+        currentUserId={currentUserId}
         logout={logout}
         userHasMemberships={userHasMemberships}/>
     </div>

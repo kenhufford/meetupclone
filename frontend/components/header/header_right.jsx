@@ -2,25 +2,46 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import HeaderSearch from './header_search';
+import DropdownLinks from '../dropdown_links';
 const HeaderSearchWithRouter = withRouter(HeaderSearch)
 
 const HeaderRight = (props) => {
-    const { currentUser, userHasMemberships, logout} = props;
+    const { currentUser, currentUserId, userHasMemberships, logout} = props;
+    const links = [
+        { address: `/users/${currentUserId}`, name:"My Profile"},
+        { address: "/login", name:"Logout", callback: logout}
+    ]
     const sessionLinks =
         <nav className="navbar-right">
-            <Link className="navbar-explore-link" to="/index/squads">Explore</Link>
+            <Link className="navbar-explore-link" 
+                to="/index/squads">
+                Explore
+            </Link>
             <HeaderSearchWithRouter />
-            <Link className="navbar-login-signup-link" to="/login">Log in</Link>
-            <Link className="navbar-login-signup-link" to="/signup">Sign up</Link>
+            <Link className="navbar-login-signup-link" 
+                to="/login">
+                Log in
+            </Link>
+            <Link className="navbar-login-signup-link" 
+                to="/signup">
+                Sign up
+            </Link>
         </nav>
     const signedIn =
         <nav className="navbar-right">
-            <Link to="/groups/form/new">Start a New Squad</Link>
+            <Link to="/groups/form/new">
+                Start a New Squad
+            </Link>
             {userHasMemberships ? <Link to="/chat">Messenger</Link> :
                 <div></div>}
-            <Link to="/index/squads">Explore</Link>
+            <Link to="/index/squads">
+                Explore
+            </Link>
             <HeaderSearchWithRouter />
-            <Link onClick={logout} to="/login">Logout</Link>
+            <DropdownLinks 
+                title={<i className="far fa-user-circle"></i>}
+                links={links}
+                />
         </nav>
     return (
         currentUser ? signedIn: sessionLinks
