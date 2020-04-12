@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../../../actions/user_actions';
 import { fetchGroupsFromUser } from '../../../actions/group_actions';
 import { fetchEventsFromUser } from '../../../actions/event_actions';
+import { fetchUsersFromGroup, fetchUsersFromEvent } from '../../../actions/user_actions';
 import UserShow from './user_show';
 
 const mapStateToProps = (state, ownProps) => {
@@ -19,6 +20,8 @@ const mapDispatchToProps = dispatch => ({
     fetchUser: (userId) => dispatch(fetchUser(userId)),
     fetchGroupsFromUser: (userId) => dispatch(fetchGroupsFromUser(userId)),
     fetchEventsFromUser: (userId) => dispatch(fetchEventsFromUser(userId)),
+    fetchUsersFromGroup: (groupId) => dispatch(fetchUsersFromGroup(groupId)),
+    fetchUsersFromEvent: (eventId) => dispatch(fetchUsersFromEvent(eventId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserShow);

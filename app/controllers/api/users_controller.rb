@@ -30,15 +30,15 @@ class Api::UsersController < ApplicationController
 
     def show
       @user = User.find(params[:id])
-      @groups = @user.groups
-      @events = @user.events
-      memberships = @user.memberships
+      # @groups = @user.groups
+      # @events = @user.events
+      # memberships = @user.memberships
       
-      @squad_leader = memberships.where("member_type ILIKE 'Squad Leader'")
-      @captain = memberships.where("member_type ILIKE 'Captain'")
-      @initiate = memberships.where("member_type ILIKE 'Initiate'")
-      @organizer = @user.reservations.where("is_organizer IS true")
-      @rsvp = @user.reservations
+      # @squad_leader = memberships.where("member_type ILIKE 'Squad Leader'")
+      # @captain = memberships.where("member_type ILIKE 'Captain'")
+      # @initiate = memberships.where("member_type ILIKE 'Initiate'")
+      # @organizer = @user.reservations.where("is_organizer IS true")
+      # @rsvp = @user.reservations
 
       render 'api/users/showone'
     end
