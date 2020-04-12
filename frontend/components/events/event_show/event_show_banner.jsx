@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const EventShowBanner = props =>{
     const { title, formatDate, startTime, captainNames, captainIds, users} = props;
@@ -15,9 +16,12 @@ const EventShowBanner = props =>{
                         <p>Brawl organized by</p>
                         <p>{captainNames[0]} {captainsText}</p>
                     </div>
-                    <img src={window[users[captainIds[0]].imageUrl]}
-                        className="event-show-member-picture"
-                        alt="org-pic" />
+                    <Link to={`/users/${captainIds[0]}`}>
+                        <img src={window[users[captainIds[0]].imageUrl]}
+                            className="event-show-member-picture"
+                            alt="org-pic" />
+                    </Link>
+                    
                 </div>
             </div>
         </div>

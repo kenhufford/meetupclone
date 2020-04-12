@@ -20,7 +20,7 @@ class GroupShow extends React.Component{
     }
 
     componentDidMount(){
-        let groupId = this.props.match.params.groupId;
+        const groupId = this.props.match.params.groupId;
         const fetchEventsFromGroup = this.props.fetchEventsFromGroup(groupId);
         const fetchLocations = this.props.fetchLocations();
         const fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);

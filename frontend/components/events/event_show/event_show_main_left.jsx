@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const EventShowMainLeft = props =>{
     const {description, reservations, imageUrl, users} = props;
@@ -19,10 +20,14 @@ const EventShowMainLeft = props =>{
                 {reservations.eventReservations.map((reservation, i) => {
                     if (i < 12) {
                         return(
-                            <div className="event-show-member-picture-div" key={i}>
-                                <img key={i} src={window[users[reservation.userId].imageUrl]} alt="member-pic" className="event-show-member-picture" />
+                            <Link key={reservation.id}
+                                className="event-show-member-picture-div"
+                                to={`/users/${reservation.userId}`}>
+                                <img src={window[users[reservation.userId].imageUrl]}
+                                    alt="member-pic"
+                                    className="event-show-member-picture" />
                                 <p>{users[reservation.userId].name}</p>
-                            </div>
+                            </Link>
                         )
                     }
                 })}

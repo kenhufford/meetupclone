@@ -25,7 +25,7 @@ class DropdownLinks extends React.Component {
     render() {
         const { links, title } = this.props
         const { listOpen } = this.state
-        if (links.length === 0) return null
+        // if (links.length === 0) return null
         return (
             <div className="dropdown-links"
                 onClick={() => this.toggleList()}>

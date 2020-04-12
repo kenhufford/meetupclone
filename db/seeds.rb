@@ -187,7 +187,11 @@ end
                 email: email,
                 password: '123456',
                 location_id: location_ids.sample,
-                image_url: image_urls[i][j]
+                image_url: image_urls[i][j],
+                power: Random.new.rand(1..100),
+                speed: Random.new.rand(1..100),
+                guts: Random.new.rand(1..100),
+                technique: Random.new.rand(1..100)
                 )
 
             if j == 0 
@@ -218,7 +222,19 @@ end
             )
     end
                     
-    demo_user = User.create!(name: 'Demo', email: 'demo@gmail.com', password: '123456', lat: 37.799247, long: -122.401320, location_id: 1, image_url: "saitamaURL")
+    demo_user = User.create!(
+        name: 'Saitama', 
+        email: 'saitama@gmail.com', 
+        password: '123456', 
+        lat: 37.799247, 
+        long: -122.401320,
+        location_id: 1, 
+        image_url: "saitamaURL",
+        power: 100,
+        speed: 100,
+        guts: 100,
+        technique: 1
+    )
     Membership.create!(
         group_id: 7,
         user_id: demo_user.id,

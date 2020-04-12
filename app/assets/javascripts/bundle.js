@@ -3583,8 +3583,8 @@ function (_React$Component) {
       var _this$props = this.props,
           links = _this$props.links,
           title = _this$props.title;
-      var listOpen = this.state.listOpen;
-      if (links.length === 0) return null;
+      var listOpen = this.state.listOpen; // if (links.length === 0) return null
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-links",
         onClick: function onClick() {
@@ -4761,6 +4761,8 @@ var EventShow = function EventShow(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 var EventShowBanner = function EventShowBanner(props) {
@@ -4781,11 +4783,13 @@ var EventShowBanner = function EventShowBanner(props) {
     className: "event-show-banner-right"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "event-show-banner-right-text"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, captainNames[0], " ", captainsText)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Brawl organized by"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, captainNames[0], " ", captainsText)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/users/".concat(captainIds[0])
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: window[users[captainIds[0]].imageUrl],
     className: "event-show-member-picture",
     alt: "org-pic"
-  }))));
+  })))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (EventShowBanner);
@@ -4916,6 +4920,8 @@ var EventShowFooter = function EventShowFooter(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 var EventShowMainLeft = function EventShowMainLeft(props) {
@@ -4936,11 +4942,11 @@ var EventShowMainLeft = function EventShowMainLeft(props) {
     className: "event-show-main-left-members-list"
   }, reservations.eventReservations.map(function (reservation, i) {
     if (i < 12) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        key: reservation.id,
         className: "event-show-member-picture-div",
-        key: i
+        to: "/users/".concat(reservation.userId)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        key: i,
         src: window[users[reservation.userId].imageUrl],
         alt: "member-pic",
         className: "event-show-member-picture"
@@ -6047,9 +6053,11 @@ var GroupLandingIndex = function GroupLandingIndex(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 
-function AboutCaptainInfo(props) {
+
+var AboutCaptainInfo = function AboutCaptainInfo(props) {
   var captainsNum = props.captainsNum,
       captainIds = props.captainIds,
       users = props.users;
@@ -6059,8 +6067,8 @@ function AboutCaptainInfo(props) {
     className: "group-show-main-right-organizers-title"
   }, "Captains"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "group-show-main-right-organizers-info"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "group-show-member-picture-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/users/".concat(captainIds[0])
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: window[users[captainIds[0]].imageUrl],
     alt: "organizer-pic",
@@ -6068,7 +6076,7 @@ function AboutCaptainInfo(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "group-show-organizer-info-text"
   }, users[captainIds[0]].name, " ", captainsNum)));
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (AboutCaptainInfo);
 
@@ -6085,9 +6093,11 @@ function AboutCaptainInfo(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 
-function AboutMembersInfo(props) {
+
+var AboutMembersInfo = function AboutMembersInfo(props) {
   var memberIds = props.memberIds,
       memberships = props.memberships,
       users = props.users,
@@ -6105,14 +6115,16 @@ function AboutMembersInfo(props) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-member-picture-div",
         key: membership.id
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/users/".concat(membership.userId)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: window[users[membership.userId].imageUrl],
         alt: "member-pic",
         className: "group-show-member-picture"
-      }));
+      })));
     }
   })));
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (AboutMembersInfo);
 
@@ -7064,6 +7076,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 
@@ -7073,10 +7087,12 @@ function GroupShowMembersListItem(props) {
       memberType = props.memberType;
   var imageUrl = user.imageUrl,
       name = user.name,
-      createdAt = user.createdAt;
+      createdAt = user.createdAt,
+      id = user.id;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "group-show-members-right-member-li"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    to: "/users/".concat(id),
     className: "group-show-members-right-member"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: window[imageUrl],
@@ -7323,8 +7339,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _header_search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header_search */ "./frontend/components/header/header_search.jsx");
-/* harmony import */ var _dropdown_links__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dropdown_links */ "./frontend/components/dropdown_links.jsx");
-
 
 
 
@@ -7336,38 +7350,32 @@ var HeaderRight = function HeaderRight(props) {
       currentUserId = props.currentUserId,
       userHasMemberships = props.userHasMemberships,
       logout = props.logout;
-  var links = [{
-    address: "/users/".concat(currentUserId),
-    name: "My Profile"
-  }, {
-    address: "/login",
-    name: "Logout",
-    callback: logout
-  }];
   var sessionLinks = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "navbar-right"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     className: "navbar-explore-link",
     to: "/index/squads"
-  }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderSearchWithRouter, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     className: "navbar-login-signup-link",
     to: "/login"
   }, "Log in"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     className: "navbar-login-signup-link",
     to: "/signup"
-  }, "Sign up"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderSearchWithRouter, null));
+  }, "Sign up"));
   var signedIn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "navbar-right"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/groups/form/new"
-  }, "Start a New Squad"), userHasMemberships ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "Start New Squad"), userHasMemberships ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/chat"
   }, "Messenger") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/users/".concat(currentUserId)
+  }, "Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/index/squads"
-  }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dropdown_links__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    title: "Profile",
-    links: links
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderSearchWithRouter, null));
+  }, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderSearchWithRouter, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/login",
+    onClick: logout
+  }, "Logout"));
   return currentUser ? signedIn : sessionLinks;
 };
 
@@ -8378,7 +8386,7 @@ function (_React$Component) {
 
       this.setState({
         name: '',
-        email: 'demo@gmail.com',
+        email: 'saitama@gmail.com',
         password: '123456',
         selectedLocationId: 1
       }, function () {
@@ -8637,14 +8645,14 @@ var UserCounts = function UserCounts(props) {
     title: "Squads Joined",
     count: groupsCount,
     icon: groupsIcon,
-    type: "squads",
-    userItems: Object.values(groups)
+    type: "groups",
+    userItems: groupsCount === 0 ? [] : Object.values(groups)
   }, {
     title: "Brawls Attended",
     count: eventsCount,
     icon: eventsIcon,
-    type: "brawls",
-    userItems: Object.values(events)
+    type: "events",
+    userItems: eventsCount === 0 ? [] : Object.values(events)
   }];
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-counts"
@@ -8689,15 +8697,19 @@ var UserCountsCard = function UserCountsCard(props) {
   }, count), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-counts-card-title"
   }, title));
+  debugger;
   var links = userItems.map(function (item) {
-    return "/".concat(type, "/").concat(item.id);
+    return {
+      address: type === "groups" ? "/groups/".concat(item.id) : "/groups/".concat(item.groupId, "/events/").concat(item.id),
+      name: item.title || item.name
+    };
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-counts-card"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dropdown_links__WEBPACK_IMPORTED_MODULE_1__["default"], {
     title: card,
     links: links
-  }), icon);
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (UserCountsCard);
@@ -8755,10 +8767,10 @@ var UserShow = function UserShow(props) {
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-show-right"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_counts__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      groups: groups.userGroups,
-      events: events.userEvents,
+      groups: groups.allGroups,
+      events: events.allEvents,
       user: users[userId]
-    }))));
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Graph, null)));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
@@ -8836,8 +8848,12 @@ var UserStats = function UserStats(props) {
   var user = props.user;
   var name = user.name,
       imageUrl = user.imageUrl,
-      createdAt = user.createdAt;
-  var stats = [["POWER", 5], ["HEALTH", 2], ["SPEED", 5], ["GUTS", 5], ["TECHNIQUE", 3]];
+      createdAt = user.createdAt,
+      power = user.power,
+      speed = user.speed,
+      guts = user.guts,
+      technique = user.technique;
+  var stats = [["POWER", power], ["SPEED", speed], ["GUTS", guts], ["TECHNIQUE", technique]];
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-stats"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -8890,7 +8906,7 @@ var UserStatsBar = function UserStatsBar(props) {
   var bars = [];
 
   for (var i = 0; i < 5; i++) {
-    if (i < number) bars.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    if (number > i * 20) bars.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: i,
       className: "filled"
     }));else bars.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8901,9 +8917,13 @@ var UserStatsBar = function UserStatsBar(props) {
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-stats-bar"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "user-stats-bars-holder"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "user-stats-bar-name"
-  }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "user-stats-bar-name"
+  }, number)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-stats-bars-holder"
   }, bars));
 };

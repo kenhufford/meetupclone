@@ -16,11 +16,12 @@ const UserShow = props => {
                     />
                     <div className="user-show-right">
                         <UserCounts
-                            groups={groups.userGroups}
-                            events={events.userEvents}
+                            groups={groups.allGroups}
+                            events={events.allEvents}
                             user={users[userId]}
                             />
                     </div>
+                    <Graph/>
                 </div>
             </div>
         )

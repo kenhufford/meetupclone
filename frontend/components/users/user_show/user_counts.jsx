@@ -13,8 +13,16 @@ const UserCounts = props => {
     let groupsIcon = <i className="fas fa-users card-icon"></i>
     let eventsIcon = <i className="fas fa-fist-raised card-icon"></i>
     let cards = [
-        {title:"Squads Joined", count: groupsCount, icon:groupsIcon, type:"squads", userItems: Object.values(groups)},
-        {title: "Brawls Attended", count: eventsCount, icon: eventsIcon, type: "brawls", userItems: Object.values(events)}
+        {title:"Squads Joined", 
+            count: groupsCount, 
+            icon: groupsIcon, 
+            type:"groups", 
+            userItems: groupsCount===0 ? []: Object.values(groups)},
+        {title: "Brawls Attended", 
+            count: eventsCount, 
+            icon: eventsIcon, 
+            type: "events", 
+            userItems: eventsCount===0 ? []: Object.values(events)}
     ]
     return (
         <div className="user-counts">

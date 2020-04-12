@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function AboutMembersInfo(props){
+const AboutMembersInfo = props =>{
     let {memberIds, 
         memberships, 
         users,
@@ -18,10 +19,13 @@ function AboutMembersInfo(props){
             <div className="group-show-main-right-members-list">
                 {memberships.map((membership,i) => {
                     if (i < 12) {
-                        return <div className="group-show-member-picture-div" key={membership.id} >
-                                    <img src={window[users[membership.userId].imageUrl]} 
-                                        alt="member-pic" 
-                                        className="group-show-member-picture" />
+                        return <div className="group-show-member-picture-div" 
+                                    key={membership.id} >
+                                    <Link to={`/users/${membership.userId}`}>
+                                        <img src={window[users[membership.userId].imageUrl]} 
+                                            alt="member-pic" 
+                                            className="group-show-member-picture" />
+                                    </Link>
                                 </div>
                     }
                 })}

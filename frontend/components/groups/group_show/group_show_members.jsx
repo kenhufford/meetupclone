@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import GroupShowMembersLeft from './group_show_members_left';
 import GroupShowMembersList from './group_show_members_list';
 
+
 function GroupShowMembers(props){
     const [currentPage, setCurrentPage] = useState("All members")
     const [searchQuery, setSearchQuery] = useState('')

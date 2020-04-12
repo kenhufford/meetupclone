@@ -5,6 +5,10 @@ class User < ApplicationRecord
     validates :email, :password_digest, :session_token, presence: true
     validates :email, uniqueness: true
     validates :password, length: { minimum: 6 }, allow_nil: true
+    validates_numericality_of :power, :in => 1..100
+    validates_numericality_of :speed, :in => 1..100
+    validates_numericality_of :guts, :in => 1..100
+    validates_numericality_of :technique, :in => 1..100
   
     after_initialize :ensure_session_token
     

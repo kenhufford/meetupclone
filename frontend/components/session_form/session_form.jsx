@@ -44,7 +44,7 @@ class SessionForm extends React.Component {
   handleDemoLogin(){
     this.setState({
       name: '',
-      email: 'demo@gmail.com',
+      email: 'saitama@gmail.com',
       password: '123456',
       selectedLocationId: 1
     }, () => this.props.processForm(this.state))

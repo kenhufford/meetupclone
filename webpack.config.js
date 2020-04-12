@@ -16,7 +16,9 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           query: {
-            presets: ['@babel/env', '@babel/react']
+            presets: ['@babel/env', '@babel/react', {
+              'plugins': ['@babel/plugin-proposal-class-properties']
+            }]
           }
         },
       }
@@ -26,11 +28,6 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", "*"]
   },
-  // plugins: [
-  //   new webpack.DefinePlugin({
-  //     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-  //   }),
-  // ]
 };
 
 

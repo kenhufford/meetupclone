@@ -1,12 +1,14 @@
 import React from 'react';
 import { formatDate } from '../../../utils/date_util';
+import { Link } from 'react-router-dom';
 
 function GroupShowMembersListItem(props){
     let { user, icons, memberType} = props;
-    let { imageUrl, name, createdAt } = user
+    let { imageUrl, name, createdAt, id } = user
     return (
         <li className="group-show-members-right-member-li">
-            <div className="group-show-members-right-member">
+            <Link to={`/users/${id}`}
+                className="group-show-members-right-member">
                 <img src={window[imageUrl]}
                     className="group-show-members-right-member-img" />
                 <div className="group-show-members-right-member-info">
@@ -22,7 +24,7 @@ function GroupShowMembersListItem(props){
                             src={window[icons[memberType]]} />
                     </div>
                 </div>
-            </div>
+            </Link>
         </li>
     )
 }

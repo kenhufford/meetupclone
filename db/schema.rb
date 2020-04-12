@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_16_043609) do
+ActiveRecord::Schema.define(version: 2020_04_12_200727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,10 @@ ActiveRecord::Schema.define(version: 2020_02_16_043609) do
     t.string "name", null: false
     t.integer "location_id", null: false
     t.string "image_url"
+    t.integer "power"
+    t.integer "speed"
+    t.integer "guts"
+    t.integer "technique"
     t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
   end

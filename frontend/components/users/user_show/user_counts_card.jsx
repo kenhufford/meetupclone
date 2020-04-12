@@ -7,14 +7,19 @@ const UserCountsCard = props => {
                     <div className="user-counts-card-count">{count}</div>
                     <div className="user-counts-card-title">{title}</div>
                 </div>
-    let links = userItems.map(item => `/${type}/${item.id}`)
+    debugger
+    let links = userItems.map(item => {
+        return {
+            address: type === "groups" ? `/groups/${item.id}` : `/groups/${item.groupId}/events/${item.id}`, 
+            name: item.title || item.name}
+    })
     return (
         <div className="user-counts-card">
             <DropdownLinks
                 title={card}
                 links={links}
                 />
-            {icon}
+            {/* {icon} */}
         </div>
     )
 }

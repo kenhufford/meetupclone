@@ -14,6 +14,7 @@ class Api::EventsController < ApplicationController
       @events = Event.all
     end
     
+    
     if current_user
       @user_events = current_user.events
     else

@@ -3,13 +3,12 @@ import UserStatsBar from './user_stats_bar';
 
 const UserStats = props => {
     let {user} = props;
-    let {name, imageUrl,createdAt} = user;
+    let {name, imageUrl, createdAt, power, speed, guts, technique} = user;
     let stats = [
-        ["POWER",5],
-        ["HEALTH", 2],
-        ["SPEED", 5],
-        ["GUTS", 5],
-        ["TECHNIQUE",3]
+        ["POWER",power],
+        ["SPEED", speed],
+        ["GUTS", guts],
+        ["TECHNIQUE",technique]
     ]
     return (
 
