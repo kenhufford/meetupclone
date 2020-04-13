@@ -10,6 +10,8 @@ const UserShow = props => {
     const [loaded, setLoaded] = useState(false);
     let [selectedGroupId, setSelectedGroupId] = useState(undefined);
     let [selectedEventId, setSelectedEventId] = useState(undefined);
+    let [selectedStat, setSelectedStat] = useState("Power");
+    console.log(selectedStat)
     useFetches(setLoaded, [selectedGroupId, selectedEventId], [fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]);
     if(loaded){
         return (
@@ -27,6 +29,8 @@ const UserShow = props => {
                             setSelectedGroupId={setSelectedGroupId}
                             selectedEventId={selectedEventId}
                             setSelectedEventId={setSelectedEventId}
+                            selectedStat={selectedStat}
+                            setSelectedStat={setSelectedStat}
                             />
                         <Dash
                             groups={groups.allGroups}
@@ -37,6 +41,7 @@ const UserShow = props => {
                             users={users}
                             selectedGroupId={selectedGroupId}
                             selectedEventId={selectedEventId}
+                            selectedStat={selectedStat}
                         />
                     </div>
                 </div>

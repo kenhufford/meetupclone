@@ -2,7 +2,7 @@ import React from 'react';
 import DashFilterCard from './dash_filter_card';
 
 const DashFilters = props => {
-    let {groups, events, selectedGroupId, setSelectedGroupId, selectedEventId, setSelectedEventId } = props;
+    let {groups, events, selectedGroupId, setSelectedGroupId, selectedEventId, setSelectedEventId, selectedStat, setSelectedStat } = props;
     let groupsArray = groups !== undefined ? Object.values(groups) : [];
     let eventsArray = events !== undefined ? Object.values(events) : [];
     let cards = [
@@ -16,6 +16,16 @@ const DashFilters = props => {
         selectedName: selectedEventId !== undefined  ? events[selectedEventId].title : "Filter by brawl",
         setSelectedId: setSelectedEventId,
         setToUndefined: setSelectedGroupId
+        },
+
+        {userItems: [
+            { id: "Power", title:"Power"}, 
+            { id: "Speed", title: "Speed"},
+            { id: "Guts" , title: "Guts" },
+            { id: "Technique", title: "Technique" }
+        ],
+        selectedName: selectedStat,
+        setSelectedId: setSelectedStat,
         },
     ]
     return (

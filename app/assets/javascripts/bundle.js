@@ -8533,7 +8533,8 @@ var Dash = function Dash(props) {
       fetchUsersFromGroup = props.fetchUsersFromGroup,
       fetchUsersFromEvent = props.fetchUsersFromEvent,
       selectedEventId = props.selectedEventId,
-      selectedGroupId = props.selectedGroupId;
+      selectedGroupId = props.selectedGroupId,
+      selectedStat = props.selectedStat;
 
   if (selectedEventId || selectedGroupId) {
     var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
@@ -8549,9 +8550,33 @@ var Dash = function Dash(props) {
     if (loaded) {
       var usersArray = Object.values(users);
       var data = usersArray.map(function (user) {
+        var stat;
+
+        switch (selectedStat) {
+          case "Power":
+            stat = user.power;
+            break;
+
+          case "Speed":
+            stat = user.speed;
+            break;
+
+          case "Guts":
+            stat = user.guts;
+            break;
+
+          case "Technique":
+            stat = user.technique;
+            break;
+
+          default:
+            stat = user.power;
+            break;
+        }
+
         return {
           x: user.name,
-          y: user.power
+          y: stat
         };
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_graph__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -8600,7 +8625,9 @@ var DashFilterCard = function DashFilterCard(props) {
       setSelectedId: function setSelectedId() {
         _setSelectedId(item.id);
 
-        setToUndefined(undefined);
+        if (setToUndefined) {
+          setToUndefined(undefined);
+        }
       },
       name: item.title || item.name
     };
@@ -8638,7 +8665,9 @@ var DashFilters = function DashFilters(props) {
       selectedGroupId = props.selectedGroupId,
       setSelectedGroupId = props.setSelectedGroupId,
       selectedEventId = props.selectedEventId,
-      setSelectedEventId = props.setSelectedEventId;
+      setSelectedEventId = props.setSelectedEventId,
+      selectedStat = props.selectedStat,
+      setSelectedStat = props.setSelectedStat;
   var groupsArray = groups !== undefined ? Object.values(groups) : [];
   var eventsArray = events !== undefined ? Object.values(events) : [];
   var cards = [{
@@ -8651,6 +8680,22 @@ var DashFilters = function DashFilters(props) {
     selectedName: selectedEventId !== undefined ? events[selectedEventId].title : "Filter by brawl",
     setSelectedId: setSelectedEventId,
     setToUndefined: setSelectedGroupId
+  }, {
+    userItems: [{
+      id: "Power",
+      title: "Power"
+    }, {
+      id: "Speed",
+      title: "Speed"
+    }, {
+      id: "Guts",
+      title: "Guts"
+    }, {
+      id: "Technique",
+      title: "Technique"
+    }],
+    selectedName: selectedStat,
+    setSelectedId: setSelectedStat
   }];
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-counts"
@@ -8865,6 +8910,12 @@ var UserShow = function UserShow(props) {
       selectedEventId = _useState6[0],
       setSelectedEventId = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("Power"),
+      _useState8 = _slicedToArray(_useState7, 2),
+      selectedStat = _useState8[0],
+      setSelectedStat = _useState8[1];
+
+  console.log(selectedStat);
   Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [selectedGroupId, selectedEventId], [fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]);
 
   if (loaded) {
@@ -8881,7 +8932,9 @@ var UserShow = function UserShow(props) {
       selectedGroupId: selectedGroupId,
       setSelectedGroupId: setSelectedGroupId,
       selectedEventId: selectedEventId,
-      setSelectedEventId: setSelectedEventId
+      setSelectedEventId: setSelectedEventId,
+      selectedStat: selectedStat,
+      setSelectedStat: setSelectedStat
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash__WEBPACK_IMPORTED_MODULE_4__["default"], {
       groups: groups.allGroups,
       events: events.allEvents,
@@ -8890,7 +8943,8 @@ var UserShow = function UserShow(props) {
       fetchUsersFromEvent: fetchUsersFromEvent,
       users: users,
       selectedGroupId: selectedGroupId,
-      selectedEventId: selectedEventId
+      selectedEventId: selectedEventId,
+      selectedStat: selectedStat
     }))));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);

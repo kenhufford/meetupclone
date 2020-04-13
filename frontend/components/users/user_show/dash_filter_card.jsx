@@ -8,9 +8,11 @@ const DashFilterCard = props => {
                 </div>
     let filters = userItems.map(item => {
         return {
-            setSelectedId:()=>{
+                setSelectedId:()=>{
                 setSelectedId(item.id);
-                setToUndefined(undefined);
+                if (setToUndefined){
+                    setToUndefined(undefined);
+                }
             }, 
             name: item.title || item.name}
     })
