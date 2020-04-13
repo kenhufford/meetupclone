@@ -8615,10 +8615,11 @@ var DashFilterCard = function DashFilterCard(props) {
       _setSelectedId = _props$card.setSelectedId,
       setToUndefined = _props$card.setToUndefined,
       userItems = _props$card.userItems;
+  var selected = !(selectedName === "Filter by squad" || selectedName === "Filter by brawl");
   var card = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "user-counts-card-left"
+    className: "filter-card-left"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "user-counts-card-title"
+    className: selected ? "filter-card-title-selected" : "filter-card-title-not"
   }, selectedName));
   var filters = userItems.map(function (item) {
     return {
@@ -8633,10 +8634,11 @@ var DashFilterCard = function DashFilterCard(props) {
     };
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "user-counts-card"
+    className: selected ? "filter-card-selected" : "filter-card-not"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dropdown_filters__WEBPACK_IMPORTED_MODULE_1__["default"], {
     title: card,
-    filters: filters
+    filters: filters,
+    selected: selected
   }));
 };
 
@@ -8697,9 +8699,14 @@ var DashFilters = function DashFilters(props) {
     selectedName: selectedStat,
     setSelectedId: setSelectedStat
   }];
+  var title = "Select a squad or brawl to see the competition";
+  if (selectedGroupId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(groups[selectedGroupId].name);
+  if (selectedEventId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(events[selectedEventId].title);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "user-counts"
-  }, cards.map(function (card, i) {
+    className: "filters-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "filters-div-title"
+  }, title), cards.map(function (card, i) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_filter_card__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: i,
       card: card
@@ -8722,75 +8729,28 @@ var DashFilters = function DashFilters(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
- // import onClickOutside from "react-onclickoutside";
-
-var DropdownFilters =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(DropdownFilters, _React$Component);
-
-  function DropdownFilters(props) {
-    _classCallCheck(this, DropdownFilters);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(DropdownFilters).call(this, props)); // this.state = {
-    //     listOpen: false
-    // }
-  } // handleClickOutside() {
-  //     this.setState({
-  //         listOpen: false
-  //     })
-  // }
-  // toggleList() {
-  //     this.setState(prevState => ({
-  //         listOpen: !prevState.listOpen
-  //     }))
-  // }
 
 
-  _createClass(DropdownFilters, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          filters = _this$props.filters,
-          title = _this$props.title;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-filters"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-links-header-title"
-      }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "dropdown-filters-header-list"
-      }, filters.map(function (filter, index) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "dropdown-links-header-list-item",
-          key: index,
-          onClick: function onClick() {
-            filter.setSelectedId();
-          }
-        }, filter.name);
-      })));
-    }
-  }]);
-
-  return DropdownFilters;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+var DropdownFilters = function DropdownFilters(props) {
+  var filters = props.filters,
+      title = props.title,
+      selected = props.selected;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dropdown-filters"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dropdown-filters-title"
+  }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "dropdown-filters-list"
+  }, filters.map(function (filter, index) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "dropdown-filters-list-item",
+      key: index,
+      onClick: function onClick() {
+        filter.setSelectedId();
+      }
+    }, filter.name);
+  })));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (DropdownFilters);
 
@@ -8814,17 +8774,19 @@ __webpack_require__.r(__webpack_exports__);
 var Graph = function Graph(props) {
   var data = props.data;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "App"
+    className: "graph"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_1__["XYPlot"], {
     xType: "ordinal",
     margin: {
-      bottom: 90
+      bottom: 100
     },
     height: 500,
     width: 900
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_1__["VerticalGridLines"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_1__["HorizontalGridLines"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
-    tickLabelAngle: -90
+    tickLabelAngle: -45
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_1__["YAxis"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_1__["VerticalBarSeries"], {
+    animation: "stiff",
+    color: "red",
     data: data
   })));
 };

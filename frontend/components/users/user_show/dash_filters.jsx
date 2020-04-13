@@ -28,13 +28,17 @@ const DashFilters = props => {
         setSelectedId: setSelectedStat,
         },
     ]
+
+    let title = "Select a squad or brawl to see the competition";
+    if (selectedGroupId) title = `${selectedStat} ratings of brawlers in ${groups[selectedGroupId].name}`;
+    if (selectedEventId) title = `${selectedStat} ratings of brawlers in ${events[selectedEventId].title}`;
     return (
-        <div className="user-counts">
+        <div className="filters-div">
+            <p className="filters-div-title">{title}</p>
             {cards.map((card,i) => 
                 <DashFilterCard
                     key={i}
-                    card={card}
-                    />
+                    card={card}/>
             )}
         </div>
     )
