@@ -11,7 +11,6 @@ const UserStats = props => {
         ["TECHNIQUE",technique]
     ]
     return (
-
         <div className="user-stats">
             <img src={window[imageUrl]} 
                 className="user-stats-image"/>

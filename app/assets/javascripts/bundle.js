@@ -8301,7 +8301,11 @@ function (_React$Component) {
           email: this.state.email,
           password: this.state.password,
           location_id: this.state.selectedLocationId,
-          image_url: "gokuURL"
+          image_url: "gokuURL",
+          power: Math.floor(Math.random() * 100),
+          guts: Math.floor(Math.random() * 100),
+          technique: Math.floor(Math.random() * 100),
+          speed: Math.floor(Math.random() * 100)
         });
       }
     }
