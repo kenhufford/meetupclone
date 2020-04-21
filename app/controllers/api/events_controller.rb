@@ -3,17 +3,26 @@ class Api::EventsController < ApplicationController
 
   def index
     if params[:group_id]
-      @events = Group.find(params[:group_id]).events.order(start_time: :desc)
+      @events = Group
+        .find(params[:group_id])
+        .events.order(start_time: :desc)
     elsif params[:location_id]
-      @events = Location.find(params[:location_id]).events.order(start_time: :desc)
+      @events = Location
+        .find(params[:location_id])
+        .events.order(start_time: :desc)
     elsif params[:user_id]
-      @events = User.find(params[:user_id]).events.order(start_time: :desc)
+      @events = User
+        .find(params[:user_id])
+        .events
+        .order(start_time: :desc)
     elsif params[:category_id]
-      @events = Category.find(params[:category_id]).events.order(start_time: :desc)
+      @events = Category
+        .find(params[:category_id])
+        .events
+        .order(start_time: :desc)
     else
       @events = Event.all
     end
-    
     
     if current_user
       @user_events = current_user.events
@@ -78,40 +87,47 @@ class Api::EventsController < ApplicationController
 
   def search
     @query = params[:search_query];
-    if @query.length > 0;
-        @events = filtered_list(@query)
-        @user_events = []
-        if (@events.length == 0)
-            render json: ["No event found"], status: 404
-        else
-            render :index
-        end
-    end  
+    search_params = {};
+    @query[1..-1].split("&").each do |param|
+      param = param.split("=")
+      search_params[param[0]] = param[1]
+    end
+    @events = []
+    @user_events = []
+    if search_params["name"]
+      @events = find_by_name(search_params["name"])
+    else
+      @events = Event.all
+    end
+    if search_params["location"]
+      @events = @events.where("location_id = :location_id", location_id: search_params["location"])
+    end
+    render :index
   end
 
-  def filtered_list(query)
+  def find_by_name(query)
     query = query.downcase
     event_results = Event.where("title ILIKE :start_query", start_query: "%#{query}%")
     event_list = event_results.limit(12).includes(:group)
   end
 
-  
-
-
   private
 
   def event_params
-    params.require(:event).permit(
-    :id,
-    :title, 
-    :group_id, 
-    :description, 
-    :max_attendance, 
-    :start_time, 
-    :end_time, 
-    :address, 
-    :location_id,
-    :image_url)
+    params
+      .require(:event)
+      .permit(
+        :id,
+        :title, 
+        :group_id, 
+        :description, 
+        :max_attendance, 
+        :start_time, 
+        :end_time, 
+        :address, 
+        :location_id,
+        :image_url
+      )
   end
 
 end

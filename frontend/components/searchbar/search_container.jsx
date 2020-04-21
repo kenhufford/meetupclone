@@ -6,10 +6,10 @@ import {fetchLocations} from '../../actions/location_actions'
 import {fetchCategories} from '../../actions/category_actions'
 
 const mstp = state => ({
-    groups: Object.values(state.entities.groups),
+    groups: state.entities.groups,
     locations: state.entities.locations,
     categories: state.entities.categories,
-
+    events: state.entities.events,
 })
 
 const mdtp = dispatch => {

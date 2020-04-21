@@ -18,7 +18,7 @@ const EventIndexItemLarge = (props) => {
                             <span className="group-show-events-event-title">
                                 {title}
                             </span>
-                            <Link to={`/search/?location%20${locationId}`}>
+                            <Link to={`/search/?location=${locationId}`}>
                                 {locations[locationId].name}
                             </Link>
                             <p>

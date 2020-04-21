@@ -13,7 +13,8 @@ const GroupLandingBanner = () =>{
                 </h3>
                 <SearchBar
                     history={history}
-                    autoSearch={false} />
+                    autoSearch={false}
+                    filters={false} />
             </div>
             <div className="landing-banner-right">
                 <img className="landing-banner-right-image"

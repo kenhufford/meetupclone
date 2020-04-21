@@ -76,26 +76,35 @@ class Api::GroupsController < ApplicationController
       
     def search
         @query = params[:search_query];
-        if @query.length > 0;
-            @groups = filtered_list(@query)
-            @user_groups = [];
-            if (@groups.length == 0)
-                render json: ["No group found"], status: 404
-            else
-                render :index
-            end
+        search_params = {};
+        @query[1..-1].split("&").each do |param|
+            param = param.split("=")
+            search_params[param[0]] = param[1]
         end
-        
+        @groups = []
+        @user_groups = [];
+        if search_params["name"]
+            @groups = find_by_name(search_params["name"])
+        else
+            @groups = Group.all
+        end
+
+        if search_params["location"]
+            @groups = @groups.where("location_id = :location_id", location_id: search_params["location"])
+        end
+        if search_params["category"]
+            @groups = @groups.joins(:categories).where("category_id = :category_id", category_id: search_params["category"])
+        end
+        render :index
     end
 
-    def filtered_list(query)
+    def find_by_name(query)
         query = query.downcase
         group_results = Group.where("name ILIKE :start_query", start_query: "%#{query}%")
         group_list = group_results   
     end
 
     private
-
     def group_params
         params.require(:group).permit(
         :name, 

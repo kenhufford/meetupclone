@@ -4,7 +4,7 @@ function GroupIndexItem(props){
     if (!props.group){
         return <div></div>
     } else {
-    const {id, name, imageUrl, membershipIds} = props.group
+    const {id, name, imageUrl, membershipIds} = props.group;
     return(
             <a key={`group${id}`} 
                 href={`#/groups/${id}`} 

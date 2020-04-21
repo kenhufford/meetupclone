@@ -7,9 +7,6 @@ class Api::ChannelshipsController < ApplicationController
       end
       if params[:channel_id]
         @channel_channelships = Channel.find(params[:channel_id]).channelships
-        # @users_channelship_id = @channel_channelships
-        #                             .where(:channelships => {:user_id => current_user.id})
-        #                             .pluck("id")
         render "api/channelships/channelindex"
       end
     end
@@ -52,16 +49,18 @@ class Api::ChannelshipsController < ApplicationController
         if current_user
             @user_channelships = current_user.channelships
         end
-        # @channel_channelships = Channel.find(params[:channel_id]).channelships
         render "api/channelships/userindex"
     end
 
     def channelship_params
-        params.require(:channelship).permit(
-        :id,
-        :moderator,
-        :channel_id,
-        :user_id,
-        :last_visited)
+        params
+            .require(:channelship)
+            .permit(
+                :id,
+                :moderator,
+                :channel_id,
+                :user_id,
+                :last_visited
+            )
     end
 end

@@ -14,7 +14,7 @@ class GroupShowInfo extends React.Component{
                    <h4 className="group-show-header-right-groupname">{name}</h4>
                    <div className="group-show-header-right-location">
                        <i className="fas fa-map-marker-alt"></i>
-                       <Link to={`/search/?location%20${locationId}`}>{locations[locationId].name}</Link>
+                       <Link to={`/search/?location=${locationId}`}>{locations[locationId].name}</Link>
                    </div>
                    <div className="group-show-header-right-totalmembers">
                        <i className="fas fa-user-friends"></i>

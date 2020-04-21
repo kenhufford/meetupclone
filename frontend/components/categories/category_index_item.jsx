@@ -6,7 +6,7 @@ const CategoryIndexItem = props =>{
         return(
             <div className="index-item">
                 <a key={id} 
-                    href={`#/search/?category%20${id}`} > 
+                    href={`#/search/?category=${id}`} > 
                     <img className="index-item-image" 
                         src={window[imageUrl]} />
                     <div className="index-item-image-text">

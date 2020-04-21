@@ -3,14 +3,15 @@ import GroupIndexList from '../groups/group_index/group_index_list';
 import EventIndexList from '../events/event_index/event_index_list_short';
 import SearchBar from '../searchbar/search_bar';
 
+import SearchBarFilter from './search_bar_filter';
+
 class Search extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            groups: [],
-            events: [],
             query: "",
             lastQuery: "",
+            locIndex: null,
             loaded: false,
             typing: false,
             typingTimeout: 0
@@ -26,134 +27,73 @@ class Search extends React.Component{
     }
 
     componentDidMount(){
-        let split = this.props.location.search.slice(1).split("%20")
-        this.search(split)
+        let queryString = this.props.location.search;
+        this.search(queryString)
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.location.search !== prevProps.location.search) {
-            let split = this.props.location.search.slice(1).split("%20")
+            let split = this.props.location.search;
             this.search(split)
         }
     }
 
-    search(split){
-        let result = split.join(" ")
-        this.setState({lastQuery: result})
-        let fetchGroupsFromLocation = this.props.fetchGroupsFromLocation(split[1])
-        let fetchEventsFromLocation = this.props.fetchEventsFromLocation(split[1])
-        let fetchGroupsFromCategory = this.props.fetchGroupsFromCategory(split[1])
-        let searchGroups = this.props.searchGroups(result)
-        let searchEvents = this.props.searchEvents(result)
-        let fetchLocations = this.props.fetchLocations(result)
-        let fetchCategories = this.props.fetchCategories(result)
-
-        let setSearchStateSuccessBoth =  (payload) => {
-            let events = (payload[1]===undefined) ? []: Object.values(payload[1].events.allEvents)
-            let groups = (payload[0]===undefined) ? []: Object.values(payload[0].groups.allGroups)
-            let newState = Object.assign({}, {
-                query: "",
-                lastQuery: result.toUpperCase(),
-                groups: groups,
-                events: events,
-                loaded: true
-            })
-            this.setState(newState)
+    search(query){
+        let lastQueryIndex;
+        let locIndex;
+        if (query.indexOf("name=") !== -1){
+            lastQueryIndex = query.indexOf("name=") + 5;
         }
-        let setSearchStateSuccessEvents =  (payload) => {
-            let events = (payload[0]===undefined) ? []: Object.values(payload[0].events.allEvents)
-
-            let newState = Object.assign(this.state, {
-                query: "",
-                lastQuery: result.toUpperCase(),
-                events: events,
-                loaded: true
-            })
-            this.setState(newState)
+        if (query.indexOf("location=") !== -1) {
+            let index = query.indexOf("location=") + 9;
+            locIndex = query.slice(index).split("&")[0];
         }
-        let setSearchStateSuccessGroups =  (payload) => {
-            let groups = (payload[0]===undefined) ? []: Object.values(payload[0].groups.allGroups)
-
-            let newState = Object.assign(this.state, {
-                query: "",
-                lastQuery: result.toUpperCase(),
-                groups: groups,
-                loaded: true
-            })
-            this.setState(newState)
+        let lastQuery = "";
+        if(lastQueryIndex !== undefined){
+            lastQuery += "FOR " + query.slice(lastQueryIndex).split("&")[0].split("%20").join(" ");
         }
-
-        let setSearchStateFail= () => {
-            let newState = Object.assign({}, {
-                query: "",
-                lastQuery: result.toUpperCase(),
-                groups: [],
-                events: [],
-                loaded: true
-            })
-            this.setState(newState)
-        }
-
-        let setSearchStateFailOne= (payload) => {
-            let newState = Object.assign({}, {
-                query: "",
-                lastQuery: result.toUpperCase(),
-                loaded: true
-            })
-            this.setState(newState)
-        }
-        switch (split[0]) {
-            case "location":
-                this.setState({groups: [], events: []})
-                Promise.all([fetchGroupsFromLocation, fetchEventsFromLocation, fetchLocations])
-                    .then(setSearchStateSuccessBoth, setSearchStateFail)
-                    break;
-            case "category":
-                this.setState({groups: [], events: []})
-                Promise.all([fetchGroupsFromCategory, fetchCategories])
-                    .then(setSearchStateSuccessGroups, setSearchStateFailOne)
-                    break;
-            default:
-                this.setState({groups: [], events: []})
-                Promise.all([searchGroups])
-                    .then(setSearchStateSuccessGroups, setSearchStateFailOne)
-                Promise.all([searchEvents])
-                    .then(setSearchStateSuccessEvents, setSearchStateFailOne)
-                break;
-        }
+        let fetchLocations = this.props.fetchLocations();
+        let fetchCategories = this.props.fetchCategories();
+        let searchGroups = this.props.searchGroups(query);
+        let searchEvents = this.props.searchEvents(query);
+        let fetchArray = [fetchLocations, fetchCategories, searchGroups, searchEvents];
+        Promise.all(fetchArray)
+            .then(()=> this.setState({
+                            query: "",
+                            lastQuery: lastQuery.toUpperCase(),
+                            locIndex,
+                            loaded: true
+                        }))
     }
 
     render(){
         if (this.state.loaded){
-            let squadsOnly = (this.props.location.search.slice(1).split("%20"))[0] !== "category"
-            let {groups, events} = this.state;
-            let {locations, categories} = this.props;
+            let {groups, events, locations, categories} = this.props;
+            let {locIndex} = this.state;
+            groups = ("allGroups" in groups) ? Object.values(groups.allGroups) : [];
+            events = ("allEvents" in events) ? Object.values(events.allEvents) : [];
             let squadMessages = groups.length === 0 ? (<p>No results found</p>) : (<p></p>)
             let brawlMessages = events.length === 0 ? (<p>No results found</p>) : (<p></p>)
             let lastQuery=this.state.lastQuery.toUpperCase();
-            let array = lastQuery.split(" ");
-            let index = array[array.length-1];
-            if (lastQuery.includes("LOCATION")){
-                
-                lastQuery = locations[index].name.toUpperCase()
-            } else if (lastQuery.includes("CATEGORY")) {
-                lastQuery = categories[index].name.toUpperCase()
-            } 
-            
+            if (locIndex) {
+                lastQuery += " IN " + locations[locIndex].name.toUpperCase();
+            }
             let searchedGroups = (
                 <ul className="groups-index-div-results">
-                    <p>SQUAD RESULTS FOR {lastQuery}</p>
+                    <p>SQUAD RESULTS {lastQuery}</p>
                     <span>{squadMessages}</span>
-                    <div className="groups-div">
-                        <GroupIndexList
-                            groups={groups}
+                    {groups.length === 0 ? <div className="groups-div"></div>:
+                        <div className="groups-div">
+                            <GroupIndexList
+                                groups={groups}
                             />
-                    </div>
+                        </div>
+                    }
                 </ul>
             )
-            let searchedEvents = squadsOnly ? (
+            let searchedEvents = events.length ? (
                 <ul className="groups-index-div-results">
-                    <p>BRAWL RESULTS FOR {lastQuery}</p>
+                    <p>BRAWL RESULTS {lastQuery}</p>
                     <span>{brawlMessages}</span>
                     <div className="groups-div">
                         <EventIndexList
@@ -165,12 +105,17 @@ class Search extends React.Component{
             return(
                 <div className="groups-search-div">
                     <div className="groups-search-bar-div">
-                        <SearchBar history={this.props.history} autoSearch={true} />
+                        <SearchBar 
+                            history={this.props.history} 
+                            autoSearch={true}
+                            filters={true}
+                            />
                     </div>
+                    <SearchBarFilter
+                        categories={categories}
+                        locations={locations} /> :
                     {searchedGroups}
                     {searchedEvents}
-   
-    
                 </div>
             )
         } else {

@@ -45,7 +45,7 @@ const EventShowMainRight = props =>{
                     <div>
                         <p>{address}</p>
                         <Link className="event-show-main-right-infobox-link" 
-                            to={`/search/?location%20${locationId}`}>
+                            to={`/search/?location=${locationId}`}>
                             {locations[locationId].name}
                         </Link>
                     </div>

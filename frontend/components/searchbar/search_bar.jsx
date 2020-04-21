@@ -8,7 +8,6 @@ class SearchBar extends React.Component{
             query: "",
             typing: false,
             typingTimeout: 0,
-            autoSearch: this.props.autoSearch
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.update = this.update.bind(this)
@@ -19,7 +18,7 @@ class SearchBar extends React.Component{
             clearTimeout(this.state.typingTimeout);
          }
 
-        if (this.state.autoSearch){
+        if (this.props.autoSearch){
             this.setState({
                 query: e.target.value,
                 typing: false,
@@ -27,7 +26,7 @@ class SearchBar extends React.Component{
                     if (this.state.query === "") {
                         this.props.history.push("/groups");
                     } else {
-                        this.props.history.push(`/search/?${this.state.query}`);
+                        this.props.history.push(`/search/?name=${this.state.query}`);
                     }
                 }), 300)
             });
@@ -44,18 +43,27 @@ class SearchBar extends React.Component{
             if (this.state.query === "") {
                 this.props.history.push("/groups");
               } else {
-                this.props.history.push(`/search/?${this.state.query}`);
+                this.props.history.push(`/search/?name=${this.state.query}`);
               }}), 300);
     }
 
     render(){
+        let {categories, locations, filters} = this.props;
         return(
             <div className="search-bar-div">
-                <form className="search-bar-form" onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.query} onChange={this.update} 
-                    placeholder="Find your fight club" className="search-bar-input"/>
+                <form className="search-bar-form" 
+                    onSubmit={this.handleSubmit}>
+                    <input 
+                        type="text" 
+                        value={this.state.query} 
+                        onChange={this.update} 
+                        placeholder="Find your fight club" 
+                        className="search-bar-input"/>
                 </form>
-                <button className="search-bar-button" onClick={this.handleSubmit}>Search</button>
+                <button className="search-bar-button" 
+                    onClick={this.handleSubmit}>
+                    Search
+                </button>
             </div>
         )
     }

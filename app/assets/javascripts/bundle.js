@@ -1110,7 +1110,7 @@ var CategoryIndexItem = function CategoryIndexItem(props) {
       className: "index-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       key: id,
-      href: "#/search/?category%20".concat(id)
+      href: "#/search/?category=".concat(id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       className: "index-item-image",
       src: window[imageUrl]
@@ -4246,7 +4246,7 @@ var EventIndexItemLarge = function EventIndexItemLarge(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "group-show-events-event-title"
   }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-    to: "/search/?location%20".concat(locationId)
+    to: "/search/?location=".concat(locationId)
   }, locations[locationId].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_utils_date_util__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(startTime)), recurring, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, reservationIds.length, " challengers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/groups/".concat(groupId, "/events/").concat(id)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4905,7 +4905,7 @@ var EventShowMainRight = function EventShowMainRight(props) {
     className: "far fa-compass"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     className: "event-show-main-right-infobox-link",
-    to: "/search/?location%20".concat(locationId)
+    to: "/search/?location=".concat(locationId)
   }, locations[locationId].name))), organizerOptions));
 };
 
@@ -5836,7 +5836,8 @@ var GroupLandingBanner = function GroupLandingBanner() {
     className: "landing-banner-left-subtitle"
   }, "Find your spirit squad and enter the fray"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_1__["default"], {
     history: history,
-    autoSearch: false
+    autoSearch: false,
+    filters: false
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-banner-right"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -6762,7 +6763,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-map-marker-alt"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: "/search/?location%20".concat(locationId)
+        to: "/search/?location=".concat(locationId)
       }, locations[locationId].name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-header-right-totalmembers"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -7307,7 +7308,7 @@ var HeaderSearch = function HeaderSearch(props) {
       if (query === "") {
         props.history.push("/groups");
       } else {
-        props.history.push("/search/?".concat(query));
+        props.history.push("/search/?name=".concat(query));
       }
     }, 300);
   };
@@ -7639,6 +7640,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _groups_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index/group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
 /* harmony import */ var _events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index/event_index_list_short */ "./frontend/components/events/event_index/event_index_list_short.jsx");
 /* harmony import */ var _searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
+/* harmony import */ var _search_bar_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search_bar_filter */ "./frontend/components/searchbar/search_bar_filter.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7662,6 +7664,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Search =
 /*#__PURE__*/
 function (_React$Component) {
@@ -7674,10 +7677,9 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Search).call(this, props));
     _this.state = {
-      groups: [],
-      events: [],
       query: "",
       lastQuery: "",
+      locIndex: null,
       loaded: false,
       typing: false,
       typingTimeout: 0
@@ -7697,154 +7699,86 @@ function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var split = this.props.location.search.slice(1).split("%20");
-      this.search(split);
+      var queryString = this.props.location.search;
+      this.search(queryString);
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (this.props.location.search !== prevProps.location.search) {
-        var split = this.props.location.search.slice(1).split("%20");
+        var split = this.props.location.search;
         this.search(split);
       }
     }
   }, {
     key: "search",
-    value: function search(split) {
+    value: function search(query) {
       var _this2 = this;
 
-      var result = split.join(" ");
-      this.setState({
-        lastQuery: result
-      });
-      var fetchGroupsFromLocation = this.props.fetchGroupsFromLocation(split[1]);
-      var fetchEventsFromLocation = this.props.fetchEventsFromLocation(split[1]);
-      var fetchGroupsFromCategory = this.props.fetchGroupsFromCategory(split[1]);
-      var searchGroups = this.props.searchGroups(result);
-      var searchEvents = this.props.searchEvents(result);
-      var fetchLocations = this.props.fetchLocations(result);
-      var fetchCategories = this.props.fetchCategories(result);
+      var lastQueryIndex;
+      var locIndex;
 
-      var setSearchStateSuccessBoth = function setSearchStateSuccessBoth(payload) {
-        var events = payload[1] === undefined ? [] : Object.values(payload[1].events.allEvents);
-        var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups.allGroups);
-        var newState = Object.assign({}, {
-          query: "",
-          lastQuery: result.toUpperCase(),
-          groups: groups,
-          events: events,
-          loaded: true
-        });
-
-        _this2.setState(newState);
-      };
-
-      var setSearchStateSuccessEvents = function setSearchStateSuccessEvents(payload) {
-        var events = payload[0] === undefined ? [] : Object.values(payload[0].events.allEvents);
-        var newState = Object.assign(_this2.state, {
-          query: "",
-          lastQuery: result.toUpperCase(),
-          events: events,
-          loaded: true
-        });
-
-        _this2.setState(newState);
-      };
-
-      var setSearchStateSuccessGroups = function setSearchStateSuccessGroups(payload) {
-        var groups = payload[0] === undefined ? [] : Object.values(payload[0].groups.allGroups);
-        var newState = Object.assign(_this2.state, {
-          query: "",
-          lastQuery: result.toUpperCase(),
-          groups: groups,
-          loaded: true
-        });
-
-        _this2.setState(newState);
-      };
-
-      var setSearchStateFail = function setSearchStateFail() {
-        var newState = Object.assign({}, {
-          query: "",
-          lastQuery: result.toUpperCase(),
-          groups: [],
-          events: [],
-          loaded: true
-        });
-
-        _this2.setState(newState);
-      };
-
-      var setSearchStateFailOne = function setSearchStateFailOne(payload) {
-        var newState = Object.assign({}, {
-          query: "",
-          lastQuery: result.toUpperCase(),
-          loaded: true
-        });
-
-        _this2.setState(newState);
-      };
-
-      switch (split[0]) {
-        case "location":
-          this.setState({
-            groups: [],
-            events: []
-          });
-          Promise.all([fetchGroupsFromLocation, fetchEventsFromLocation, fetchLocations]).then(setSearchStateSuccessBoth, setSearchStateFail);
-          break;
-
-        case "category":
-          this.setState({
-            groups: [],
-            events: []
-          });
-          Promise.all([fetchGroupsFromCategory, fetchCategories]).then(setSearchStateSuccessGroups, setSearchStateFailOne);
-          break;
-
-        default:
-          this.setState({
-            groups: [],
-            events: []
-          });
-          Promise.all([searchGroups]).then(setSearchStateSuccessGroups, setSearchStateFailOne);
-          Promise.all([searchEvents]).then(setSearchStateSuccessEvents, setSearchStateFailOne);
-          break;
+      if (query.indexOf("name=") !== -1) {
+        lastQueryIndex = query.indexOf("name=") + 5;
       }
+
+      if (query.indexOf("location=") !== -1) {
+        var index = query.indexOf("location=") + 9;
+        locIndex = query.slice(index).split("&")[0];
+      }
+
+      var lastQuery = "";
+
+      if (lastQueryIndex !== undefined) {
+        lastQuery += "FOR " + query.slice(lastQueryIndex).split("&")[0].split("%20").join(" ");
+      }
+
+      var fetchLocations = this.props.fetchLocations();
+      var fetchCategories = this.props.fetchCategories();
+      var searchGroups = this.props.searchGroups(query);
+      var searchEvents = this.props.searchEvents(query);
+      var fetchArray = [fetchLocations, fetchCategories, searchGroups, searchEvents];
+      Promise.all(fetchArray).then(function () {
+        return _this2.setState({
+          query: "",
+          lastQuery: lastQuery.toUpperCase(),
+          locIndex: locIndex,
+          loaded: true
+        });
+      });
     }
   }, {
     key: "render",
     value: function render() {
       if (this.state.loaded) {
-        var squadsOnly = this.props.location.search.slice(1).split("%20")[0] !== "category";
-        var _this$state = this.state,
-            groups = _this$state.groups,
-            events = _this$state.events;
         var _this$props = this.props,
+            groups = _this$props.groups,
+            events = _this$props.events,
             locations = _this$props.locations,
             categories = _this$props.categories;
+        var locIndex = this.state.locIndex;
+        groups = "allGroups" in groups ? Object.values(groups.allGroups) : [];
+        events = "allEvents" in events ? Object.values(events.allEvents) : [];
         var squadMessages = groups.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No results found") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
         var brawlMessages = events.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No results found") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
         var lastQuery = this.state.lastQuery.toUpperCase();
-        var array = lastQuery.split(" ");
-        var index = array[array.length - 1];
 
-        if (lastQuery.includes("LOCATION")) {
-          lastQuery = locations[index].name.toUpperCase();
-        } else if (lastQuery.includes("CATEGORY")) {
-          lastQuery = categories[index].name.toUpperCase();
+        if (locIndex) {
+          lastQuery += " IN " + locations[locIndex].name.toUpperCase();
         }
 
         var searchedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "groups-index-div-results"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "SQUAD RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, squadMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "SQUAD RESULTS ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, squadMessages), groups.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "groups-div"
+        }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
           groups: groups
         })));
-        var searchedEvents = squadsOnly ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        var searchedEvents = events.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "groups-index-div-results"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "BRAWL RESULTS FOR ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, brawlMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "BRAWL RESULTS ", lastQuery), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, brawlMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
           events: events
@@ -7855,8 +7789,12 @@ function (_React$Component) {
           className: "groups-search-bar-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
           history: this.props.history,
-          autoSearch: true
-        })), searchedGroups, searchedEvents);
+          autoSearch: true,
+          filters: true
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          categories: categories,
+          locations: locations
+        }), " :", searchedGroups, searchedEvents);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -7917,8 +7855,7 @@ function (_React$Component) {
     _this.state = {
       query: "",
       typing: false,
-      typingTimeout: 0,
-      autoSearch: _this.props.autoSearch
+      typingTimeout: 0
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -7934,7 +7871,7 @@ function (_React$Component) {
         clearTimeout(this.state.typingTimeout);
       }
 
-      if (this.state.autoSearch) {
+      if (this.props.autoSearch) {
         this.setState({
           query: e.target.value,
           typing: false,
@@ -7942,7 +7879,7 @@ function (_React$Component) {
             if (_this2.state.query === "") {
               _this2.props.history.push("/groups");
             } else {
-              _this2.props.history.push("/search/?".concat(_this2.state.query));
+              _this2.props.history.push("/search/?name=".concat(_this2.state.query));
             }
           }, 300)
         });
@@ -7962,13 +7899,17 @@ function (_React$Component) {
         if (_this3.state.query === "") {
           _this3.props.history.push("/groups");
         } else {
-          _this3.props.history.push("/search/?".concat(_this3.state.query));
+          _this3.props.history.push("/search/?name=".concat(_this3.state.query));
         }
       }, 300);
     }
   }, {
     key: "render",
     value: function render() {
+      var _this$props = this.props,
+          categories = _this$props.categories,
+          locations = _this$props.locations,
+          filters = _this$props.filters;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "search-bar-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -7991,6 +7932,80 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(SearchBar));
+
+/***/ }),
+
+/***/ "./frontend/components/searchbar/search_bar_filter.jsx":
+/*!*************************************************************!*\
+  !*** ./frontend/components/searchbar/search_bar_filter.jsx ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var SearchBarFilter = function SearchBarFilter(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      selectedCats = _useState2[0],
+      setSelectedCats = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      selectedLocs = _useState4[0],
+      setSelectedLocs = _useState4[1];
+
+  var categories = props.categories,
+      locations = props.locations;
+  debugger;
+  var catBoxes = Object.values(categories).map(function (cat) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "search-bar-filter-list-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      id: "category".concat(cat.id),
+      key: "category".concat(cat.id),
+      name: cat.name,
+      value: cat.name
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, cat.name));
+  });
+  var locBoxes = Object.values(locations).map(function (loc) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "search-bar-filter-list-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      id: "location".concat(loc.id),
+      key: "location".concat(loc.id),
+      name: loc.name,
+      value: loc.name
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, loc.name));
+  });
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-bar-filter"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "search-bar-filter-title"
+  }, "Filters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-bar-filter-dropdown"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "search-bar-filter-list"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Locations"), locBoxes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "search-bar-filter-list"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fighting Styles"), catBoxes)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SearchBarFilter);
 
 /***/ }),
 
@@ -8018,9 +8033,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var mstp = function mstp(state) {
   return {
-    groups: Object.values(state.entities.groups),
+    groups: state.entities.groups,
     locations: state.entities.locations,
-    categories: state.entities.categories
+    categories: state.entities.categories,
+    events: state.entities.events
   };
 };
 

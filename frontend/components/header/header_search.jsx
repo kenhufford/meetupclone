@@ -8,7 +8,7 @@ const HeaderSearch = props =>{
             if (query === "") {
                 props.history.push("/groups");
               } else {
-                props.history.push(`/search/?${query}`);
+                props.history.push(`/search/?name=${query}`);
               }}), 300);
     }
     return(
