@@ -76,6 +76,12 @@ class Api::GroupsController < ApplicationController
       
     def search
         @query = params[:search_query];
+        if params[:search_query] == ""
+            @groups = Group.all
+            @user_groups = [];
+            render :index
+            return
+        end
         search_params = {};
         @query[1..-1].split("&").each do |param|
             param = param.split("=")
@@ -90,10 +96,18 @@ class Api::GroupsController < ApplicationController
         end
 
         if search_params["location"]
-            @groups = @groups.where("location_id = :location_id", location_id: search_params["location"])
+            location_ids = []
+            search_params["location"].split(".").each do |id|
+                location_ids << id
+            end
+            @groups = @groups.where(:location_id => location_ids)
         end
         if search_params["category"]
-            @groups = @groups.joins(:categories).where("category_id = :category_id", category_id: search_params["category"])
+            category_ids = [];
+            search_params["category"].split(".").each do |id|
+                category_ids << id
+            end
+            @groups = @groups.joins(:categories).where(categories: {id: category_ids})
         end
         render :index
     end

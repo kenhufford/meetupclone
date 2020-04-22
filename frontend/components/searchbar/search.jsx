@@ -2,7 +2,6 @@ import React from 'react';
 import GroupIndexList from '../groups/group_index/group_index_list';
 import EventIndexList from '../events/event_index/event_index_list_short';
 import SearchBar from '../searchbar/search_bar';
-
 import SearchBarFilter from './search_bar_filter';
 
 class Search extends React.Component{
@@ -13,11 +12,10 @@ class Search extends React.Component{
             lastQuery: "",
             locIndex: null,
             loaded: false,
-            typing: false,
-            typingTimeout: 0
         }
-        this.update = this.update.bind(this)
-        this.search = this.search.bind(this)
+        this.update = this.update.bind(this);
+        this.search = this.search.bind(this);
+        this.addFilters = this.addFilters.bind(this);
     }
 
     update(e) {
@@ -29,6 +27,7 @@ class Search extends React.Component{
     componentDidMount(){
         let queryString = this.props.location.search;
         this.search(queryString)
+        console.log(queryString)
     }
 
     componentDidUpdate(prevProps) {
@@ -36,6 +35,16 @@ class Search extends React.Component{
             let split = this.props.location.search;
             this.search(split)
         }
+    }
+
+    addFilters(filters){
+        let locationIds = filters.locs;
+        let categoryIds = filters.cats;
+        let filtersToAdd = [];
+        if (this.state.query !== "") filtersToAdd.push(`name=${this.state.query}`)
+        if (locationIds.length) filtersToAdd.push("location=" + locationIds.join("."));
+        if (categoryIds.length) filtersToAdd.push("category=" + categoryIds.join("."));
+        this.props.history.push("?"+filtersToAdd.join("&"));
     }
 
     search(query){
@@ -46,12 +55,13 @@ class Search extends React.Component{
         }
         if (query.indexOf("location=") !== -1) {
             let index = query.indexOf("location=") + 9;
-            locIndex = query.slice(index).split("&")[0];
+            locIndex = query.slice(index).split("&")[0].split(".");
         }
         let lastQuery = "";
         if(lastQueryIndex !== undefined){
             lastQuery += "FOR " + query.slice(lastQueryIndex).split("&")[0].split("%20").join(" ");
         }
+        
         let fetchLocations = this.props.fetchLocations();
         let fetchCategories = this.props.fetchCategories();
         let searchGroups = this.props.searchGroups(query);
@@ -76,7 +86,17 @@ class Search extends React.Component{
             let brawlMessages = events.length === 0 ? (<p>No results found</p>) : (<p></p>)
             let lastQuery=this.state.lastQuery.toUpperCase();
             if (locIndex) {
-                lastQuery += " IN " + locations[locIndex].name.toUpperCase();
+                lastQuery += " IN ";
+                let first = locations[locIndex[0]].name.toUpperCase();
+                if (locIndex.length === 1) lastQuery += first;
+                else if (locIndex.length === 2) {
+                    let second = locations[locIndex[1]].name.toUpperCase();
+                    lastQuery += first + " AND " + second;
+                }
+                else if (locIndex.length === 3){
+                    let second = locations[locIndex[1]].name.toUpperCase();
+                    lastQuery += first + ", " + second + " AND OTHER LOCATIONS";
+                }
             }
             let searchedGroups = (
                 <ul className="groups-index-div-results">
@@ -105,15 +125,16 @@ class Search extends React.Component{
             return(
                 <div className="groups-search-div">
                     <div className="groups-search-bar-div">
+                        <SearchBarFilter
+                            categories={categories}
+                            locations={locations}
+                            addFilters={this.addFilters} />
                         <SearchBar 
                             history={this.props.history} 
                             autoSearch={true}
                             filters={true}
                             />
                     </div>
-                    <SearchBarFilter
-                        categories={categories}
-                        locations={locations} /> :
                     {searchedGroups}
                     {searchedEvents}
                 </div>

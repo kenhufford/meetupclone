@@ -795,6 +795,9 @@
 
 .groups-search-bar-div{
    width: 90%;
+   flex-direction: row;
+   display: flex;
+   align-items: center;
 }
 
 .groups-index-div-results{
@@ -3353,7 +3356,7 @@ color: #404040;
    position: absolute;
    top: 150%;
    left: 0;
-   width: 100%;
+   width: 150vh;
    transform: translateY(-2em);
    z-index: -1;
    background-color: #DDD;

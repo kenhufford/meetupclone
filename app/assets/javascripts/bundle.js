@@ -7680,12 +7680,11 @@ function (_React$Component) {
       query: "",
       lastQuery: "",
       locIndex: null,
-      loaded: false,
-      typing: false,
-      typingTimeout: 0
+      loaded: false
     };
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.search = _this.search.bind(_assertThisInitialized(_this));
+    _this.addFilters = _this.addFilters.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -7701,6 +7700,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var queryString = this.props.location.search;
       this.search(queryString);
+      console.log(queryString);
     }
   }, {
     key: "componentDidUpdate",
@@ -7709,6 +7709,17 @@ function (_React$Component) {
         var split = this.props.location.search;
         this.search(split);
       }
+    }
+  }, {
+    key: "addFilters",
+    value: function addFilters(filters) {
+      var locationIds = filters.locs;
+      var categoryIds = filters.cats;
+      var filtersToAdd = [];
+      if (this.state.query !== "") filtersToAdd.push("name=".concat(this.state.query));
+      if (locationIds.length) filtersToAdd.push("location=" + locationIds.join("."));
+      if (categoryIds.length) filtersToAdd.push("category=" + categoryIds.join("."));
+      this.props.history.push("?" + filtersToAdd.join("&"));
     }
   }, {
     key: "search",
@@ -7724,7 +7735,7 @@ function (_React$Component) {
 
       if (query.indexOf("location=") !== -1) {
         var index = query.indexOf("location=") + 9;
-        locIndex = query.slice(index).split("&")[0];
+        locIndex = query.slice(index).split("&")[0].split(".");
       }
 
       var lastQuery = "";
@@ -7764,7 +7775,16 @@ function (_React$Component) {
         var lastQuery = this.state.lastQuery.toUpperCase();
 
         if (locIndex) {
-          lastQuery += " IN " + locations[locIndex].name.toUpperCase();
+          lastQuery += " IN ";
+          var first = locations[locIndex[0]].name.toUpperCase();
+          if (locIndex.length === 1) lastQuery += first;else if (locIndex.length === 2) {
+            var second = locations[locIndex[1]].name.toUpperCase();
+            lastQuery += first + " AND " + second;
+          } else if (locIndex.length === 3) {
+            var _second = locations[locIndex[1]].name.toUpperCase();
+
+            lastQuery += first + ", " + _second + " AND OTHER LOCATIONS";
+          }
         }
 
         var searchedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -7787,14 +7807,15 @@ function (_React$Component) {
           className: "groups-search-div"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "groups-search-bar-div"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          categories: categories,
+          locations: locations,
+          addFilters: this.addFilters
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
           history: this.props.history,
           autoSearch: true,
           filters: true
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          categories: categories,
-          locations: locations
-        }), " :", searchedGroups, searchedEvents);
+        })), searchedGroups, searchedEvents);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       }
@@ -7946,6 +7967,14 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -7957,40 +7986,81 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var SearchBarFilter = function SearchBarFilter(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
       selectedCats = _useState2[0],
       setSelectedCats = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState4 = _slicedToArray(_useState3, 2),
       selectedLocs = _useState4[0],
       setSelectedLocs = _useState4[1];
 
   var categories = props.categories,
-      locations = props.locations;
-  debugger;
-  var catBoxes = Object.values(categories).map(function (cat) {
+      locations = props.locations,
+      addFilters = props.addFilters;
+
+  var toggleBox = function toggleBox(id, type) {
+    if (type === "category") {
+      var ids = selectedCats;
+      var selectedIndex = selectedCats.indexOf(id);
+
+      if (selectedIndex !== -1) {
+        var _ref = [id[0], ids[selectedIndex]];
+        ids[selectedIndex] = _ref[0];
+        ids[0] = _ref[1];
+        ids.shift();
+      } else {
+        ids.push(id);
+      }
+
+      setSelectedCats(_toConsumableArray(ids));
+    } else {
+      var _ids = selectedLocs;
+
+      var _selectedIndex = selectedLocs.indexOf(id);
+
+      if (_selectedIndex !== -1) {
+        var _ref2 = [id[0], _ids[_selectedIndex]];
+        _ids[_selectedIndex] = _ref2[0];
+        _ids[0] = _ref2[1];
+
+        _ids.shift();
+      } else {
+        _ids.push(id);
+      }
+
+      setSelectedLocs(_toConsumableArray(_ids));
+    }
+  };
+
+  var catBoxes = Object.values(categories).map(function (category) {
+    var checked = selectedCats.includes(category.id);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      className: "search-bar-filter-list-item"
+      className: "search-bar-filter-list-item",
+      key: "category".concat(category.id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
-      id: "category".concat(cat.id),
-      key: "category".concat(cat.id),
-      name: cat.name,
-      value: cat.name
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, cat.name));
+      onChange: function onChange() {
+        return toggleBox(category.id, "category");
+      },
+      name: category.name,
+      checked: checked
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, category.name));
   });
-  var locBoxes = Object.values(locations).map(function (loc) {
+  var locBoxes = Object.values(locations).map(function (location) {
+    var checked = selectedLocs.includes(location.id);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      className: "search-bar-filter-list-item"
+      className: "search-bar-filter-list-item",
+      key: "location".concat(location.id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
-      id: "location".concat(loc.id),
-      key: "location".concat(loc.id),
-      name: loc.name,
-      value: loc.name
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, loc.name));
+      onChange: function onChange() {
+        return toggleBox(location.id, "location");
+      },
+      name: location.name,
+      checked: checked
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, location.name));
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-bar-filter"
@@ -8000,7 +8070,14 @@ var SearchBarFilter = function SearchBarFilter(props) {
     className: "search-bar-filter-dropdown"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "search-bar-filter-list"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Locations"), locBoxes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Locations"), locBoxes, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      return addFilters({
+        cats: selectedCats,
+        locs: selectedLocs
+      });
+    }
+  }, "Apply Filters")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "search-bar-filter-list"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fighting Styles"), catBoxes)));
 };

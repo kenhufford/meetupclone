@@ -87,6 +87,12 @@ class Api::EventsController < ApplicationController
 
   def search
     @query = params[:search_query];
+    if params[:search_query] == "" || params[:search_query][0..3] == "?cat"
+      @events = Event.all
+      @user_events = [];
+      render :index
+      return
+    end
     search_params = {};
     @query[1..-1].split("&").each do |param|
       param = param.split("=")
@@ -100,7 +106,11 @@ class Api::EventsController < ApplicationController
       @events = Event.all
     end
     if search_params["location"]
-      @events = @events.where("location_id = :location_id", location_id: search_params["location"])
+      location_ids = []
+      search_params["location"].split(".").each do |id|
+        location_ids << id
+      end
+      @events = @events.where(:location_id=> location_ids)
     end
     render :index
   end
