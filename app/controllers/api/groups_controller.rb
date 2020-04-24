@@ -11,11 +11,24 @@ class Api::GroupsController < ApplicationController
         else
             @groups = Group.all.includes(:memberships, :members)
         end
-
         if current_user
             @user_groups = current_user.groups
         else
             @user_groups = []
+        end
+
+        @all_groups_count = @groups.count
+        @user_groups_count = @user_groups.count
+        if params[:allPage] && params[:allLimit]
+            limit = params[:allLimit].to_i
+            page = params[:allPage].to_i
+            @groups = @groups.limit(limit).offset((page-1) * limit)
+        end
+
+        if params[:userPage] && params[:userLimit]
+            limit = params[:userLimit].to_i
+            page = params[:userPage].to_i
+            @user_groups = @user_groups.limit(limit).offset((page-1) * limit)
         end
         
         if @groups

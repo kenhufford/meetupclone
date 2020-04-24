@@ -21,7 +21,7 @@ class Api::EventsController < ApplicationController
         .events
         .order(start_time: :desc)
     else
-      @events = Event.all
+      @events = Event.all.order(start_time: :desc)
     end
     
     if current_user
@@ -111,6 +111,12 @@ class Api::EventsController < ApplicationController
         location_ids << id
       end
       @events = @events.where(:location_id=> location_ids)
+    end
+    if search_params["page"]
+      page = search_params["page"].to_i
+      limit = search_params["limit"].to_i
+      start = (page - 1) * limit
+      @events = @events.limit(limit).offset(start)
     end
     render :index
   end

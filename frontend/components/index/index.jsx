@@ -14,6 +14,11 @@ const Index = props =>{
         }
     })
 
+    const buttons =
+    [{ name: "squads", link: `/index/squads` },
+     { name: "brawls", link: `/index/brawls` },
+     { name: "styles", link: `/index/styles` }]
+
     return (
         <div className="index-div">
             <div className="index-header">
@@ -21,14 +26,18 @@ const Index = props =>{
                     FIND YOUR FIGHT TONIGHT
                 </div>
                <IndexSwitch 
-                setSelected={setSelected}
-                selected={selected}
+                    buttons={buttons}
+                    selected={selected}
+                    setSelected={setSelected}
                 />
             </div>
             <Switch>
-                <Route exact path="/index/squads" component={GroupIndexContainer} />
-                <Route exact path="/index/brawls" component={EventIndexContainer} />
-                <Route exact path="/index/styles" component={CategoryIndexContainer} />
+                <Route exact path="/index/squads" 
+                    component={GroupIndexContainer} />
+                <Route exact path="/index/brawls" 
+                    component={EventIndexContainer} />
+                <Route exact path="/index/styles" 
+                    component={CategoryIndexContainer} />
             </Switch>
         </div>
     )

@@ -94,7 +94,7 @@
      font-size: 16px;
      border-bottom: 1px lightgray solid;
      align-items: center;
-     margin-bottom: 20px;
+     margin-bottom: 10px;
  }
 
  .navbar-logo{
@@ -312,10 +312,19 @@
    align-items: center;
    flex-direction: column;
    background-color: rgb(249, 249, 249);
-   margin: 20px 0px;
+   margin: 10px 0px;
    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 8px;
    border-radius: 16px;
    width: 100%;
+}
+
+.landing-main-groups-header{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   width:100%;
+   padding: 10px 0px 0px 0px;
 }
 
 .landing-location-dropdown{
@@ -500,9 +509,9 @@
 
 .landing-groups-div{
    display: flex;
-   width: 98%;
+   width: 100%;
    margin: 0 auto;
-   justify-content: space-around;
+   justify-content: flex-start;
    flex-wrap: wrap;
 }
 
@@ -557,7 +566,7 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   height: 50px;
+   height: 35px;
    padding: 10px 0px;
 }
 
@@ -596,6 +605,10 @@
    border-radius: 8px;
    text-align: center;
    margin: 0px 10px;
+   max-height: 25px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .index-switch-selected:hover{
@@ -611,6 +624,10 @@
    border-radius: 8px;
    text-align: center;;
    margin: 0px 10px;
+   max-height: 25px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .index-switch-not:hover{
@@ -625,6 +642,7 @@
    cursor: pointer;
    padding: 10px;
    text-decoration: none;
+   background-color: rgb(255, 12, 55);
    transition: color 300ms ease;
     -webkit-transition: color 300ms ease;
   }
@@ -706,22 +724,25 @@
 }
 
 .index-item-image-text-small{
-   font-size: 16px;
+   font-size: 18px;
    color: rgba(255, 255, 255, 0.9);;
    text-shadow: 2px 2px 0 rgba(0,0,0,.26);
    margin-top: 2px;
    margin-bottom: 2px;
-   font-weight: 500;
-   
+   font-weight: 700;
+   -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
 }
 .index-item-image-text-big{
-   font-size: 22px;
+   font-size: 24px;
    color: white;
    text-decoration: none;
    text-shadow: 3px 3px 0 rgba(0,0,0,.26);
    font-weight: 700;
    margin-top: 2px;
    margin-bottom: 2px;
+   -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
 }
 
 .search-bar-div{

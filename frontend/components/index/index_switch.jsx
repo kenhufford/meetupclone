@@ -2,22 +2,18 @@ import React from 'react';
 import IndexSwitchButton from './index_switch_button';
 
 const IndexSwitch = props =>{
-    const {setSelected, selected} = props;
-
+    const {setSelected, selected, buttons} = props;
+    console.log(props)
     return(
         <div className="index-switch-div">
-            <IndexSwitchButton
-                buttonName="squads"
-                setSelected={setSelected}
-                selected={selected}/>
-            <IndexSwitchButton
-                buttonName="brawls"
-                setSelected={setSelected}
-                selected={selected} />
-            <IndexSwitchButton
-                buttonName="styles"
-                setSelected={setSelected}
-                selected={selected} />
+            {buttons.map( (button,i) => 
+                <IndexSwitchButton
+                    key={i}
+                    buttonName={button.name}
+                    buttonLink={button.link}
+                    setSelected={setSelected}
+                    selected={selected} />
+            )}
         </div>
     )
 }

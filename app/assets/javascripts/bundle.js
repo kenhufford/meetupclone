@@ -5516,8 +5516,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _group_index_box__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_index_box */ "./frontend/components/groups/group_index/group_index_box.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -5531,42 +5532,144 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function GroupIndex(props) {
+
+var GroupIndex = function GroupIndex(props) {
+  var groups = props.groups,
+      fetchGroups = props.fetchGroups;
+
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       loaded = _useState2[0],
       setLoaded = _useState2[1];
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [], props.fetchGroups);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState4 = _slicedToArray(_useState3, 2),
+      userPage = _useState4[0],
+      setUserPage = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(3),
+      _useState6 = _slicedToArray(_useState5, 2),
+      userLimit = _useState6[0],
+      setUserLimit = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      maxUserGroups = _useState8[0],
+      setMaxUserGroups = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState10 = _slicedToArray(_useState9, 2),
+      allPage = _useState10[0],
+      setAllPage = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(3),
+      _useState12 = _slicedToArray(_useState11, 2),
+      allLimit = _useState12[0],
+      setAllLimit = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState14 = _slicedToArray(_useState13, 2),
+      maxAllGroups = _useState14[0],
+      setMaxAllGroups = _useState14[1];
+
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__["default"])(setLoaded, [allPage, userPage], [fetchGroups, {
+    allPage: allPage,
+    allLimit: allLimit,
+    userPage: userPage,
+    userLimit: userLimit
+  }, {
+    foo: setMaxAllGroups,
+    key: "groups",
+    key2: "allGroupsCount"
+  }, {
+    foo: setMaxUserGroups,
+    key: "groups",
+    key2: "userGroupsCount"
+  }]);
+
+  var switchPage = function switchPage(dir, title) {
+    if (title === "ALL SQUADS") {
+      var maxPage = maxAllGroups / allLimit;
+      if (dir === "back" && allPage > 1) setAllPage(allPage - 1);
+      if (dir === "forward" && allPage < maxPage) setAllPage(allPage + 1);
+    } else {
+      var _maxPage = maxUserGroups / userLimit;
+
+      if (dir === "back" && userPage > 1) setUserPage(userPage - 1);
+      if (dir === "forward" && userPage < _maxPage) setUserPage(userPage + 1);
+    }
+  };
 
   if (loaded) {
-    var allGroups = Object.values(props.groups.allGroups);
-    var userGroups = props.groups.userGroups === undefined ? [] : Object.values(props.groups.userGroups);
-    var yourTitle = !userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
-      className: "index-div-titles",
-      to: '/login'
-    }, "Join a squad") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "index-div-titles"
-    }, "Your Squads");
+    var allGroups = Object.values(groups.allGroups);
+    var userGroups = groups.userGroups === undefined ? [] : Object.values(groups.userGroups);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "component-index"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "landing-main-groups"
-    }, yourTitle, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: userGroups
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "landing-main-groups"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "index-div-titles"
-    }, "All Squads"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: allGroups
-    })));
+    }, userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      groups: userGroups,
+      title: "YOUR SQUADS",
+      switchPage: switchPage
+    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      groups: allGroups,
+      title: "ALL SQUADS",
+      switchPage: switchPage
+    }));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-}
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (GroupIndex);
+
+/***/ }),
+
+/***/ "./frontend/components/groups/group_index/group_index_box.jsx":
+/*!********************************************************************!*\
+  !*** ./frontend/components/groups/group_index/group_index_box.jsx ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
+
+
+
+var GroupIndexBox = function GroupIndexBox(props) {
+  var groups = props.groups,
+      title = props.title,
+      switchPage = props.switchPage;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "landing-main-groups"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "landing-main-groups-header"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "index-div-titles"
+  }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-switch-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-switch-selected"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "index-switch-text-selected",
+    onClick: function onClick() {
+      return switchPage("back", title);
+    }
+  }, "BACK")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-switch-selected"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "index-switch-text-selected",
+    onClick: function onClick() {
+      return switchPage("forward", title);
+    }
+  }, "FORWARD")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    groups: groups
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupIndexBox);
 
 /***/ }),
 
@@ -7351,9 +7454,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -7364,19 +7471,31 @@ var useFetches = function useFetches(setLoaded, condition) {
     args[_key - 2] = arguments[_key];
   }
 
+  var setters = [];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    Promise.all(args.map(function (arg) {
+    Promise.all(args.map(function (arg, i) {
       if (typeof arg === "function") {
         return arg();
       } else {
-        var _arg = _slicedToArray(arg, 2),
+        var _arg = _toArray(arg),
             foo = _arg[0],
-            param = _arg[1];
+            param = _arg[1],
+            settersArgs = _arg.slice(2);
 
+        settersArgs.forEach(function (setterArg) {
+          return setters.push([setterArg, i]);
+        });
         return foo(param);
       }
-    })).then(function () {
-      return setLoaded(true);
+    })).then(function (data) {
+      setters.forEach(function (setterArr) {
+        var _setterArr = _slicedToArray(setterArr, 2),
+            setter = _setterArr[0],
+            index = _setterArr[1];
+
+        if (setter.key2) setter.foo(data[index]["".concat(setter.key)]["".concat(setter.key2)]);else setter.foo(data[i]["".concat(setter.key)]);
+      });
+      setLoaded(true);
     });
   }, condition);
 };
@@ -7428,6 +7547,16 @@ var Index = function Index(props) {
       setSelected(props.history.location.pathname.split("/")[2]);
     }
   });
+  var buttons = [{
+    name: "squads",
+    link: "/index/squads"
+  }, {
+    name: "brawls",
+    link: "/index/brawls"
+  }, {
+    name: "styles",
+    link: "/index/styles"
+  }];
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7435,8 +7564,9 @@ var Index = function Index(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-div-titles"
   }, "FIND YOUR FIGHT TONIGHT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    setSelected: setSelected,
-    selected: selected
+    buttons: buttons,
+    selected: selected,
+    setSelected: setSelected
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     exact: true,
     path: "/index/squads",
@@ -7473,21 +7603,19 @@ __webpack_require__.r(__webpack_exports__);
 
 var IndexSwitch = function IndexSwitch(props) {
   var setSelected = props.setSelected,
-      selected = props.selected;
+      selected = props.selected,
+      buttons = props.buttons;
+  console.log(props);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-switch-div"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    buttonName: "squads",
-    setSelected: setSelected,
-    selected: selected
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    buttonName: "brawls",
-    setSelected: setSelected,
-    selected: selected
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    buttonName: "styles",
-    setSelected: setSelected,
-    selected: selected
+  }, buttons.map(function (button, i) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_index_switch_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      key: i,
+      buttonName: button.name,
+      buttonLink: button.link,
+      setSelected: setSelected,
+      selected: selected
+    });
   }));
 };
 
@@ -7513,7 +7641,8 @@ __webpack_require__.r(__webpack_exports__);
 var IndexSwitchButton = function IndexSwitchButton(props) {
   var setSelected = props.setSelected,
       buttonName = props.buttonName,
-      selected = props.selected;
+      selected = props.selected,
+      buttonLink = props.buttonLink;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: selected === buttonName ? "index-switch-selected" : "index-switch-not"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -7521,7 +7650,7 @@ var IndexSwitchButton = function IndexSwitchButton(props) {
     onClick: function onClick() {
       return setSelected(buttonName);
     },
-    to: "/index/".concat(buttonName)
+    to: buttonLink
   }, buttonName.toUpperCase()));
 };
 
