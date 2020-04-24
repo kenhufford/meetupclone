@@ -302,11 +302,10 @@
    width:100%;
    letter-spacing: 0.01em;
    flex: 1 0 auto;
-   height: 100%;
-   min-height: auto;
-
 }
-
+.component-index{
+   width:100%;
+}
 .landing-main-groups{
    display: flex;
    align-items: center;
@@ -512,7 +511,7 @@
    display: flex;
    width: 100%;
    margin: 0 auto;
-   justify-content: flex-start;
+   justify-content: space-between;
    flex-wrap: wrap;
 }
 
@@ -568,14 +567,6 @@
    justify-content: space-between;
    align-items: center;
    height: 35px;
-   padding: 10px 0px;
-}
-
-.index-header{
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   height: 50px;
    padding: 10px 0px;
 }
 
@@ -664,38 +655,55 @@
   }
    
 .index-switch-text-not:hover{
-   color: #ff350c;
+   color: rgba(255, 12, 55,0.8);
 }
 
 .index-switch-caret{
-   padding: 0px 10px;
-   color: #ff350c;
-   font-size: 20px;
+   padding: 0px 5px;
+   color: rgba(255, 12, 55,0.8);
+   font-size: 16px;
    font-weight: 700;
+   cursor: pointer;
+}
+
+.index-switch-caret-not{
+   padding: 0px 5px;
+   color: rgba(43, 43, 43, 0.8);
+   font-size: 16px;
+   font-weight: 700;
+   cursor: pointer;
 }
 
 .index-div-titles{
    font-size: 24px;
    font-weight: 700;
    color: rgba(255, 12, 55,0.8);
-   text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
+   margin-left: 24px;
+   text-decoration: none;
+   padding: 10px 0px;
+}
+
+.index-box-div-titles{
+   font-size: 24px;
+   font-weight: 700;
+   color: rgba(255, 12, 55,0.8);
    margin-left: 40px;
    text-decoration: none;
    padding: 10px 0px;
 }
+
 .index-div-titles-mid{
    margin-bottom: 10px;
    font-size: 24px;
    font-weight: 700;
    color: rgba(255, 12, 55,0.8);
-   text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white;
 }
 
 .index-item{
    border: 1px solid rgb(206, 206, 206);
    width: 300px;
    height: 200px;
-   margin: 20px;
+   margin: 10px 20px;
    border-radius: 8px;
    position: relative;
    overflow: hidden;

@@ -1,25 +1,16 @@
 import React, {useState} from 'react';
-import GroupIndexList from './group_index_list';
 import GroupIndexBox from './group_index_box';
 import useFetches from '../../hooks/use_fetches';
-import {Link} from 'react-router-dom';
 
 const GroupIndex = (props) =>{
-    let {groups, fetchGroups} = props;
-    let [loaded, setLoaded] = useState(false);
-    let [userPage, setUserPage] = useState(1);
-    let [userLimit, setUserLimit] = useState(3);
-    let [maxUserGroups, setMaxUserGroups] = useState(null);
-    let [allPage, setAllPage] = useState(1);
-    let [allLimit, setAllLimit] = useState(3);
-    let [maxAllGroups, setMaxAllGroups] = useState(null);
-    useFetches(setLoaded, [allPage, userPage], 
-        [fetchGroups, 
-        {allPage, allLimit, userPage, userLimit},
-        { foo: setMaxAllGroups, key:"groups", key2:"allGroupsCount"},
-        { foo: setMaxUserGroups, key:"groups", key2:"userGroupsCount"}]
-    );
-
+    const {groups, fetchGroups} = props;
+    const [loaded, setLoaded] = useState(false);
+    const [userPage, setUserPage] = useState(1);
+    const [userLimit, setUserLimit] = useState(3);
+    const [maxUserGroups, setMaxUserGroups] = useState(null);
+    const [allPage, setAllPage] = useState(1);
+    const [allLimit, setAllLimit] = useState(3);
+    const [maxAllGroups, setMaxAllGroups] = useState(null);
     const switchPage = (dir, title) => {
         if (title === "ALL SQUADS"){
             let maxPage = Math.ceil(maxAllGroups / allLimit);
@@ -35,6 +26,12 @@ const GroupIndex = (props) =>{
             if (dir === "allForward" && allPage < maxPage) setUserPage(maxPage);
         }
     }
+    useFetches(setLoaded, [allPage, allLimit, userPage, userLimit],
+        [fetchGroups,
+            { allPage, allLimit, userPage, userLimit },
+            { foo: setMaxAllGroups, key: "groups", key2: "allGroupsCount" },
+            { foo: setMaxUserGroups, key: "groups", key2: "userGroupsCount" }]
+    );
     if(loaded){
         let allGroups = Object.values(groups.allGroups);
         let userGroups = groups.userGroups === undefined ? []: Object.values(groups.userGroups);
@@ -47,13 +44,17 @@ const GroupIndex = (props) =>{
                     switchPage={switchPage}
                     currentPage={userPage}
                     max={Math.ceil(maxUserGroups / userLimit)}
+                    setLimit={setUserLimit}
+                    limit={userLimit}
                 /> : <div></div>}
                 <GroupIndexBox
                     groups={allGroups}
                     title="ALL SQUADS"
                     switchPage={switchPage}
                     currentPage={allPage}
-                    max={Math.ceil(maxAllGroups / userLimit)}
+                    setLimit={setAllLimit}
+                    max={Math.ceil(maxAllGroups / allLimit)}
+                    limit={allLimit}
                     />
             </div>
             

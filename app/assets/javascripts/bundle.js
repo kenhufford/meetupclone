@@ -5515,10 +5515,8 @@ var mdtp = function mdtp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
-/* harmony import */ var _group_index_box__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./group_index_box */ "./frontend/components/groups/group_index/group_index_box.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _group_index_box__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_box */ "./frontend/components/groups/group_index/group_index_box.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -5526,8 +5524,6 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
 
 
 
@@ -5572,21 +5568,6 @@ var GroupIndex = function GroupIndex(props) {
       maxAllGroups = _useState14[0],
       setMaxAllGroups = _useState14[1];
 
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__["default"])(setLoaded, [allPage, userPage], [fetchGroups, {
-    allPage: allPage,
-    allLimit: allLimit,
-    userPage: userPage,
-    userLimit: userLimit
-  }, {
-    foo: setMaxAllGroups,
-    key: "groups",
-    key2: "allGroupsCount"
-  }, {
-    foo: setMaxUserGroups,
-    key: "groups",
-    key2: "userGroupsCount"
-  }]);
-
   var switchPage = function switchPage(dir, title) {
     if (title === "ALL SQUADS") {
       var maxPage = Math.ceil(maxAllGroups / allLimit);
@@ -5604,23 +5585,42 @@ var GroupIndex = function GroupIndex(props) {
     }
   };
 
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"])(setLoaded, [allPage, allLimit, userPage, userLimit], [fetchGroups, {
+    allPage: allPage,
+    allLimit: allLimit,
+    userPage: userPage,
+    userLimit: userLimit
+  }, {
+    foo: setMaxAllGroups,
+    key: "groups",
+    key2: "allGroupsCount"
+  }, {
+    foo: setMaxUserGroups,
+    key: "groups",
+    key2: "userGroupsCount"
+  }]);
+
   if (loaded) {
     var allGroups = Object.values(groups.allGroups);
     var userGroups = groups.userGroups === undefined ? [] : Object.values(groups.userGroups);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "component-index"
-    }, userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }, userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
       groups: userGroups,
       title: "YOUR SQUADS",
       switchPage: switchPage,
       currentPage: userPage,
-      max: Math.ceil(maxUserGroups / userLimit)
-    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      max: Math.ceil(maxUserGroups / userLimit),
+      setLimit: setUserLimit,
+      limit: userLimit
+    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
       groups: allGroups,
       title: "ALL SQUADS",
       switchPage: switchPage,
       currentPage: allPage,
-      max: Math.ceil(maxAllGroups / userLimit)
+      setLimit: setAllLimit,
+      max: Math.ceil(maxAllGroups / allLimit),
+      limit: allLimit
     }));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -5643,22 +5643,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
 var GroupIndexBox = function GroupIndexBox(props) {
+  var _React$createElement;
+
   var groups = props.groups,
       title = props.title,
       switchPage = props.switchPage,
       currentPage = props.currentPage,
-      max = props.max;
+      max = props.max,
+      dropdown = props.dropdown,
+      limit = props.limit,
+      setLimit = props.setLimit;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-main-groups"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-main-groups-header"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "index-div-titles"
-  }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-box-div-titles"
+  }, title), dropdown, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-switch-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-angle-double-left index-switch-caret",
@@ -5682,7 +5689,23 @@ var GroupIndexBox = function GroupIndexBox(props) {
     onClick: function onClick() {
       return switchPage("allForward", title);
     }
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "index-switch-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: limit === 3 ? "index-switch-caret" : "index-switch-caret-not",
+    onClick: function onClick() {
+      return setLimit(3);
+    }
+  }, "3"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "|"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: limit === 6 ? "index-switch-caret" : "index-switch-caret-not",
+    onClick: function onClick() {
+      return setLimit(6);
+    }
+  }, "6"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "|"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", (_React$createElement = {
+    className: "index-switch-caret"
+  }, _defineProperty(_React$createElement, "className", limit === 9 ? "index-switch-caret" : "index-switch-caret-not"), _defineProperty(_React$createElement, "onClick", function onClick() {
+    return setLimit(9);
+  }), _React$createElement), "9")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
     groups: groups
   }));
 };
@@ -5844,11 +5867,10 @@ function GroupIndexList(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../group_index/group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
-/* harmony import */ var _events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index/event_index_list_short */ "./frontend/components/events/event_index/event_index_list_short.jsx");
+/* harmony import */ var _group_index_group_index_box__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../group_index/group_index_box */ "./frontend/components/groups/group_index/group_index_box.jsx");
+/* harmony import */ var _create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
 /* harmony import */ var _group_landing_banner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group_landing_banner */ "./frontend/components/groups/group_landing/group_landing_banner.jsx");
-/* harmony import */ var _group_landing_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group_landing_index */ "./frontend/components/groups/group_landing/group_landing_index.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -5856,7 +5878,6 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -5880,6 +5901,31 @@ var GroupLanding = function GroupLanding(props) {
       selectedLocationId = _useState6[0],
       setSelectedLocationId = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState8 = _slicedToArray(_useState7, 2),
+      groupPage = _useState8[0],
+      setGroupPage = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(3),
+      _useState10 = _slicedToArray(_useState9, 2),
+      groupLimit = _useState10[0],
+      setGroupLimit = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState12 = _slicedToArray(_useState11, 2),
+      maxGroups = _useState12[0],
+      setMaxGroups = _useState12[1];
+
+  var switchPage = function switchPage(dir, title) {
+    if (title === "ALL SQUADS") {
+      var maxPage = Math.ceil(maxGroups / maxLimit);
+      if (dir === "back" && groupPage > 1) setGroupPage(groupPage - 1);
+      if (dir === "forward" && groupPage < maxPage) setGroupPage(groupPage + 1);
+      if (dir === "allBack") setGroupPage(1);
+      if (dir === "allForward" && groupPage < maxPage) setGroupPage(maxPage);
+    }
+  };
+
   var selectLocation = function selectLocation(id) {
     var location = props.locations[id - 1];
     setSelectedLocation(location.name);
@@ -5887,39 +5933,38 @@ var GroupLanding = function GroupLanding(props) {
   };
 
   var groups = props.groups,
-      events = props.events,
       locations = props.locations,
       fetchGroups = props.fetchGroups,
-      fetchEvents = props.fetchEvents,
       fetchLocations = props.fetchLocations;
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_5__["default"])(setLoaded, [], fetchGroups, fetchEvents, fetchLocations);
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__["default"])(setLoaded, [selectedLocationId, groupPage, groupLimit], fetchLocations, [fetchGroups, {
+    groupPage: groupPage,
+    groupLimit: groupLimit,
+    userPage: 1,
+    userLimit: 0,
+    location_id: selectedLocationId
+  }, {
+    foo: setMaxGroups,
+    key: "groups",
+    key2: "allGroupsCount"
+  }]);
 
   if (loaded) {
-    var nearbyGroups = Object.values(groups.allGroups).filter(function (group) {
-      return group.locationId === selectedLocationId;
-    });
-    var nearbyEvents = Object.values(events.allEvents).filter(function (event) {
-      return event.locationId === selectedLocationId;
-    });
+    var allGroups = groups.allGroups ? Object.values(groups.allGroups) : [];
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_banner__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      indexName: "Groups",
-      selectedLocation: selectedLocation,
-      locations: locations,
-      selectLocation: selectLocation,
-      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        groups: nearbyGroups
-      })
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      indexName: "Events",
-      selectedLocation: selectedLocation,
-      locations: locations,
-      selectLocation: selectLocation,
-      indexList: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        events: nearbyEvents
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      groups: allGroups,
+      title: "Groups in ".concat(selectedLocation),
+      switchPage: switchPage,
+      currentPage: groupPage,
+      max: Math.ceil(maxGroups / groupLimit),
+      limit: groupLimit,
+      setLimit: setGroupLimit,
+      dropdown: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        list: locations,
+        toggleLocation: selectLocation
       })
     })));
   } else {
@@ -5984,8 +6029,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _group_landing__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_landing */ "./frontend/components/groups/group_landing/group_landing.jsx");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/group_actions */ "./frontend/actions/group_actions.js");
 /* harmony import */ var _actions_location_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/location_actions */ "./frontend/actions/location_actions.js");
-/* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/event_actions */ "./frontend/actions/event_actions.js");
-
 
 
 
@@ -5995,7 +6038,6 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     groups: state.entities.groups,
     locations: Object.values(state.entities.locations),
-    events: state.entities.events,
     currentUser: state.session
   };
 };
@@ -6007,51 +6049,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchLocations: function fetchLocations() {
       return dispatch(Object(_actions_location_actions__WEBPACK_IMPORTED_MODULE_3__["fetchLocations"])());
-    },
-    fetchEvents: function fetchEvents() {
-      return dispatch(Object(_actions_event_actions__WEBPACK_IMPORTED_MODULE_4__["fetchEvents"])());
     }
   };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_group_landing__WEBPACK_IMPORTED_MODULE_1__["default"]));
-
-/***/ }),
-
-/***/ "./frontend/components/groups/group_landing/group_landing_index.jsx":
-/*!**************************************************************************!*\
-  !*** ./frontend/components/groups/group_landing/group_landing_index.jsx ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
-
-
-
-var GroupLandingIndex = function GroupLandingIndex(props) {
-  var selectedLocation = props.selectedLocation,
-      selectLocation = props.selectLocation,
-      locations = props.locations,
-      indexList = props.indexList,
-      indexName = props.indexName;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "landing-main-groups"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "landing-location-dropdown"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "landing-location-h4"
-  }, indexName, " in ", selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    list: locations,
-    toggleLocation: selectLocation
-  })), indexList);
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (GroupLandingIndex);
 
 /***/ }),
 
