@@ -325,6 +325,7 @@
    justify-content: space-between;
    width:100%;
    padding: 10px 0px 0px 0px;
+   margin-right:30px;
 }
 
 .landing-location-dropdown{
@@ -664,6 +665,13 @@
    
 .index-switch-text-not:hover{
    color: #ff350c;
+}
+
+.index-switch-caret{
+   padding: 0px 10px;
+   color: #ff350c;
+   font-size: 20px;
+   font-weight: 700;
 }
 
 .index-div-titles{

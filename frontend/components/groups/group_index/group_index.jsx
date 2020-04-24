@@ -22,13 +22,17 @@ const GroupIndex = (props) =>{
 
     const switchPage = (dir, title) => {
         if (title === "ALL SQUADS"){
-            let maxPage = maxAllGroups / allLimit;
+            let maxPage = Math.ceil(maxAllGroups / allLimit);
             if (dir === "back" && allPage > 1) setAllPage(allPage - 1);
             if (dir === "forward" && allPage < maxPage) setAllPage(allPage + 1);
+            if (dir === "allBack") setAllPage(1);
+            if (dir === "allForward" && allPage < maxPage) setAllPage(maxPage);
         } else {
-            let maxPage = maxUserGroups / userLimit;
+            let maxPage = Math.ceil(maxUserGroups / userLimit);
             if (dir === "back" && userPage > 1) setUserPage(userPage - 1);
             if (dir === "forward" && userPage < maxPage) setUserPage(userPage + 1);
+            if (dir === "allBack") setUserPage(1);
+            if (dir === "allForward" && allPage < maxPage) setUserPage(maxPage);
         }
     }
     if(loaded){
@@ -41,11 +45,15 @@ const GroupIndex = (props) =>{
                     groups={userGroups}
                     title="YOUR SQUADS"
                     switchPage={switchPage}
+                    currentPage={userPage}
+                    max={Math.ceil(maxUserGroups / userLimit)}
                 /> : <div></div>}
                 <GroupIndexBox
                     groups={allGroups}
                     title="ALL SQUADS"
                     switchPage={switchPage}
+                    currentPage={allPage}
+                    max={Math.ceil(maxAllGroups / userLimit)}
                     />
             </div>
             

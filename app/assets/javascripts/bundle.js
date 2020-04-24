@@ -5589,14 +5589,18 @@ var GroupIndex = function GroupIndex(props) {
 
   var switchPage = function switchPage(dir, title) {
     if (title === "ALL SQUADS") {
-      var maxPage = maxAllGroups / allLimit;
+      var maxPage = Math.ceil(maxAllGroups / allLimit);
       if (dir === "back" && allPage > 1) setAllPage(allPage - 1);
       if (dir === "forward" && allPage < maxPage) setAllPage(allPage + 1);
+      if (dir === "allBack") setAllPage(1);
+      if (dir === "allForward" && allPage < maxPage) setAllPage(maxPage);
     } else {
-      var _maxPage = maxUserGroups / userLimit;
+      var _maxPage = Math.ceil(maxUserGroups / userLimit);
 
       if (dir === "back" && userPage > 1) setUserPage(userPage - 1);
       if (dir === "forward" && userPage < _maxPage) setUserPage(userPage + 1);
+      if (dir === "allBack") setUserPage(1);
+      if (dir === "allForward" && allPage < _maxPage) setUserPage(_maxPage);
     }
   };
 
@@ -5608,11 +5612,15 @@ var GroupIndex = function GroupIndex(props) {
     }, userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_2__["default"], {
       groups: userGroups,
       title: "YOUR SQUADS",
-      switchPage: switchPage
+      switchPage: switchPage,
+      currentPage: userPage,
+      max: Math.ceil(maxUserGroups / userLimit)
     }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_2__["default"], {
       groups: allGroups,
       title: "ALL SQUADS",
-      switchPage: switchPage
+      switchPage: switchPage,
+      currentPage: allPage,
+      max: Math.ceil(maxAllGroups / userLimit)
     }));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -5641,7 +5649,9 @@ __webpack_require__.r(__webpack_exports__);
 var GroupIndexBox = function GroupIndexBox(props) {
   var groups = props.groups,
       title = props.title,
-      switchPage = props.switchPage;
+      switchPage = props.switchPage,
+      currentPage = props.currentPage,
+      max = props.max;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "landing-main-groups"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5650,21 +5660,29 @@ var GroupIndexBox = function GroupIndexBox(props) {
     className: "index-div-titles"
   }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-switch-div"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "index-switch-selected"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "index-switch-text-selected",
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-angle-double-left index-switch-caret",
+    onClick: function onClick() {
+      return switchPage("allBack", title);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-angle-left index-switch-caret",
     onClick: function onClick() {
       return switchPage("back", title);
     }
-  }, "BACK")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "index-switch-selected"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "index-switch-text-selected",
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "index-switch-caret"
+  }, "".concat(currentPage, " of ").concat(max)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-angle-right index-switch-caret",
     onClick: function onClick() {
       return switchPage("forward", title);
     }
-  }, "FORWARD")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-angle-double-right index-switch-caret",
+    onClick: function onClick() {
+      return switchPage("allForward", title);
+    }
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
     groups: groups
   }));
 };
