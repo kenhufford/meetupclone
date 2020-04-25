@@ -122,6 +122,8 @@ class Api::GroupsController < ApplicationController
             end
             @groups = @groups.joins(:categories).where(categories: {id: category_ids})
         end
+        @all_groups_count = @groups.count
+        @user_groups_count = @user_groups.count
         render :index
     end
 

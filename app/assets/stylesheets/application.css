@@ -511,7 +511,8 @@
    display: flex;
    width: 100%;
    margin: 0 auto;
-   justify-content: space-between;
+   justify-content: flex-start;
+   align-items: center;
    flex-wrap: wrap;
 }
 
@@ -701,9 +702,9 @@
 
 .index-item{
    border: 1px solid rgb(206, 206, 206);
-   width: 300px;
+   width: 30%;
    height: 200px;
-   margin: 10px 20px;
+   margin: 10px 15px;
    border-radius: 8px;
    position: relative;
    overflow: hidden;
@@ -1663,7 +1664,6 @@ color: #404040;
     font-weight: 500;
     cursor: pointer;
     color: rgba(255, 12, 55,0.8);
-    text-shadow: 1px 2px 4px white, 0 0 0 #000, 1px 4px 6px white
 }
 
 .create-group-card-dropdown-header-title-div{
