@@ -118,8 +118,8 @@ class Api::EventsController < ApplicationController
     end
     @all_events_count = @events.count
     @user_events_count = @user_events.count
-    @events = offset_and_limit_all(@events);
-    @user_events  = offset_and_limit_user(@user_events);
+    @events = offset_and_limit_all(@events)
+    @user_events  = offset_and_limit_user(@user_events)
     render :index
   end
 
@@ -149,6 +149,7 @@ class Api::EventsController < ApplicationController
   end
 
   def offset_and_limit_all(events)
+    return events if events.instance_of? Array
     if params[:allPage] && params[:allLimit]
         limit = params[:allLimit].to_i
         page = params[:allPage].to_i
@@ -158,6 +159,7 @@ class Api::EventsController < ApplicationController
   end
 
   def offset_and_limit_user(user_events)
+    return user_events if user_events.instance_of? Array
     if params[:userPage] && params[:userLimit]
         limit = params[:userLimit].to_i
         page = params[:userPage].to_i

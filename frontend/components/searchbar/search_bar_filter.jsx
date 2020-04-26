@@ -30,10 +30,10 @@ const SearchBarFilter = props => {
     let catBoxes = Object.values(categories).map(category => {
         let checked = selectedCats.includes(category.id);
         return <li className="search-bar-filter-list-item"
+            onClick={() => toggleBox(category.id, "category")}
             key={`category${category.id}`}>
             <input type="checkbox"
                 className="filter-checkbox"
-                onChange={()=>toggleBox(category.id, "category")}
                 name={category.name}
                 checked={checked}
                 />
@@ -47,10 +47,10 @@ const SearchBarFilter = props => {
     let locBoxes = Object.values(locations).map(location => {
         let checked = selectedLocs.includes(location.id);
         return <li className="search-bar-filter-list-item"
+            onClick={() => toggleBox(location.id, "location")}
             key={`location${location.id}`}>
             <input type="checkbox"
                 className="filter-checkbox"
-                onChange={() => toggleBox(location.id, "location")}
                 name={location.name}
                 checked={checked}
                 />

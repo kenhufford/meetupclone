@@ -17,10 +17,12 @@ class Api::GroupsController < ApplicationController
             @user_groups = []
         end
 
-        @all_groups_count = @groups.count
+        @all_groups_count = @groups.count 
         @user_groups_count = @user_groups.count
+        if !@user_groups.instance_of? Array
+            @user_groups  = offset_and_limit_user(@user_groups)
+        end
         @groups = offset_and_limit_all(@groups);
-        @user_groups  = offset_and_limit_user(@user_groups);
         
         if @groups
             render "api/groups/index"
@@ -144,6 +146,7 @@ class Api::GroupsController < ApplicationController
     end
 
     def offset_and_limit_all(groups)
+        return groups if groups.instance_of? Array
         if params[:allPage] && params[:allLimit]
             limit = params[:allLimit].to_i
             page = params[:allPage].to_i
@@ -153,6 +156,7 @@ class Api::GroupsController < ApplicationController
     end
 
     def offset_and_limit_user(user_groups)
+        return user_groups if user_groups.instance_of? Array
         if params[:userPage] && params[:userLimit]
             limit = params[:userLimit].to_i
             page = params[:userPage].to_i

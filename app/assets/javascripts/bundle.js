@@ -8252,13 +8252,13 @@ var SearchBarFilter = function SearchBarFilter(props) {
     var checked = selectedCats.includes(category.id);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "search-bar-filter-list-item",
+      onClick: function onClick() {
+        return toggleBox(category.id, "category");
+      },
       key: "category".concat(category.id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
       className: "filter-checkbox",
-      onChange: function onChange() {
-        return toggleBox(category.id, "category");
-      },
       name: category.name,
       checked: checked
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, category.name));
@@ -8267,13 +8267,13 @@ var SearchBarFilter = function SearchBarFilter(props) {
     var checked = selectedLocs.includes(location.id);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "search-bar-filter-list-item",
+      onClick: function onClick() {
+        return toggleBox(location.id, "location");
+      },
       key: "location".concat(location.id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
       className: "filter-checkbox",
-      onChange: function onChange() {
-        return toggleBox(location.id, "location");
-      },
       name: location.name,
       checked: checked
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, location.name));
