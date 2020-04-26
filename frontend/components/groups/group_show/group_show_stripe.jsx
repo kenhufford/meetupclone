@@ -1,7 +1,7 @@
 import React from 'react';
 class GroupShowStripe extends React.Component{
     render(){
-        let {currentPage, switchPage, groupDropdown} = this.props;
+        let {currentPage, switchPage, groupDropdown, hasEvents} = this.props;
         return (
             <div className="group-show-stripe">
                 <div className="group-show-stripe-left">
@@ -9,10 +9,11 @@ class GroupShowStripe extends React.Component{
                         onClick={switchPage('about')}>
                         About
                     </li>
-                    <li className={currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item"}
-                        onClick={switchPage('events')}>
-                        Brawls
-                    </li>
+                    {hasEvents ? <li className={currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item"}
+                                    onClick={switchPage('events')}>
+                                    Brawls
+                                </li> :
+                                <li></li>}
                     <li className={currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item"}
                         onClick={switchPage('members')}>
                         Members

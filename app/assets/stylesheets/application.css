@@ -3201,11 +3201,29 @@ color: #404040;
 }
 
 
-.filled{
+.filled-blue{
    width: 30px;
    height: 8px;
    margin: 0px 2px;
-   background-color: rgb(226, 156, 76);
+   background-color: blue;
+}
+.filled-red{
+   width: 30px;
+   height: 8px;
+   margin: 0px 2px;
+   background-color: red;
+}
+.filled-green{
+   width: 30px;
+   height: 8px;
+   margin: 0px 2px;
+   background-color: green
+}
+.filled-purple{
+   width: 30px;
+   height: 8px;
+   margin: 0px 2px;
+   background-color: purple
 }
 
 .unfilled{
@@ -3234,7 +3252,7 @@ color: #404040;
    align-items: center;
    width: 20%;
    text-align: center;
-   height: 60px;
+   height: 70px;
    margin: 5px;
 }
 
@@ -3244,7 +3262,7 @@ color: #404040;
    align-items: center;
    width: 20%;
    text-align: center;
-   height: 60px;
+   height: 70px;
    margin: 5px;
 }
 
@@ -3256,14 +3274,16 @@ color: #404040;
 
 .filter-card-title-selected{
    color:white;
-   font-size: 18px;
-   font-weight: 400;
+   font-size: 20px;
+   font-weight: 600;
+   cursor: pointer;
 }
 
 .filter-card-title-not{
-   color:#FF0C37;
-   font-size: 18px;
-   font-weight: 400;
+   color: #FF0C37;
+   font-size: 20px;
+   font-weight: 600;
+   cursor: pointer;
 }
 
 .card-icon{
@@ -3370,6 +3390,10 @@ color: #404040;
 
 .graph{
    padding-top: 25px;
+}
+
+.vertical-bar{
+   cursor: pointer;
 }
 
 

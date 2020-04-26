@@ -1,6 +1,7 @@
 import React from 'react';
 import CreateGroupFormDropdown from '../../groups/create_group/create_group_form_dropdown'
-import {formatDateInput} from '../../../utils/date_util'
+import {formatDateInput} from '../../../utils/date_util';
+import {withRouter} from 'react-router';
 
 class CreateEventForm extends React.Component{
     constructor(props){
@@ -103,7 +104,8 @@ class CreateEventForm extends React.Component{
             } else {
                 slide = (type === "prev") ? slide-1 : slide+1
                 if (slide < 0){
-                    this.props.history.push(`/groups/`)
+                    console.log(this.props)
+                    this.props.history.push(`/groups/${groupId}/events/${eventId}`)
                 }
                 this.setState({
                     currentSlide: slide,
@@ -259,4 +261,4 @@ class CreateEventForm extends React.Component{
     }
 }
 
-export default CreateEventForm
+export default withRouter(CreateEventForm)

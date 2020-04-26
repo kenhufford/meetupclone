@@ -5,10 +5,10 @@ const UserStats = props => {
     let {user} = props;
     let {name, imageUrl, createdAt, power, speed, guts, technique} = user;
     let stats = [
-        ["POWER",power],
-        ["SPEED", speed],
-        ["GUTS", guts],
-        ["TECHNIQUE",technique]
+        ["POWER",power, "red"],
+        ["SPEED", speed, "blue"],
+        ["GUTS", guts, "green"],
+        ["TECHNIQUE",technique, "purple"]
     ]
     return (
         <div className="user-stats">

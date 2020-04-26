@@ -3520,6 +3520,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../groups/create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
 /* harmony import */ var _utils_date_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils/date_util */ "./frontend/utils/date_util.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3537,6 +3538,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -3666,7 +3668,9 @@ function (_React$Component) {
           slide = type === "prev" ? slide - 1 : slide + 1;
 
           if (slide < 0) {
-            _this3.props.history.push("/groups/");
+            console.log(_this3.props);
+
+            _this3.props.history.push("/groups/".concat(groupId, "/events/").concat(eventId));
           }
 
           _this3.setState({
@@ -3865,7 +3869,7 @@ function (_React$Component) {
   return CreateEventForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (CreateEventForm);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(CreateEventForm));
 
 /***/ }),
 
@@ -6598,7 +6602,8 @@ function (_React$Component) {
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_show_stripe__WEBPACK_IMPORTED_MODULE_5__["default"], {
           groupDropdown: groupDropdown,
           currentPage: currentPage,
-          switchPage: this.switchPage
+          switchPage: this.switchPage,
+          hasEvents: events.hasEvents
         }), currentTab);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -7204,7 +7209,8 @@ function (_React$Component) {
       var _this$props = this.props,
           currentPage = _this$props.currentPage,
           switchPage = _this$props.switchPage,
-          groupDropdown = _this$props.groupDropdown;
+          groupDropdown = _this$props.groupDropdown,
+          hasEvents = _this$props.hasEvents;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "group-show-stripe"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7212,10 +7218,10 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: currentPage === "about" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
         onClick: switchPage('about')
-      }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "About"), hasEvents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: currentPage === "events" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
         onClick: switchPage('events')
-      }, "Brawls"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Brawls") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: currentPage === "members" ? "group-show-inline-list-item-selected" : "group-show-inline-list-item",
         onClick: switchPage('members')
       }, "Members"), groupDropdown));
@@ -8883,7 +8889,8 @@ var Dash = function Dash(props) {
       data: data,
       setSelectedGroupId: setSelectedGroupId,
       setSelectedEventId: setSelectedEventId,
-      currentUserId: currentUserId
+      currentUserId: currentUserId,
+      selectedStat: selectedStat
     });
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -9077,7 +9084,28 @@ var Graph = function Graph(props) {
   var data = props.data,
       currentUserId = props.currentUserId,
       setSelectedGroupId = props.setSelectedGroupId,
-      setSelectedEventId = props.setSelectedEventId;
+      setSelectedEventId = props.setSelectedEventId,
+      selectedStat = props.selectedStat;
+  var color = "red";
+
+  switch (selectedStat) {
+    case "Power":
+      color = "red";
+      break;
+
+    case "Speed":
+      color = "blue";
+      break;
+
+    case "Guts":
+      color = "green";
+      break;
+
+    case "Technique":
+      color = "purple";
+      break;
+  }
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "graph"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["XYPlot"], {
@@ -9090,8 +9118,9 @@ var Graph = function Graph(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["VerticalGridLines"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["HorizontalGridLines"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["XAxis"], {
     tickLabelAngle: -45
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["YAxis"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["VerticalBarSeries"], {
+    className: "vertical-bar",
     animation: "stiff",
-    color: "red",
+    color: color,
     data: data,
     onValueClick: function onValueClick(event) {
       if (event.id === currentUserId) {
@@ -9295,7 +9324,7 @@ var UserStats = function UserStats(props) {
       speed = user.speed,
       guts = user.guts,
       technique = user.technique;
-  var stats = [["POWER", power], ["SPEED", speed], ["GUTS", guts], ["TECHNIQUE", technique]];
+  var stats = [["POWER", power, "red"], ["SPEED", speed, "blue"], ["GUTS", guts, "green"], ["TECHNIQUE", technique, "purple"]];
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-stats"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -9341,16 +9370,17 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var UserStatsBar = function UserStatsBar(props) {
   var stat = props.stat;
 
-  var _stat = _slicedToArray(stat, 2),
+  var _stat = _slicedToArray(stat, 3),
       name = _stat[0],
-      number = _stat[1];
+      number = _stat[1],
+      color = _stat[2];
 
   var bars = [];
 
   for (var i = 0; i < 5; i++) {
     if (number > i * 20) bars.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: i,
-      className: "filled"
+      className: "filled-".concat(color)
     }));else bars.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: i,
       className: "unfilled"

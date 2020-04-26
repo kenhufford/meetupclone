@@ -3,7 +3,23 @@ import {withRouter} from 'react-router'
 import { XYPlot, VerticalBarSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis } from 'react-vis';
 
 const Graph = props => {
-    let { data, currentUserId,setSelectedGroupId, setSelectedEventId} = props;
+    let { data, currentUserId,setSelectedGroupId, 
+        setSelectedEventId, selectedStat} = props;
+    let color = "red";
+    switch (selectedStat) {
+        case "Power":
+            color = "red";
+            break;
+        case "Speed":
+            color = "blue";
+            break;
+        case "Guts":
+            color = "green";
+            break;
+        case "Technique":
+            color = "purple";
+            break;
+    }
     return (
         <div className="graph">
             <XYPlot 
@@ -16,8 +32,9 @@ const Graph = props => {
                 <XAxis tickLabelAngle={-45} />
                 <YAxis />
                 <VerticalBarSeries 
+                    className="vertical-bar"
                     animation="stiff" 
-                    color="red" 
+                    color={color}
                     data={data} 
                     onValueClick={(event)=>{ 
                         if(event.id === currentUserId){

@@ -32,7 +32,9 @@ const Dash = props => {
                 data={data} 
                 setSelectedGroupId={setSelectedGroupId}
                 setSelectedEventId={setSelectedEventId}
-                currentUserId={currentUserId}/>
+                currentUserId={currentUserId}
+                selectedStat={selectedStat}
+                />
         )
     } else {
         return (
