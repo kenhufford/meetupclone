@@ -11,14 +11,18 @@ const GroupLanding = props => {
     const [groupPage, setGroupPage] = useState(1);
     const [groupLimit, setGroupLimit] = useState(3);
     const [maxGroups, setMaxGroups] = useState(null);
-    const switchPage = (dir, title) => {
-        if (title === "ALL SQUADS") {
-            let maxPage = Math.ceil(maxGroups / maxLimit);
+    const switchPage = (dir, type) => {
+        if (type === "allGroups") {
+            let maxPage = Math.ceil(maxGroups / groupLimit);
             if (dir === "back" && groupPage > 1) setGroupPage(groupPage - 1);
             if (dir === "forward" && groupPage < maxPage) setGroupPage(groupPage + 1);
             if (dir === "allBack") setGroupPage(1);
             if (dir === "allForward" && groupPage < maxPage) setGroupPage(maxPage);
         }
+    }
+    const setLimit = (max, type) => {
+        setGroupLimit(max);
+        setGroupPage(1);
     }
     const selectLocation = (id) => {
         let location = props.locations[id-1];
@@ -39,16 +43,17 @@ const GroupLanding = props => {
                     />
                 <div className="landing-main">
                     <GroupIndexBox
-                        groups={allGroups}
+                        type="allGroups"
+                        items={allGroups}
                         title={`Groups in ${selectedLocation}`}
                         switchPage={switchPage}
                         currentPage={groupPage}
                         max={Math.ceil(maxGroups / groupLimit)}
                         limit={groupLimit}
-                        setLimit={setGroupLimit}
+                        setLimit={setLimit}
                         dropdown={<CreateGroupFormDropdown
-                        list={locations}
-                        toggleLocation={selectLocation} />}
+                                    list={locations}
+                                    toggleLocation={selectLocation} />}
                     />
                 </div>
             </div>

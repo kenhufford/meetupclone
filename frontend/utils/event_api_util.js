@@ -56,10 +56,10 @@ export const deleteEvent = (eventId) => (
     })
 )
 
-export const searchEvents = (searchQuery) => (
+export const searchEvents = (data) => (
     $.ajax({
       method: "GET",
       url: "/api/events/search",
-      data: {search_query: searchQuery}
+      data
     })
 )

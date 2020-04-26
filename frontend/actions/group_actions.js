@@ -61,8 +61,8 @@ export const deleteGroup = (groupId) => dispatch => (
 )
 
 
-export const searchGroups = (searchQuery) => dispatch => (
-    APIUtils.searchGroups(searchQuery)
+export const searchGroups = (data) => dispatch => (
+    APIUtils.searchGroups(data)
         .then( (groups) => dispatch(receiveGroups(groups)))
 )
 

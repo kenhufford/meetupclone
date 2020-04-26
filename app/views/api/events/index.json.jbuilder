@@ -13,3 +13,6 @@ json.set! :user_events do
     end
   end
 end
+
+json.all_events_count @all_events_count
+json.user_events_count @user_events_count

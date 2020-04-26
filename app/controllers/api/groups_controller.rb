@@ -19,17 +19,8 @@ class Api::GroupsController < ApplicationController
 
         @all_groups_count = @groups.count
         @user_groups_count = @user_groups.count
-        if params[:allPage] && params[:allLimit]
-            limit = params[:allLimit].to_i
-            page = params[:allPage].to_i
-            @groups = @groups.limit(limit).offset((page-1) * limit)
-        end
-
-        if params[:userPage] && params[:userLimit]
-            limit = params[:userLimit].to_i
-            page = params[:userPage].to_i
-            @user_groups = @user_groups.limit(limit).offset((page-1) * limit)
-        end
+        @groups = offset_and_limit_all(@groups);
+        @user_groups  = offset_and_limit_user(@user_groups);
         
         if @groups
             render "api/groups/index"
@@ -88,8 +79,8 @@ class Api::GroupsController < ApplicationController
 
       
     def search
-        @query = params[:search_query];
-        if params[:search_query] == ""
+        @query = params[:query];
+        if params[:query] == ""
             @groups = Group.all
             @user_groups = [];
             render :index
@@ -124,12 +115,14 @@ class Api::GroupsController < ApplicationController
         end
         @all_groups_count = @groups.count
         @user_groups_count = @user_groups.count
+        @groups = offset_and_limit_all(@groups);
+        @user_groups  = offset_and_limit_user(@user_groups);
         render :index
     end
 
     def find_by_name(query)
         query = query.downcase
-        group_results = Group.where("name ILIKE :start_query", start_query: "%#{query}%")
+        group_results = Group.where("groups.name ILIKE :start_query", start_query: "%#{query}%")
         group_list = group_results   
     end
 
@@ -150,5 +143,22 @@ class Api::GroupsController < ApplicationController
        params[:group][:category_ids]
     end
 
+    def offset_and_limit_all(groups)
+        if params[:allPage] && params[:allLimit]
+            limit = params[:allLimit].to_i
+            page = params[:allPage].to_i
+            groups = groups.limit(limit).offset((page-1) * limit)
+        end
+        return groups
+    end
+
+    def offset_and_limit_user(user_groups)
+        if params[:userPage] && params[:userLimit]
+            limit = params[:userLimit].to_i
+            page = params[:userPage].to_i
+            user_groups = user_groups.limit(limit).offset((page-1) * limit)
+        end
+        return user_groups
+    end
     
 end

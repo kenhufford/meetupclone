@@ -24,7 +24,7 @@ class SearchBar extends React.Component{
                 typing: false,
                 typingTimeout: setTimeout((() => {
                     if (this.state.query === "") {
-                        this.props.history.push("/groups");
+                        this.props.history.push("/search/");
                     } else {
                         this.props.history.push(`/search/?name=${this.state.query}`);
                     }
@@ -41,21 +41,21 @@ class SearchBar extends React.Component{
         e.preventDefault();
         setTimeout((() => {
             if (this.state.query === "") {
-                this.props.history.push("/groups");
+                this.props.history.push("/search/");
               } else {
                 this.props.history.push(`/search/?name=${this.state.query}`);
               }}), 300);
     }
 
     render(){
-        let {categories, locations, filters} = this.props;
+        const {lastQueryName} = this.props;
         return(
             <div className="search-bar-div">
                 <form className="search-bar-form" 
                     onSubmit={this.handleSubmit}>
                     <input 
                         type="text" 
-                        value={this.state.query} 
+                        value={this.state.query === "" ? (lastQueryName || "") : this.state.Query} 
                         onChange={this.update} 
                         placeholder="Find your fight club" 
                         className="search-bar-input"/>

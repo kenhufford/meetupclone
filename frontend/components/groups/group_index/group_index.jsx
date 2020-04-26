@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import GroupIndexBox from './group_index_box';
+import IndexBox from './group_index_box';
 import useFetches from '../../hooks/use_fetches';
 
 const GroupIndex = (props) =>{
@@ -11,19 +11,28 @@ const GroupIndex = (props) =>{
     const [allPage, setAllPage] = useState(1);
     const [allLimit, setAllLimit] = useState(3);
     const [maxAllGroups, setMaxAllGroups] = useState(null);
-    const switchPage = (dir, title) => {
-        if (title === "ALL SQUADS"){
+    const switchPage = (dir, type) => {
+        if (type === "allGroups"){
             let maxPage = Math.ceil(maxAllGroups / allLimit);
             if (dir === "back" && allPage > 1) setAllPage(allPage - 1);
             if (dir === "forward" && allPage < maxPage) setAllPage(allPage + 1);
             if (dir === "allBack") setAllPage(1);
             if (dir === "allForward" && allPage < maxPage) setAllPage(maxPage);
-        } else {
+        } else if (type === "userGroups") {
             let maxPage = Math.ceil(maxUserGroups / userLimit);
             if (dir === "back" && userPage > 1) setUserPage(userPage - 1);
             if (dir === "forward" && userPage < maxPage) setUserPage(userPage + 1);
             if (dir === "allBack") setUserPage(1);
             if (dir === "allForward" && allPage < maxPage) setUserPage(maxPage);
+        }
+    }
+    const setLimit = (max, type) => {
+        if (type === "allGroups") {
+            setAllLimit(max);
+            setAllPage(1);
+        } else {
+            setUserLimit(max);
+            setUserPage(1);
         }
     }
     useFetches(setLoaded, [allPage, allLimit, userPage, userLimit],
@@ -38,21 +47,23 @@ const GroupIndex = (props) =>{
         return(
             <div className="component-index">
                 {userGroups.length ? 
-                <GroupIndexBox
-                    groups={userGroups}
+                <IndexBox
+                    type="userGroups"
+                    items={userGroups}
                     title="YOUR SQUADS"
                     switchPage={switchPage}
                     currentPage={userPage}
                     max={Math.ceil(maxUserGroups / userLimit)}
-                    setLimit={setUserLimit}
+                    setLimit={setLimit}
                     limit={userLimit}
                 /> : <div></div>}
-                <GroupIndexBox
-                    groups={allGroups}
+                <IndexBox
+                    type="allGroups"
+                    items={allGroups}
                     title="ALL SQUADS"
                     switchPage={switchPage}
                     currentPage={allPage}
-                    setLimit={setAllLimit}
+                    setLimit={setLimit}
                     max={Math.ceil(maxAllGroups / allLimit)}
                     limit={allLimit}
                     />

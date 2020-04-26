@@ -691,6 +691,7 @@
    margin-left: 40px;
    text-decoration: none;
    padding: 10px 0px;
+   width: 60%;
 }
 
 .index-div-titles-mid{
@@ -763,7 +764,7 @@
 }
 
 .search-bar-div{
-   padding: 10px 0px;
+   padding: 5px 0px;
    width: 100%;
    display: flex;
    flex-direction: row;
@@ -787,8 +788,8 @@
     display: inline;
     border-radius: 8px;
     font-weight: 400;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
     font-size: 18px;
     margin-right: 10px
 }
@@ -797,7 +798,6 @@
    box-shadow: 0 0 5px rgb(226, 156, 76);
    border: 1px solid rgb(226, 156, 76);
 }
-
 
 .search-bar-button{
    font-size: 18px;
@@ -832,7 +832,7 @@
 }
 
 .groups-search-bar-div{
-   width: 90%;
+   width: 100%;
    flex-direction: row;
    display: flex;
    align-items: center;
@@ -3302,10 +3302,11 @@ color: #404040;
    vertical-align: middle;
    transition: box-shadow .3s;
 }
+/* 
 
-
-/* .dropdown-filters-title{
+.dropdown-filters-title{
    font-size: 20px;
+   border-radius: 8px;
    text-decoration: none;
    color: white;
    font-weight: 500;
@@ -3382,13 +3383,43 @@ color: #404040;
 .search-bar-filter { 
    display: flex;
    position: relative; 
-   width:100%;
+   width: 70%;
+}
+
+.search-bar-filter-title-div{
+   width: 90px;
+   background-color: rgb(255, 12, 55);
+   padding: 10px;
+   border: 1px lightgray solid;
+   border-radius: 8px;
+   text-align: center;
+   margin: 0px;
+   max-height: 25px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.search-bar-filter-title-text{
+   font-size: 16px;
+   font-weight: 500;
+   color: white;
+   cursor: pointer;
+   padding: 10px;
+   text-decoration: none;
+   background-color: rgb(255, 12, 55);
+   transition: color 300ms ease;
+   -webkit-transition: color 300ms ease;
+}
+
+.search-bar-filter-title-text:hover{
+   color:black;
 }
 
 .search-bar-filter-dropdown { 
    display: flex;
    flex-direction: row;
    visibility: hidden; /* hides sub-menu */
+   padding: 0 20px 20px 20px;
    opacity: 0;
    position: absolute;
    top: 150%;
@@ -3404,6 +3435,7 @@ color: #404040;
    display: flex;
    flex-direction: column;
    width: 50%;
+   margin: 20px;
 }
 
 .search-bar-filter:focus .search-bar-filter-dropdown,
@@ -3417,7 +3449,7 @@ color: #404040;
 }
 
 .search-bar-filter-list-item{
-   padding: 10px 0px;
+   padding: 5px 0px;
    font-size: 18px;
    cursor: pointer;
    width: 100%;
@@ -3431,4 +3463,16 @@ color: #404040;
 .search-bar-filter-list-item:hover{
    color:#FF0C37;
    background-color: rgb(184, 184, 184);
+}
+
+.search-bar-filter-list-title{
+   font-size: 22px;
+   font-weight: 700;
+   color:#FF0C37;
+   padding-bottom: 10px;
+}
+
+.filter-checkbox{
+   margin-right: 5px;
+   font-size: 22px;
 }

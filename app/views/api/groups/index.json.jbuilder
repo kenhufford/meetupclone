@@ -14,7 +14,6 @@ json.set! :user_groups do
   end
 end
 
-
 json.all_groups_count @all_groups_count
 json.user_groups_count @user_groups_count
 

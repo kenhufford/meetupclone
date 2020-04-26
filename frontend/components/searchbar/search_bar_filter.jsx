@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 const SearchBarFilter = props => {
-    const [selectedCats, setSelectedCats] = useState([]);
-    const [selectedLocs, setSelectedLocs] = useState([]);
-    let {categories, locations, addFilters} = props;
+    let {categories, locations, addFilters,searchType,
+        selectedCats, selectedLocs, setSelectedCats, setSelectedLocs} = props;
     const toggleBox = (id, type) => {
         if(type==="category"){
             let ids = selectedCats;
@@ -33,6 +32,7 @@ const SearchBarFilter = props => {
         return <li className="search-bar-filter-list-item"
             key={`category${category.id}`}>
             <input type="checkbox"
+                className="filter-checkbox"
                 onChange={()=>toggleBox(category.id, "category")}
                 name={category.name}
                 checked={checked}
@@ -49,6 +49,7 @@ const SearchBarFilter = props => {
         return <li className="search-bar-filter-list-item"
             key={`location${location.id}`}>
             <input type="checkbox"
+                className="filter-checkbox"
                 onChange={() => toggleBox(location.id, "location")}
                 name={location.name}
                 checked={checked}
@@ -60,24 +61,33 @@ const SearchBarFilter = props => {
     )
     return (
         <div className="search-bar-filter">
-            <p className="search-bar-filter-title">Filters</p>
+            <div className="search-bar-filter-title-div">
+                <p className="search-bar-filter-title-text">FILTERS</p>
+            </div>
             <div className="search-bar-filter-dropdown">
+                {searchType!=="SQUADS" ? <div></div>:
+                    <ul className="search-bar-filter-list">
+                        <p className="search-bar-filter-list-title">
+                            STYLES
+                    </p>
+                        {catBoxes}
+                    </ul>}
                 <ul className="search-bar-filter-list">
-                    <p>Locations</p>
+                    <p className="search-bar-filter-list-title">
+                        LOCATIONS
+                    </p>
                     {locBoxes}
-                    <button
+                    <div className="search-bar-filter-title-div"
                         onClick={() => addFilters({
                             cats: selectedCats,
                             locs: selectedLocs
                         })}>
-                        Apply Filters
-                    </button>
+                        <p className="search-bar-filter-title-text">
+                            APPLY
+                        </p>
+                    </div>
+                        
                 </ul>
-                <ul className="search-bar-filter-list">
-                    <p>Fighting Styles</p>
-                    {catBoxes}
-                </ul>
-
             </div>
         </div>
     )

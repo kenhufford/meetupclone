@@ -3,7 +3,6 @@ import IndexSwitchButton from './index_switch_button';
 
 const IndexSwitch = props =>{
     const {setSelected, selected, buttons} = props;
-    console.log(props)
     return(
         <div className="index-switch-div">
             {buttons.map( (button,i) => 

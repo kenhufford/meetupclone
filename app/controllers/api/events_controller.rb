@@ -29,7 +29,11 @@ class Api::EventsController < ApplicationController
     else
       @user_events = []
     end    
-      render "api/events/index"
+    @all_events_count = @events.count
+    @user_events_count = @user_events.count
+    @events = offset_and_limit_all(@events);
+    @user_events  = offset_and_limit_user(@user_events);
+    render "api/events/index"
   end
 
   def show
@@ -86,8 +90,8 @@ class Api::EventsController < ApplicationController
   end
 
   def search
-    @query = params[:search_query];
-    if params[:search_query] == "" || params[:search_query][0..3] == "?cat"
+    @query = params[:query];
+    if params[:query] == "" || params[:query][0..3] == "?cat"
       @events = Event.all
       @user_events = [];
       render :index
@@ -112,12 +116,10 @@ class Api::EventsController < ApplicationController
       end
       @events = @events.where(:location_id=> location_ids)
     end
-    if search_params["page"]
-      page = search_params["page"].to_i
-      limit = search_params["limit"].to_i
-      start = (page - 1) * limit
-      @events = @events.limit(limit).offset(start)
-    end
+    @all_events_count = @events.count
+    @user_events_count = @user_events.count
+    @events = offset_and_limit_all(@events);
+    @user_events  = offset_and_limit_user(@user_events);
     render :index
   end
 
@@ -144,6 +146,24 @@ class Api::EventsController < ApplicationController
         :location_id,
         :image_url
       )
+  end
+
+  def offset_and_limit_all(events)
+    if params[:allPage] && params[:allLimit]
+        limit = params[:allLimit].to_i
+        page = params[:allPage].to_i
+        events = events.limit(limit).offset((page-1) * limit)
+    end
+    return events
+  end
+
+  def offset_and_limit_user(user_events)
+    if params[:userPage] && params[:userLimit]
+        limit = params[:userLimit].to_i
+        page = params[:userPage].to_i
+        user_events = user_events.limit(limit).offset((page-1) * limit)
+    end
+    return user_events
   end
 
 end

@@ -525,9 +525,9 @@ var deleteGroup = function deleteGroup(groupId) {
     });
   };
 };
-var searchGroups = function searchGroups(searchQuery) {
+var searchGroups = function searchGroups(data) {
   return function (dispatch) {
-    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["searchGroups"](searchQuery).then(function (groups) {
+    return _utils_group_api_util__WEBPACK_IMPORTED_MODULE_0__["searchGroups"](data).then(function (groups) {
       return dispatch(receiveGroups(groups));
     });
   };
@@ -5568,20 +5568,30 @@ var GroupIndex = function GroupIndex(props) {
       maxAllGroups = _useState14[0],
       setMaxAllGroups = _useState14[1];
 
-  var switchPage = function switchPage(dir, title) {
-    if (title === "ALL SQUADS") {
+  var switchPage = function switchPage(dir, type) {
+    if (type === "allGroups") {
       var maxPage = Math.ceil(maxAllGroups / allLimit);
       if (dir === "back" && allPage > 1) setAllPage(allPage - 1);
       if (dir === "forward" && allPage < maxPage) setAllPage(allPage + 1);
       if (dir === "allBack") setAllPage(1);
       if (dir === "allForward" && allPage < maxPage) setAllPage(maxPage);
-    } else {
+    } else if (type === "userGroups") {
       var _maxPage = Math.ceil(maxUserGroups / userLimit);
 
       if (dir === "back" && userPage > 1) setUserPage(userPage - 1);
       if (dir === "forward" && userPage < _maxPage) setUserPage(userPage + 1);
       if (dir === "allBack") setUserPage(1);
       if (dir === "allForward" && allPage < _maxPage) setUserPage(_maxPage);
+    }
+  };
+
+  var setLimit = function setLimit(max, type) {
+    if (type === "allGroups") {
+      setAllLimit(max);
+      setAllPage(1);
+    } else {
+      setUserLimit(max);
+      setUserPage(1);
     }
   };
 
@@ -5606,19 +5616,21 @@ var GroupIndex = function GroupIndex(props) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "component-index"
     }, userGroups.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: userGroups,
+      type: "userGroups",
+      items: userGroups,
       title: "YOUR SQUADS",
       switchPage: switchPage,
       currentPage: userPage,
       max: Math.ceil(maxUserGroups / userLimit),
-      setLimit: setUserLimit,
+      setLimit: setLimit,
       limit: userLimit
     }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: allGroups,
+      type: "allGroups",
+      items: allGroups,
       title: "ALL SQUADS",
       switchPage: switchPage,
       currentPage: allPage,
-      setLimit: setAllLimit,
+      setLimit: setLimit,
       max: Math.ceil(maxAllGroups / allLimit),
       limit: allLimit
     }));
@@ -5643,15 +5655,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
+/* harmony import */ var _events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../events/event_index/event_index_list_short */ "./frontend/components/events/event_index/event_index_list_short.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
-var GroupIndexBox = function GroupIndexBox(props) {
+
+var IndexBox = function IndexBox(props) {
   var _React$createElement;
 
-  var groups = props.groups,
+  var type = props.type,
+      items = props.items,
       title = props.title,
       switchPage = props.switchPage,
       currentPage = props.currentPage,
@@ -5670,47 +5685,49 @@ var GroupIndexBox = function GroupIndexBox(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-angle-double-left index-switch-caret",
     onClick: function onClick() {
-      return switchPage("allBack", title);
+      return switchPage("allBack", type);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-angle-left index-switch-caret",
     onClick: function onClick() {
-      return switchPage("back", title);
+      return switchPage("back", type);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "index-switch-caret"
   }, "".concat(currentPage, " of ").concat(max)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-angle-right index-switch-caret",
     onClick: function onClick() {
-      return switchPage("forward", title);
+      return switchPage("forward", type);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-angle-double-right index-switch-caret",
     onClick: function onClick() {
-      return switchPage("allForward", title);
+      return switchPage("allForward", type);
     }
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-switch-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: limit === 3 ? "index-switch-caret" : "index-switch-caret-not",
     onClick: function onClick() {
-      return setLimit(3);
+      return setLimit(3, type);
     }
   }, "3"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "|"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: limit === 6 ? "index-switch-caret" : "index-switch-caret-not",
     onClick: function onClick() {
-      return setLimit(6);
+      return setLimit(6, type);
     }
   }, "6"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "|"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", (_React$createElement = {
     className: "index-switch-caret"
   }, _defineProperty(_React$createElement, "className", limit === 9 ? "index-switch-caret" : "index-switch-caret-not"), _defineProperty(_React$createElement, "onClick", function onClick() {
-    return setLimit(9);
-  }), _React$createElement), "9")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    groups: groups
+    return setLimit(9, type);
+  }), _React$createElement), "9")))), ["groups", "allGroups", "userGroups"].includes(type) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    groups: items
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    events: items
   }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (GroupIndexBox);
+/* harmony default export */ __webpack_exports__["default"] = (IndexBox);
 
 /***/ }),
 
@@ -5916,14 +5933,19 @@ var GroupLanding = function GroupLanding(props) {
       maxGroups = _useState12[0],
       setMaxGroups = _useState12[1];
 
-  var switchPage = function switchPage(dir, title) {
-    if (title === "ALL SQUADS") {
-      var maxPage = Math.ceil(maxGroups / maxLimit);
+  var switchPage = function switchPage(dir, type) {
+    if (type === "allGroups") {
+      var maxPage = Math.ceil(maxGroups / groupLimit);
       if (dir === "back" && groupPage > 1) setGroupPage(groupPage - 1);
       if (dir === "forward" && groupPage < maxPage) setGroupPage(groupPage + 1);
       if (dir === "allBack") setGroupPage(1);
       if (dir === "allForward" && groupPage < maxPage) setGroupPage(maxPage);
     }
+  };
+
+  var setLimit = function setLimit(max, type) {
+    setGroupLimit(max);
+    setGroupPage(1);
   };
 
   var selectLocation = function selectLocation(id) {
@@ -5955,13 +5977,14 @@ var GroupLanding = function GroupLanding(props) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_landing_banner__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "landing-main"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_group_index_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: allGroups,
+      type: "allGroups",
+      items: allGroups,
       title: "Groups in ".concat(selectedLocation),
       switchPage: switchPage,
       currentPage: groupPage,
       max: Math.ceil(maxGroups / groupLimit),
       limit: groupLimit,
-      setLimit: setGroupLimit,
+      setLimit: setLimit,
       dropdown: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         list: locations,
         toggleLocation: selectLocation
@@ -7625,7 +7648,6 @@ var IndexSwitch = function IndexSwitch(props) {
   var setSelected = props.setSelected,
       selected = props.selected,
       buttons = props.buttons;
-  console.log(props);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-switch-div"
   }, buttons.map(function (button, i) {
@@ -7786,10 +7808,10 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _groups_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index/group_index_list */ "./frontend/components/groups/group_index/group_index_list.jsx");
-/* harmony import */ var _events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/event_index/event_index_list_short */ "./frontend/components/events/event_index/event_index_list_short.jsx");
-/* harmony import */ var _searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
-/* harmony import */ var _search_bar_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search_bar_filter */ "./frontend/components/searchbar/search_bar_filter.jsx");
+/* harmony import */ var _groups_group_index_group_index_box__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../groups/group_index/group_index_box */ "./frontend/components/groups/group_index/group_index_box.jsx");
+/* harmony import */ var _searchbar_search_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../searchbar/search_bar */ "./frontend/components/searchbar/search_bar.jsx");
+/* harmony import */ var _search_bar_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./search_bar_filter */ "./frontend/components/searchbar/search_bar_filter.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -7812,31 +7834,135 @@ var Search = function Search(props) {
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
       _useState2 = _slicedToArray(_useState, 2),
-      query = _useState2[0],
-      setQuery = _useState2[1];
+      lastQueryName = _useState2[0],
+      setLastQueryName = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      lastQueryName = _useState4[0],
-      setLastQueryName = _useState4[1];
+      loaded = _useState4[0],
+      setLoaded = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("SQUADS"),
       _useState6 = _slicedToArray(_useState5, 2),
-      locIndex = _useState6[0],
-      setLocIndex = _useState6[1];
+      searchType = _useState6[0],
+      setSearchType = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
       _useState8 = _slicedToArray(_useState7, 2),
-      loaded = _useState8[0],
-      setLoaded = _useState8[1];
+      groupPage = _useState8[0],
+      setGroupPage = _useState8[1];
 
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(3),
+      _useState10 = _slicedToArray(_useState9, 2),
+      groupLimit = _useState10[0],
+      setGroupLimit = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState12 = _slicedToArray(_useState11, 2),
+      maxGroups = _useState12[0],
+      setMaxGroups = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState14 = _slicedToArray(_useState13, 2),
+      eventPage = _useState14[0],
+      setEventPage = _useState14[1];
+
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(3),
+      _useState16 = _slicedToArray(_useState15, 2),
+      eventLimit = _useState16[0],
+      setEventLimit = _useState16[1];
+
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState18 = _slicedToArray(_useState17, 2),
+      maxEvents = _useState18[0],
+      setMaxEvents = _useState18[1];
+
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState20 = _slicedToArray(_useState19, 2),
+      selectedCats = _useState20[0],
+      setSelectedCats = _useState20[1];
+
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState22 = _slicedToArray(_useState21, 2),
+      selectedLocs = _useState22[0],
+      setSelectedLocs = _useState22[1];
+
+  var fetchLocations = props.fetchLocations;
+  var fetchCategories = props.fetchCategories;
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__["default"])(setLoaded, [], fetchLocations, fetchCategories);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var queryString = props.location.search;
-    search(queryString);
-    setQuery(queryString);
-  }, [props.location.search]);
+    var query = props.location.search;
+    var nameQueryIndex;
+    var selectedLocsNums = [];
+    var selectedCatsNums = [];
+    var queryName = "";
 
-  var addFilters = function addFilters(filters) {
+    if (query.indexOf("name=") !== -1) {
+      nameQueryIndex = query.indexOf("name=") + 5;
+    }
+
+    if (query.indexOf("location=") !== -1) {
+      var index = query.indexOf("location=") + 9;
+      selectedLocsNums = query.slice(index).split("&")[0].split(".").map(function (ele) {
+        return parseInt(ele);
+      });
+      setSelectedLocs(selectedLocsNums);
+      console.log(selectedLocsNums);
+    }
+
+    if (query.indexOf("category=") !== -1) {
+      var _index = query.indexOf("category=") + 9;
+
+      selectedCatsNums = query.slice(_index).split("&")[0].split(".").map(function (ele) {
+        return parseInt(ele);
+      });
+      setSelectedCats(selectedCatsNums);
+      console.log(selectedCatsNums);
+    }
+
+    if (nameQueryIndex !== undefined) queryName += query.slice(nameQueryIndex).split("&")[0].split("%20").join(" ");
+    setLastQueryName(queryName.toUpperCase());
+    var data = {
+      query: query,
+      "allPage": searchType === "SQUADS" ? groupPage : eventPage,
+      "allLimit": searchType === "SQUADS" ? groupLimit : eventLimit
+    };
+    var search = searchType === "SQUADS" ? props.searchGroups(data) : props.searchEvents(data);
+    search.then(function (data) {
+      var info = Object.values(data)[1];
+      if (searchType === "SQUADS") setMaxGroups(info["allGroupsCount"]);else if (searchType === "BRAWLS") setMaxEvents(info["allEventsCount"]);
+      setLoaded(true);
+    });
+  }, [props.location.search, searchType, eventPage, groupPage, eventLimit, groupLimit]);
+
+  var switchPage = function switchPage(dir, type) {
+    if (type === "groups") {
+      var maxPage = Math.ceil(maxGroups / groupLimit);
+      if (dir === "back" && groupPage > 1) setGroupPage(groupPage - 1);
+      if (dir === "forward" && groupPage < maxPage) setGroupPage(groupPage + 1);
+      if (dir === "allBack") setGroupPage(1);
+      if (dir === "allForward" && groupPage < maxPage) setGroupPage(maxPage);
+    } else {
+      var _maxPage = Math.ceil(maxEvents / eventLimit);
+
+      if (dir === "back" && eventPage > 1) setEventPage(eventPage - 1);
+      if (dir === "forward" && eventPage < _maxPage) setEventPage(eventPage + 1);
+      if (dir === "allBack") setEventPage(1);
+      if (dir === "allForward" && eventPage < _maxPage) setEventPage(_maxPage);
+    }
+  };
+
+  var setLimit = function setLimit(max, type) {
+    if (type === "groups") {
+      setGroupLimit(max);
+      setGroupPage(1);
+    } else {
+      setEventLimit(max);
+      setEventPage(1);
+    }
+  };
+
+  var addFiltersAndSearch = function addFiltersAndSearch(filters) {
     var locationIds = filters.locs;
     var categoryIds = filters.cats;
     var filtersToAdd = [];
@@ -7846,89 +7972,79 @@ var Search = function Search(props) {
     props.history.push("?" + filtersToAdd.join("&"));
   };
 
-  var search = function search(query) {
-    var lastQueryIndex;
-    var locIndexNum = [];
-
-    if (query.indexOf("name=") !== -1) {
-      lastQueryIndex = query.indexOf("name=") + 5;
-    }
-
-    if (query.indexOf("location=") !== -1) {
-      var index = query.indexOf("location=") + 9;
-      locIndexNum = query.slice(index).split("&")[0].split(".");
-    }
-
-    locIndexNum = locIndexNum.map(function (ele) {
-      return parseInt(ele);
-    });
-    var lastQueryString = "";
-
-    if (lastQueryIndex !== undefined) {
-      lastQueryString += query.slice(lastQueryIndex).split("&")[0].split("%20").join(" ");
-    }
-
-    var fetchLocations = props.fetchLocations();
-    var fetchCategories = props.fetchCategories();
-    var searchGroups = props.searchGroups(query);
-    var searchEvents = props.searchEvents(query);
-    var fetchArray = [fetchLocations, fetchCategories, searchGroups, searchEvents];
-    Promise.all(fetchArray).then(function () {
-      setLastQueryName(lastQueryString.toUpperCase());
-      setLocIndex(locIndexNum);
-      setLoaded(true);
-    });
-  };
-
   if (loaded) {
     groups = "allGroupsCount" in groups && groups.allGroupsCount ? Object.values(groups.allGroups) : [];
     events = "allEvents" in events && events.allEventsCount ? Object.values(events.allEvents) : [];
-    var squadMessages = groups.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No results found") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
-    var brawlMessages = events.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No results found") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null);
     var lastQueryString = lastQueryName === "" ? "" : "FOR " + lastQueryName;
 
-    if (locIndex.length) {
+    if (selectedLocs.length) {
       lastQueryString += " IN ";
-      var first = locations[locIndex[0]].name.toUpperCase();
-      if (locIndex.length === 1) lastQueryString += first;else if (locIndex.length === 2) {
-        var second = locations[locIndex[1]].name.toUpperCase();
+      var first = locations[selectedLocs[0]].name.toUpperCase();
+      if (selectedLocs.length === 1) lastQueryString += first;else if (selectedLocs.length === 2) {
+        var second = locations[selectedLocs[1]].name.toUpperCase();
         lastQueryString += first + " AND " + second;
-      } else if (locIndex.length >= 3) {
-        var _second = locations[locIndex[1]].name.toUpperCase();
+      } else if (selectedLocs.length >= 3) {
+        var _second = locations[selectedLocs[1]].name.toUpperCase();
 
         lastQueryString += first + ", " + _second + " AND OTHER LOCATIONS";
       }
     }
 
-    var searchedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-      className: "groups-index-div-results"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "SQUAD RESULTS ", lastQueryString), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, squadMessages), groups.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "groups-div"
-    }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "groups-div"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_group_index_list__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      groups: groups
-    })));
-    var searchedEvents = events.length ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-      className: "groups-index-div-results"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "BRAWL RESULTS ", lastQueryString), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, brawlMessages), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "groups-div"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_events_event_index_event_index_list_short__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      events: events
-    }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+    var searchedGroups = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      type: "groups",
+      items: groups,
+      title: "RESULTS ".concat(lastQueryString),
+      switchPage: switchPage,
+      currentPage: groupPage,
+      setLimit: setLimit,
+      max: Math.ceil(maxGroups / groupLimit),
+      limit: groupLimit
+    });
+    var searchedEvents = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_group_index_group_index_box__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      type: "events",
+      items: events,
+      title: "RESULTS ".concat(lastQueryString),
+      switchPage: switchPage,
+      currentPage: eventPage,
+      setLimit: setLimit,
+      max: Math.ceil(maxEvents / eventLimit),
+      limit: eventLimit
+    });
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "groups-search-div"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "groups-search-bar-div"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_filter__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      searchType: searchType,
       categories: categories,
       locations: locations,
-      addFilters: addFilters
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      addFilters: addFiltersAndSearch,
+      setSelectedCats: setSelectedCats,
+      setSelectedLocs: setSelectedLocs,
+      selectedCats: selectedCats,
+      selectedLocs: selectedLocs
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "index-switch-div"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: searchType === "SQUADS" ? "index-switch-selected" : "index-switch-not"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: searchType === "SQUADS" ? "index-switch-text-selected" : "index-switch-text-not",
+      onClick: function onClick() {
+        return setSearchType("SQUADS");
+      }
+    }, "SQUADS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: searchType === "BRAWLS" ? "index-switch-selected" : "index-switch-not"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: searchType === "BRAWLS" ? "index-switch-text-selected" : "index-switch-text-not",
+      onClick: function onClick() {
+        return setSearchType("BRAWLS");
+      }
+    }, "BRAWLS"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_search_bar__WEBPACK_IMPORTED_MODULE_2__["default"], {
       history: props.history,
       autoSearch: true,
-      filters: true
-    })), searchedGroups, searchedEvents);
+      filters: true,
+      lastQueryName: lastQueryName
+    })), searchType === "SQUADS" ? searchedGroups : searchedEvents);
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
@@ -8007,7 +8123,7 @@ function (_React$Component) {
           typing: false,
           typingTimeout: setTimeout(function () {
             if (_this2.state.query === "") {
-              _this2.props.history.push("/groups");
+              _this2.props.history.push("/search/");
             } else {
               _this2.props.history.push("/search/?name=".concat(_this2.state.query));
             }
@@ -8027,7 +8143,7 @@ function (_React$Component) {
       e.preventDefault();
       setTimeout(function () {
         if (_this3.state.query === "") {
-          _this3.props.history.push("/groups");
+          _this3.props.history.push("/search/");
         } else {
           _this3.props.history.push("/search/?name=".concat(_this3.state.query));
         }
@@ -8036,10 +8152,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          categories = _this$props.categories,
-          locations = _this$props.locations,
-          filters = _this$props.filters;
+      var lastQueryName = this.props.lastQueryName;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "search-bar-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -8047,7 +8160,7 @@ function (_React$Component) {
         onSubmit: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        value: this.state.query,
+        value: this.state.query === "" ? lastQueryName || "" : this.state.Query,
         onChange: this.update,
         placeholder: "Find your fight club",
         className: "search-bar-input"
@@ -8084,30 +8197,17 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 var SearchBarFilter = function SearchBarFilter(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      selectedCats = _useState2[0],
-      setSelectedCats = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      selectedLocs = _useState4[0],
-      setSelectedLocs = _useState4[1];
-
   var categories = props.categories,
       locations = props.locations,
-      addFilters = props.addFilters;
+      addFilters = props.addFilters,
+      searchType = props.searchType,
+      selectedCats = props.selectedCats,
+      selectedLocs = props.selectedLocs,
+      setSelectedCats = props.setSelectedCats,
+      setSelectedLocs = props.setSelectedLocs;
 
   var toggleBox = function toggleBox(id, type) {
     if (type === "category") {
@@ -8150,6 +8250,7 @@ var SearchBarFilter = function SearchBarFilter(props) {
       key: "category".concat(category.id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
+      className: "filter-checkbox",
       onChange: function onChange() {
         return toggleBox(category.id, "category");
       },
@@ -8164,6 +8265,7 @@ var SearchBarFilter = function SearchBarFilter(props) {
       key: "location".concat(location.id)
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
+      className: "filter-checkbox",
       onChange: function onChange() {
         return toggleBox(location.id, "location");
       },
@@ -8173,22 +8275,31 @@ var SearchBarFilter = function SearchBarFilter(props) {
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-bar-filter"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-bar-filter-title-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "search-bar-filter-title"
-  }, "Filters"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-bar-filter-title-text"
+  }, "FILTERS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-bar-filter-dropdown"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, searchType !== "SQUADS" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "search-bar-filter-list"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Locations"), locBoxes, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "search-bar-filter-list-title"
+  }, "STYLES"), catBoxes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "search-bar-filter-list"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "search-bar-filter-list-title"
+  }, "LOCATIONS"), locBoxes, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-bar-filter-title-div",
     onClick: function onClick() {
       return addFilters({
         cats: selectedCats,
         locs: selectedLocs
       });
     }
-  }, "Apply Filters")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "search-bar-filter-list"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fighting Styles"), catBoxes)));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "search-bar-filter-title-text"
+  }, "APPLY")))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SearchBarFilter);
@@ -10288,13 +10399,11 @@ var deleteEvent = function deleteEvent(eventId) {
     method: "DELETE"
   });
 };
-var searchEvents = function searchEvents(searchQuery) {
+var searchEvents = function searchEvents(data) {
   return $.ajax({
     method: "GET",
     url: "/api/events/search",
-    data: {
-      search_query: searchQuery
-    }
+    data: data
   });
 };
 
@@ -10393,13 +10502,11 @@ var deleteType = function deleteType(type) {
     }
   });
 };
-var searchGroups = function searchGroups(searchQuery) {
+var searchGroups = function searchGroups(data) {
   return $.ajax({
     method: "GET",
     url: "/api/groups/search",
-    data: {
-      search_query: searchQuery
-    }
+    data: data
   });
 };
 
