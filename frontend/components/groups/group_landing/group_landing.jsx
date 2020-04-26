@@ -52,6 +52,7 @@ const GroupLanding = props => {
                         limit={groupLimit}
                         setLimit={setLimit}
                         dropdown={<CreateGroupFormDropdown
+                                    location={selectedLocation}
                                     list={locations}
                                     toggleLocation={selectLocation} />}
                     />

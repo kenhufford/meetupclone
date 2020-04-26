@@ -27,7 +27,7 @@ class CreateEventForm extends React.Component{
                 address: address,
                 groupId: groupId,
             },
-            selectedLocation: this.props.selectedLocation,
+            selectedLocation: this.props.selectedLocation || "",
             loaded: true,
             currentSlide: 0,
             errorMessage: "",
@@ -152,8 +152,10 @@ class CreateEventForm extends React.Component{
                     <p className="create-group-card-description">Pick a good location for your brawl.  Think about ambiance, max capacity of the venue, proximity to emergency services.</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                     <div className="create-group-card-options">
-                        <p className="create-group-card-selected">{this.state.selectedLocation}</p>
-                        <CreateGroupFormDropdown location={this.state.selectedLocation} list={this.state.locations} toggleLocation={this.toggleSelected} />
+                        <CreateGroupFormDropdown 
+                            location={this.state.selectedLocation} 
+                            list={this.state.locations} 
+                            toggleLocation={this.toggleSelected} />
                     </div>
                     <div className="create-group-card-options">
                         <input className="create-group-card-name-field" type="text" value={this.state.event.address || ''}  placeholder="Address here" onChange={this.update('address')}/>

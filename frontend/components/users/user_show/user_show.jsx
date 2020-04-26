@@ -1,19 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import UserStats from './user_stats';
 import useFetches from '../../hooks/use_fetches';
 import DashFilters from './dash_filters';
 import Dash from './dash';
 
 const UserShow = props => {
-    const { fetchUser, fetchEventsFromUser, fetchGroupsFromUser, fetchUsersFromGroup, fetchUsersFromEvent,
-         userId, users, groups, events} = props;
+    const { fetchUser, fetchEventsFromUser, fetchGroupsFromUser, 
+        fetchUsersFromGroup, fetchUsersFromEvent, currentUserId,
+        userId, users, groups, events} = props;
     const [loaded, setLoaded] = useState(false);
-    let [selectedGroupId, setSelectedGroupId] = useState(undefined);
-    let [selectedEventId, setSelectedEventId] = useState(undefined);
-    let [selectedStat, setSelectedStat] = useState("Power");
-    console.log(selectedStat)
-    useFetches(setLoaded, [selectedGroupId, selectedEventId], [fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]);
-    if(loaded){
+    const [selectedGroupId, setSelectedGroupId] = useState(undefined);
+    const [selectedEventId, setSelectedEventId] = useState(undefined);
+    const [selectedStat, setSelectedStat] = useState("Power");
+    let fetches = [[fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]]
+    if (selectedEventId) fetches.push([fetchUsersFromEvent, selectedEventId]);
+    if (selectedGroupId) fetches.push([fetchUsersFromGroup, selectedGroupId]);
+    useFetches(setLoaded, [selectedGroupId, selectedEventId, userId], ...fetches);
+    if(loaded && userId in users){
         return (
             <div>
                 <div className="user-show">
@@ -33,6 +36,7 @@ const UserShow = props => {
                             setSelectedStat={setSelectedStat}
                             />
                         <Dash
+                            userId={userId}
                             groups={groups.allGroups}
                             events={events.allEvents}
                             user={users[userId]}
@@ -42,6 +46,9 @@ const UserShow = props => {
                             selectedGroupId={selectedGroupId}
                             selectedEventId={selectedEventId}
                             selectedStat={selectedStat}
+                            setSelectedGroupId={setSelectedGroupId}
+                            setSelectedEventId={setSelectedEventId}
+                            currentUserId={currentUserId}
                         />
                     </div>
                 </div>

@@ -12,8 +12,10 @@ const mapStateToProps = (state, ownProps) => {
     let currentUserId;
     if (!!state.session.id){currentUserId = state.session.id}
     return {
-        event: state.entities.events[eventId],
-        group: state.entities.groups[groupId],
+        eventId,
+        groupId,
+        events: state.entities.events,
+        groups: state.entities.groups,
         reservations: state.entities.reservations,
         locations: state.entities.locations,
         users: state.entities.users,

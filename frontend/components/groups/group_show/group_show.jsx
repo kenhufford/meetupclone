@@ -20,7 +20,7 @@ class GroupShow extends React.Component{
     }
 
     componentDidMount(){
-        const groupId = this.props.match.params.groupId;
+        const groupId = this.props.groupId;
         const fetchEventsFromGroup = this.props.fetchEventsFromGroup(groupId);
         const fetchLocations = this.props.fetchLocations();
         const fetchUsersFromGroup = this.props.fetchUsersFromGroup(groupId);
@@ -31,8 +31,8 @@ class GroupShow extends React.Component{
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.groupId !== prevProps.match.params.groupId) {
-            this.props.fetchGroup(this.props.match.params.groupId)
+        if (this.props.groupId !== prevProps.match.params.groupId) {
+            this.props.fetchGroup(this.props.groupId)
         }
     }
 
@@ -44,8 +44,10 @@ class GroupShow extends React.Component{
     }
 
     render(){
-        if (this.state.loaded){
-            let {group, locations, events, users, memberships, session, currentUser} = this.props;
+        const {groupId, groups} = this.props;
+        if (this.state.loaded && groupId in groups){
+            let {locations, events, users, memberships, session, currentUser} = this.props;
+            let group = groups[groupId]
             let {currentPage} = this.state;
             let currentUserMember = false;
             let currentUserCaptain;

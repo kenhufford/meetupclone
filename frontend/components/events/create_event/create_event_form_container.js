@@ -20,7 +20,7 @@ const mstp = (state, ownProps) => {
         },
         locations: locations,
         eventId: "",
-        selectedLocation: "Select Location",
+        selectedLocation: "",
     }
 }
 

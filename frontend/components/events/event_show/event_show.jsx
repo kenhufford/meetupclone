@@ -30,27 +30,26 @@ const EventShow = props =>{
             document.location.href = '#/login';
         } else {
             setLoaded(false);
-            props.deleteEvent(props.event.id)            
+            props.deleteEvent(props.eventId)            
                 .then( () => {props.history.push('/groups')})
         }
     }
-    const { eventId, groupId } = props.match.params;
+    const { eventId, groupId } = props;
     const fetchEvent = (eventId) => props.fetchEvent(eventId)
         .then(payload => setCurrentUserAttending(payload.event.currentUserAttending))
     const { fetchLocations, fetchUsersFromEvent, fetchGroup, fetchReservations } = props;
 
     useFetches(setLoaded,
-        [props.match.params.eventId],
+        [eventId],
         fetchLocations,
         [fetchUsersFromEvent, eventId],
         [fetchEvent, eventId],
         [fetchGroup, groupId],
         [fetchReservations, eventId])
-
-    if(loaded){
+    if(loaded && eventId in props.events){
         const {title, description, startTime, locationId, maxAttendance,
-            endTime, address, imageUrl} = props.event;
-        const {group, locations, users, reservations, currentUserId} = props;
+            endTime, address, imageUrl} = props.events[eventId];
+        const {groups, locations, users, reservations, currentUserId} = props;
         const captainNames = [];
         const captainIds = [];
         let currentUserCaptain = false;
@@ -91,7 +90,7 @@ const EventShow = props =>{
                         users={users}
                         />
                     <EventShowMainRight
-                        group={group}
+                        group={groups[groupId]}
                         startTime={startTime}
                         endTime={endTime}
                         address={address}

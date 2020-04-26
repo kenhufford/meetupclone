@@ -1,8 +1,9 @@
 import React from 'react';
+import {withRouter} from 'react-router'
 import { XYPlot, VerticalBarSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis } from 'react-vis';
 
 const Graph = props => {
-    let {data} = props;
+    let { data, currentUserId,setSelectedGroupId, setSelectedEventId} = props;
     return (
         <div className="graph">
             <XYPlot 
@@ -17,10 +18,18 @@ const Graph = props => {
                 <VerticalBarSeries 
                     animation="stiff" 
                     color="red" 
-                    data={data} />
+                    data={data} 
+                    onValueClick={(event)=>{ 
+                        if(event.id === currentUserId){
+                            setSelectedEventId(undefined);
+                            setSelectedGroupId(undefined);
+                        } 
+                        props.history.push(`/users/${event.id}`);
+                    }}
+                    />
             </XYPlot>
         </div>
     );
 }
 
-export default Graph;
+export default withRouter(Graph);

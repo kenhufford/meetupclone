@@ -17,7 +17,7 @@ const mstp = (state) => {
             long: '',
             imageUrl: '',
             selectedLocationId: '',
-            selectedLocation: "Select Location",
+            selectedLocation: '',
             categoryIds: []
         },
         locations: locations,

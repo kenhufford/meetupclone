@@ -153,7 +153,6 @@ class CreateGroupForm extends React.Component{
                             list={this.props.locations} 
                             toggleLocation={this.toggleSelected} />
                     </div>
-                    <p className="create-group-card-selected">{this.state.selectedLocation}</p>
                     <p className="create-group-card-errors">{this.state.errorMessage}</p>
                 </div>
             )

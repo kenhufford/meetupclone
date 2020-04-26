@@ -8,7 +8,8 @@ import GroupShow from './group_show'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        group: state.entities.groups[ownProps.match.params.groupId],
+        groupId: ownProps.match.params.groupId,
+        groups: state.entities.groups,
         locations: state.entities.locations,
         events: state.entities.events,
         users: state.entities.users,

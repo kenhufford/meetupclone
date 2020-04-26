@@ -10,6 +10,7 @@ const GroupLandingIndex = props => {
                     {indexName} in {selectedLocation}
                 </div>
                 <CreateGroupFormDropdown
+                    location={selectedLocation}
                     list={locations}
                     toggleLocation={selectLocation} />
             </div>

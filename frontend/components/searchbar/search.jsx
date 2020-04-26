@@ -96,7 +96,7 @@ const Search = props => {
 
     if (loaded){
         groups = ("allGroupsCount" in groups && groups.allGroupsCount) ? Object.values(groups.allGroups) : [];
-        events = ("allEvents" in events && events.allEventsCount) ? Object.values(events.allEvents) : [];
+        events = ("allEventsCount" in events && events.allEventsCount) ? Object.values(events.allEvents) : [];
         let lastQueryString = lastQueryName === "" ? "" : "FOR " + lastQueryName;
         if (selectedLocs.length) {
             lastQueryString += " IN ";
@@ -111,10 +111,10 @@ const Search = props => {
                 lastQueryString += first + ", " + second + " AND OTHER LOCATIONS";
             }
         }
-        let searchedGroups = <IndexBox
+        let searchedGroups =  <IndexBox
                                 type="groups"
                                 items={groups}
-                                title={`RESULTS ${lastQueryString}`}
+                                title={groups.length === 0 ? `NO RESULTS ${lastQueryString}` : `RESULTS ${lastQueryString}`}
                                 switchPage={switchPage}
                                 currentPage={groupPage}
                                 setLimit={setLimit}
@@ -123,7 +123,7 @@ const Search = props => {
         let searchedEvents = <IndexBox
                                 type="events"
                                 items={events}
-                                title={`RESULTS ${lastQueryString}`}
+                                title={events.length === 0 ? `NO RESULTS ${lastQueryString}` : `RESULTS ${lastQueryString}`}
                                 switchPage={switchPage}
                                 currentPage={eventPage}
                                 setLimit={setLimit}
