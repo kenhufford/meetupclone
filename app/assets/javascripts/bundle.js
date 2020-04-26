@@ -5889,12 +5889,12 @@ var GroupLanding = function GroupLanding(props) {
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
       _useState8 = _slicedToArray(_useState7, 2),
-      groupPage = _useState8[0],
+      allPage = _useState8[0],
       setGroupPage = _useState8[1];
 
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(3),
       _useState10 = _slicedToArray(_useState9, 2),
-      groupLimit = _useState10[0],
+      allLimit = _useState10[0],
       setGroupLimit = _useState10[1];
 
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
@@ -5904,11 +5904,11 @@ var GroupLanding = function GroupLanding(props) {
 
   var switchPage = function switchPage(dir, type) {
     if (type === "allGroups") {
-      var maxPage = Math.ceil(maxGroups / groupLimit);
-      if (dir === "back" && groupPage > 1) setGroupPage(groupPage - 1);
-      if (dir === "forward" && groupPage < maxPage) setGroupPage(groupPage + 1);
+      var maxPage = Math.ceil(maxGroups / allLimit);
+      if (dir === "back" && allPage > 1) setGroupPage(allPage - 1);
+      if (dir === "forward" && allPage < maxPage) setGroupPage(allPage + 1);
       if (dir === "allBack") setGroupPage(1);
-      if (dir === "allForward" && groupPage < maxPage) setGroupPage(maxPage);
+      if (dir === "allForward" && allPage < maxPage) setGroupPage(maxPage);
     }
   };
 
@@ -5921,15 +5921,17 @@ var GroupLanding = function GroupLanding(props) {
     var location = props.locations[id - 1];
     setSelectedLocation(location.name);
     setSelectedLocationId(location.id);
+    setGroupPage(1);
+    setGroupLimit(3);
   };
 
   var groups = props.groups,
       locations = props.locations,
       fetchGroups = props.fetchGroups,
       fetchLocations = props.fetchLocations;
-  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__["default"])(setLoaded, [selectedLocationId, groupPage, groupLimit], fetchLocations, [fetchGroups, {
-    groupPage: groupPage,
-    groupLimit: groupLimit,
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__["default"])(setLoaded, [selectedLocationId, allPage, allLimit], fetchLocations, [fetchGroups, {
+    allPage: allPage,
+    allLimit: allLimit,
     userPage: 1,
     userLimit: 0,
     location_id: selectedLocationId
@@ -5950,9 +5952,9 @@ var GroupLanding = function GroupLanding(props) {
       items: allGroups,
       title: "Groups in ".concat(selectedLocation),
       switchPage: switchPage,
-      currentPage: groupPage,
-      max: Math.ceil(maxGroups / groupLimit),
-      limit: groupLimit,
+      currentPage: allPage,
+      max: Math.ceil(maxGroups / allLimit),
+      limit: allLimit,
       setLimit: setLimit,
       dropdown: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         location: selectedLocation,
@@ -7958,6 +7960,22 @@ var Search = function Search(props) {
         var _second = locations[selectedLocs[1]].name.toUpperCase();
 
         lastQueryString += first + ", " + _second + " AND OTHER LOCATIONS";
+      }
+    }
+
+    if (selectedCats.length) {
+      lastQueryString += " WITH ";
+
+      var _first = categories[selectedCats[0]].name.toUpperCase();
+
+      if (selectedCats.length === 1) lastQueryString += _first + " STYLE";else if (selectedCats.length === 2) {
+        var _second2 = categories[selectedCats[1]].name.toUpperCase();
+
+        lastQueryString += _first + " AND " + _second2 + " STYLES";
+      } else if (selectedCats.length >= 3) {
+        var _second3 = categories[selectedCats[1]].name.toUpperCase();
+
+        lastQueryString += _first + ", " + _second3 + " AND OTHER STYLES";
       }
     }
 

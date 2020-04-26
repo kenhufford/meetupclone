@@ -8,16 +8,16 @@ const GroupLanding = props => {
     const [loaded, setLoaded] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState("San Francisco");
     const [selectedLocationId, setSelectedLocationId] = useState(1);
-    const [groupPage, setGroupPage] = useState(1);
-    const [groupLimit, setGroupLimit] = useState(3);
+    const [allPage, setGroupPage] = useState(1);
+    const [allLimit, setGroupLimit] = useState(3);
     const [maxGroups, setMaxGroups] = useState(null);
     const switchPage = (dir, type) => {
         if (type === "allGroups") {
-            let maxPage = Math.ceil(maxGroups / groupLimit);
-            if (dir === "back" && groupPage > 1) setGroupPage(groupPage - 1);
-            if (dir === "forward" && groupPage < maxPage) setGroupPage(groupPage + 1);
+            let maxPage = Math.ceil(maxGroups / allLimit);
+            if (dir === "back" && allPage > 1) setGroupPage(allPage - 1);
+            if (dir === "forward" && allPage < maxPage) setGroupPage(allPage + 1);
             if (dir === "allBack") setGroupPage(1);
-            if (dir === "allForward" && groupPage < maxPage) setGroupPage(maxPage);
+            if (dir === "allForward" && allPage < maxPage) setGroupPage(maxPage);
         }
     }
     const setLimit = (max, type) => {
@@ -28,11 +28,13 @@ const GroupLanding = props => {
         let location = props.locations[id-1];
         setSelectedLocation(location.name);
         setSelectedLocationId(location.id);
+        setGroupPage(1);
+        setGroupLimit(3);
     }
     const { groups, locations, fetchGroups, fetchLocations} = props;
-    useFetches(setLoaded,[selectedLocationId,groupPage,groupLimit], fetchLocations,
+    useFetches(setLoaded, [selectedLocationId, allPage, allLimit], fetchLocations,
         [fetchGroups,
-            { groupPage, groupLimit, userPage:1, userLimit:0, location_id: selectedLocationId},
+            { allPage, allLimit, userPage:1, userLimit:0, location_id: selectedLocationId},
             { foo: setMaxGroups, key: "groups", key2: "allGroupsCount" }]);
     
     if (loaded){
@@ -47,9 +49,9 @@ const GroupLanding = props => {
                         items={allGroups}
                         title={`Groups in ${selectedLocation}`}
                         switchPage={switchPage}
-                        currentPage={groupPage}
-                        max={Math.ceil(maxGroups / groupLimit)}
-                        limit={groupLimit}
+                        currentPage={allPage}
+                        max={Math.ceil(maxGroups / allLimit)}
+                        limit={allLimit}
                         setLimit={setLimit}
                         dropdown={<CreateGroupFormDropdown
                                     location={selectedLocation}

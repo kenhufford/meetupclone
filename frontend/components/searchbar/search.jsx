@@ -111,6 +111,19 @@ const Search = props => {
                 lastQueryString += first + ", " + second + " AND OTHER LOCATIONS";
             }
         }
+        if (selectedCats.length) {
+            lastQueryString += " WITH ";
+            let first = categories[selectedCats[0]].name.toUpperCase();
+            if (selectedCats.length === 1) lastQueryString += first + " STYLE";
+            else if (selectedCats.length === 2) {
+                let second = categories[selectedCats[1]].name.toUpperCase();
+                lastQueryString += first + " AND " + second + " STYLES";
+            }
+            else if (selectedCats.length >= 3){
+                let second = categories[selectedCats[1]].name.toUpperCase();
+                lastQueryString += first + ", " + second + " AND OTHER STYLES";
+            }
+        }
         let searchedGroups =  <IndexBox
                                 type="groups"
                                 items={groups}
