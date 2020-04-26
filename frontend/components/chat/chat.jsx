@@ -122,7 +122,9 @@ class Chat extends React.Component {
                         <div className="chat-main-left">
                             <ChatGroupIndex 
                                 groups={this.props.groups} 
-                                selectGroup={this.selectGroup}/>
+                                selectGroup={this.selectGroup}
+                                selectedGroupId={this.state.selectedGroupId}
+                                />
                             <ChatChannelIndexContainer 
                                 groupId={this.state.selectedGroupId}
                                 groupName={this.props.groups.allGroups[this.state.selectedGroupId].name}

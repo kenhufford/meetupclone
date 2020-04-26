@@ -1805,15 +1805,16 @@ color: #404040;
    transition: color 300ms ease;
     -webkit-transition: color 300ms ease;
   }
-    .create-group-card-options-categories-button:hover{
-       color:white;
-      background-color: #ff350c;
-    }
+
+.create-group-card-options-categories-button:hover{
+   color:white;
+   background-color: black;
+}
 
 .create-group-card-options-categories-button-selected{
    margin: 10px 10px;
    background-color: #ff350c;
-   padding: 10px;
+   padding: 9px;
    border-radius: 20px;
    border: #ff350c 1px solid;
    color: white;
@@ -2476,11 +2477,32 @@ color: #404040;
    border-radius: 999px;
    box-sizing: border-box;
    vertical-align: middle;
+   opacity: 50%;
    transition: box-shadow .3s;
    cursor:pointer;
 }
 
 .chat-group-index-item img:hover{
+   box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
+   transform: translateY(-1px);
+}
+
+.chat-group-index-item-selected img{
+   margin:10px;
+   background-repeat: no-repeat;
+   background-position: 50%;
+   background-size: cover;
+   width: 60px;
+   height: 60px;
+   border-radius: 999px;
+   box-sizing: border-box;
+   vertical-align: middle;
+   opacity: 100%;
+   transition: box-shadow .3s;
+   cursor:pointer;
+}
+
+.chat-group-index-item-selected img:hover{
    box-shadow: 0 0 20px rgba(175, 0, 0, 0.2);
    transform: translateY(-1px);
 }
@@ -2653,7 +2675,8 @@ color: #404040;
    width: 100%;
    justify-content: space-between;
    align-items: center;
-   overflow: auto;
+   overflow-y: auto;
+   overflow-x: hidden;
 }
 
 .chat-message{
@@ -3277,6 +3300,8 @@ color: #404040;
    font-size: 20px;
    font-weight: 600;
    cursor: pointer;
+   padding: 15px;
+   box-sizing: border-box;
 }
 
 .filter-card-title-not{
@@ -3284,6 +3309,8 @@ color: #404040;
    font-size: 20px;
    font-weight: 600;
    cursor: pointer;
+   padding: 15px;
+   box-sizing: border-box;
 }
 
 .card-icon{
@@ -3349,7 +3376,7 @@ color: #404040;
    visibility: hidden; /* hides sub-menu */
    opacity: 0;
    position: absolute;
-   top: 150%;
+   top: 90%;
    left: 0;
    width: 100%;
    transform: translateY(-2em);
@@ -3442,15 +3469,14 @@ color: #404040;
 .search-bar-filter-dropdown { 
    display: flex;
    flex-direction: row;
-   visibility: hidden; /* hides sub-menu */
    padding: 0 20px 20px 20px;
-   opacity: 0;
+   opacity: 1;
    position: absolute;
-   top: 150%;
+   top: 175%;
    left: 0;
-   width: 150vh;
+   width: 153vh;
    transform: translateY(-2em);
-   z-index: -1;
+   z-index: 1;
    background-color: #DDD;
    transition: all 0.3s ease-in-out 0s;
 }
@@ -3460,16 +3486,6 @@ color: #404040;
    flex-direction: column;
    width: 50%;
    margin: 20px;
-}
-
-.search-bar-filter:focus .search-bar-filter-dropdown,
-.search-bar-filter:focus-within .search-bar-filter-dropdown,
-.search-bar-filter:hover .search-bar-filter-dropdown {
-  visibility: visible; /* shows sub-menu */
-  opacity: 1;
-  z-index: 1;
-  transform: translateY(0%);
-  transition-delay: 0s, 0s, 0.3s; /* this removes the transition delay so the menu will be visible while the other styles transition */
 }
 
 .search-bar-filter-list-item{
@@ -3483,11 +3499,6 @@ color: #404040;
    transition: all 300ms ease;
    -webkit-transition: all 300ms ease;
 }
-/* 
-.search-bar-filter-list-item:hover{
-   color:#FF0C37;
-   background-color: rgb(184, 184, 184);
-} */
 
 .search-bar-filter-list-title{
    font-size: 22px;

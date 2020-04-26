@@ -1,28 +1,26 @@
-
 import React from "react";
 
-class ChatGroupIndex extends React.Component {
-    render() {
-        let groups = Object.values(this.props.groups.userGroups);
-        let groupsList;
-        if (groups.length !== 0){
-            groupsList = groups.map((group) =>
-                            (<div key={group.id} 
-                                onClick={() => this.props.selectGroup(group)} 
-                                className="chat-group-index-item">
-                                <img src={window[group.iconUrl]}/>
-                            </div>)       )     
-        } else {
-            groupsList = <p>Join a group</p>
-        }
-        return (
-            <div className="chat-group-index">
-                <ul>
-                    {groupsList}
-                </ul>
-            </div>
-        )
+const ChatGroupIndex = props => {
+    let { selectedGroupId, selectGroup} = props;
+    let groups = Object.values(props.groups.userGroups);
+    let groupsList;
+    if (groups.length !== 0){
+        groupsList = groups.map((group) =>
+                        (<div key={group.id} 
+                            onClick={() => selectGroup(group)} 
+                            className={group.id === selectedGroupId ? "chat-group-index-item-selected" : "chat-group-index-item"}>
+                            <img src={window[group.iconUrl]}/>
+                        </div>)       )     
+    } else {
+        groupsList = <p>Join a group</p>
     }
+    return (
+        <div className="chat-group-index">
+            <ul>
+                {groupsList}
+            </ul>
+        </div>
+    )
 }
 
 export default ChatGroupIndex;

@@ -13,21 +13,20 @@ const IndexBox = (props)  => {
                 {dropdown}
                 <div>
                     <div className="index-switch-div">
-                        <i className="fas fa-angle-double-left index-switch-caret"
+                        <i className={currentPage !== 1 ? "fas fa-angle-double-left index-switch-caret" : "fas fa-angle-double-left index-switch-caret-not"}
                             onClick={() => switchPage("allBack", type)}></i>
-                        <i className="fas fa-angle-left index-switch-caret"
+                        <i className={currentPage !== 1 ? "fas fa-angle-left index-switch-caret" : "fas fa-angle-left index-switch-caret-not"}
                             onClick={() => switchPage("back", type)}></i>
                         <p className="index-switch-caret">
                             {`${currentPage} of ${max}`}
                         </p>
-                        <i className="fas fa-angle-right index-switch-caret"
+                        <i className={(currentPage === max || max===0) ? "fas fa-angle-right index-switch-caret-not" : "fas fa-angle-right index-switch-caret"}
                             onClick={() => switchPage("forward", type)}></i>
-                        <i className="fas fa-angle-double-right index-switch-caret"
+                        <i className={(currentPage === max || max === 0)? "fas fa-angle-double-right index-switch-caret-not" : "fas fa-angle-double-right index-switch-caret"}
                             onClick={() => switchPage("allForward", type)}></i>
                     </div>
                     <div className="index-switch-div">
-                        <p 
-                            className={limit === 3 ? "index-switch-caret" : "index-switch-caret-not"}
+                        <p className={limit === 3 ? "index-switch-caret" : "index-switch-caret-not"}
                             onClick={() => setLimit(3, type)}>
                             3
                         </p>

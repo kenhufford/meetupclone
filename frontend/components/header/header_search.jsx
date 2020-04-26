@@ -20,9 +20,6 @@ const HeaderSearch = props =>{
                     value={query} 
                     onChange={(e) => setQuery(e.currentTarget.value)} 
                     className="header-search-bar-input"/>
-                <i onClick={() => setQuery("")} 
-                    className="fas fa-backspace">
-                </i>
             </form>
         </div>
     )

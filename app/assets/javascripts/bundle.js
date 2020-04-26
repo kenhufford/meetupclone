@@ -1311,7 +1311,8 @@ function (_React$Component) {
           className: "chat-main-left"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_group_index__WEBPACK_IMPORTED_MODULE_3__["default"], {
           groups: this.props.groups,
-          selectGroup: this.selectGroup
+          selectGroup: this.selectGroup,
+          selectedGroupId: this.state.selectedGroupId
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chat_channel_index_chat_channel_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           groupId: this.state.selectedGroupId,
           groupName: this.props.groups.allGroups[this.state.selectedGroupId].name,
@@ -2986,69 +2987,34 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
+var ChatGroupIndex = function ChatGroupIndex(props) {
+  var selectedGroupId = props.selectedGroupId,
+      selectGroup = props.selectGroup;
+  var groups = Object.values(props.groups.userGroups);
+  var groupsList;
 
-var ChatGroupIndex =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(ChatGroupIndex, _React$Component);
-
-  function ChatGroupIndex() {
-    _classCallCheck(this, ChatGroupIndex);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ChatGroupIndex).apply(this, arguments));
+  if (groups.length !== 0) {
+    groupsList = groups.map(function (group) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: group.id,
+        onClick: function onClick() {
+          return selectGroup(group);
+        },
+        className: group.id === selectedGroupId ? "chat-group-index-item-selected" : "chat-group-index-item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window[group.iconUrl]
+      }));
+    });
+  } else {
+    groupsList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Join a group");
   }
 
-  _createClass(ChatGroupIndex, [{
-    key: "render",
-    value: function render() {
-      var _this = this;
-
-      var groups = Object.values(this.props.groups.userGroups);
-      var groupsList;
-
-      if (groups.length !== 0) {
-        groupsList = groups.map(function (group) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            key: group.id,
-            onClick: function onClick() {
-              return _this.props.selectGroup(group);
-            },
-            className: "chat-group-index-item"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            src: window[group.iconUrl]
-          }));
-        });
-      } else {
-        groupsList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Join a group");
-      }
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chat-group-index"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, groupsList));
-    }
-  }]);
-
-  return ChatGroupIndex;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "chat-group-index"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, groupsList));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (ChatGroupIndex);
 
@@ -5686,24 +5652,24 @@ var IndexBox = function IndexBox(props) {
   }, title), dropdown, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "index-switch-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-angle-double-left index-switch-caret",
+    className: currentPage !== 1 ? "fas fa-angle-double-left index-switch-caret" : "fas fa-angle-double-left index-switch-caret-not",
     onClick: function onClick() {
       return switchPage("allBack", type);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-angle-left index-switch-caret",
+    className: currentPage !== 1 ? "fas fa-angle-left index-switch-caret" : "fas fa-angle-left index-switch-caret-not",
     onClick: function onClick() {
       return switchPage("back", type);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "index-switch-caret"
   }, "".concat(currentPage, " of ").concat(max)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-angle-right index-switch-caret",
+    className: currentPage === max || max === 0 ? "fas fa-angle-right index-switch-caret-not" : "fas fa-angle-right index-switch-caret",
     onClick: function onClick() {
       return switchPage("forward", type);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-angle-double-right index-switch-caret",
+    className: currentPage === max || max === 0 ? "fas fa-angle-double-right index-switch-caret-not" : "fas fa-angle-double-right index-switch-caret",
     onClick: function onClick() {
       return switchPage("allForward", type);
     }
@@ -7483,11 +7449,6 @@ var HeaderSearch = function HeaderSearch(props) {
       return setQuery(e.currentTarget.value);
     },
     className: "header-search-bar-input"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    onClick: function onClick() {
-      return setQuery("");
-    },
-    className: "fas fa-backspace"
   })));
 };
 
@@ -7921,14 +7882,13 @@ var Search = function Search(props) {
       console.log(selectedLocsNums);
     }
 
-    if (query.indexOf("category=") !== -1) {
+    if (searchType === "SQUADS" && query.indexOf("category=") !== -1) {
       var _index = query.indexOf("category=") + 9;
 
       selectedCatsNums = query.slice(_index).split("&")[0].split(".").map(function (ele) {
         return parseInt(ele);
       });
       setSelectedCats(selectedCatsNums);
-      console.log(selectedCatsNums);
     }
 
     if (nameQueryIndex !== undefined) queryName += query.slice(nameQueryIndex).split("&")[0].split("%20").join(" ");
@@ -8200,6 +8160,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_1__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -8208,9 +8170,28 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 var SearchBarFilter = function SearchBarFilter(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      listOpen = _useState2[0],
+      setListOpen = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      delay = _useState4[0],
+      setDelay = _useState4[1];
+
   var categories = props.categories,
       locations = props.locations,
       addFilters = props.addFilters,
@@ -8285,12 +8266,18 @@ var SearchBarFilter = function SearchBarFilter(props) {
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, location.name));
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "search-bar-filter"
+    className: "search-bar-filter",
+    onMouseLeave: function onMouseLeave() {
+      return lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default()(setListOpen(false), 1000);
+    },
+    onMouseEnter: function onMouseEnter() {
+      return setListOpen(true);
+    }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-bar-filter-title-div"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "search-bar-filter-title-text"
-  }, "FILTERS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "FILTERS")), listOpen && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-bar-filter-dropdown"
   }, searchType !== "SQUADS" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "search-bar-filter-list"
@@ -8303,10 +8290,11 @@ var SearchBarFilter = function SearchBarFilter(props) {
   }, "LOCATIONS"), locBoxes, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-bar-filter-title-div",
     onClick: function onClick() {
-      return addFilters({
+      addFilters({
         cats: selectedCats,
         locs: selectedLocs
       });
+      setListOpen(false);
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "search-bar-filter-title-text"

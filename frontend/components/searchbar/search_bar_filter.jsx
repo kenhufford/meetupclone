@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
+import debounce from "lodash.debounce";
 
 const SearchBarFilter = props => {
+    const [listOpen, setListOpen] = useState(false);
+    const [delay, setDelay] = useState(0);
     let {categories, locations, addFilters,searchType,
         selectedCats, selectedLocs, setSelectedCats, setSelectedLocs} = props;
     const toggleBox = (id, type) => {
@@ -60,10 +63,16 @@ const SearchBarFilter = props => {
         </li>}
     )
     return (
-        <div className="search-bar-filter">
+        <div className="search-bar-filter"
+                onMouseLeave={() => 
+                    debounce(setListOpen(false), 1000)}
+                onMouseEnter={() => setListOpen(true)}>
             <div className="search-bar-filter-title-div">
-                <p className="search-bar-filter-title-text">FILTERS</p>
+                <p className="search-bar-filter-title-text">
+                    FILTERS
+            </p>
             </div>
+            {listOpen && 
             <div className="search-bar-filter-dropdown">
                 {searchType!=="SQUADS" ? <div></div>:
                     <ul className="search-bar-filter-list">
@@ -78,17 +87,19 @@ const SearchBarFilter = props => {
                     </p>
                     {locBoxes}
                     <div className="search-bar-filter-title-div"
-                        onClick={() => addFilters({
-                            cats: selectedCats,
-                            locs: selectedLocs
-                        })}>
+                        onClick={() => {
+                            addFilters({
+                                cats: selectedCats,
+                                locs: selectedLocs});
+                            setListOpen(false);
+                            }}>
                         <p className="search-bar-filter-title-text">
                             APPLY
                         </p>
                     </div>
                         
                 </ul>
-            </div>
+            </div>}
         </div>
     )
 }

@@ -36,11 +36,10 @@ const Search = props => {
             setSelectedLocs(selectedLocsNums);
             console.log(selectedLocsNums)
         }
-        if (query.indexOf("category=") !== -1) {
+        if (searchType==="SQUADS" && query.indexOf("category=") !== -1) {
             let index = query.indexOf("category=") + 9;
             selectedCatsNums = query.slice(index).split("&")[0].split(".").map(ele => parseInt(ele));
             setSelectedCats(selectedCatsNums);
-            console.log(selectedCatsNums)
         }
         if (nameQueryIndex !== undefined) queryName += query.slice(nameQueryIndex).split("&")[0].split("%20").join(" ");
         setLastQueryName(queryName.toUpperCase());
@@ -83,6 +82,7 @@ const Search = props => {
             setEventPage(1);
         }
     }
+
 
     const addFiltersAndSearch = (filters) => {
         const locationIds = filters.locs;
