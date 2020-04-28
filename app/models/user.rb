@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
     attr_reader :password
   
     validates :email, :password_digest, :session_token, presence: true
@@ -14,8 +13,8 @@ class User < ApplicationRecord
     
     has_many :memberships,
     class_name: "Membership",
-    dependent: :destroy,
-    foreign_key: :user_id
+    foreign_key: :user_id,
+    dependent: :destroy
 
     has_many :groups, 
     through: :memberships,

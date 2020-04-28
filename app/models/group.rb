@@ -4,8 +4,8 @@ class Group < ApplicationRecord
 
     has_many :memberships,
     class_name: "Membership",
-    dependent: :destroy,
-    foreign_key: :group_id
+    foreign_key: :group_id,
+    dependent: :destroy
 
     has_many :members, 
     through: :memberships,
@@ -28,12 +28,5 @@ class Group < ApplicationRecord
     class_name: "Channel",
     foreign_key: :group_id,
     dependent: :destroy
-
-    def self.in_bounds(bounds)
-        self.where("lat < ?", bounds[:northEast][:lat])
-          .where("lat > ?", bounds[:southWest][:lat])
-          .where("long > ?", bounds[:southWest][:long])
-          .where("long < ?", bounds[:northEast][:long])
-    end
 
 end

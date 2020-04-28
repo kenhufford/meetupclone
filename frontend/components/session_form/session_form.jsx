@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Login from './login';
 import Signup from './signup';
+
 class SessionForm extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +11,11 @@ class SessionForm extends React.Component {
       password: '',
       selectedLocation: "Select Location",
       selectedLocationId: "",
-      locationError: ""
+      locationError: "",
+      power: 0,
+      speed: 0,
+      technique: 0,
+      guts: 0,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDemoLogin = this.handleDemoLogin.bind(this);

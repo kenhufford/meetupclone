@@ -52,13 +52,11 @@ class Api::MembershipsController < ApplicationController
 
       def update
         @membership = Membership.find(params[:id])
-        
         if @membership.update_attribute(:member_type, membership_params[:member_type])
           @group = @membership.group
         else
           render json: @membership.errors.full_messages, status: 401
         end
-
         @user_memberships = current_user.memberships
         if @user_memberships.length != 0
           @user_has_memberships = true
@@ -86,7 +84,11 @@ class Api::MembershipsController < ApplicationController
 
       private
       def membership_params
-        params.require(:membership).permit(:member_type, :user_id, :group_id)
+        params
+          .require(:membership)
+          .permit(
+            :member_type, 
+            :user_id, 
+            :group_id)
       end
-
 end

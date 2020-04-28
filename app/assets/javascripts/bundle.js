@@ -8562,7 +8562,11 @@ function (_React$Component) {
       password: '',
       selectedLocation: "Select Location",
       selectedLocationId: "",
-      locationError: ""
+      locationError: "",
+      power: 0,
+      speed: 0,
+      technique: 0,
+      guts: 0
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDemoLogin = _this.handleDemoLogin.bind(_assertThisInitialized(_this));
@@ -8695,9 +8699,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../groups/create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
-
+/* harmony import */ var _signup_form_left__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signup_form_left */ "./frontend/components/session_form/signup_form_left.jsx");
 
 
 
@@ -8714,58 +8716,23 @@ var Signup = function Signup(props) {
       selectedLocation = props.selectedLocation;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-container"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: handleSubmit,
-    className: "signup-box"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "login"
-  }, "Sign up", renderErrors()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "signup"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "login-form-label"
-  }, "Your name", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    value: name,
-    onChange: update('name'),
-    className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "login-form-label"
-  }, "Email address", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    value: email,
-    onChange: update('email'),
-    className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "login-form-label"
-  }, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "password",
-    value: password,
-    onChange: update('password'),
-    className: "login-input"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "signup-selected-location-error"
-  }, locationError), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "signup-location-dropdown-div"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "signup-selected-location"
-  }, selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    location: selectedLocation,
-    list: locations,
-    toggleLocation: toggleSelected
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "signup-terms"
-  }, "Your name is public. You don't really have to use a real one so pick something adventurous and heroic.  We will only share the information provided to other Squads and Brawlers on Beatup so don't worry about it too much but maybe don't put your location because sometimes our Brawlers get a little overzealous!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    className: "signup-submit",
-    type: "submit",
-    value: "Continue"
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "signup-already-member"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "signup-terms"
-  }, "Already a member?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/login",
-    className: "login-signup-link"
-  }, "Log in."))));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_form_left__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    handleSubmit: handleSubmit,
+    renderErrors: renderErrors,
+    update: update,
+    toggleSelected: toggleSelected,
+    name: name,
+    email: email,
+    password: password,
+    locationError: locationError,
+    locations: locations,
+    selectedLocation: selectedLocation
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SignupFormRight, {
+    power: power,
+    guts: guts,
+    technique: technique,
+    speed: speed
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Signup);
@@ -8831,6 +8798,94 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_session_form__WEBPACK_IMPORTED_MODULE_3__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/session_form/signup_form_left.jsx":
+/*!***************************************************************!*\
+  !*** ./frontend/components/session_form/signup_form_left.jsx ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../groups/create_group/create_group_form_dropdown */ "./frontend/components/groups/create_group/create_group_form_dropdown.jsx");
+
+
+
+
+var SignupFormLeft = function SignupFormLeft(props) {
+  var handleSubmit = props.handleSubmit,
+      renderErrors = props.renderErrors,
+      update = props.update,
+      toggleSelected = props.toggleSelected,
+      name = props.name,
+      email = props.email,
+      password = props.password,
+      locationError = props.locationError,
+      locations = props.locations,
+      selectedLocation = props.selectedLocation;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "login-form-container-left"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: handleSubmit,
+    className: "signup-box"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "login"
+  }, "Sign up", renderErrors()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "signup"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "login-form-label"
+  }, "Your name", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    value: name,
+    onChange: update('name'),
+    className: "login-input"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "login-form-label"
+  }, "Email address", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    value: email,
+    onChange: update('email'),
+    className: "login-input"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "login-form-label"
+  }, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "password",
+    value: password,
+    onChange: update('password'),
+    className: "login-input"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "signup-selected-location-error"
+  }, locationError), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "signup-location-dropdown-div"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "signup-selected-location"
+  }, selectedLocation), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_groups_create_group_create_group_form_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    location: selectedLocation,
+    list: locations,
+    toggleLocation: toggleSelected
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "signup-terms"
+  }, "Your name is public. You don't really have to use a real one so pick something adventurous and heroic.  We will only share the information provided to other Squads and Brawlers on Beatup so don't worry about it too much but maybe don't put your location because sometimes our Brawlers get a little overzealous!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "signup-submit",
+    type: "submit",
+    value: "Continue"
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "signup-already-member"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "signup-terms"
+  }, "Already a member?", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/login",
+    className: "login-signup-link"
+  }, "Log in."))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SignupFormLeft);
 
 /***/ }),
 
@@ -9507,13 +9562,12 @@ var CategoriesReducer = function CategoriesReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/channel_actions */ "./frontend/actions/channel_actions.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 var channelsReducer = function channelsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
+  var nextState = Object.assign({}, state);
   Object.freeze(state);
 
   switch (action.type) {
@@ -9521,7 +9575,13 @@ var channelsReducer = function channelsReducer() {
       return action.channels;
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL"]:
-      return _defineProperty({}, action.channel.id, action.channel);
+      if (action.channel.dm) {
+        nextState["userChannels"][action.channel.id] = action.channel;
+      } else {
+        nextState["groupChannels"][action.channel.id] = action.channel;
+      }
+
+      return nextState;
 
     default:
       return state;
