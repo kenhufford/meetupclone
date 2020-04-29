@@ -6,7 +6,7 @@ const SignupFormLeft = (props) => {
     const { handleSubmit, renderErrors, update, toggleSelected, name, email,
         password, locationError, locations, selectedLocation } = props;
     return (
-        <div className="login-form-container-left">
+        <div className="signup-form-container-left">
             <form onSubmit={handleSubmit} className="signup-box">
                 <h3 className="login">Sign up
                         {renderErrors()}

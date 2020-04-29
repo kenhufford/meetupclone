@@ -8426,14 +8426,14 @@ var Login = function Login(props) {
   }, "Email Address:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     value: email,
-    onChange: update('email'),
+    onChange: update('Email'),
     className: "login-input"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-form-label"
   }, "Password:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "password",
     value: password,
-    onChange: update('password'),
+    onChange: update('Password'),
     className: "login-input"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "login-buttons-div"
@@ -8519,170 +8519,192 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login */ "./frontend/components/session_form/login.jsx");
-/* harmony import */ var _signup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signup */ "./frontend/components/session_form/signup.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login */ "./frontend/components/session_form/login.jsx");
+/* harmony import */ var _signup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./signup */ "./frontend/components/session_form/signup.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
-var SessionForm =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(SessionForm, _React$Component);
 
-  function SessionForm(props) {
-    var _this;
+var SessionForm = function SessionForm(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      loaded = _useState2[0],
+      setLoaded = _useState2[1];
 
-    _classCallCheck(this, SessionForm);
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      name = _useState4[0],
+      setName = _useState4[1];
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SessionForm).call(this, props));
-    _this.state = {
-      name: '',
-      email: '',
-      password: '',
-      selectedLocation: "Select Location",
-      selectedLocationId: "",
-      locationError: "",
-      power: 0,
-      speed: 0,
-      technique: 0,
-      guts: 0
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      email = _useState6[0],
+      setEmail = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      password = _useState8[0],
+      setPassword = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("Select Location"),
+      _useState10 = _slicedToArray(_useState9, 2),
+      selectedLocation = _useState10[0],
+      setSelectedLocation = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState12 = _slicedToArray(_useState11, 2),
+      selectedLocationId = _useState12[0],
+      setSelectedLocationId = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      locationError = _useState14[0],
+      setLocationError = _useState14[1];
+
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState16 = _slicedToArray(_useState15, 2),
+      power = _useState16[0],
+      setPower = _useState16[1];
+
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState18 = _slicedToArray(_useState17, 2),
+      speed = _useState18[0],
+      setSpeed = _useState18[1];
+
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState20 = _slicedToArray(_useState19, 2),
+      technique = _useState20[0],
+      setTechnique = _useState20[1];
+
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState22 = _slicedToArray(_useState21, 2),
+      guts = _useState22[0],
+      setGuts = _useState22[1];
+
+  var fetchLocations = props.fetchLocations;
+  var setters = {
+    setName: setName,
+    setEmail: setEmail,
+    setPassword: setPassword,
+    setSelectedLocation: setSelectedLocation,
+    setSelectedLocationId: setSelectedLocationId,
+    setLocationError: setLocationError,
+    setPower: setPower,
+    setSpeed: setSpeed,
+    setTechnique: setTechnique,
+    setGuts: setGuts
+  };
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_1__["default"])(setLoaded, [], fetchLocations);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    return function () {
+      return props.clearErrors();
     };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.handleDemoLogin = _this.handleDemoLogin.bind(_assertThisInitialized(_this));
-    _this.toggleSelected = _this.toggleSelected.bind(_assertThisInitialized(_this));
-    _this.renderErrors = _this.renderErrors.bind(_assertThisInitialized(_this));
-    _this.update = _this.update.bind(_assertThisInitialized(_this));
-    return _this;
+  }, []);
+
+  var update = function update(field) {
+    debugger;
+    return function (e) {
+      debugger;
+      var key = "set" + field;
+      console.log(setters[key]);
+      console.log(e.currentTarget.value);
+      setters[key](e.currentTarget.value);
+    };
+  };
+
+  var toggleSelected = function toggleSelected(index) {
+    var loc = props.locations[index - 1];
+    setSelectedLocation(loc.name);
+    setSelectedLocationID(loc.id);
+  };
+
+  var handleDemoLogin = function handleDemoLogin() {
+    var setEmailFoo = setEmail('saitama@gmail.com');
+    var setPasswordFoo = setPassword('123456');
+    Promise.all([setEmailFoo, setPasswordFoo]).then(function () {
+      return props.processForm({
+        email: email,
+        password: password
+      });
+    });
+  };
+
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+
+    if (selectedLocationId === "" && props.formType === "Sign up") {
+      setLocationError("Please select a location");
+    } else if (props.formType === "Log in") {
+      props.processForm({
+        email: email,
+        password: password
+      });
+    } else {
+      props.processForm({
+        name: name,
+        email: email,
+        password: password,
+        location_id: selectedLocationId,
+        image_url: "gokuURL",
+        power: power,
+        guts: guts,
+        technique: technique,
+        speed: speed
+      });
+    }
+  };
+
+  var renderErrors = function renderErrors() {
+    if (!props.errors) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, props.errors.map(function (error, i) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: "error-".concat(i),
+        className: "login-form-errors"
+      }, error);
+    }));
+  };
+
+  var display = props.formType === "Log in" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_login__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    handleSubmit: handleSubmit,
+    renderErrors: renderErrors,
+    update: update,
+    handleDemoLogin: handleDemoLogin,
+    email: email,
+    password: password,
+    formType: props.formType
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    handleSubmit: handleSubmit,
+    renderErrors: renderErrors,
+    update: update,
+    toggleSelected: toggleSelected,
+    locationError: locationError,
+    email: email,
+    password: password,
+    name: name,
+    locations: props.locations,
+    selectedLocation: selectedLocation,
+    power: power,
+    guts: guts,
+    technique: technique,
+    speed: speed
+  });
+
+  if (loaded) {
+    return display;
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
-
-  _createClass(SessionForm, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchLocations();
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.props.clearErrors();
-    }
-  }, {
-    key: "update",
-    value: function update(field) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
-      };
-    }
-  }, {
-    key: "toggleSelected",
-    value: function toggleSelected(index) {
-      var loc = this.props.locations[index - 1];
-      this.setState({
-        selectedLocation: loc.name,
-        selectedLocationId: loc.id
-      });
-    }
-  }, {
-    key: "handleDemoLogin",
-    value: function handleDemoLogin() {
-      var _this3 = this;
-
-      this.setState({
-        name: '',
-        email: 'saitama@gmail.com',
-        password: '123456',
-        selectedLocationId: 1
-      }, function () {
-        return _this3.props.processForm(_this3.state);
-      });
-    }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      e.preventDefault();
-
-      if (this.state.selectedLocationId === "" && this.props.formType === "Sign up") {
-        this.setState({
-          locationError: "Please select a location"
-        });
-      } else if (this.props.formType === "Log in") {
-        this.props.processForm(this.state);
-      } else {
-        this.props.processForm({
-          name: this.state.name,
-          email: this.state.email,
-          password: this.state.password,
-          location_id: this.state.selectedLocationId,
-          image_url: "gokuURL",
-          power: Math.floor(Math.random() * 100),
-          guts: Math.floor(Math.random() * 100),
-          technique: Math.floor(Math.random() * 100),
-          speed: Math.floor(Math.random() * 100)
-        });
-      }
-    }
-  }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      if (!this.props.errors) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null);
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: "error-".concat(i),
-          className: "login-form-errors"
-        }, error);
-      }));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var display = this.props.formType === "Log in" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_login__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        handleSubmit: this.handleSubmit,
-        renderErrors: this.renderErrors,
-        update: this.update,
-        handleDemoLogin: this.handleDemoLogin,
-        email: this.state.email,
-        password: this.state.password,
-        formType: this.props.formType
-      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        handleSubmit: this.handleSubmit,
-        renderErrors: this.renderErrors,
-        update: this.update,
-        toggleSelected: this.toggleSelected,
-        locationError: this.state.locationError,
-        email: this.state.email,
-        password: this.state.password,
-        name: this.state.name,
-        locations: this.props.locations,
-        selectedLocation: this.state.selectedLocation
-      });
-      return display;
-    }
-  }]);
-
-  return SessionForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (SessionForm);
 
@@ -8700,6 +8722,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _signup_form_left__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signup_form_left */ "./frontend/components/session_form/signup_form_left.jsx");
+/* harmony import */ var _signup_form_right__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signup_form_right */ "./frontend/components/session_form/signup_form_right.jsx");
+
 
 
 
@@ -8713,9 +8737,13 @@ var Signup = function Signup(props) {
       password = props.password,
       locationError = props.locationError,
       locations = props.locations,
-      selectedLocation = props.selectedLocation;
+      selectedLocation = props.selectedLocation,
+      power = props.power,
+      guts = props.guts,
+      technique = props.technique,
+      speed = props.speed;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "login-form-container"
+    className: "signup-form-container"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_form_left__WEBPACK_IMPORTED_MODULE_1__["default"], {
     handleSubmit: handleSubmit,
     renderErrors: renderErrors,
@@ -8727,11 +8755,12 @@ var Signup = function Signup(props) {
     locationError: locationError,
     locations: locations,
     selectedLocation: selectedLocation
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SignupFormRight, {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_form_right__WEBPACK_IMPORTED_MODULE_2__["default"], {
     power: power,
     guts: guts,
     technique: technique,
-    speed: speed
+    speed: speed,
+    update: update
   }));
 };
 
@@ -8830,7 +8859,7 @@ var SignupFormLeft = function SignupFormLeft(props) {
       locations = props.locations,
       selectedLocation = props.selectedLocation;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "login-form-container-left"
+    className: "signup-form-container-left"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSubmit,
     className: "signup-box"
@@ -8886,6 +8915,63 @@ var SignupFormLeft = function SignupFormLeft(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SignupFormLeft);
+
+/***/ }),
+
+/***/ "./frontend/components/session_form/signup_form_right.jsx":
+/*!****************************************************************!*\
+  !*** ./frontend/components/session_form/signup_form_right.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var SignupFormRight = function SignupFormRight(props) {
+  var power = props.power,
+      guts = props.guts,
+      technique = props.technique,
+      speed = props.speed,
+      update = props.update;
+  var sliders = [{
+    stat: power,
+    name: "Power"
+  }, {
+    stat: guts,
+    name: "Guts"
+  }, {
+    stat: technique,
+    name: "Technique"
+  }, {
+    stat: speed,
+    name: "Speed"
+  }];
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "signup-form-container-right"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "login"
+  }, "Power Up"), sliders.map(function (slider, i) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "slidecontainer",
+      key: "".concat(slider.name + i)
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "range",
+      min: "1",
+      max: "100",
+      value: slider.stat,
+      className: "slider",
+      onChange: function onChange(e) {
+        return update(slider.name)(e);
+      }
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Value: ".concat(slider.stat)));
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SignupFormRight);
 
 /***/ }),
 

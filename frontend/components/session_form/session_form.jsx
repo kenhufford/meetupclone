@@ -1,88 +1,81 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import useFetches from '../hooks/use_fetches';
 import Login from './login';
 import Signup from './signup';
 
-class SessionForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      email: '',
-      password: '',
-      selectedLocation: "Select Location",
-      selectedLocationId: "",
-      locationError: "",
-      power: 0,
-      speed: 0,
-      technique: 0,
-      guts: 0,
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDemoLogin = this.handleDemoLogin.bind(this);
-    this.toggleSelected = this.toggleSelected.bind(this);
-    this.renderErrors = this.renderErrors.bind(this);
-    this.update = this.update.bind(this);
+const SessionForm = (props) => {
+  const [loaded, setLoaded] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState("Select Location");
+  const [selectedLocationId, setSelectedLocationId] = useState('');
+  const [locationError, setLocationError] = useState('');
+  const [power, setPower] = useState(1);
+  const [speed, setSpeed] = useState(1);
+  const [technique, setTechnique] = useState(1);
+  const [guts, setGuts] = useState(1);
+  const {fetchLocations} = props;
+  const setters = {
+    setName, setEmail, setPassword, setSelectedLocation, setSelectedLocationId,
+    setLocationError, setPower, setSpeed, setTechnique, setGuts
+  }
+  useFetches(setLoaded, [], fetchLocations)
+  useEffect(() => {
+    return () => props.clearErrors();
+  }, [])
+
+
+  const update = (field) => {
+    debugger
+    return e => { 
+      debugger
+      let key = "set"+field;
+      console.log(setters[key])
+      console.log(e.currentTarget.value)
+      setters[key](e.currentTarget.value);
+    }
   }
 
-  componentDidMount(){
-    this.props.fetchLocations();
+  const toggleSelected = (index) =>{
+    let loc = props.locations[index-1];
+    setSelectedLocation(loc.name);
+    setSelectedLocationID(loc.id);
   }
 
-  componentWillUnmount(){
-    this.props.clearErrors();
+  const handleDemoLogin = () => {
+    let setEmailFoo = setEmail('saitama@gmail.com');
+    let setPasswordFoo = setPassword('123456');
+    Promise.all([setEmailFoo, setPasswordFoo])
+      .then(() => props.processForm({email, password}))
   }
 
-  update(field) {
-    return e => this.setState({
-      [field]: e.currentTarget.value
-    });
-  }
-
-  toggleSelected(index){
-    let loc = this.props.locations[index-1]
-    this.setState({
-      selectedLocation: loc.name,
-      selectedLocationId: loc.id
-    })
-  }
-
-  handleDemoLogin(){
-    this.setState({
-      name: '',
-      email: 'saitama@gmail.com',
-      password: '123456',
-      selectedLocationId: 1
-    }, () => this.props.processForm(this.state))
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = e => {
     e.preventDefault(); 
-    if (this.state.selectedLocationId === "" && this.props.formType === "Sign up"){
-      this.setState({
-        locationError: "Please select a location"
-      })
-    } else if (this.props.formType === "Log in"){
-      this.props.processForm(this.state);
+    if (selectedLocationId === "" && props.formType === "Sign up"){
+        setLocationError("Please select a location")
+    } else if (props.formType === "Log in"){
+      props.processForm({email, password});
     }else {
-      this.props.processForm({
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password,
-        location_id: this.state.selectedLocationId,
+      props.processForm({
+        name,
+        email,
+        password,
+        location_id: selectedLocationId,
         image_url: "gokuURL",
-        power: Math.floor(Math.random()*100),
-        guts: Math.floor(Math.random() * 100),
-        technique: Math.floor(Math.random() * 100),
-        speed: Math.floor(Math.random() * 100)
+        power,
+        guts,
+        technique,
+        speed
       })
     }
   }
 
-  renderErrors() {
-    if (!this.props.errors) return (<ul></ul>)
+  const renderErrors = () =>  {
+    if (!props.errors) return (<ul></ul>)
     return(
       <ul>
-        {this.props.errors.map((error, i) => (
+        {props.errors.map((error, i) => (
           <li key={`error-${i}`} className="login-form-errors">
             {error}
           </li>
@@ -91,35 +84,46 @@ class SessionForm extends React.Component {
     );
   }
 
-  render() {
-    const display = this.props.formType==="Log in" ? (
-        <Login
-        handleSubmit={this.handleSubmit} 
-        renderErrors={this.renderErrors} 
-        update={this.update}
-        handleDemoLogin={this.handleDemoLogin}
-        email={this.state.email} 
-        password={this.state.password} 
-        formType={this.props.formType}
-          />
-      ) : (
-        <Signup
-          handleSubmit={this.handleSubmit}
-          renderErrors={this.renderErrors}
-          update={this.update}
-          toggleSelected={this.toggleSelected}
-          locationError={this.state.locationError}
-          email={this.state.email}
-          password={this.state.password}
-          name={this.state.name}
-          locations={this.props.locations}
-          selectedLocation={this.state.selectedLocation}
-          />
-    );   
+  
+  const display = props.formType==="Log in" ? (
+      <Login
+      handleSubmit={handleSubmit} 
+      renderErrors={renderErrors} 
+      update={update}
+      handleDemoLogin={handleDemoLogin}
+      email={email} 
+      password={password} 
+      formType={props.formType}
+        />
+    ) : (
+      <Signup
+        handleSubmit={handleSubmit}
+        renderErrors={renderErrors}
+        update={update}
+        toggleSelected={toggleSelected}
+        locationError={locationError}
+        email={email}
+        password={password}
+        name={name}
+        locations={props.locations}
+        selectedLocation={selectedLocation}
+        power={power}
+        guts={guts}
+        technique={technique}
+        speed={speed}
+        />
+  );   
+  if(loaded){
     return (
       display
     );
+  } else {
+    return (
+      <div></div>
+    )
   }
+
+
 }
 
 export default SessionForm;

@@ -17,7 +17,7 @@ const Login = props => {
                         Email Address:
                         <input type="text"
                             value={email}
-                            onChange={update('email')}
+                            onChange={update('Email')}
                             className="login-input"
                         />
                     </div>
@@ -25,7 +25,7 @@ const Login = props => {
                         Password:
                         <input type="password"
                             value={password}
-                            onChange={update('password')}
+                            onChange={update('Password')}
                             className="login-input"
                         />
                     </div>
