@@ -155,7 +155,7 @@ class Api::EventsController < ApplicationController
         page = params[:allPage].to_i
         events = events.limit(limit).offset((page-1) * limit)
     end
-    return events
+    events
   end
 
   def offset_and_limit_user(user_events)
@@ -165,7 +165,7 @@ class Api::EventsController < ApplicationController
         page = params[:userPage].to_i
         user_events = user_events.limit(limit).offset((page-1) * limit)
     end
-    return user_events
+    user_events
   end
 
 end

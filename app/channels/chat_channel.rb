@@ -2,7 +2,6 @@ class ChatChannel < ApplicationCable::Channel
   def subscribed
     @chat_channel = Channel.find(params[:id])
     stream_for @chat_channel
-    
   end
 
   def speak(data)
