@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
     resources :channelships, only: [:index, :update, :destroy] 
     
+    resources :connections, only: [:index,:create, :show, :update, :destroy]
+    
   end
 
   root "static_pages#root"

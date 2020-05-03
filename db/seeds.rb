@@ -11,6 +11,7 @@ Reservation.destroy_all
 Channel.destroy_all
 Channelship.destroy_all
 Message.destroy_all
+Connection.destroy_all
 
 
 def pair_generator(range1, range2)
@@ -178,6 +179,7 @@ end
     
     user_ids = []
     group_captains = []
+    users = []
     user_names.each_with_index do |group_names, i|
         group_names.each_with_index do |name, j|
             email = name.split(" ").join("") + "@gmail.com"
@@ -193,7 +195,7 @@ end
                 guts: Random.new.rand(1..100),
                 technique: Random.new.rand(1..100)
                 )
-
+            users << user
             if j == 0 
                 member_type = "Captain" 
                 group_captains << user.id
@@ -400,8 +402,17 @@ end
             end
 
         end
-
     end
 
+    User.all.each do |user|
+        4.times do |i|
+            friend = users.sample
+            next if friend.id == user.id
+            Connection.create(
+                user_id: user.id,
+                rival_id: friend.id
+            )
+        end
+    end
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_200727) do
+ActiveRecord::Schema.define(version: 2020_05_03_194037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(version: 2020_04_12_200727) do
     t.datetime "last_visited"
     t.index ["channel_id"], name: "index_channelships_on_channel_id"
     t.index ["user_id"], name: "index_channelships_on_user_id"
+  end
+
+  create_table "connections", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "rival_id"
+    t.index ["rival_id"], name: "index_connections_on_rival_id"
+    t.index ["user_id"], name: "index_connections_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -147,6 +156,8 @@ ActiveRecord::Schema.define(version: 2020_04_12_200727) do
   add_foreign_key "channels", "groups"
   add_foreign_key "channelships", "channels"
   add_foreign_key "channelships", "users"
+  add_foreign_key "connections", "users"
+  add_foreign_key "connections", "users", column: "rival_id"
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "users"
 end

@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     attr_reader :password
+    attr_accessor :active_rivals, :pending_rivals, :pending_challengers
   
     validates :email, :password_digest, :session_token, presence: true
     validates :email, uniqueness: true
@@ -36,7 +37,37 @@ class User < ApplicationRecord
     has_many :channels,
     through: :channelships,
     source: :channel
-  
+
+    has_many :sent_connections,
+    foreign_key: :user_id,
+    class_name: "Connection",
+    dependent: :destroy
+
+    has_many :received_connections,
+    foreign_key: :rival_id,
+    class_name: "Connection",
+    dependent: :destroy
+
+    has_many :rivals,
+    through: :sent_connections,
+    source: :rival
+
+    has_many :challengers,
+    through: :received_connections,
+    source: :user
+
+    def active_rivals
+      @active_rivals = rivals.select{ |rival| rival.rivals.include?(self) }  
+    end
+
+    def pending_rivals
+      @pending_rivals = rivals.select{ |rival| !rival.rivals.include?(self) }  
+    end
+
+    def pending_challengers
+      @pending_challengers = challengers.select{ |challenger| !rivals.include?(challenger) }  
+    end
+
     def self.find_by_credentials(email, password)
       user = User.find_by(email: email)
       return nil unless user
