@@ -6590,7 +6590,7 @@ function (_React$Component) {
           groupDropdown: groupDropdown,
           currentPage: currentPage,
           switchPage: this.switchPage,
-          hasEvents: events.hasEvents
+          hasEvents: events.allEventsCount !== 0
         }), currentTab);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);

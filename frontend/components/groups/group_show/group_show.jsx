@@ -128,7 +128,7 @@ class GroupShow extends React.Component{
                         groupDropdown={groupDropdown}
                         currentPage={currentPage}
                         switchPage={this.switchPage}
-                        hasEvents={events.hasEvents} />
+                        hasEvents={events.allEventsCount!==0} />
                     {currentTab}
                 </div>
             )
