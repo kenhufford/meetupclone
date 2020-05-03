@@ -9,11 +9,9 @@ class User < ApplicationRecord
     validates_numericality_of :guts, :in => 1..100
     validates_numericality_of :technique, :in => 1..100
   
-    after_initialize :ensure_session_token
+    # after_initialize :ensure_session_token
     
     has_many :memberships,
-    class_name: "Membership",
-    foreign_key: :user_id,
     dependent: :destroy
 
     has_many :groups, 
@@ -21,27 +19,19 @@ class User < ApplicationRecord
     source: :group
 
     has_many :reservations,
-    class_name: "Reservation",
-    foreign_key: :user_id,
     dependent: :destroy
 
     has_many :events,
-    class_name: "Event",
     through: :reservations,
     source: :event
 
     has_many :messages,
-    class_name: "Message",
-    foreign_key: :user_id,
     dependent: :destroy
 
     has_many :channelships,
-    class_name: "Channelship",
-    foreign_key: :user_id,
     dependent: :destroy
 
     has_many :channels,
-    class_name: "Channel",
     through: :channelships,
     source: :channel
   

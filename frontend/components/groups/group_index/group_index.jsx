@@ -11,6 +11,7 @@ const GroupIndex = (props) =>{
     const [allPage, setAllPage] = useState(1);
     const [allLimit, setAllLimit] = useState(3);
     const [maxAllGroups, setMaxAllGroups] = useState(null);
+
     const switchPage = (dir, type) => {
         if (type === "allGroups"){
             let maxPage = Math.ceil(maxAllGroups / allLimit);
@@ -26,6 +27,7 @@ const GroupIndex = (props) =>{
             if (dir === "allForward" && allPage < maxPage) setUserPage(maxPage);
         }
     }
+
     const setLimit = (max, type) => {
         if (type === "allGroups") {
             setAllLimit(max);
@@ -35,15 +37,18 @@ const GroupIndex = (props) =>{
             setUserPage(1);
         }
     }
-    useFetches(setLoaded, [allPage, allLimit, userPage, userLimit],
-        [fetchGroups,
+
+    useFetches(setLoaded, 
+            [allPage, allLimit, userPage, userLimit],
+            [fetchGroups,
             { allPage, allLimit, userPage, userLimit },
             { foo: setMaxAllGroups, key: "groups", key2: "allGroupsCount" },
             { foo: setMaxUserGroups, key: "groups", key2: "userGroupsCount" }]
     );
+
     if(loaded){
         let allGroups = Object.values(groups.allGroups);
-        let userGroups = groups.userGroups === undefined ? []: Object.values(groups.userGroups);
+        let userGroups  = groups.userGroups === undefined ? []: Object.values(groups.userGroups);
         return(
             <div className="component-index">
                 {userGroups.length ? 

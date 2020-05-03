@@ -5902,6 +5902,11 @@ var GroupLanding = function GroupLanding(props) {
       maxGroups = _useState12[0],
       setMaxGroups = _useState12[1];
 
+  var groups = props.groups,
+      locations = props.locations,
+      fetchGroups = props.fetchGroups,
+      fetchLocations = props.fetchLocations;
+
   var switchPage = function switchPage(dir, type) {
     if (type === "allGroups") {
       var maxPage = Math.ceil(maxGroups / allLimit);
@@ -5925,10 +5930,6 @@ var GroupLanding = function GroupLanding(props) {
     setGroupLimit(3);
   };
 
-  var groups = props.groups,
-      locations = props.locations,
-      fetchGroups = props.fetchGroups,
-      fetchLocations = props.fetchLocations;
   Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_4__["default"])(setLoaded, [selectedLocationId, allPage, allLimit], fetchLocations, [fetchGroups, {
     allPage: allPage,
     allLimit: allLimit,
@@ -7481,23 +7482,39 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-
+ // useFetches(setLoaded, 
+//      [], 
+//      fetchLocations, 
+//      fetchCategories);
+// useFetches(setLoaded,
+//     [allPage, allLimit, userPage, userLimit],
+//     [fetchGroups,
+//         { allPage, allLimit, userPage, userLimit },
+//         { foo: setMaxAllGroups, key: "groups", key2: "allGroupsCount" },
+//         { foo: setMaxUserGroups, key: "groups", key2: "userGroupsCount" }]);
+// useFetches(setLoaded,
+//     [selectedLocationId, allPage, allLimit],
+//     fetchLocations,
+//     [fetchGroups,
+//         { allPage, allLimit, userPage: 1, userLimit: 0, location_id: selectedLocationId },
+//         { foo: setMaxGroups, key: "groups", key2: "allGroupsCount" }]);
+//Issue #1: Stopping components from rendering before fetches successful 
+//Issue #2: Repetitive code for fetches
+//Issue #3: Handling callbacks
 
 var useFetches = function useFetches(setLoaded, condition) {
-  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-    args[_key - 2] = arguments[_key];
+  for (var _len = arguments.length, fetchArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    fetchArgs[_key - 2] = arguments[_key];
   }
 
   var setters = [];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    Promise.all(args.map(function (arg, i) {
-      if (typeof arg === "function") {
-        return arg();
-      } else {
-        var _arg = _toArray(arg),
-            foo = _arg[0],
-            param = _arg[1],
-            settersArgs = _arg.slice(2);
+    Promise.all(fetchArgs.map(function (fetchArg, i) {
+      if (typeof fetchArg === "function") return fetchArg();else {
+        var _fetchArg = _toArray(fetchArg),
+            foo = _fetchArg[0],
+            param = _fetchArg[1],
+            settersArgs = _fetchArg.slice(2);
 
         settersArgs.forEach(function (setterArg) {
           return setters.push([setterArg, i]);

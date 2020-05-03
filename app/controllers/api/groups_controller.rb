@@ -11,6 +11,7 @@ class Api::GroupsController < ApplicationController
         else
             @groups = Group.all.includes(:memberships, :members)
         end
+
         if current_user
             @user_groups = current_user.groups
         else
@@ -19,6 +20,7 @@ class Api::GroupsController < ApplicationController
 
         @all_groups_count = @groups.count 
         @user_groups_count = @user_groups.count
+        
         if !@user_groups.instance_of? Array
             @user_groups  = offset_and_limit_user(@user_groups)
         end
@@ -100,7 +102,6 @@ class Api::GroupsController < ApplicationController
         else
             @groups = Group.all
         end
-
         if search_params["location"]
             location_ids = []
             search_params["location"].split(".").each do |id|

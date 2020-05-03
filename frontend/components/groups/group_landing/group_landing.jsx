@@ -11,6 +11,8 @@ const GroupLanding = props => {
     const [allPage, setGroupPage] = useState(1);
     const [allLimit, setGroupLimit] = useState(3);
     const [maxGroups, setMaxGroups] = useState(null);
+    const { groups, locations, fetchGroups, fetchLocations } = props;
+
     const switchPage = (dir, type) => {
         if (type === "allGroups") {
             let maxPage = Math.ceil(maxGroups / allLimit);
@@ -24,6 +26,7 @@ const GroupLanding = props => {
         setGroupLimit(max);
         setGroupPage(1);
     }
+
     const selectLocation = (id) => {
         let location = props.locations[id-1];
         setSelectedLocation(location.name);
@@ -31,8 +34,10 @@ const GroupLanding = props => {
         setGroupPage(1);
         setGroupLimit(3);
     }
-    const { groups, locations, fetchGroups, fetchLocations} = props;
-    useFetches(setLoaded, [selectedLocationId, allPage, allLimit], fetchLocations,
+    
+    useFetches(setLoaded, 
+        [selectedLocationId, allPage, allLimit], 
+        fetchLocations,
         [fetchGroups,
             { allPage, allLimit, userPage:1, userLimit:0, location_id: selectedLocationId},
             { foo: setMaxGroups, key: "groups", key2: "allGroupsCount" }]);

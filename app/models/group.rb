@@ -29,4 +29,54 @@ class Group < ApplicationRecord
     foreign_key: :group_id,
     dependent: :destroy
 
+    def socialest_fighters
+        members = self.members
+            .select('users.name, COUNT(*) AS groups_count')
+            .joins(:groups)
+            .group('users.id')
+            .order('COUNT(*) DESC')
+            .limit(3)
+        members.map do |member|
+            [member.name, member.groups_count]
+        end
+    end
+
+    def busiest_fighters
+        members = self.members
+            .select('users.name, COUNT(*) AS num_events')
+            .joins(:events)
+            .group('users.name')
+            .order('COUNT(*) DESC')
+            .limit(3)
+        members.map do |member|
+            [member.name, member.num_events]
+        end
+    end
+
+    def chattiest_fighters
+        members = self.members
+            .select('users.name, COUNT(*) AS num_msg')
+            .joins(:messages)
+            .group('users.name')
+            .order('COUNT(*) DESC')
+            .limit(3)
+        members.map do |member|
+            [member.name, member.num_msg]
+        end
+    end
+
+    def avg_stats
+        members = self.members
+        stats = {"power":0,"guts":0,"technique":0,"speed":0}
+        members.each do |member|
+            stats[:power] += member.power
+            stats[:guts] += member.guts
+            stats[:technique] += member.technique
+            stats[:speed] += member.speed
+        end
+        stats.each do |key, value|
+            stats[key] = value/members.length
+        end
+        stats
+    end
 end
