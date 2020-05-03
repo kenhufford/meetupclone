@@ -9,8 +9,10 @@ class User < ApplicationRecord
     validates_numericality_of :guts, :in => 1..100
     validates_numericality_of :technique, :in => 1..100
   
-    # after_initialize :ensure_session_token
+    after_initialize :ensure_session_token
     
+    belongs_to :location
+
     has_many :memberships,
     dependent: :destroy
 
@@ -55,6 +57,8 @@ class User < ApplicationRecord
       save!
       self.session_token
     end
+
+
   
     private
   

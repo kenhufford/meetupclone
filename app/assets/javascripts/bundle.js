@@ -7498,9 +7498,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //     [fetchGroups,
 //         { allPage, allLimit, userPage: 1, userLimit: 0, location_id: selectedLocationId },
 //         { foo: setMaxGroups, key: "groups", key2: "allGroupsCount" }]);
-//Issue #1: Stopping components from rendering before fetches successful 
-//Issue #2: Repetitive code for fetches
-//Issue #3: Handling callbacks
+//Issue #1: Components from rendering before fetches retrieve info successfully
+//Issue #2: Repetitive code for Promise.all with fetches
+//Issue #3: Setter callbacks for implementing pagination
 
 var useFetches = function useFetches(setLoaded, condition) {
   for (var _len = arguments.length, fetchArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {

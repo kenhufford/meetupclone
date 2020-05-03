@@ -41,6 +41,7 @@ class Api::GroupsController < ApplicationController
         else
             @current_user_member = false
         end
+        @group.avg_stats
         render "api/groups/show"
     end
 

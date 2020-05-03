@@ -1,4 +1,6 @@
 class Group < ApplicationRecord
+    attr_accessor :avg_stats
+
     validates :name, :description, presence: true
     validates :description, length: { minimum: 20 }
 
@@ -28,6 +30,8 @@ class Group < ApplicationRecord
     class_name: "Channel",
     foreign_key: :group_id,
     dependent: :destroy
+
+    def 
 
     def socialest_fighters
         members = self.members
@@ -67,16 +71,16 @@ class Group < ApplicationRecord
 
     def avg_stats
         members = self.members
-        stats = {"power":0,"guts":0,"technique":0,"speed":0}
+        @avg_stats = {"power":0,"guts":0,"technique":0,"speed":0}
         members.each do |member|
-            stats[:power] += member.power
-            stats[:guts] += member.guts
-            stats[:technique] += member.technique
-            stats[:speed] += member.speed
+            @avg_stats[:power] += member.power
+            @avg_stats[:guts] += member.guts
+            @avg_stats[:technique] += member.technique
+            @avg_stats[:speed] += member.speed
         end
-        stats.each do |key, value|
-            stats[key] = value/members.length
+        @avg_stats.each do |key, value|
+            @avg_stats[key] = value/members.length
         end
-        stats
+        @avg_stats
     end
 end
