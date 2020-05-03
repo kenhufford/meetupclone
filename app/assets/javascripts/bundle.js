@@ -754,7 +754,7 @@ var fetchReservations = function fetchReservations(eventId) {
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, receiveErrors, createNewUser, login, logout */
+/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, receiveErrors, createNewUser, login, logout, createConnection, deleteConnection */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -766,7 +766,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNewUser", function() { return createNewUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createConnection", function() { return createConnection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteConnection", function() { return deleteConnection; });
 /* harmony import */ var _utils_session_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/session_api_util */ "./frontend/utils/session_api_util.js");
+/* harmony import */ var _utils_connection_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/connection_api_util */ "./frontend/utils/connection_api_util.js");
+
 
 var RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 var LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
@@ -813,6 +817,20 @@ var logout = function logout() {
   return function (dispatch) {
     return Object(_utils_session_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteSession"])().then(function () {
       return dispatch(logoutCurrentUser());
+    });
+  };
+};
+var createConnection = function createConnection(connection) {
+  return function (dispatch) {
+    return Object(_utils_connection_api_util__WEBPACK_IMPORTED_MODULE_1__["createConnectionAPI"])(connection).then(function (user) {
+      return dispatch(receiveCurrentUser(user));
+    });
+  };
+};
+var deleteConnection = function deleteConnection(rivalId) {
+  return function (dispatch) {
+    return Object(_utils_connection_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteConnectionAPI"])(rivalId).then(function (user) {
+      return dispatch(receiveCurrentUser(user));
     });
   };
 };
@@ -8629,9 +8647,7 @@ var SessionForm = function SessionForm(props) {
   }, []);
 
   var update = function update(field) {
-    debugger;
     return function (e) {
-      debugger;
       var key = "set" + field;
       console.log(setters[key]);
       console.log(e.currentTarget.value);
@@ -9014,51 +9030,59 @@ var Dash = function Dash(props) {
       selectedStat = props.selectedStat,
       setSelectedGroupId = props.setSelectedGroupId,
       setSelectedEventId = props.setSelectedEventId,
-      currentUserId = props.currentUserId;
+      currentUserId = props.currentUserId,
+      userId = props.userId;
+  var usersArray;
 
-  if (selectedEventId || selectedGroupId) {
-    var usersArray = Object.values(users);
-    var data = usersArray.map(function (user) {
-      var stat;
-
-      switch (selectedStat) {
-        case "Power":
-          stat = user.power;
-          break;
-
-        case "Speed":
-          stat = user.speed;
-          break;
-
-        case "Guts":
-          stat = user.guts;
-          break;
-
-        case "Technique":
-          stat = user.technique;
-          break;
-
-        default:
-          stat = user.power;
-          break;
-      }
-
-      return {
-        x: user.name,
-        y: stat,
-        id: user.id
-      };
-    });
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_graph__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      data: data,
-      setSelectedGroupId: setSelectedGroupId,
-      setSelectedEventId: setSelectedEventId,
-      currentUserId: currentUserId,
-      selectedStat: selectedStat
-    });
-  } else {
+  if (!selectedEventId && !selectedGroupId) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   }
+
+  if (selectedGroupId === "Rivals") {
+    usersArray = Object.values(users[userId].activeRivals);
+    usersArray.push(users[userId]);
+  } else if (selectedEventId || selectedGroupId) {
+    usersArray = Object.values(users);
+  }
+
+  var data = usersArray.map(function (user) {
+    var stat;
+
+    switch (selectedStat) {
+      case "Power":
+        stat = user.power;
+        break;
+
+      case "Speed":
+        stat = user.speed;
+        break;
+
+      case "Guts":
+        stat = user.guts;
+        break;
+
+      case "Technique":
+        stat = user.technique;
+        break;
+
+      default:
+        stat = user.power;
+        break;
+    }
+
+    return {
+      x: user.name,
+      y: stat,
+      id: user.id
+    };
+  });
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_graph__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    data: data,
+    setSelectedGroupId: setSelectedGroupId,
+    setSelectedEventId: setSelectedEventId,
+    currentUserId: currentUserId,
+    selectedStat: selectedStat
+  });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Dash);
@@ -9133,7 +9157,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DashFilters = function DashFilters(props) {
-  var groups = props.groups,
+  var hasRivals = props.hasRivals,
+      groups = props.groups,
       events = props.events,
       selectedGroupId = props.selectedGroupId,
       setSelectedGroupId = props.setSelectedGroupId,
@@ -9142,10 +9167,16 @@ var DashFilters = function DashFilters(props) {
       selectedStat = props.selectedStat,
       setSelectedStat = props.setSelectedStat;
   var groupsArray = groups !== undefined ? Object.values(groups) : [];
+  if (hasRivals) groupsArray.push({
+    id: "Rivals",
+    title: "Rivals"
+  });
   var eventsArray = events !== undefined ? Object.values(events) : [];
+  var groupName;
+  if (selectedGroupId === "Rivals") groupName = "Rivals";else if (selectedGroupId === undefined) groupName = "Filter by squad";else groupName = groups[selectedGroupId].name;
   var cards = [{
     userItems: groupsArray,
-    selectedName: selectedGroupId !== undefined ? groups[selectedGroupId].name : "Filter by squad",
+    selectedName: groupName,
     setSelectedId: setSelectedGroupId,
     setToUndefined: setSelectedEventId
   }, {
@@ -9171,7 +9202,7 @@ var DashFilters = function DashFilters(props) {
     setSelectedId: setSelectedStat
   }];
   var title = "Select a squad or brawl to see the competition";
-  if (selectedGroupId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(groups[selectedGroupId].name);
+  if (selectedGroupId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(groupName);
   if (selectedEventId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(events[selectedEventId].title);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "filters-div"
@@ -9337,10 +9368,13 @@ var UserShow = function UserShow(props) {
       fetchUsersFromGroup = props.fetchUsersFromGroup,
       fetchUsersFromEvent = props.fetchUsersFromEvent,
       currentUserId = props.currentUserId,
+      currentUser = props.currentUser,
       userId = props.userId,
       users = props.users,
       groups = props.groups,
-      events = props.events;
+      events = props.events,
+      createConnection = props.createConnection,
+      deleteConnection = props.deleteConnection;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -9364,14 +9398,20 @@ var UserShow = function UserShow(props) {
 
   var fetches = [[fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]];
   if (selectedEventId) fetches.push([fetchUsersFromEvent, selectedEventId]);
-  if (selectedGroupId) fetches.push([fetchUsersFromGroup, selectedGroupId]);
+  if (selectedGroupId !== "Rivals" && selectedGroupId) fetches.push([fetchUsersFromGroup, selectedGroupId]);
   _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"].apply(void 0, [setLoaded, [selectedGroupId, selectedEventId, userId]].concat(fetches));
 
   if (loaded && userId in users) {
+    var hasRivals = Object.values(users[userId].activeRivals).length !== 0;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-show"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_stats__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      user: users[userId]
+      users: users,
+      userId: userId,
+      currentUserId: currentUserId,
+      currentUser: currentUser,
+      createConnection: createConnection,
+      deleteConnection: deleteConnection
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-show-right"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_filters__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -9383,7 +9423,8 @@ var UserShow = function UserShow(props) {
       selectedEventId: selectedEventId,
       setSelectedEventId: setSelectedEventId,
       selectedStat: selectedStat,
-      setSelectedStat: setSelectedStat
+      setSelectedStat: setSelectedStat,
+      hasRivals: hasRivals
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash__WEBPACK_IMPORTED_MODULE_4__["default"], {
       userId: userId,
       groups: groups.allGroups,
@@ -9421,7 +9462,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/user_actions */ "./frontend/actions/user_actions.js");
 /* harmony import */ var _actions_group_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/group_actions */ "./frontend/actions/group_actions.js");
 /* harmony import */ var _actions_event_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/event_actions */ "./frontend/actions/event_actions.js");
-/* harmony import */ var _user_show__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user_show */ "./frontend/components/users/user_show/user_show.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _user_show__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./user_show */ "./frontend/components/users/user_show/user_show.jsx");
+
 
 
 
@@ -9433,6 +9476,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   var currentUserId = state.session.id === undefined ? null : state.session.id;
   return {
     currentUserId: currentUserId,
+    currentUser: state.session,
     userId: ownProps.match.params.userId,
     users: state.entities.users,
     groups: state.entities.groups,
@@ -9456,11 +9500,17 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchUsersFromEvent: function fetchUsersFromEvent(eventId) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["fetchUsersFromEvent"])(eventId));
+    },
+    deleteConnection: function deleteConnection(rivalId) {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["deleteConnection"])(rivalId));
+    },
+    createConnection: function createConnection(connection) {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["createConnection"])(connection));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_user_show__WEBPACK_IMPORTED_MODULE_4__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_user_show__WEBPACK_IMPORTED_MODULE_5__["default"]));
 
 /***/ }),
 
@@ -9480,23 +9530,63 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var UserStats = function UserStats(props) {
-  var user = props.user;
-  var name = user.name,
-      imageUrl = user.imageUrl,
-      createdAt = user.createdAt,
-      power = user.power,
-      speed = user.speed,
-      guts = user.guts,
-      technique = user.technique;
+  var users = props.users,
+      userId = props.userId,
+      currentUserId = props.currentUserId,
+      currentUser = props.currentUser,
+      createConnection = props.createConnection,
+      deleteConnection = props.deleteConnection;
+  var _users$userId = users[userId],
+      name = _users$userId.name,
+      imageUrl = _users$userId.imageUrl,
+      power = _users$userId.power,
+      speed = _users$userId.speed,
+      guts = _users$userId.guts,
+      technique = _users$userId.technique;
   var stats = [["POWER", power, "red"], ["SPEED", speed, "blue"], ["GUTS", guts, "green"], ["TECHNIQUE", technique, "purple"]];
+  var addButton;
+
+  if (userId in currentUser.activeRivals) {
+    addButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      onClick: function onClick() {
+        return deleteConnection(userId);
+      },
+      className: "user-stats-rival"
+    }, "End Rivalry");
+  } else if (userId in currentUser.pendingRivals) {
+    addButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "user-stats-rival"
+    }, "Pending");
+  } else if (userId in currentUser.pendingChallengers) {
+    addButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      onClick: function onClick() {
+        return createConnection({
+          rival_id: userId
+        });
+      },
+      className: "user-stats-rival"
+    }, "Accept Rivalry ");
+  } else {
+    addButton = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      onClick: function onClick() {
+        return createConnection({
+          rival_id: userId
+        });
+      },
+      className: "user-stats-rival"
+    }, "Start Rivalry");
+  }
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "user-stats"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: window[imageUrl],
     className: "user-stats-image"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "user-stats-name-row"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "user-stats-name"
-  }, name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+  }, name), userId == currentUserId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null) : addButton), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "user-stats-bars"
   }, stats.map(function (stat, i) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_stats_bar__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -10360,6 +10450,35 @@ var updateChannelship = function updateChannelship(channelship) {
 var deleteChannelship = function deleteChannelship(channelshipId) {
   return $.ajax({
     url: "/api/channelships/".concat(channelshipId),
+    method: "DELETE"
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/utils/connection_api_util.js":
+/*!***********************************************!*\
+  !*** ./frontend/utils/connection_api_util.js ***!
+  \***********************************************/
+/*! exports provided: createConnectionAPI, deleteConnectionAPI */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createConnectionAPI", function() { return createConnectionAPI; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteConnectionAPI", function() { return deleteConnectionAPI; });
+var createConnectionAPI = function createConnectionAPI(connection) {
+  return $.ajax({
+    url: "api/connections/",
+    method: "POST",
+    data: {
+      connection: connection
+    }
+  });
+};
+var deleteConnectionAPI = function deleteConnectionAPI(rivalId) {
+  return $.ajax({
+    url: "/api/connections/".concat(rivalId),
     method: "DELETE"
   });
 };

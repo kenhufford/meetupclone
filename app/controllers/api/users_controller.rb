@@ -30,6 +30,9 @@ class Api::UsersController < ApplicationController
 
     def show
       @user = User.find(params[:id])
+      @user.active_rivals
+      @user.pending_rivals
+      @user.pending_challengers
       render 'api/users/showone'
     end
   

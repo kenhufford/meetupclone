@@ -3231,6 +3231,20 @@ color: #404040;
    margin:0px 10px;
 }
 
+.user-stats-name-row{
+   display:flex;
+   flex-direction: row;
+   align-items: center;
+}
+
+.user-stats-rival{
+   background-color: #FF0C37;
+   color: white;
+   padding: 5px;
+   font-size: 20px;
+   margin: 0 10px;
+}
+
 .user-show-right{
    background-color: rgb(243, 243, 243);
    width: 75%;

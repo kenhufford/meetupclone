@@ -57,15 +57,51 @@ class User < ApplicationRecord
     source: :user
 
     def active_rivals
-      @active_rivals = rivals.select{ |rival| rival.rivals.include?(self) }  
+      active = rivals.select{ |rival| rival.rivals.include?(self) }  
+      @active_rivals = {}
+      active.each do |rival|
+        @active_rivals[rival.id] = {
+          "name": rival.name, 
+          "id": rival.id, 
+          "image_url": rival.image_url, 
+          "power": rival.power, 
+          "guts": rival.guts, 
+          "speed": rival.speed, 
+          "technique": rival.technique}
+      end
+      @active_rivals
     end
 
     def pending_rivals
-      @pending_rivals = rivals.select{ |rival| !rival.rivals.include?(self) }  
+      pending = rivals.select{ |rival| !rival.rivals.include?(self) }  
+      @pending_rivals = {}
+      pending.each do |rival|
+        @pending_rivals[rival.id] = {
+          "name": rival.name, 
+          "id": rival.id, 
+          "image_url": rival.image_url, 
+          "power": rival.power, 
+          "guts": rival.guts, 
+          "speed": rival.speed, 
+          "technique": rival.technique}
+      end
+      @pending_rivals
     end
 
     def pending_challengers
-      @pending_challengers = challengers.select{ |challenger| !rivals.include?(challenger) }  
+      pending = challengers.select{ |challenger| !rivals.include?(challenger) }  
+      @pending_challengers = {}
+      pending.each do |rival|
+        @pending_challengers[rival.id] = {
+            "name": rival.name, 
+            "id": rival.id, 
+            "image_url": rival.image_url, 
+            "power": rival.power, 
+            "guts": rival.guts, 
+            "speed": rival.speed, 
+            "technique": rival.technique}
+      end
+      @pending_challengers
     end
 
     def self.find_by_credentials(email, password)

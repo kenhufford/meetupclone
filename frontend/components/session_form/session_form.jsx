@@ -27,9 +27,7 @@ const SessionForm = (props) => {
 
 
   const update = (field) => {
-    debugger
     return e => { 
-      debugger
       let key = "set"+field;
       console.log(setters[key])
       console.log(e.currentTarget.value)
