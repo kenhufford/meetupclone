@@ -15,7 +15,7 @@ class Api::ConnectionsController < ApplicationController
     end
 
     def destroy 
-        @connection = current_user.sent_connections.where('connections.rival_id = ?', params[:id])
+        @connection = current_user.sent_connections.where('connections.rival_id = ?', params[:rival_id])
         @connection.destroy_all
         @user = current_user
         @user.active_rivals

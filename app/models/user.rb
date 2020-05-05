@@ -10,7 +10,7 @@ class User < ApplicationRecord
     validates_numericality_of :guts, :in => 1..100
     validates_numericality_of :technique, :in => 1..100
   
-    after_initialize :ensure_session_token
+    # after_initialize :ensure_session_token
     
     belongs_to :location
 
@@ -125,8 +125,6 @@ class User < ApplicationRecord
       self.session_token
     end
 
-
-  
     private
   
     def ensure_session_token

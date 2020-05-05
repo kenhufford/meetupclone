@@ -83,4 +83,18 @@ class Group < ApplicationRecord
         end
         @avg_stats
     end
+
+    def most_popular_fighters
+        members = self.members
+            .select('users.name, COUNT(*) AS num_rivals')
+            .joins(:rivals)
+            .group('users.name')
+            .order('num_rivals DESC')
+            .limit(3)
+        popular = []
+        members.each do |member|
+            popular << [member.name, member.num_rivals]
+        end
+        popular
+    end
 end
