@@ -1,5 +1,5 @@
 class Group < ApplicationRecord
-    attr_accessor :avg_stats
+    attr_accessor :avg_stats, :power_level
 
     validates :name, :description, presence: true
     validates :description, length: { minimum: 20 }
@@ -30,8 +30,6 @@ class Group < ApplicationRecord
     class_name: "Channel",
     foreign_key: :group_id,
     dependent: :destroy
-
-    def 
 
     def socialest_fighters
         members = self.members
@@ -84,6 +82,16 @@ class Group < ApplicationRecord
         @avg_stats
     end
 
+    def power_level
+        @power_level = 0
+        avg_stats.each do |stat, value|
+            @power_level += value
+        end
+        @power_level/4
+    end
+
+    
+
     def most_popular_fighters
         members = self.members
             .select('users.name, COUNT(*) AS num_rivals')
@@ -96,5 +104,13 @@ class Group < ApplicationRecord
             popular << [member.name, member.num_rivals]
         end
         popular
+    end
+
+    def self.order_by_squad_size
+        self.all.sort{|a,b| b.members.count <=> a.members.count}
+    end
+
+    def self.order_by_squad_strength
+        self.all.sort{|a,b| b.power_level <=> a.power_level}
     end
 end

@@ -117,12 +117,18 @@ class Api::GroupsController < ApplicationController
             end
             @groups = @groups.joins(:categories).where(categories: {id: category_ids})
         end
+        
         @all_groups_count = @groups.count
         @user_groups_count = @user_groups.count
-        @groups = offset_and_limit_all(@groups);
-        @user_groups  = offset_and_limit_user(@user_groups);
+
+        @groups = offset_and_limit_all(@groups)
+        @user_groups  = offset_and_limit_user(@user_groups)
+
         render :index
     end
+
+    
+    private
 
     def find_by_name(query)
         query = query.downcase
@@ -130,7 +136,6 @@ class Api::GroupsController < ApplicationController
         group_list = group_results   
     end
 
-    private
     def group_params
         params.require(:group).permit(
         :name, 
@@ -154,7 +159,7 @@ class Api::GroupsController < ApplicationController
             page = params[:allPage].to_i
             groups = groups.limit(limit).offset((page-1) * limit)
         end
-        return groups
+        groups
     end
 
     def offset_and_limit_user(user_groups)
@@ -164,7 +169,7 @@ class Api::GroupsController < ApplicationController
             page = params[:userPage].to_i
             user_groups = user_groups.limit(limit).offset((page-1) * limit)
         end
-        return user_groups
+        user_groups
     end
     
 end
