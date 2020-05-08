@@ -43,6 +43,7 @@ class Api::EventsController < ApplicationController
     else
         @current_user_attending  = false
     end
+    @event.avg_stats
     render "api/events/show"
   end
 

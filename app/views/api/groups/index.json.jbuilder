@@ -15,6 +15,7 @@ json.set! :user_groups do
 end
 
 json.all_groups_count @all_groups_count
+json.all_groups_order @groups.pluck(:id)
 json.user_groups_count @user_groups_count
 
 

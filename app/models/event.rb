@@ -1,4 +1,5 @@
 class Event < ApplicationRecord
+    attr_accessor :avg_stats
     validates :title, :description, :max_attendance, :start_time, :end_time, :address, presence: true
 
     has_many :reservations,
@@ -36,6 +37,21 @@ class Event < ApplicationRecord
             end
         end
         locations
+    end
+
+    def avg_stats
+        attendees = self.attendees
+        @avg_stats = {"power":0,"guts":0,"technique":0,"speed":0}
+        attendees.each do |member|
+            @avg_stats[:power] += member.power
+            @avg_stats[:guts] += member.guts
+            @avg_stats[:technique] += member.technique
+            @avg_stats[:speed] += member.speed
+        end
+        @avg_stats.each do |key, value|
+            @avg_stats[key] = value/attendees.length
+        end
+        @avg_stats
     end
 
 end

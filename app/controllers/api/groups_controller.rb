@@ -103,6 +103,11 @@ class Api::GroupsController < ApplicationController
         else
             @groups = Group.all
         end
+        if search_params["sort"] == "desc"
+            @groups = @groups.order_by_squad_size(true)
+        elsif search_params["sort"] == "asc"
+            @groups = @groups.order_by_squad_size(false)
+        end
         if search_params["location"]
             location_ids = []
             search_params["location"].split(".").each do |id|
@@ -123,7 +128,6 @@ class Api::GroupsController < ApplicationController
 
         @groups = offset_and_limit_all(@groups)
         @user_groups  = offset_and_limit_user(@user_groups)
-
         render :index
     end
 

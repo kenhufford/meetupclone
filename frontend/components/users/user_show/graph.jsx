@@ -1,9 +1,9 @@
 import React from 'react';
 import {withRouter} from 'react-router'
-import { XYPlot, VerticalBarSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis } from 'react-vis';
+import { XYPlot,LabelSeries, DiscreteColorLegend,  VerticalBarSeries, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis } from 'react-vis';
 
 const Graph = props => {
-    let { data, currentUserId,setSelectedGroupId, 
+    let { verticalData, lineData, labelData, currentUserId,setSelectedGroupId, 
         setSelectedEventId, selectedStat} = props;
     let color = "red";
     switch (selectedStat) {
@@ -26,16 +26,18 @@ const Graph = props => {
                 xType="ordinal" 
                 margin={{ bottom: 100 }} 
                 height={500} 
-                width={900}>
+                width={900}
+                yDomain={[0, 100]}>
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <XAxis tickLabelAngle={-45} />
                 <YAxis />
+                
                 <VerticalBarSeries 
                     className="vertical-bar"
                     animation="stiff" 
                     color={color}
-                    data={data} 
+                    data={verticalData} 
                     onValueClick={(event)=>{ 
                         if(event.id === currentUserId){
                             setSelectedEventId(undefined);
@@ -44,6 +46,18 @@ const Graph = props => {
                         props.history.push(`/users/${event.id}`);
                     }}
                     />
+                <LineSeries
+                    animation="stiff" 
+                    className="horizontal-line"
+                    color="#e29c4c"
+                    strokeDasharray={[7, 5]}
+                    strokeWidth="4"
+                    data={lineData}
+                />
+                <LabelSeries
+                    animation="stiff" 
+                    className="label-series"
+                    data={labelData} />
             </XYPlot>
         </div>
     );

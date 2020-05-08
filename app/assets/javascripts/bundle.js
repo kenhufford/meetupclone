@@ -9031,8 +9031,12 @@ var Dash = function Dash(props) {
       setSelectedGroupId = props.setSelectedGroupId,
       setSelectedEventId = props.setSelectedEventId,
       currentUserId = props.currentUserId,
-      userId = props.userId;
-  var usersArray;
+      userId = props.userId,
+      groups = props.groups,
+      events = props.events;
+  var usersArray, selectedAverage;
+  var lineData = [],
+      labelData = [];
 
   if (!selectedEventId && !selectedGroupId) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
@@ -9045,7 +9049,14 @@ var Dash = function Dash(props) {
     usersArray = Object.values(users);
   }
 
-  var data = usersArray.map(function (user) {
+  if (selectedGroupId) {
+    selectedAverage = groups[selectedGroupId].avgStats[selectedStat.toLowerCase()];
+  } else if (selectedEventId) {
+    selectedAverage = events[selectedEventId].avgStats[selectedStat.toLowerCase()];
+  }
+
+  var verticalData = usersArray.map(function (user, i) {
+    if (user.name.length > 8) user.name = user.name.slice(0, 7) + ".";
     var stat;
 
     switch (selectedStat) {
@@ -9070,6 +9081,18 @@ var Dash = function Dash(props) {
         break;
     }
 
+    if (i === usersArray.length - 1) {
+      labelData = [{
+        x: user.name,
+        y: selectedAverage,
+        label: "Average ".concat(selectedStat)
+      }];
+    }
+
+    lineData.push({
+      x: user.name,
+      y: selectedAverage
+    });
     return {
       x: user.name,
       y: stat,
@@ -9077,7 +9100,9 @@ var Dash = function Dash(props) {
     };
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_graph__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    data: data,
+    verticalData: verticalData,
+    lineData: lineData,
+    labelData: labelData,
     setSelectedGroupId: setSelectedGroupId,
     setSelectedEventId: setSelectedEventId,
     currentUserId: currentUserId,
@@ -9086,6 +9111,146 @@ var Dash = function Dash(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Dash);
+
+/***/ }),
+
+/***/ "./frontend/components/users/user_show/dash_body.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/users/user_show/dash_body.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _dash_filters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dash_filters */ "./frontend/components/users/user_show/dash_filters.jsx");
+/* harmony import */ var _dash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dash */ "./frontend/components/users/user_show/dash.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var DashBody = function DashBody(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
+      _useState2 = _slicedToArray(_useState, 2),
+      selectedGroupId = _useState2[0],
+      setSelectedGroupId = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
+      _useState4 = _slicedToArray(_useState3, 2),
+      selectedEventId = _useState4[0],
+      setSelectedEventId = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("Power"),
+      _useState6 = _slicedToArray(_useState5, 2),
+      selectedStat = _useState6[0],
+      setSelectedStat = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      loaded = _useState8[0],
+      setLoaded = _useState8[1];
+
+  var fetchEventsFromUser = props.fetchEventsFromUser,
+      fetchGroupsFromUser = props.fetchGroupsFromUser,
+      fetchUsersFromGroup = props.fetchUsersFromGroup,
+      fetchUsersFromEvent = props.fetchUsersFromEvent,
+      currentUserId = props.currentUserId,
+      userId = props.userId,
+      users = props.users,
+      groups = props.groups,
+      events = props.events,
+      tab = props.tab;
+  var fetches = [[fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]];
+  if (selectedEventId) fetches.push([fetchUsersFromEvent, selectedEventId]);
+  if (selectedGroupId !== "Rivals" && selectedGroupId) fetches.push([fetchUsersFromGroup, selectedGroupId]);
+  _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__["default"].apply(void 0, [setLoaded, [selectedGroupId, selectedEventId, userId]].concat(fetches));
+
+  if (loaded) {
+    var hasRivals = Object.values(users[userId].activeRivals).length !== 0;
+    var cards = [];
+    var title;
+    var allGroups = "allGroups" in groups ? groups.allGroups : {};
+    var allEvents = "allEvents" in events ? events.allEvents : {};
+    var groupsArray = allGroups !== undefined ? Object.values(allGroups) : [];
+    var eventsArray = allEvents !== undefined ? Object.values(allEvents) : [];
+
+    if (tab === "Compare Brawlers") {
+      if (hasRivals) groupsArray.push({
+        id: "Rivals",
+        title: "Rivals"
+      });
+      var groupName;
+      if (selectedGroupId === "Rivals") groupName = "Rivals";else if (selectedGroupId === undefined) groupName = "Filter by squad";else groupName = allGroups[selectedGroupId].name;
+      cards = [{
+        userItems: groupsArray,
+        selectedName: groupName,
+        setSelectedId: setSelectedGroupId,
+        setToUndefined: setSelectedEventId
+      }, {
+        userItems: eventsArray,
+        selectedName: selectedEventId !== undefined ? allEvents[selectedEventId].title : "Filter by brawl",
+        setSelectedId: setSelectedEventId,
+        setToUndefined: setSelectedGroupId
+      }, {
+        userItems: [{
+          id: "Power",
+          title: "Power"
+        }, {
+          id: "Speed",
+          title: "Speed"
+        }, {
+          id: "Guts",
+          title: "Guts"
+        }, {
+          id: "Technique",
+          title: "Technique"
+        }],
+        selectedName: selectedStat,
+        setSelectedId: setSelectedStat
+      }];
+      title = "Select a squad or brawl to see the competition";
+      if (selectedGroupId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(groupName);
+      if (selectedEventId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(allEvents[selectedEventId].title);
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "user-show-right-bottom"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_filters__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      cards: cards,
+      title: title
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      userId: userId,
+      groups: allGroups,
+      events: allEvents,
+      user: users[userId],
+      fetchUsersFromGroup: fetchUsersFromGroup,
+      fetchUsersFromEvent: fetchUsersFromEvent,
+      users: users,
+      selectedGroupId: selectedGroupId,
+      selectedEventId: selectedEventId,
+      selectedStat: selectedStat,
+      setSelectedGroupId: setSelectedGroupId,
+      setSelectedEventId: setSelectedEventId,
+      currentUserId: currentUserId
+    }));
+  } else {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (DashBody);
 
 /***/ }),
 
@@ -9105,18 +9270,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DashFilterCard = function DashFilterCard(props) {
+  var filterDefaults = props.filterDefaults;
   var _props$card = props.card,
       selectedName = _props$card.selectedName,
       _setSelectedId = _props$card.setSelectedId,
       setToUndefined = _props$card.setToUndefined,
       userItems = _props$card.userItems;
-  var selected = !(selectedName === "Filter by squad" || selectedName === "Filter by brawl");
+  var selected = filterDefaults.includes(selectedName);
   var card = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "filter-card-left"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: selected ? "filter-card-title-selected" : "filter-card-title-not"
   }, selectedName));
   var filters = userItems.map(function (item) {
+    var name = item.title || item.name;
+    if (name.length > 20) name = name.slice(0, 19);
     return {
       setSelectedId: function setSelectedId() {
         _setSelectedId(item.id);
@@ -9125,7 +9293,7 @@ var DashFilterCard = function DashFilterCard(props) {
           setToUndefined(undefined);
         }
       },
-      name: item.title || item.name
+      name: name
     };
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -9157,66 +9325,52 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DashFilters = function DashFilters(props) {
-  var hasRivals = props.hasRivals,
-      groups = props.groups,
-      events = props.events,
-      selectedGroupId = props.selectedGroupId,
-      setSelectedGroupId = props.setSelectedGroupId,
-      selectedEventId = props.selectedEventId,
-      setSelectedEventId = props.setSelectedEventId,
-      selectedStat = props.selectedStat,
-      setSelectedStat = props.setSelectedStat;
-  var groupsArray = groups !== undefined ? Object.values(groups) : [];
-  if (hasRivals) groupsArray.push({
-    id: "Rivals",
-    title: "Rivals"
-  });
-  var eventsArray = events !== undefined ? Object.values(events) : [];
-  var groupName;
-  if (selectedGroupId === "Rivals") groupName = "Rivals";else if (selectedGroupId === undefined) groupName = "Filter by squad";else groupName = groups[selectedGroupId].name;
-  var cards = [{
-    userItems: groupsArray,
-    selectedName: groupName,
-    setSelectedId: setSelectedGroupId,
-    setToUndefined: setSelectedEventId
-  }, {
-    userItems: eventsArray,
-    selectedName: selectedEventId !== undefined ? events[selectedEventId].title : "Filter by brawl",
-    setSelectedId: setSelectedEventId,
-    setToUndefined: setSelectedGroupId
-  }, {
-    userItems: [{
-      id: "Power",
-      title: "Power"
-    }, {
-      id: "Speed",
-      title: "Speed"
-    }, {
-      id: "Guts",
-      title: "Guts"
-    }, {
-      id: "Technique",
-      title: "Technique"
-    }],
-    selectedName: selectedStat,
-    setSelectedId: setSelectedStat
-  }];
-  var title = "Select a squad or brawl to see the competition";
-  if (selectedGroupId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(groupName);
-  if (selectedEventId) title = "".concat(selectedStat, " ratings of brawlers in ").concat(events[selectedEventId].title);
+  var cards = props.cards,
+      title = props.title;
+  var filterDefaults = ["Filter by squad", "Filter by brawl"];
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "filters-div"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "filters-div-title"
-  }, title), cards.map(function (card, i) {
+  }, cards.map(function (card, i) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_filter_card__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: i,
-      card: card
+      card: card,
+      filterDefaults: filterDefaults
     });
-  }));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "filters-div-title"
+  }, title));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (DashFilters);
+
+/***/ }),
+
+/***/ "./frontend/components/users/user_show/dash_tabs.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/users/user_show/dash_tabs.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var DashTabs = function DashTabs(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "user-show-right-top"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dash-tab"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Compare Brawlers")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dash-tab"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Compare Squads")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dash-tab"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "View Rivalries")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (DashTabs);
 
 /***/ }),
 
@@ -9276,7 +9430,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Graph = function Graph(props) {
-  var data = props.data,
+  var verticalData = props.verticalData,
+      lineData = props.lineData,
+      labelData = props.labelData,
       currentUserId = props.currentUserId,
       setSelectedGroupId = props.setSelectedGroupId,
       setSelectedEventId = props.setSelectedEventId,
@@ -9309,14 +9465,15 @@ var Graph = function Graph(props) {
       bottom: 100
     },
     height: 500,
-    width: 900
+    width: 900,
+    yDomain: [0, 100]
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["VerticalGridLines"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["HorizontalGridLines"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["XAxis"], {
     tickLabelAngle: -45
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["YAxis"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["VerticalBarSeries"], {
     className: "vertical-bar",
     animation: "stiff",
     color: color,
-    data: data,
+    data: verticalData,
     onValueClick: function onValueClick(event) {
       if (event.id === currentUserId) {
         setSelectedEventId(undefined);
@@ -9325,6 +9482,17 @@ var Graph = function Graph(props) {
 
       props.history.push("/users/".concat(event.id));
     }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["LineSeries"], {
+    animation: "stiff",
+    className: "horizontal-line",
+    color: "#e29c4c",
+    strokeDasharray: [7, 5],
+    strokeWidth: "4",
+    data: lineData
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_2__["LabelSeries"], {
+    animation: "stiff",
+    className: "label-series",
+    data: labelData
   })));
 };
 
@@ -9344,9 +9512,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _user_stats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user_stats */ "./frontend/components/users/user_show/user_stats.jsx");
-/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
-/* harmony import */ var _dash_filters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dash_filters */ "./frontend/components/users/user_show/dash_filters.jsx");
-/* harmony import */ var _dash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dash */ "./frontend/components/users/user_show/dash.jsx");
+/* harmony import */ var _dash_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dash_tabs */ "./frontend/components/users/user_show/dash_tabs.jsx");
+/* harmony import */ var _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks/use_fetches */ "./frontend/components/hooks/use_fetches.jsx");
+/* harmony import */ var _dash_body__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dash_body */ "./frontend/components/users/user_show/dash_body.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -9381,28 +9549,14 @@ var UserShow = function UserShow(props) {
       loaded = _useState2[0],
       setLoaded = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("Compare Brawlers"),
       _useState4 = _slicedToArray(_useState3, 2),
-      selectedGroupId = _useState4[0],
-      setSelectedGroupId = _useState4[1];
+      tab = _useState4[0],
+      setTab = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
-      _useState6 = _slicedToArray(_useState5, 2),
-      selectedEventId = _useState6[0],
-      setSelectedEventId = _useState6[1];
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("Power"),
-      _useState8 = _slicedToArray(_useState7, 2),
-      selectedStat = _useState8[0],
-      setSelectedStat = _useState8[1];
-
-  var fetches = [[fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]];
-  if (selectedEventId) fetches.push([fetchUsersFromEvent, selectedEventId]);
-  if (selectedGroupId !== "Rivals" && selectedGroupId) fetches.push([fetchUsersFromGroup, selectedGroupId]);
-  _hooks_use_fetches__WEBPACK_IMPORTED_MODULE_2__["default"].apply(void 0, [setLoaded, [selectedGroupId, selectedEventId, userId]].concat(fetches));
+  Object(_hooks_use_fetches__WEBPACK_IMPORTED_MODULE_3__["default"])(setLoaded, [userId], [fetchUser, userId]);
 
   if (loaded && userId in users) {
-    var hasRivals = Object.values(users[userId].activeRivals).length !== 0;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-show"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_stats__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -9414,31 +9568,17 @@ var UserShow = function UserShow(props) {
       deleteConnection: deleteConnection
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "user-show-right"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_filters__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      groups: groups.allGroups,
-      events: events.allEvents,
-      user: users[userId],
-      selectedGroupId: selectedGroupId,
-      setSelectedGroupId: setSelectedGroupId,
-      selectedEventId: selectedEventId,
-      setSelectedEventId: setSelectedEventId,
-      selectedStat: selectedStat,
-      setSelectedStat: setSelectedStat,
-      hasRivals: hasRivals
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      userId: userId,
-      groups: groups.allGroups,
-      events: events.allEvents,
-      user: users[userId],
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_tabs__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dash_body__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      fetchEventsFromUser: fetchEventsFromUser,
+      fetchGroupsFromUser: fetchGroupsFromUser,
       fetchUsersFromGroup: fetchUsersFromGroup,
       fetchUsersFromEvent: fetchUsersFromEvent,
+      currentUserId: currentUserId,
+      userId: userId,
       users: users,
-      selectedGroupId: selectedGroupId,
-      selectedEventId: selectedEventId,
-      selectedStat: selectedStat,
-      setSelectedGroupId: setSelectedGroupId,
-      setSelectedEventId: setSelectedEventId,
-      currentUserId: currentUserId
+      groups: groups,
+      events: events,
+      tab: tab
     }))));
   } else {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);

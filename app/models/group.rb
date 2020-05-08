@@ -90,8 +90,6 @@ class Group < ApplicationRecord
         @power_level/4
     end
 
-    
-
     def most_popular_fighters
         members = self.members
             .select('users.name, COUNT(*) AS num_rivals')
@@ -106,11 +104,12 @@ class Group < ApplicationRecord
         popular
     end
 
-    def self.order_by_squad_size
-        self.all.sort{|a,b| b.members.count <=> a.members.count}
+    def self.order_by_squad_size(descending)
+        return self.all.sort{|a,b| b.members.count <=> a.members.count} if descending
+        return self.all.sort{|a,b| a.members.count <=> b.members.count} if !descending
     end
 
-    def self.order_by_squad_strength
+    def self.order_by_squad_strength(descending)
         self.all.sort{|a,b| b.power_level <=> a.power_level}
     end
 end

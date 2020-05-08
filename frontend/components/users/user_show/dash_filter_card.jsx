@@ -2,14 +2,17 @@ import React from 'react';
 import DropdownFilters from './dropdown_filters';
 
 const DashFilterCard = props => {
+    let {filterDefaults} = props;
     let { selectedName, setSelectedId, setToUndefined, userItems} = props.card;
-    let selected = !(selectedName === "Filter by squad" || selectedName === "Filter by brawl")
+    let selected = filterDefaults.includes(selectedName);
     let card =  <div className="filter-card-left">
                     <div className={selected ? "filter-card-title-selected" : "filter-card-title-not"}>
                         {selectedName}
                     </div>
                 </div>
     let filters = userItems.map(item => {
+        let name = item.title || item.name;
+        if(name.length > 20) name = name.slice(0,19);
         return {
                 setSelectedId:()=>{
                 setSelectedId(item.id);
@@ -17,7 +20,7 @@ const DashFilterCard = props => {
                     setToUndefined(undefined);
                 }
             }, 
-            name: item.title || item.name}
+            name}
     })
     return (
         <div className={selected ? "filter-card-selected" : "filter-card-not" }>

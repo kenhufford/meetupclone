@@ -1,23 +1,17 @@
 import React, {useState} from 'react';
 import UserStats from './user_stats';
+import DashTabs from './dash_tabs';
 import useFetches from '../../hooks/use_fetches';
-import DashFilters from './dash_filters';
-import Dash from './dash';
+import DashBody from './dash_body';
 
 const UserShow = props => {
     const { fetchUser, fetchEventsFromUser, fetchGroupsFromUser, 
         fetchUsersFromGroup, fetchUsersFromEvent, currentUserId,currentUser,
         userId, users, groups, events, createConnection, deleteConnection} = props;
     const [loaded, setLoaded] = useState(false);
-    const [selectedGroupId, setSelectedGroupId] = useState(undefined);
-    const [selectedEventId, setSelectedEventId] = useState(undefined);
-    const [selectedStat, setSelectedStat] = useState("Power");
-    let fetches = [[fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroupsFromUser, userId]]
-    if (selectedEventId) fetches.push([fetchUsersFromEvent, selectedEventId]);
-    if (selectedGroupId !== "Rivals" && selectedGroupId) fetches.push([fetchUsersFromGroup, selectedGroupId]);
-    useFetches(setLoaded, [selectedGroupId, selectedEventId, userId], ...fetches);
+    const [tab, setTab] = useState("Compare Brawlers");
+    useFetches(setLoaded, [userId], [fetchUser, userId]);
     if(loaded && userId in users){
-    const hasRivals = Object.values(users[userId].activeRivals).length !== 0;
         return (
             <div>
                 <div className="user-show">
@@ -30,33 +24,20 @@ const UserShow = props => {
                         deleteConnection={deleteConnection}
                     />
                     <div className="user-show-right">
-                        <DashFilters
-                            groups={groups.allGroups}
-                            events={events.allEvents}
-                            user={users[userId]}
-                            selectedGroupId={selectedGroupId}
-                            setSelectedGroupId={setSelectedGroupId}
-                            selectedEventId={selectedEventId}
-                            setSelectedEventId={setSelectedEventId}
-                            selectedStat={selectedStat}
-                            setSelectedStat={setSelectedStat}
-                            hasRivals={hasRivals}
+                        <DashTabs
                             />
-                        <Dash
-                            userId={userId}
-                            groups={groups.allGroups}
-                            events={events.allEvents}
-                            user={users[userId]}
+                        <DashBody
+                            fetchEventsFromUser={fetchEventsFromUser}
+                            fetchGroupsFromUser={fetchGroupsFromUser}
                             fetchUsersFromGroup={fetchUsersFromGroup}
                             fetchUsersFromEvent={fetchUsersFromEvent}
-                            users={users}
-                            selectedGroupId={selectedGroupId}
-                            selectedEventId={selectedEventId}
-                            selectedStat={selectedStat}
-                            setSelectedGroupId={setSelectedGroupId}
-                            setSelectedEventId={setSelectedEventId}
                             currentUserId={currentUserId}
-                        />
+                            userId={userId}
+                            users={users}
+                            groups={groups}
+                            events={events}
+                            tab={tab}
+                            />
                     </div>
                 </div>
             </div>

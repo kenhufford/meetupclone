@@ -3,8 +3,10 @@ import Graph from './graph';
 
 const Dash = props => {
     let { users,selectedEventId, selectedGroupId, selectedStat,
-        setSelectedGroupId, setSelectedEventId, currentUserId, userId} = props;
-        let usersArray;
+        setSelectedGroupId, setSelectedEventId, currentUserId, userId, groups, events} = props;
+    let usersArray, selectedAverage;
+    let lineData = [], labelData = [];
+    
     if (!selectedEventId && !selectedGroupId){
         return (
             <div></div>
@@ -16,7 +18,14 @@ const Dash = props => {
     } else if (selectedEventId || selectedGroupId) {
         usersArray = Object.values(users);
     }
-    let data = usersArray.map(user => {
+    
+    if (selectedGroupId) {
+        selectedAverage = groups[selectedGroupId].avgStats[selectedStat.toLowerCase()];
+    } else if (selectedEventId){
+        selectedAverage = events[selectedEventId].avgStats[selectedStat.toLowerCase()];
+    }
+    let verticalData = usersArray.map((user,i) => {
+        if (user.name.length > 8) user.name = user.name.slice(0,7)+(".")
         let stat;
         switch (selectedStat) {
             case "Power":
@@ -35,11 +44,17 @@ const Dash = props => {
                 stat = user.power;
                 break;
         }
+        if(i===usersArray.length-1){
+            labelData = [{ x: user.name, y: selectedAverage, label: `Average ${selectedStat}` }];
+        }
+        lineData.push({x:user.name, y:selectedAverage})
         return { x: user.name, y: stat, id: user.id }
     })
     return (
         <Graph
-            data={data}
+            verticalData={verticalData}
+            lineData={lineData}
+            labelData={labelData}
             setSelectedGroupId={setSelectedGroupId}
             setSelectedEventId={setSelectedEventId}
             currentUserId={currentUserId}
