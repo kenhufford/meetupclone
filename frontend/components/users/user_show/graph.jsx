@@ -1,10 +1,10 @@
 import React from 'react';
 import {withRouter} from 'react-router'
-import { XYPlot,LabelSeries, DiscreteColorLegend,  VerticalBarSeries, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis } from 'react-vis';
+import { XYPlot,LabelSeries,  VerticalBarSeries, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis } from 'react-vis';
 
 const Graph = props => {
     let { verticalData, lineData, labelData, currentUserId,setSelectedGroupId, 
-        setSelectedEventId, selectedStat} = props;
+        setSelectedEventId, selectedStat, limit, tab} = props;
     let color = "red";
     switch (selectedStat) {
         case "Power":
@@ -19,6 +19,9 @@ const Graph = props => {
         case "Technique":
             color = "purple";
             break;
+        default:
+            color = "red";
+            break;   
     }
     return (
         <div className="graph">
@@ -27,23 +30,27 @@ const Graph = props => {
                 margin={{ bottom: 100 }} 
                 height={500} 
                 width={900}
-                yDomain={[0, 100]}>
+                yDomain={[0, limit]}>
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <XAxis tickLabelAngle={-45} />
                 <YAxis />
-                
                 <VerticalBarSeries 
                     className="vertical-bar"
                     animation="stiff" 
                     color={color}
                     data={verticalData} 
                     onValueClick={(event)=>{ 
-                        if(event.id === currentUserId){
-                            setSelectedEventId(undefined);
-                            setSelectedGroupId(undefined);
-                        } 
-                        props.history.push(`/users/${event.id}`);
+                        if(tab==="Compare Brawlers"){
+                            if (event.id === currentUserId) {
+                                setSelectedEventId(undefined);
+                                setSelectedGroupId(undefined);
+                            }
+                            props.history.push(`/users/${event.id}`);
+                        } else if (tab==="Compare Squads"){
+                            props.history.push(`/groups/${event.id}`);
+                        }
+                        
                     }}
                     />
                 <LineSeries
@@ -55,7 +62,6 @@ const Graph = props => {
                     data={lineData}
                 />
                 <LabelSeries
-                    animation="stiff" 
                     className="label-series"
                     data={labelData} />
             </XYPlot>

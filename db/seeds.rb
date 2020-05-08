@@ -195,6 +195,7 @@ end
                 guts: Random.new.rand(1..100),
                 technique: Random.new.rand(1..100)
                 )
+            user.overall = (user.power+user.speed+user.guts+user.technique)/4
             users << user
             if j == 0 
                 member_type = "Captain" 

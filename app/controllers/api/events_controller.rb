@@ -2,6 +2,7 @@ class Api::EventsController < ApplicationController
   before_action :require_logged_in, only: [:create, :edit, :destroy]
 
   def index
+    
     if params[:group_id]
       @events = Group
         .find(params[:group_id])
@@ -33,6 +34,7 @@ class Api::EventsController < ApplicationController
     @user_events_count = @user_events.count
     @events = offset_and_limit_all(@events);
     @user_events  = offset_and_limit_user(@user_events);
+    
     render "api/events/index"
   end
 

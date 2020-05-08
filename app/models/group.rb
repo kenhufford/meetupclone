@@ -69,12 +69,13 @@ class Group < ApplicationRecord
 
     def avg_stats
         members = self.members
-        @avg_stats = {"power":0,"guts":0,"technique":0,"speed":0}
+        @avg_stats = {"power":0,"guts":0,"technique":0,"speed":0, "overall":0}
         members.each do |member|
             @avg_stats[:power] += member.power
             @avg_stats[:guts] += member.guts
             @avg_stats[:technique] += member.technique
             @avg_stats[:speed] += member.speed
+            @avg_stats[:overall] += (member.power+member.guts+member.technique+member.speed)/4
         end
         @avg_stats.each do |key, value|
             @avg_stats[key] = value/members.length

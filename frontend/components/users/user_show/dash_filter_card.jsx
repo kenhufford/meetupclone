@@ -4,7 +4,7 @@ import DropdownFilters from './dropdown_filters';
 const DashFilterCard = props => {
     let {filterDefaults} = props;
     let { selectedName, setSelectedId, setToUndefined, userItems} = props.card;
-    let selected = filterDefaults.includes(selectedName);
+    let selected = !filterDefaults.includes(selectedName);
     let card =  <div className="filter-card-left">
                     <div className={selected ? "filter-card-title-selected" : "filter-card-title-not"}>
                         {selectedName}

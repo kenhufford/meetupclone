@@ -10,7 +10,9 @@ const UserShow = props => {
         userId, users, groups, events, createConnection, deleteConnection} = props;
     const [loaded, setLoaded] = useState(false);
     const [tab, setTab] = useState("Compare Brawlers");
-    useFetches(setLoaded, [userId], [fetchUser, userId]);
+    const fetches = [[fetchUser, userId], [fetchEventsFromUser, userId], [fetchGroups FromUser, userId]]
+    // if(tab==="Compare Squads") fetches.push()
+    useFetches(setLoaded, [userId], ...fetches);
     if(loaded && userId in users){
         return (
             <div>
@@ -25,6 +27,8 @@ const UserShow = props => {
                     />
                     <div className="user-show-right">
                         <DashTabs
+                            setTab={setTab}
+                            tab={tab}
                             />
                         <DashBody
                             fetchEventsFromUser={fetchEventsFromUser}
